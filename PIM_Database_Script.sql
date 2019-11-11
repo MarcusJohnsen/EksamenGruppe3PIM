@@ -31,6 +31,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     picturePath varchar(100),
     primary key(Product_ID)
     );
+    INSERT INTO Product (Product_Name, Product_Description, picturePath) VALUES ('barbermaskine', 'klipper skæg', 'razor.jpg');
     
     CREATE TABLE Distributor(
     Distributor_ID int unique not null,
