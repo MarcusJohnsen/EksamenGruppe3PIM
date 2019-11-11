@@ -5,6 +5,7 @@
  */
 package presentation;
 
+import businessLogic.Product;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import persistence.mappers.ProductMapper;
+import persistence.mappers.ProductMapperInterface;
 import static sun.font.CreatedFontTracker.MAX_FILE_SIZE;
 
 /**
@@ -29,29 +32,30 @@ public class FrontController extends HttpServlet {
 
     public static void setup() {
         if (needSetup) {
-
+            ProductMapperInterface productMapper = new ProductMapper();
+            Product.setProductMapper(productMapper);
             needSetup = false;
         }
     }
 
-    public static String uploadFile(HttpServletRequest request, HttpServletResponse response) {
-        String imagePath = "";
-        if (ServletFileUpload.isMultipartContent(request)) {
-            try {
-                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-                for (FileItem item : multiparts) {
-                    if (!item.isFormField()) {
-                        String name = new File(item.getName()).getName();
-                        imagePath = "images" + File.separator + name;
-                        item.write(new File(imagePath));
-                    }
-                }
-            } catch (Exception ex) {
-
-            }
-        }
-        return imagePath;
-    }
+//    public static String uploadFile(HttpServletRequest request, HttpServletResponse response) {
+//        String imagePath = "";
+//        if (ServletFileUpload.isMultipartContent(request)) {
+//            try {
+//                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+//                for (FileItem item : multiparts) {
+//                    if (!item.isFormField()) {
+//                        String name = new File(item.getName()).getName();
+//                        imagePath = "images" + File.separator + name;
+//                        item.write(new File(imagePath));
+//                    }
+//                }
+//            } catch (Exception ex) {
+//
+//            }
+//        }
+//        return imagePath;
+//    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
