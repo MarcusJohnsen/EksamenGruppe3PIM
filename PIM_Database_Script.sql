@@ -33,20 +33,22 @@ DROP DATABASE IF EXISTS PIM_Database;
     );
     INSERT INTO Product (Product_Name, Product_Description, picturePath) VALUES ('barbermaskine', 'klipper skæg', 'razor.jpg');
     
+    /*
     CREATE TABLE Distributor(
     Distributor_ID int unique not null,
     Distributor_Name varchar(255) not null,
     Distributor_Description varchar(2550) not null,
     primary key(Distributor_ID)
     );
+    */
     
     CREATE TABLE Product_Distributor(
-    Product_ID int unique not null,
-    Distributor_ID int unique not null,
+    Product_ID int not null,
+    /*Distributor_ID int unique not null,*/
     Product_Distributor_Name varchar(255) not null,
     foreign key(Product_ID) references Product(Product_ID),
-    foreign key(Distributor_ID) references Distributor(Distributor_ID),
-    primary key(Product_ID, Distributor_ID)
+    /*foreign key(Distributor_ID) references Distributor(Distributor_ID),*/
+    primary key(Product_ID, Product_Distributor_Name)
     );
     
     CREATE TABLE Product_Categories(

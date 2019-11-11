@@ -45,7 +45,7 @@ public class ProductMapper implements ProductMapperInterface {
         //adding the basic product information
 
         try {
-            
+
             // Insert the new Product into DB
             String sql = "INSERT INTO Product (Product_Name, Product_Description, picturePath) VALUES ('" + product.getName() + "', '"
                     + product.getDescription() + "', '" + product.getPicturePath() + "')";
@@ -53,18 +53,24 @@ public class ProductMapper implements ProductMapperInterface {
             DB.getConnection().prepareStatement(sql).executeUpdate();
 
             // Find the new Product's ID
-            sql = "SELECT Product_ID FROM Product, WHERE Product_Name = " + product.getName() + " AND Product_Description = "
-                    + product.getDescription() + " AND picturePath = " + product.getPicturePath() + " AND Product_ID > " + newProductID;
+            sql = "SELECT Product_ID FROM Product WHERE Product_Name = '" + product.getName() + "' AND Product_Description = '"
+                    + product.getDescription() + "' AND picturePath = '" + product.getPicturePath() + "' AND Product_ID > " + newProductID;
 
             ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
             if (rs.next()) {
                 newProductID = rs.getInt("Product_ID");
             }
-            
+            sql = "INSERT INTO Product_Distributor (Product_ID, Product_Distributor_Name) VALUES ";
+            boolean firstline = true;
             for (String distributor : product.getDistributors()) {
-                sql = "";
-                DB.getConnection().prepareStatement(sql).executeUpdate();
+                if (firstline) {
+                    firstline = false;
+                } else {
+                    sql += ", ";
+                }
+                sql += "(" + newProductID + ", '" + distributor + "')";
             }
+            DB.getConnection().prepareStatement(sql).executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
