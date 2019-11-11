@@ -20,6 +20,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
 public class FrontController extends HttpServlet {
 
+     private static boolean needSetup = true;
+     
+         public static void setup() {
+        if (needSetup) {
+
+            needSetup = false;
+        }
+    }
+    
+    
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
@@ -28,20 +40,23 @@ public class FrontController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet FrontController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet FrontController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        setup();
+        try {
+            Command cmd = Command.from(request);
+            String view = cmd.execute(request, response);
+            if (view.equals("index")) {
+                request.getRequestDispatcher(view + ".jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+            }
+        } catch (Exception ex) {
+            request.setAttribute("error", ex.getMessage());
+            request.getRequestDispatcher("/WEB-INF/errorpage.jsp").forward(request, response);
         }
     }
 

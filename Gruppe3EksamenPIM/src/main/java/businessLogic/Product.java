@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businessLogic;
 
 import java.util.ArrayList;
@@ -13,9 +8,9 @@ import persistence.mappers.ProductMapperInterface;
  * @author Michael N. Korsgaard
  */
 public class Product {
-    
+
     private static ProductMapperInterface productMapper;
-    
+
     private int productID;
     private String name;
     private String description;
@@ -28,12 +23,12 @@ public class Product {
         this.picturePath = picturePath;
         this.distributers = distributers;
     }
-    
-    public static void setProductMapper(ProductMapperInterface newMapper){
+
+    public static void setProductMapper(ProductMapperInterface newMapper) {
         productMapper = newMapper;
     }
-    
-    public static Product createNewProduct(String name, String description, String picturePath, ArrayList<String> distributers){
+
+    public static Product createNewProduct(String name, String description, String picturePath, ArrayList<String> distributers) {
         Product product = new Product(name, description, picturePath, distributers);
         int newProductID = productMapper.addNewProduct(product);
         product.productID = newProductID;
@@ -59,7 +54,4 @@ public class Product {
     public ArrayList<String> getDistributers() {
         return distributers;
     }
-    
-    
-    
 }
