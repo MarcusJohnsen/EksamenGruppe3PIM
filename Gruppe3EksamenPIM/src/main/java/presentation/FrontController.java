@@ -5,13 +5,18 @@
  */
 package presentation;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import static sun.font.CreatedFontTracker.MAX_FILE_SIZE;
 
 /**
  *
@@ -20,18 +25,34 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
 public class FrontController extends HttpServlet {
 
-     private static boolean needSetup = true;
-     
-         public static void setup() {
+    private static boolean needSetup = true;
+
+    public static void setup() {
         if (needSetup) {
 
             needSetup = false;
         }
     }
-    
-    
-    
-    
+
+    public static String uploadFile(HttpServletRequest request, HttpServletResponse response) {
+        String imagePath = "";
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+                for (FileItem item : multiparts) {
+                    if (!item.isFormField()) {
+                        String name = new File(item.getName()).getName();
+                        imagePath = "images" + File.separator + name;
+                        item.write(new File(imagePath));
+                    }
+                }
+            } catch (Exception ex) {
+
+            }
+        }
+        return imagePath;
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
@@ -40,9 +61,6 @@ public class FrontController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         setup();
