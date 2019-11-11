@@ -13,29 +13,31 @@
     </head>
     <body>
         <h1 align="center">Create New Product</h1>
-        <form action="FrontController" method="POST">
+        <form action="FrontController" method="POST" enctype="multipart/form-data">
             <p align="center">
                 Product Name:
                 <br>
                 <input type="text" name="Product Name" value="" />
             </p>
-
+            
             <p align="center">
                 Product Description:
                 <br>
-                <textarea name="Product Description" rows="5" cols="40"> </textarea>
+                <textarea name="Product Description" rows="8" cols="40"> </textarea>
             </p>
-
+            
             <p align="center">
                 Product Distributors:
                 <br>
                 <input type="text" name="Product Distributors" value="" />
-                <button onclick="newField()">Add New Field</button>
-            </p>
+                <img onclick="newField()" src="decorations/addIcon.png" width="15" height="15" alt="addIcon"/> 
 
+            </p>
+            
+            <br>
             <p align="center">
-                Upload Picture:
-                
+                Select Picture:
+                <input type = "file" name = "file" size = "50" />
 
             </p>
 
