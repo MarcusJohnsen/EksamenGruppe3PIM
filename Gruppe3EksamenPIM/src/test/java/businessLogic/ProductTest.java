@@ -18,10 +18,12 @@ import persistence.mappers.ProductMapperInterface;
  */
 public class ProductTest {
     
+    private static ProductMapperInterface mapper;
+    
     @Before
     public void setup(){
         FakeProductMapper fakeMapper = new FakeProductMapper();
-        ProductMapperInterface mapper = fakeMapper;
+        mapper = fakeMapper;
         Product.setProductMapper(mapper);
     }
 
