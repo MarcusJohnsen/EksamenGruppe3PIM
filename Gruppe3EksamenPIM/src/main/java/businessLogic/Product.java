@@ -15,21 +15,21 @@ public class Product {
     private String name;
     private String description;
     private String picturePath;
-    private ArrayList<String> distributers;
+    private ArrayList<String> distributors;
 
-    private Product(String name, String description, String picturePath, ArrayList<String> distributers) {
+    private Product(String name, String description, String picturePath, ArrayList<String> distributors) {
         this.name = name;
         this.description = description;
         this.picturePath = picturePath;
-        this.distributers = distributers;
+        this.distributors = distributors;
     }
 
     public static void setProductMapper(ProductMapperInterface newMapper) {
         productMapper = newMapper;
     }
 
-    public static Product createNewProduct(String name, String description, String picturePath, ArrayList<String> distributers) {
-        Product product = new Product(name, description, picturePath, distributers);
+    public static Product createNewProduct(String name, String description, String picturePath, ArrayList<String> distributors) {
+        Product product = new Product(name, description, picturePath, distributors);
         int newProductID = productMapper.addNewProduct(product);
         product.productID = newProductID;
         return product;
@@ -51,7 +51,7 @@ public class Product {
         return picturePath;
     }
 
-    public ArrayList<String> getDistributers() {
-        return distributers;
+    public ArrayList<String> getDistributors() {
+        return distributors;
     }
 }

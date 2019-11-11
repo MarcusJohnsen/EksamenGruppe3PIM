@@ -28,23 +28,24 @@ DROP DATABASE IF EXISTS PIM_Database;
     Product_ID int unique not null auto_increment,
 	Product_Name varchar(255) not null,
     Product_Description varchar(2550) not null,
+    picturePath varchar(100),
     primary key(Product_ID)
     );
     
-    CREATE TABLE Supplier(
-    Supplier_ID int unique not null,
-    Supplier_Name varchar(255) not null,
-    Supplier_Description varchar(2550) not null,
-    primary key(Supplier_ID)
+    CREATE TABLE Distributor(
+    Distributor_ID int unique not null,
+    Distributor_Name varchar(255) not null,
+    Distributor_Description varchar(2550) not null,
+    primary key(Distributor_ID)
     );
     
-    CREATE TABLE Product_Supplier(
+    CREATE TABLE Product_Distributor(
     Product_ID int unique not null,
-    Supplier_ID int unique not null,
-    Product_Supplier_Name varchar(255) not null,
+    Distributor_ID int unique not null,
+    Product_Distributor_Name varchar(255) not null,
     foreign key(Product_ID) references Product(Product_ID),
-    foreign key(Supplier_ID) references Supplier(Supplier_ID),
-    primary key(Product_ID, Supplier_ID)
+    foreign key(Distributor_ID) references Distributor(Distributor_ID),
+    primary key(Product_ID, Distributor_ID)
     );
     
     CREATE TABLE Product_Categories(
@@ -64,4 +65,3 @@ DROP DATABASE IF EXISTS PIM_Database;
     foreign key(Attribute_ID) references Attributes(Attribute_ID),
     primary key(Product_ID, Attribute_ID)
     );
-    
