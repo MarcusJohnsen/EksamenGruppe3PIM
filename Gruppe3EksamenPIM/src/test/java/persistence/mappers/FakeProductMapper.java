@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence.mappers;
 
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
-import persistence.mappers.ProductMapperInterface;
 
 /**
  *
@@ -17,11 +11,11 @@ import persistence.mappers.ProductMapperInterface;
 public class FakeProductMapper implements ProductMapperInterface {
 
     ArrayList<HashMap<String, String>> productInformation;
-    ArrayList<HashMap<String, String>> distributersInformation;
+    ArrayList<HashMap<String, String>> distributorsInformation;
 
     public FakeProductMapper() {
         productInformation = new ArrayList();
-        distributersInformation = new ArrayList();
+        distributorsInformation = new ArrayList();
     }
 
     @Override
@@ -39,10 +33,10 @@ public class FakeProductMapper implements ProductMapperInterface {
         productMap.put("ID", Integer.toString(newID));
         productInformation.add(productMap);
         
-        for (String distributer : product.getDistributers()) {
-            HashMap<String, String> distributerMap = new HashMap();
-            distributerMap.put("productID", Integer.toString(product.getProductID()));
-            distributerMap.put("distributer", distributer);
+        for (String distributor : product.getDistributors()) {
+            HashMap<String, String> distributorMap = new HashMap();
+            distributorMap.put("productID", Integer.toString(product.getProductID()));
+            distributorMap.put("distributor", distributor);
         }
 
         return newID;
@@ -67,5 +61,4 @@ public class FakeProductMapper implements ProductMapperInterface {
         newHighest++;
         return newHighest;
     }
-
 }

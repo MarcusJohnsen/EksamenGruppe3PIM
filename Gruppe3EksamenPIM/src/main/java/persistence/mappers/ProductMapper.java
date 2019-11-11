@@ -29,6 +29,7 @@ public class ProductMapper implements ProductMapperInterface {
                 map.put("Product_ID", rs.getString("Product_ID"));
                 map.put("Product_Name", rs.getString("Product_Name"));
                 map.put("Product_Description", rs.getString("Product_Description"));
+                map.put("picturePath", rs.getString("picturePath"));
                 products.add(map);
             }
         } catch (SQLException ex) {
@@ -40,8 +41,8 @@ public class ProductMapper implements ProductMapperInterface {
     @Override
     public int addNewProduct(Product product) {
         //adding the basic product information
-        String sql = "INSERT INTO Product (Product_Name, Product_Description) VALUES ('" + product.getName() + "', '"
-                + product.getDescription() + "')";
+        String sql = "INSERT INTO Product (Product_Name, Product_Description, picturePath) VALUES ('" + product.getName() + "', '"
+                + product.getDescription() + "', '" + product.getPicturePath() + "')";
         
         try {
             DB.getConnection().prepareStatement(sql).executeUpdate();
@@ -50,10 +51,10 @@ public class ProductMapper implements ProductMapperInterface {
         }
         //get the new Product_ID number
         int highestProductIDNumber = 1;
-        String sql2 = "SELECT MAX(Product_ID) as Product_ID FROM Product";
+        sql = "SELECT MAX(Product_ID) as Product_ID FROM Product";
         try {
-            ResultSet rs = DB.getConnection().prepareStatement(sql2).executeQuery();
-            while (rs.next()) {
+            ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
+            if (rs.next()) {
                 highestProductIDNumber = rs.getInt("Product_ID") + 1;
             }
         } catch (SQLException ex) {
