@@ -1,5 +1,6 @@
 package persistence.mappers;
 
+import businessLogic.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,5 +30,10 @@ public class ProductMapper implements ProductMapperInterface {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return products;
+    }
+
+    @Override
+    public int addNewProduct(Product product) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

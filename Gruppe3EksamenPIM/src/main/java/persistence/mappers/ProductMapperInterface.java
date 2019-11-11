@@ -1,5 +1,6 @@
 package persistence.mappers;
 
+import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,4 +11,6 @@ import java.util.HashMap;
 public interface ProductMapperInterface {
     
     public ArrayList<HashMap<String, String>> getProducts();
+    
+    public int addNewProduct(Product product);
 }
