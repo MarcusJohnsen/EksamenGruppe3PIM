@@ -14,7 +14,7 @@
     <body>
         <h1 align="center">Products</h1>
         <form action="FrontController">
-            <input type="hidden" name="Command" value="addProduct" />
+            <input type="hidden" name="command" value="goToJsp" />
             <p align="center"><input type="submit" value="New Product"/></p>
         </form>
     </body>

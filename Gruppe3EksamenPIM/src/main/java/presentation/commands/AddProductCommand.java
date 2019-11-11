@@ -13,11 +13,7 @@ public class AddProductCommand extends Command{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        // Get parameters and set initial nextJspPage String
-        String jspPage = "newProduct";
-
-        // Set Attributes and go to next Page
-        return jspPage;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -12,7 +12,7 @@
         <title>PIM System</title>
     </head>
     <body>
-        <h1>Create New Product</h1>
+        <h1 align="center">Create New Product</h1>
         <form action="FrontController" method="POST">
             <p align="center">
                 Product Name:
@@ -23,8 +23,7 @@
             <p align="center">
                 Product Description:
                 <br>
-                <textarea name="Product Description" rows="5" cols="40">
-                </textarea>
+                <textarea name="Product Description" rows="5" cols="40"> </textarea>
             </p>
 
             <p align="center">
@@ -42,7 +41,8 @@
 
             <br>
             <p align="center">
-                <input type="submit" value="Upload" />
+                Save product:
+                <input type="submit" value="Save" />
             </p>
         </form>
 

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.commands.AddProductCommand;
 import presentation.commands.GoToJspCommand;
+import presentation.commands.UnknownCommand;
 
 
 
@@ -33,8 +34,8 @@ public abstract class Command {
         if (commands == null) {
             initCommands();
         }
-        //return commands.getOrDefault(commandName, new UnknownCommand());
-        return null;
+        return commands.getOrDefault(commandName, new UnknownCommand());
+        //return null;
     }
 
     public abstract String execute(HttpServletRequest request, HttpServletResponse response);
