@@ -6,6 +6,7 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import persistence.mappers.ProductMapperInterface;
 
 /**
  *
@@ -13,25 +14,29 @@ import java.util.ArrayList;
  */
 public class Product {
     
-    //private static ProductMapperInterface productMapper;
-    private static ArrayList<Product> productList = new ArrayList();
+    private static ProductMapperInterface productMapper;
     
     private int productID;
     private String name;
     private String description;
+    private String picturePath;
+    private ArrayList<String> distributers;
 
-    private Product(String name, String description) {
+    private Product(String name, String description, String picturePath, ArrayList<String> distributers) {
         this.name = name;
         this.description = description;
+        this.picturePath = picturePath;
+        this.distributers = distributers;
     }
     
-//    public void setProductMapper(ProductMapperInterface newMapper){
-//        productMapper = newMapper;
-//    }
+    public static void setProductMapper(ProductMapperInterface newMapper){
+        productMapper = newMapper;
+    }
     
-    public static Product createNewProduct(String name, String description){
-        Product product = new Product(name, description);
-        // 
+    public static Product createNewProduct(String name, String description, String picturePath, ArrayList<String> distributers){
+        Product product = new Product(name, description, picturePath, distributers);
+        int newProductID = productMapper.addNewProduct(product);
+        product.productID = newProductID;
         return product;
     }
 
@@ -47,11 +52,13 @@ public class Product {
         return description;
     }
 
-    public static ArrayList<Product> getProductList() {
-        return productList;
+    public String getPicturePath() {
+        return picturePath;
     }
-    
-    
+
+    public ArrayList<String> getDistributers() {
+        return distributers;
+    }
     
     
     
