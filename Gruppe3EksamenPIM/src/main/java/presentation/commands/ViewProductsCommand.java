@@ -12,7 +12,7 @@ import presentation.Command;
  *
  * @author cahit
  */
-public class JspViewProductsCommand extends Command {
+public class ViewProductsCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

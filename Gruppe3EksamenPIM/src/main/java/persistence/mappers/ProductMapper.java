@@ -121,4 +121,30 @@ public class ProductMapper implements ProductMapperInterface {
         }
         return productDistributors;
     }
+
+    @Override
+    public void deleteProduct(int productID) {
+    
+     String sqlDeleteDistributors = "DELETE FROM Product_Distributor WHERE product_ID = " + productID;
+             
+     String sqlDeleteProducts = "DELETE FROM Product WHERE product_ID = " + productID;
+        
+      try {
+            DB.getConnection().prepareStatement(sqlDeleteDistributors).executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+      try {
+            DB.getConnection().prepareStatement(sqlDeleteProducts).executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      
+      
+      
+      
+      
+      
+    }
 }

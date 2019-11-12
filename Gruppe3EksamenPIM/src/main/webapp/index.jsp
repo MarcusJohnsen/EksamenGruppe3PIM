@@ -20,7 +20,7 @@
         </form>
         
         <form action="FrontController">
-            <input type="hidden" name="command" value="jspViewProducts" />
+            <input type="hidden" name="command" value="viewAllProducts" />
             <p align="center"><input type="submit" value="View Products"/></p>
         </form>
     </body>
