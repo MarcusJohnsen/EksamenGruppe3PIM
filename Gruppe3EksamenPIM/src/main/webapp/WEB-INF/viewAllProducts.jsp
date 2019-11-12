@@ -14,15 +14,19 @@
         <title>Products view</title>
     </head>
     <body>
+        
+        <h2 align="center">Products list</h2>
+        
+        <br><br>
+        
         <form action="FrontController" method="POST"> 
-            <input type="hidden" name="command" value="editProduct" /> 
-            <table align="center" border = "1" width = "15%" style="float: top" bgcolor="fffef2">
+            <input type="hidden" name="command" value="editProduct" />
+            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
-                    <tr bgcolor = "#87E187">
-                        <td>ProductID</td>
-                        <td>ProductName</td>
-                        <td>ProductDescription</td>
-                        <td>picturePath</td>
+                    <tr bgcolor = "#FF4B4B">
+                        <td align="center">ID</td>
+                        <td align="center">Name</td>
+                        <td align="center">Description</td>
                     </tr>
                 </thead>
                 
@@ -33,21 +37,21 @@
                             int ProductID = product.getProductID();
                             String ProductName = product.getName();
                             String ProductDescription = product.getDescription();
-                            String picturePath = product.getPicturePath();
                     %>  
                     <tr>
-                        <td align="center"> <%=ProductID%> </td>
-                        <td align="center"> <%=ProductName%> </td>
-                        <td align="center"> <%=ProductDescription%> </td>
-                        <td align="center"> <%=picturePath%> </td>
-                        <td align="center"><input type="radio" name=productchoice value="<%=ProductID%>"></td>
+                        <td align="center" width="3%"> <%=ProductID%> </td>
+                        <td align="center" width="20%"> <%=ProductName%> </td>
+                        <td align="center" width="30%"> <%=ProductDescription%> </td>
+                        <td align="center" width="1%"><input type="radio" name=productchoice value="<%=ProductID%>"></td>
                     </tr>
                 </tbody>
                         <%}%>
             </table>
-        </form>
             
-            <p align="center"><input type="submit" value="Edit product"/></p>
+            <br><br>
+            
+            <p align="center"><input type="submit" value="Edit Product"/></p>
+        </form>
             <p align="center"><input type="submit" value="Delete product"/></p>
     </body>
 </html>
