@@ -36,10 +36,11 @@
                             String picturePath = product.getPicturePath();
                     %>  
                     <tr>
-                        <td align="center"><input type="radio" name=productchoice value="<%=ProductID%>"></td>
+                        <td align="center"> <%=ProductID%> </td>
                         <td align="center"> <%=ProductName%> </td>
                         <td align="center"> <%=ProductDescription%> </td>
                         <td align="center"> <%=picturePath%> </td>
+                        <td align="center"><input type="radio" name=productchoice value="<%=ProductID%>"></td>
                     </tr>
                 </tbody>
                         <%}%>
