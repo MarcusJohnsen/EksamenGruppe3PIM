@@ -53,14 +53,14 @@ public class Product {
         }
     }
 
-    static void deleteProductOnID(int productID) {
-        ProductList.remove(findProductOnID(productID));
+    static boolean deleteProductOnID(int productID) {
 //        productMapper.deleteProduct(productID);
+        return ProductList.remove(findProductOnID(productID));
     }
-    
-    public static Product findProductOnID(int productID){
+
+    public static Product findProductOnID(int productID) {
         for (Product product : ProductList) {
-            if(product.productID == productID){
+            if (product.productID == productID) {
                 return product;
             }
         }
@@ -70,6 +70,10 @@ public class Product {
     public static void addImage(int productID, String picturePath) {
         findProductOnID(productID).picturePath = picturePath;
         productMapper.addImage(productID, picturePath);
+    }
+    
+    public static void emptyProductList(){
+        ProductList.clear();
     }
 
     public int getProductID() {
