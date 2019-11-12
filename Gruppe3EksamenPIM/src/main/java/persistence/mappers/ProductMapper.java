@@ -16,20 +16,22 @@ import persistence.DB;
 public class ProductMapper implements ProductMapperInterface {
 
     @Override
-    public ArrayList<HashMap<String, String>> getProducts() {
+    public ArrayList<HashMap<String, Object>> getProducts() {
         //getting all the products from the database
-        ArrayList<HashMap<String, String>> products = new ArrayList();
+        ArrayList<HashMap<String, Object>> products = new ArrayList();
 
         String sql = "SELECT * FROM PIM_Database.Product";
 
         try {
             ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
             while (rs.next()) {
-                HashMap<String, String> map = new HashMap();
-                map.put("Product_ID", rs.getString("Product_ID"));
-                map.put("Product_Name", rs.getString("Product_Name"));
-                map.put("Product_Description", rs.getString("Product_Description"));
+                HashMap<String, Object> map = new HashMap();
+                int product_ID = rs.getInt("Product_ID");
+                map.put("product_ID", product_ID);
+                map.put("product_Name", rs.getString("Product_Name"));
+                map.put("product_Description", rs.getString("Product_Description"));
                 map.put("picturePath", rs.getString("picturePath"));
+                map.put("distributors", getProductDistributors(product_ID));
                 products.add(map);
             }
         } catch (SQLException ex) {
@@ -101,5 +103,22 @@ public class ProductMapper implements ProductMapperInterface {
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public ArrayList<String> getProductDistributors(int product_ID) {
+        ArrayList<String> productDistributors = new ArrayList();
+
+        String sql = "SELECT Product_Distributor_Name FROM PIM_Database.Product_Distributor WHERE product_ID = " + product_ID;
+
+        try {
+            ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
+            while (rs.next()) {
+                productDistributors.add(rs.getString("Product_Distributor_Name"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return productDistributors;
     }
 }
