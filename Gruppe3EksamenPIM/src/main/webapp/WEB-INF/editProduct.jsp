@@ -13,15 +13,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Product</title>
     </head>
-    <body>
+    <body>                 <!-- skal lige fixes så den displayer product Id -->
         <h1 align="center">Edit Product Information for product =showProductID</h1>
         <form action="FrontController">
             <%
-                        ArrayList<Product> productList = (ArrayList<Product>) Product.getProductList();
+                        ArrayList<Product> productList = (ArrayList<Product>) Product.findProductOnID();
                         for (Product product : productList) {
-                            int ProductID = product.getProductID();
                             String ProductName = product.getName();
                             String ProductDescription = product.getDescription();
+                            ArrayList<String>ProductDist = product.getDistributors();
                             String picturePath = product.getPicturePath();
                     %>
             <p align="center">
