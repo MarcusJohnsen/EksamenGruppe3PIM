@@ -17,4 +17,6 @@ public interface ProductMapperInterface {
     public void addImage(int productID, String picturePath);
     
     public ArrayList<String> getProductDistributors(int product_ID);
+
+    public void deleteProduct(int productID);
 }
