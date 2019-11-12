@@ -15,7 +15,7 @@ public class JspViewProductsCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         
-        String jspPage = request.getParameter("viewProducts");
+        String jspPage = request.getParameter("viewAllProducts");
     
         
         

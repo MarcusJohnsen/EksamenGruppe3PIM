@@ -18,5 +18,11 @@
             <input type="hidden" name="goToJsp" value="newProduct" />
             <p align="center"><input type="submit" value="New Product"/></p>
         </form>
+        
+        <form action="FrontController">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="viewAllProducts" />
+            <p align="center"><input type="submit" value="View Products"/></p>
+        </form>
     </body>
 </html>

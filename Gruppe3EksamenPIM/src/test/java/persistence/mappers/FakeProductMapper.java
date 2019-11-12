@@ -8,6 +8,7 @@ import java.util.HashMap;
  *
  * @author Michael N. Korsgaard
  */
+
 public class FakeProductMapper implements ProductMapperInterface {
 
     ArrayList<HashMap<String, String>> productInformation;
@@ -19,7 +20,7 @@ public class FakeProductMapper implements ProductMapperInterface {
     }
 
     @Override
-    public ArrayList<HashMap<String, String>> getProducts() {
+    public ArrayList<HashMap<String, Object>> getProducts() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -66,4 +67,9 @@ public class FakeProductMapper implements ProductMapperInterface {
     public void addImage(int productID, String picturePath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    @Override
+    public ArrayList<String> getProductDistributors(int product_ID) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -45,5 +45,8 @@
                         <%}%>
             </table>
         </form>
+            
+            <p align="center"><input type="submit" value="Edit product"/></p>
+            <p align="center"><input type="submit" value="Delete product"/></p>
     </body>
 </html>
