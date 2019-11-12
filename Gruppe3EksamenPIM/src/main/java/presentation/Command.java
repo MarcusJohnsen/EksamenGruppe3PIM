@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.commands.AddProductCommand;
 import presentation.commands.GoToJspCommand;
+import presentation.commands.JspViewProductsCommand;
 import presentation.commands.UnknownCommand;
 
 
@@ -24,7 +25,7 @@ public abstract class Command {
         commands = new HashMap<>();
         commands.put("addProduct", new AddProductCommand());
         commands.put("goToJsp", new GoToJspCommand());
-   
+        commands.put("jspViewProducts", new JspViewProductsCommand());
     }
  
   
