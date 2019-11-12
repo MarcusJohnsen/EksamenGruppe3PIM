@@ -11,26 +11,28 @@ import java.util.HashMap;
 
 public class FakeProductMapper implements ProductMapperInterface {
 
-    ArrayList<HashMap<String, Object>> productInformation;
+    private ArrayList<HashMap<String, Object>> productInformation;
+    private int newHighestProductID;
 
     public FakeProductMapper() {
         productInformation = new ArrayList();
+        newHighestProductID = 1;
     }
 
     @Override
     public ArrayList<HashMap<String, Object>> getProducts() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return productInformation;
     }
 
     @Override
     public int addNewProduct(Product product) {
         HashMap<String, Object> productMap = new HashMap();
-        productMap.put("name", product.getName());
-        productMap.put("description", product.getName());
+        productMap.put("product_Name", product.getName());
+        productMap.put("product_Description", product.getDescription());
         productMap.put("picturePath", product.getPicturePath());
-        productMap.put("distributors", product.getDistributors());
-        int newID = findHighestID();
-        productMap.put("ID", newID);
+        productMap.put("distributor", product.getDistributors());
+        int newID = newHighestProductID++;
+        productMap.put("product_ID", newID);
         productInformation.add(productMap);
 
         return newID;
@@ -40,14 +42,16 @@ public class FakeProductMapper implements ProductMapperInterface {
         return productInformation;
     }
 
-    public void setProductInformation(ArrayList<HashMap<String, Object>> productInformation) {
+    public int setProductInformation(ArrayList<HashMap<String, Object>> productInformation) {
         this.productInformation = productInformation;
+        newHighestProductID = findHighestID();
+        return newHighestProductID - 1;
     }
 
     private int findHighestID() {
         int newHighest = 0;
         for (HashMap<String, Object> hashMap : productInformation) {
-            int thisInt = (int) hashMap.get("ID");
+            int thisInt = (int) hashMap.get("product_ID");
             if (thisInt > newHighest) {
                 newHighest = thisInt;
             }
