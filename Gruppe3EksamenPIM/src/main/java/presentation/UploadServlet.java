@@ -17,26 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import persistence.mappers.ProductMapper;
-import persistence.mappers.ProductMapperInterface;
-import static sun.font.CreatedFontTracker.MAX_FILE_SIZE;
 
 /**
  *
  * @author Michael N. Korsgaard
  */
-@WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
-public class FrontController extends HttpServlet {
+@WebServlet(name = "UploadServlet", urlPatterns = {"/UploadServlet"})
+public class UploadServlet extends HttpServlet {
 
-    private static boolean needSetup = true;
+    private final String fs = File.separator;
+    private final String imageStoragePath = "C:" + fs + "tomcat" + fs + "apache-tomcat-9.0.26" + fs + "webapps" + fs + "data" + fs;
 
-    public static void setup() {
-        if (needSetup) {
-            ProductMapperInterface productMapper = new ProductMapper();
-            Product.setProductMapper(productMapper);
-            needSetup = false;
-        }
-    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -48,19 +39,29 @@ public class FrontController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        setup();
-        try {
-            Command cmd = Command.from(request);
-            String view = cmd.execute(request, response);
-            if (view.equals("index")) {
-                request.getRequestDispatcher(view + ".jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+
+        if (ServletFileUpload.isMultipartContent(request)) {
+            String picturePath = null;
+            try {
+                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+                for (FileItem item : multiparts) {
+                    if (!item.isFormField()) {
+                        picturePath = new File(item.getName()).getName();
+                        item.write(new File(imageStoragePath + picturePath));
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println("ERROR IN PICTURE UPLOAD");
+                System.out.println(ex.toString());
+                System.out.println(ex.getMessage());
             }
-        } catch (Exception ex) {
-            request.setAttribute("error", ex.getMessage());
-            request.getRequestDispatcher("/WEB-INF/errorpage.jsp").forward(request, response);
+            if(picturePath != null){
+                int productID = (int) request.getSession().getAttribute("productID");
+                Product.addImage(productID, picturePath);
+            }
         }
+
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

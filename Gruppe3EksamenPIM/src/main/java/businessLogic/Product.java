@@ -52,6 +52,10 @@ public class Product {
         }
     }
 
+    public static void addImage(int productID, String picturePath) {
+        productMapper.addImage(productID, picturePath);
+    }
+
     public int getProductID() {
         return productID; 
     }
