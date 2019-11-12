@@ -16,7 +16,7 @@ public class AddProductCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        String nextJsp = "index";
+        String nextJsp = "uploadImage";
         
         //FrontController.uploadFile(request, response);
         String productName = request.getParameter("Product Name");
@@ -25,7 +25,8 @@ public class AddProductCommand extends Command {
         ArrayList<String> productDistributors = new ArrayList();
         Collections.addAll(productDistributors, distributers);
         
-        Product.createNewProduct(productName, productDescription, "", productDistributors);
+        Product newProduct = Product.createNewProduct(productName, productDescription, "", productDistributors);
+        request.getSession().setAttribute("productID", newProduct.getProductID());
 
         return nextJsp;
     }
