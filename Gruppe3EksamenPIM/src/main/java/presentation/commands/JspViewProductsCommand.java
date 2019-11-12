@@ -2,6 +2,8 @@
 
 package presentation.commands;
 
+import businessLogic.Product;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -15,10 +17,14 @@ public class JspViewProductsCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         
-        String jspPage = request.getParameter("viewProducts");
+        String jspPage = "viewAllProducts";
     
+        Product.setupProductsFromDB();
         
+        ArrayList<Product> fullList = Product.getProductList();
         
+        request.setAttribute("fullList", fullList);
+     
         return jspPage;
 
     }
