@@ -62,7 +62,8 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.7.201606060606</version>
+                <!-- her er det relevant at lægge mærke til vi bruger JaCoCo version 0.8.1, da denne er den seneste udgivelse der understøttes af NetBeans 8.2 -->
+                <version>0.8.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -125,5 +126,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
