@@ -11,7 +11,8 @@ public class EditProductCommand extends Command {
 
         String nextJsp = "editProduct";
         
-        String productChoice = request.getParameter("productchoice");
+        int productChoice = Integer.parseInt(request.getParameter("productchoice"));
+        request.setAttribute("productID", productChoice);
         
         return nextJsp;
     }
