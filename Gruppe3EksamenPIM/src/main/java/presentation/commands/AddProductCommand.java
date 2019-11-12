@@ -2,6 +2,7 @@ package presentation.commands;
 
 import businessLogic.Product;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,14 +19,12 @@ public class AddProductCommand extends Command {
 
         String nextJsp = "uploadImage";
         
-        //FrontController.uploadFile(request, response);
+        // get parameters from request
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
-        String[] distributers = request.getParameterValues("Product Distributors");
-        ArrayList<String> productDistributors = new ArrayList();
-        Collections.addAll(productDistributors, distributers);
+        ArrayList<String> distributers = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
         
-        Product newProduct = Product.createNewProduct(productName, productDescription, "", productDistributors);
+        Product newProduct = Product.createNewProduct(productName, productDescription, "", distributers);
         request.getSession().setAttribute("productID", newProduct.getProductID());
 
         return nextJsp;

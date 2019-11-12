@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class FakeProductMapper implements ProductMapperInterface {
 
-    private ArrayList<HashMap<String, Object>> productInformation;
+    private ArrayList<Product> productInformation;
     private int newHighestProductID;
 
     public FakeProductMapper() {
@@ -20,29 +20,22 @@ public class FakeProductMapper implements ProductMapperInterface {
     }
 
     @Override
-    public ArrayList<HashMap<String, Object>> getProducts() {
+    public ArrayList<Product> getProducts() {
         return productInformation;
     }
 
     @Override
     public int addNewProduct(Product product) {
-        HashMap<String, Object> productMap = new HashMap();
-        productMap.put("product_Name", product.getName());
-        productMap.put("product_Description", product.getDescription());
-        productMap.put("picturePath", product.getPicturePath());
-        productMap.put("distributor", product.getDistributors());
         int newID = newHighestProductID++;
-        productMap.put("product_ID", newID);
-        productInformation.add(productMap);
-
+        productInformation.add(new Product(newID, product.getName(), product.getDescription(), product.getPicturePath(), product.getDistributors()));
         return newID;
     }
 
-    public ArrayList<HashMap<String, Object>> getProductInformation() {
+    public ArrayList<Product> getProductInformation() {
         return productInformation;
     }
 
-    public int setProductInformation(ArrayList<HashMap<String, Object>> productInformation) {
+    public int setProductInformation(ArrayList<Product> productInformation) {
         this.productInformation = productInformation;
         newHighestProductID = findHighestID();
         return newHighestProductID - 1;
@@ -50,10 +43,9 @@ public class FakeProductMapper implements ProductMapperInterface {
 
     private int findHighestID() {
         int newHighest = 0;
-        for (HashMap<String, Object> hashMap : productInformation) {
-            int thisInt = (int) hashMap.get("product_ID");
-            if (thisInt > newHighest) {
-                newHighest = thisInt;
+        for (Product product : productInformation) {
+            if (product.getProductID() > newHighest) {
+                newHighest = product.getProductID();
             }
         }
         newHighest++;

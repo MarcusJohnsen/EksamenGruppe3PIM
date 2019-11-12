@@ -18,33 +18,36 @@ public class ProductTest {
     private static ProductMapperInterface mapper;
     private static int highestProductIDInDB;
 
+    private final static int Db1ProductID = 1;
+    private final static String Db1ProductName = "Product 1";
+    private final static String Db1ProductDescription = "This is the primary test 1";
+    private final static String Db1ProductPicturePath = "picture.img";
+    private final static ArrayList<String> Db1ProductDistributors = new ArrayList(Arrays.asList(new String[]{"distributor 1", "distributor 2"}));
+    private final static int Db2ProductID = 2;
+    private final static String Db2ProductName = "Test Product";
+    private final static String Db2ProductDescription = "This is a test product";
+    private final static String Db2ProductPicturePath = "picture.png";
+    private final static ArrayList<String> Db2ProductDistributors = new ArrayList(Arrays.asList(new String[]{"distributor A"}));
+    private final static int Db3ProductID = 4;
+    private final static String Db3ProductName = "Product for Testing";
+    private final static String Db3ProductDescription = "This product is only for testing";
+    private final static String Db3ProductPicturePath = "new.img";
+    private final static ArrayList<String> Db3ProductDistributors = new ArrayList(Arrays.asList(new String[]{}));
+
+    private final static int amountOfProductInitiallyInDB = 3;
+
     @Before
     public void setup() {
         Product.emptyProductList();
         FakeProductMapper fakeMapper = new FakeProductMapper();
 
-        ArrayList<HashMap<String, Object>> productInfo = new ArrayList();
-        HashMap<String, Object> productMap = new HashMap();
-        Object[][] products = {
-            // String name, String description, String picturePath, ArrayList<String> distributors, int productID
-            {"Product 1", "This is the primary test 1", "picture.img", new ArrayList(Arrays.asList(new String[]{"distributor 1", "distributor 2"})), 1},
-            {"Test Product", "This is a test product", "picture.png", new ArrayList(Arrays.asList(new String[]{"distributor 1", "distributor 2"})), 2},
-            {"Product for Testing", "This product is only for testing", "new.img", new ArrayList(Arrays.asList(new String[]{"distributor 1", "distributor 2"})), 3},
-            {"New Test 3000", "Newest, best, testproduct, EVER!!!", "something.img", new ArrayList(Arrays.asList(new String[]{"distributor 1", "distributor 2"})), 5},
-            {"Cahit's Test", "I made this", "mine.img", new ArrayList(Arrays.asList(new String[]{"distributor 1", "distributor 2"})), 7}
-        };
+        ArrayList<Product> productList = new ArrayList();
 
-        for (Object[] object : products) {
-            productMap = new HashMap();
-            productMap.put("product_Name", (String) object[0]);
-            productMap.put("product_Description", (String) object[1]);
-            productMap.put("picturePath", (String) object[2]);
-            productMap.put("distributor", (ArrayList) object[3]);
-            productMap.put("product_ID", (int) object[4]);
-            productInfo.add(productMap);
-        }
+        productList.add(new Product(Db1ProductID, Db1ProductName, Db1ProductDescription, Db1ProductPicturePath, Db1ProductDistributors));
+        productList.add(new Product(Db2ProductID, Db2ProductName, Db2ProductDescription, Db2ProductPicturePath, Db2ProductDistributors));
+        productList.add(new Product(Db3ProductID, Db3ProductName, Db3ProductDescription, Db3ProductPicturePath, Db3ProductDistributors));
 
-        highestProductIDInDB = fakeMapper.setProductInformation(productInfo);
+        highestProductIDInDB = fakeMapper.setProductInformation(productList);
         mapper = fakeMapper;
         Product.setProductMapper(mapper);
     }
@@ -162,18 +165,56 @@ public class ProductTest {
 
     @Test
     public void testSetupProductsFromDB() {
-        
-        int expectedProductListSize = 0;
-        assertEquals(expectedProductListSize, Product.getProductList().size());
-        
         //act
-        Product.setupProductsFromDB();
+        Product.setupProductListFromDB();
         ArrayList<Product> result = Product.getProductList();
-        
-        //assert
-        expectedProductListSize = 5;
-        assertEquals(expectedProductListSize, result.size());
 
+        //assert
+        int expectedProductListSize = amountOfProductInitiallyInDB;
+        assertEquals(expectedProductListSize, result.size());
+        assertEquals(Db1ProductID, result.get(0).getProductID());
+        assertEquals(Db2ProductID, result.get(1).getProductID());
+        assertEquals(Db3ProductID, result.get(2).getProductID());
+        assertTrue(Db1ProductName.equals(result.get(0).getName()));
+        assertTrue(Db2ProductName.equals(result.get(1).getName()));
+        assertTrue(Db3ProductName.equals(result.get(2).getName()));
+        assertTrue(Db1ProductDescription.equals(result.get(0).getDescription()));
+        assertTrue(Db2ProductDescription.equals(result.get(1).getDescription()));
+        assertTrue(Db3ProductDescription.equals(result.get(2).getDescription()));
+        assertTrue(Db1ProductPicturePath.equals(result.get(0).getPicturePath()));
+        assertTrue(Db2ProductPicturePath.equals(result.get(1).getPicturePath()));
+        assertTrue(Db3ProductPicturePath.equals(result.get(2).getPicturePath()));
+        assertEquals(Db1ProductDistributors, result.get(0).getDistributors());
+        assertEquals(Db2ProductDistributors, result.get(1).getDistributors());
+        assertEquals(Db3ProductDistributors, result.get(2).getDistributors());
+    }
+
+    @Test
+    public void testSetupProductsFromDBMultipleTimes() {
+        //act
+        Product.setupProductListFromDB();
+        Product.setupProductListFromDB();
+        Product.setupProductListFromDB();
+        ArrayList<Product> result = Product.getProductList();
+
+        //assert
+        int expectedProductListSize = amountOfProductInitiallyInDB;
+        assertEquals(expectedProductListSize, result.size());
+        assertEquals(Db1ProductID, result.get(0).getProductID());
+        assertEquals(Db2ProductID, result.get(1).getProductID());
+        assertEquals(Db3ProductID, result.get(2).getProductID());
+        assertTrue(Db1ProductName.equals(result.get(0).getName()));
+        assertTrue(Db2ProductName.equals(result.get(1).getName()));
+        assertTrue(Db3ProductName.equals(result.get(2).getName()));
+        assertTrue(Db1ProductDescription.equals(result.get(0).getDescription()));
+        assertTrue(Db2ProductDescription.equals(result.get(1).getDescription()));
+        assertTrue(Db3ProductDescription.equals(result.get(2).getDescription()));
+        assertTrue(Db1ProductPicturePath.equals(result.get(0).getPicturePath()));
+        assertTrue(Db2ProductPicturePath.equals(result.get(1).getPicturePath()));
+        assertTrue(Db3ProductPicturePath.equals(result.get(2).getPicturePath()));
+        assertEquals(Db1ProductDistributors, result.get(0).getDistributors());
+        assertEquals(Db2ProductDistributors, result.get(1).getDistributors());
+        assertEquals(Db3ProductDistributors, result.get(2).getDistributors());
     }
 
 }

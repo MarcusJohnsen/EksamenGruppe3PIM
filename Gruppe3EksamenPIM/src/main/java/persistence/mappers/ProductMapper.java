@@ -16,28 +16,27 @@ import persistence.DB;
 public class ProductMapper implements ProductMapperInterface {
 
     @Override
-    public ArrayList<HashMap<String, Object>> getProducts() {
+    public ArrayList<Product> getProducts() {
         //getting all the products from the database
-        ArrayList<HashMap<String, Object>> products = new ArrayList();
+        ArrayList<Product> productList = new ArrayList();
 
         String sql = "SELECT * FROM PIM_Database.Product";
 
         try {
             ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
             while (rs.next()) {
-                HashMap<String, Object> map = new HashMap();
                 int product_ID = rs.getInt("Product_ID");
-                map.put("product_ID", product_ID);
-                map.put("product_Name", rs.getString("Product_Name"));
-                map.put("product_Description", rs.getString("Product_Description"));
-                map.put("picturePath", rs.getString("picturePath"));
-                map.put("distributors", getProductDistributors(product_ID));
-                products.add(map);
+                String name = rs.getString("Product_Name");
+                String description = rs.getString("Product_Description");
+                String picturePath = rs.getString("picturePath");
+                ArrayList<String> distributors = getProductDistributors(product_ID);
+                Product product = new Product(product_ID, name, description, picturePath, distributors);
+                productList.add(product);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return products;
+        return productList;
     }
 
     @Override
@@ -124,27 +123,22 @@ public class ProductMapper implements ProductMapperInterface {
 
     @Override
     public void deleteProduct(int productID) {
-    
-     String sqlDeleteDistributors = "DELETE FROM Product_Distributor WHERE product_ID = " + productID;
-             
-     String sqlDeleteProducts = "DELETE FROM Product WHERE product_ID = " + productID;
-        
-      try {
+
+        String sqlDeleteDistributors = "DELETE FROM Product_Distributor WHERE product_ID = " + productID;
+
+        String sqlDeleteProducts = "DELETE FROM Product WHERE product_ID = " + productID;
+
+        try {
             DB.getConnection().prepareStatement(sqlDeleteDistributors).executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-      try {
+        try {
             DB.getConnection().prepareStatement(sqlDeleteProducts).executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
-      
-      
-      
-      
-      
+
     }
 }

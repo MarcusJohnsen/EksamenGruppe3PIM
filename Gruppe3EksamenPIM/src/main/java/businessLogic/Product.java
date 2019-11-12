@@ -20,7 +20,16 @@ public class Product {
 
     private static ArrayList<Product> ProductList = new ArrayList();
 
+    public Product(int productID, String name, String description, String picturePath, ArrayList<String> distributors) {
+        this.productID = productID;
+        this.name = name;
+        this.description = description;
+        this.picturePath = picturePath;
+        this.distributors = distributors;
+    }
+    
     private Product(String name, String description, String picturePath, ArrayList<String> distributors) {
+        this.productID = productID;
         this.name = name;
         this.description = description;
         this.picturePath = picturePath;
@@ -39,18 +48,8 @@ public class Product {
         return product;
     }
 
-    public static void setupProductsFromDB() {
-        ProductList.clear();
-        for (HashMap<String, Object> productsMap : productMapper.getProducts()) {
-            int product_ID = (int) productsMap.get("product_ID");
-            String product_Name = (String) productsMap.get("product_Name");
-            String product_Description = (String) productsMap.get("product_Description");
-            String picturePath = (String) productsMap.get("picturePath");
-            ArrayList<String> distributors = (ArrayList<String>) productsMap.get("distributors");
-            Product product = new Product(product_Name, product_Description, picturePath, distributors);
-            product.productID = product_ID;
-            ProductList.add(product);
-        }
+    public static void setupProductListFromDB() {
+        ProductList = productMapper.getProducts();
     }
 
     static boolean deleteProductOnID(int productID) {

@@ -19,7 +19,7 @@ public class ViewProductsCommand extends Command {
         
         String jspPage = "viewAllProducts";
     
-        Product.setupProductsFromDB();
+        Product.setupProductListFromDB();
         
         ArrayList<Product> fullList = Product.getProductList();
         

@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public interface ProductMapperInterface {
     
-    public ArrayList<HashMap<String, Object>> getProducts();
+    public ArrayList<Product> getProducts();
     
     public int addNewProduct(Product product);
 
