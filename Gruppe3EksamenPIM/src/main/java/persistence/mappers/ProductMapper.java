@@ -92,4 +92,14 @@ public class ProductMapper implements ProductMapperInterface {
         }
         return maxInt;
     }
+
+    @Override
+    public void addImage(int productID, String picturePath) {
+        String sql = "UPDATE Product SET picturePath = '" + picturePath + "' WHERE product_ID = " + productID;
+        try {
+            DB.getConnection().prepareStatement(sql).executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

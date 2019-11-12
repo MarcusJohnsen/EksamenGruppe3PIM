@@ -13,4 +13,6 @@ public interface ProductMapperInterface {
     public ArrayList<HashMap<String, String>> getProducts();
     
     public int addNewProduct(Product product);
+
+    public void addImage(int productID, String picturePath);
 }

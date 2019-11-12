@@ -61,4 +61,9 @@ public class FakeProductMapper implements ProductMapperInterface {
         newHighest++;
         return newHighest;
     }
+
+    @Override
+    public void addImage(int productID, String picturePath) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
