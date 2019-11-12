@@ -46,7 +46,7 @@ public class Product {
             String product_Name = (String) productsMap.get("product_Name");
             String product_Description = (String) productsMap.get("product_Description");
             String picturePath = (String) productsMap.get("picturePath");
-            ArrayList<String> distributors = (ArrayList<String>) productsMap.get("distributor");
+            ArrayList<String> distributors = (ArrayList<String>) productsMap.get("distributors");
             Product product = new Product(product_Name, product_Description, picturePath, distributors);
             product.productID = product_ID;
             ProductList.add(product);

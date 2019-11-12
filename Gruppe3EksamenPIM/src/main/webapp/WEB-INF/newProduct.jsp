@@ -29,13 +29,12 @@
             </p>
 
             <p align="center">
-                Product Distributors:
+                Product Distributors: <img onclick="newField()" src="decorations/addIcon.png" width="20" height="20" alt="addIcon"/>
                 <br>
                 <input type="text" name="Product Distributors" value=""/>
-                <img onclick="newField()" src="decorations/addIcon.png" width="15" height="15" alt="addIcon"/> 
             </p>
 
-            <div id="myDIV" align="center" style="margin-right: 18px"> 
+            <div id="myDIV" align="center"> 
             </div>
 
             <br>
