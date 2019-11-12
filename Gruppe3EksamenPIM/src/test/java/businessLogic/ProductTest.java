@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businessLogic;
 
 import java.util.ArrayList;
@@ -31,19 +26,19 @@ public class ProductTest {
     public void testCreateNewProduct() {
         //arrange
         String name = "ProductTesterName1";
-        String descrition = "Product Test Description Number 1";
+        String description = "Product Test Description Number 1";
         String picturePath = "Picture/Path/Here";
         ArrayList<String> distributors = new ArrayList();
         String distributor = "Distributor name";
         distributors.add(distributor);
         
         //act
-        Product result = Product.createNewProduct(name, descrition, picturePath, distributors);
+        Product result = Product.createNewProduct(name, description, picturePath, distributors);
         
         //assert
         int expectedID = 1;
         assertTrue(name.equals(result.getName()));
-        assertTrue(descrition.equals(result.getDescription()));
+        assertTrue(description.equals(result.getDescription()));
         assertTrue(picturePath.equals(result.getPicturePath()));
         assertEquals(expectedID, result.getProductID());
     }
