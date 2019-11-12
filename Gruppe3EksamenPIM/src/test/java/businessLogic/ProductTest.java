@@ -83,4 +83,23 @@ public class ProductTest {
         assertEquals(expectedIDn3, result3.getProductID());
     }
     
+    @Test
+    public void testDeleteProductOnID(){
+        //arrange
+        String productName = "Test Product";
+        String productDescription = "This is a product for testing, not for using";
+        String picturePath = "Picture.file";
+        ArrayList<String> distributors = new ArrayList();
+        distributors.add("Tester 1");
+        distributors.add("Programmer 1");
+        Product testProduct = Product.createNewProduct(productName, productDescription, picturePath, distributors);
+        int productID = testProduct.getProductID();
+        
+        //act
+        Product.deleteProductOnID(productID);
+        
+        //assert
+        assertFalse(Product.getProductList().contains(testProduct));
+    }
+    
 }

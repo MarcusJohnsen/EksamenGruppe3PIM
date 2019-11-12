@@ -17,7 +17,7 @@ public class Product {
     private String description;
     private String picturePath;
     private ArrayList<String> distributors;
-    
+
     private static ArrayList<Product> ProductList = new ArrayList();
 
     private Product(String name, String description, String picturePath, ArrayList<String> distributors) {
@@ -35,9 +35,10 @@ public class Product {
         Product product = new Product(name, description, picturePath, distributors);
         int newProductID = productMapper.addNewProduct(product);
         product.productID = newProductID;
+        ProductList.add(product);
         return product;
     }
-    
+
     public static void setupProductsFromDB() {
         ProductList.clear();
         for (HashMap<String, Object> productsMap : productMapper.getProducts()) {
@@ -52,12 +53,27 @@ public class Product {
         }
     }
 
+    static void deleteProductOnID(int productID) {
+        ProductList.remove(findProductOnID(productID));
+//        productMapper.deleteProduct(productID);
+    }
+    
+    public static Product findProductOnID(int productID){
+        for (Product product : ProductList) {
+            if(product.productID == productID){
+                return product;
+            }
+        }
+        return null;
+    }
+
     public static void addImage(int productID, String picturePath) {
+        findProductOnID(productID).picturePath = picturePath;
         productMapper.addImage(productID, picturePath);
     }
 
     public int getProductID() {
-        return productID; 
+        return productID;
     }
 
     public String getName() {
@@ -75,7 +91,7 @@ public class Product {
     public ArrayList<String> getDistributors() {
         return distributors;
     }
-    
+
     public static ArrayList<Product> getProductList() {
         return ProductList;
     }
