@@ -11,12 +11,10 @@ import java.util.HashMap;
 
 public class FakeProductMapper implements ProductMapperInterface {
 
-    ArrayList<HashMap<String, String>> productInformation;
-    ArrayList<HashMap<String, String>> distributorsInformation;
+    ArrayList<HashMap<String, Object>> productInformation;
 
     public FakeProductMapper() {
         productInformation = new ArrayList();
-        distributorsInformation = new ArrayList();
     }
 
     @Override
@@ -26,35 +24,30 @@ public class FakeProductMapper implements ProductMapperInterface {
 
     @Override
     public int addNewProduct(Product product) {
-        HashMap<String, String> productMap = new HashMap();
+        HashMap<String, Object> productMap = new HashMap();
         productMap.put("name", product.getName());
         productMap.put("description", product.getName());
         productMap.put("picturePath", product.getPicturePath());
+        productMap.put("distributors", product.getDistributors());
         int newID = findHighestID();
-        productMap.put("ID", Integer.toString(newID));
+        productMap.put("ID", newID);
         productInformation.add(productMap);
-        
-        for (String distributor : product.getDistributors()) {
-            HashMap<String, String> distributorMap = new HashMap();
-            distributorMap.put("productID", Integer.toString(product.getProductID()));
-            distributorMap.put("distributor", distributor);
-        }
 
         return newID;
     }
 
-    public ArrayList<HashMap<String, String>> getProductInformation() {
+    public ArrayList<HashMap<String, Object>> getProductInformation() {
         return productInformation;
     }
 
-    public void setProductInformation(ArrayList<HashMap<String, String>> productInformation) {
+    public void setProductInformation(ArrayList<HashMap<String, Object>> productInformation) {
         this.productInformation = productInformation;
     }
 
     private int findHighestID() {
         int newHighest = 0;
-        for (HashMap<String, String> hashMap : productInformation) {
-            int thisInt = Integer.parseInt(hashMap.get("ID"));
+        for (HashMap<String, Object> hashMap : productInformation) {
+            int thisInt = (int) hashMap.get("ID");
             if (thisInt > newHighest) {
                 newHighest = thisInt;
             }
