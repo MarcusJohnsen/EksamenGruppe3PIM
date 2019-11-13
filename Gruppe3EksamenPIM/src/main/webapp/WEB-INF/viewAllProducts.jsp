@@ -1,5 +1,5 @@
 <%-- 
-    Document   : ViewAllProducts
+    Document   : viewAllProducts
     Created on : 11-Nov-2019, 14:06:02
     Author     : Marcus
 --%>
