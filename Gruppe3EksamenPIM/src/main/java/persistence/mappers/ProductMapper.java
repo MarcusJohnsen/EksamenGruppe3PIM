@@ -143,9 +143,9 @@ public class ProductMapper implements ProductMapperInterface {
     @Override
     public void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
             
-        String sqlEditProducts = "UPDATE Product SET Product_Name = '" + name + "', Product_Description = '" + description + "WHERE product_ID = " + productID;
+        String sqlEditProducts = "UPDATE Product SET Product_Name = '" + name + "', Product_Description = '" + description + "' WHERE product_ID = " + productID;
         
-        String sqlEditDistributors = "UPDATE Product_Distributors SET Product_Distributor_Name = '" + distributors + "' WHERE product_ID = " + productID;
+        String sqlEditDistributors = "UPDATE Product_Distributor SET Product_Distributor_Name = '" + distributors + "' WHERE product_ID = " + productID;
         
         try {
             DB.getConnection().prepareStatement(sqlEditProducts).executeUpdate();

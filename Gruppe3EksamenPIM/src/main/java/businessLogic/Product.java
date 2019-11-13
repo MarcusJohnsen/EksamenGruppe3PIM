@@ -67,6 +67,9 @@ public class Product {
 
     public static void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
         Product product = findProductOnID(productID);
+        product.name = name;
+        product.description = description;
+        product.distributors = distributors;
         productMapper.editProduct(productID, product.name, product.description, product.distributors);
     }
 
