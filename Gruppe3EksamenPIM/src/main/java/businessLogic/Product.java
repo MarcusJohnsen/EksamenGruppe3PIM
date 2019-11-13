@@ -1,6 +1,7 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import persistence.mappers.ProductMapperInterface;
 
 /**
@@ -40,6 +41,7 @@ public class Product {
     }
 
     public static Product createNewProduct(String name, String description, String picturePath, ArrayList<String> distributors) {
+        distributors.removeAll(Arrays.asList("", null));
         Product product = new Product(name, description, picturePath, distributors);
         int newProductID = productMapper.addNewProduct(product);
         product.productID = newProductID;
@@ -66,11 +68,13 @@ public class Product {
     }
 
     public static void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
+        distributors.removeAll(Arrays.asList("", null));
         Product product = findProductOnID(productID);
+        ArrayList<String> oldDistributorsInfo = product.getDistributors();
         product.name = name;
         product.description = description;
         product.distributors = distributors;
-        productMapper.editProduct(productID, product.name, product.description, product.distributors);
+        productMapper.editProduct(productID, product.name, product.description, product.distributors, oldDistributorsInfo);
     }
 
     public static void updatePicturePath(int productID, String picturePath) {
