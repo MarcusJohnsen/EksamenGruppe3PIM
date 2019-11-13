@@ -29,7 +29,6 @@ public class Product {
     }
 
     private Product(String name, String description, String picturePath, ArrayList<String> distributors) {
-        this.productID = productID;
         this.name = name;
         this.description = description;
         this.picturePath = picturePath;

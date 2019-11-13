@@ -22,9 +22,9 @@ public class AddProductCommand extends Command {
         // get parameters from request
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
-        ArrayList<String> distributers = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
+        ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
         
-        Product newProduct = Product.createNewProduct(productName, productDescription, "", distributers);
+        Product newProduct = Product.createNewProduct(productName, productDescription, "", distributors);
         request.getSession().setAttribute("productID", newProduct.getProductID());
 
         return nextJsp;
