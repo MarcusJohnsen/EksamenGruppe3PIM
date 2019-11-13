@@ -29,7 +29,7 @@
             </p>
 
             <p align="center">
-                Product Distributors: <img onclick="newField()" src="decorations/addIcon.png" width="20" height="20" alt="addIcon"/>
+                Product Distributors: <img onclick="newField()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/>
                 <br>
                 <input type="text" name="Product Distributors" value=""/>
             </p>

@@ -38,7 +38,7 @@
             </p>
 
             <p align="center">
-                Product Distributors: <img onclick="newField()" src="decorations/addIcon.png" width="20" height="20" alt="addIcon"/> 
+                Product Distributors: <img onclick="newField()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/> 
                 <br>
                 <%for (String productdist : ProductDist) {%>
                 <input type="text" name="Product Distributors" value="<%=productdist%>"/>
@@ -54,7 +54,11 @@
                 Select Picture:
                 <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
             </p>
-            
+            <br>
+            <p align="center">
+            Save the changes:
+            <br>
+             <input type="submit" value="Update"/></p>
         </form>
         <script>
             function newField() {
