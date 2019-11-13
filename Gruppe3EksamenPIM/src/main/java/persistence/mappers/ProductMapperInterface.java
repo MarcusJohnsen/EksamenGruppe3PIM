@@ -13,7 +13,7 @@ public interface ProductMapperInterface {
     
     public int addNewProduct(Product product);
 
-    public void addImage(int productID, String picturePath);
+    public void updatePicturePath(int productID, String picturePath);
     
     public ArrayList<String> getProductDistributors(int product_ID);
 

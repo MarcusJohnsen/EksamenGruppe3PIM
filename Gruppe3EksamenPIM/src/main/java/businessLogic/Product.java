@@ -70,9 +70,9 @@ public class Product {
         productMapper.editProduct(productID, product.name, product.description, product.distributors);
     }
 
-    public static void addImage(int productID, String picturePath) {
+    public static void updatePicturePath(int productID, String picturePath) {
         findProductOnID(productID).picturePath = picturePath;
-        productMapper.addImage(productID, picturePath);
+        productMapper.updatePicturePath(productID, picturePath);
     }
 
     public static void emptyProductList() {

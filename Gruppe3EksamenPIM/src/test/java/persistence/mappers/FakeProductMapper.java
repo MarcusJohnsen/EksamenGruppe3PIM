@@ -53,8 +53,8 @@ public class FakeProductMapper implements ProductMapperInterface {
     }
 
     @Override
-    public void addImage(int productID, String picturePath) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updatePicturePath(int productID, String picturePath) {
+        //This DB-change should not be nessery, as the change is already made in the Product class.
     }
     @Override
     public ArrayList<String> getProductDistributors(int product_ID) {

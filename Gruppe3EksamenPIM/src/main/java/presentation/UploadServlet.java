@@ -57,7 +57,7 @@ public class UploadServlet extends HttpServlet {
             }
             if(picturePath != null){
                 int productID = (int) request.getSession().getAttribute("productID");
-                Product.addImage(productID, picturePath);
+                Product.updatePicturePath(productID, picturePath);
             }
         }
 

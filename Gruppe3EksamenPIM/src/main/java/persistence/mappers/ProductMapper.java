@@ -94,7 +94,7 @@ public class ProductMapper implements ProductMapperInterface {
     }
 
     @Override
-    public void addImage(int productID, String picturePath) {
+    public void updatePicturePath(int productID, String picturePath) {
         String sql = "UPDATE Product SET picturePath = '" + picturePath + "' WHERE product_ID = " + productID;
         try {
             DB.getConnection().prepareStatement(sql).executeUpdate();

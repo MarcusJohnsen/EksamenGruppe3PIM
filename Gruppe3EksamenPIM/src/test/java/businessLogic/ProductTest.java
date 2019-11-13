@@ -213,5 +213,20 @@ public class ProductTest {
         assertEquals(Db2ProductDistributors, result.get(1).getDistributors());
         assertEquals(Db3ProductDistributors, result.get(2).getDistributors());
     }
+    
+    @Test
+    public void test(){
+        //arrange
+        String oldPicturePath = "oldPicturePath.img";
+        Product product = Product.createNewProduct("New Test Product", "This is a test", oldPicturePath, new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"})));
+        int productID = product.getProductID();
+        String newPicturePath = "newPicturePath.img";
+        
+        //act
+        Product.updatePicturePath(productID, newPicturePath);
+        
+        //assert
+        assertTrue(newPicturePath.equals(product.getPicturePath()));
+    }
 
 }
