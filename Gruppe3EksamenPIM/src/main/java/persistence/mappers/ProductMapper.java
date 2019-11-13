@@ -4,7 +4,6 @@ import businessLogic.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
@@ -139,6 +138,25 @@ public class ProductMapper implements ProductMapperInterface {
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
+    
+    @Override
+    public void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
+            
+        String sqlEditProducts = "UPDATE Product SET Product_Name = '" + name + "', Product_Description = '" + description + "WHERE product_ID = " + productID;
+        
+        String sqlEditDistributors = "UPDATE Product_Distributors SET Product_Distributor_Name = '" + distributors + "' WHERE product_ID = " + productID;
+        
+        try {
+            DB.getConnection().prepareStatement(sqlEditProducts).executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            DB.getConnection().prepareStatement(sqlEditDistributors).executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
