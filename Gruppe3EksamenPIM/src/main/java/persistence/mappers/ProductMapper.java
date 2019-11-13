@@ -144,10 +144,10 @@ public class ProductMapper implements ProductMapperInterface {
     public void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
 
         String sql = "UPDATE Product SET Product_Name = '" + name + "', Product_Description = '" + description + "' WHERE product_ID = " + productID;
-        executeUpdate(sql);
+        DB.executeUpdate(sql);
 
         sql = "DELETE FROM Product_Distributor WHERE product_ID = " + productID;
-        executeUpdate(sql);
+        DB.executeUpdate(sql);
 
         sql = "INSERT INTO Product_Distributor (Product_ID, Product_Distributor_Name) VALUES ";
         boolean firstline = true;
@@ -159,26 +159,8 @@ public class ProductMapper implements ProductMapperInterface {
             }
             sql += "(" + productID + ", '" + distributor + "')";
         }
-        executeUpdate(sql);
+        DB.executeUpdate(sql);
 
-    }
-
-    private void executeUpdate(String sql) {
-        try {
-            DB.getConnection().prepareStatement(sql).executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private ResultSet executeQuery(String sql) {
-        ResultSet rs = null;
-        try {
-            rs = DB.getConnection().prepareStatement(sql).executeQuery();
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return rs;
     }
 
 }

@@ -215,7 +215,7 @@ public class ProductTest {
     }
     
     @Test
-    public void test(){
+    public void testUpdatePicturePath(){
         //arrange
         String oldPicturePath = "oldPicturePath.img";
         Product product = Product.createNewProduct("New Test Product", "This is a test", oldPicturePath, new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"})));
@@ -227,6 +227,23 @@ public class ProductTest {
         
         //assert
         assertTrue(newPicturePath.equals(product.getPicturePath()));
+    }
+    
+    @Test
+    public void testEditProduct(){
+        //arrange
+        Product product = Product.createNewProduct("New Test Product", "This is a test", "pic.img", new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"})));
+        String name = "";
+        String description = "";
+        ArrayList<String> distributors = new ArrayList();
+        
+        //act
+        Product.editProduct(product.getProductID(), name, description, distributors);
+        
+        //assert
+        assertTrue(name.equals(product.getName()));
+        assertTrue(description.equals(product.getDescription()));
+        assertEquals(distributors, product.getDistributors());
     }
 
 }
