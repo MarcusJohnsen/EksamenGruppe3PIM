@@ -70,11 +70,10 @@ public class Product {
     public static void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
         distributors.removeAll(Arrays.asList("", null));
         Product product = findProductOnID(productID);
-        ArrayList<String> oldDistributorsInfo = product.getDistributors();
         product.name = name;
         product.description = description;
         product.distributors = distributors;
-        productMapper.editProduct(productID, product.name, product.description, product.distributors, oldDistributorsInfo);
+        productMapper.editProduct(productID, product.name, product.description, product.distributors);
     }
 
     public static void updatePicturePath(int productID, String picturePath) {

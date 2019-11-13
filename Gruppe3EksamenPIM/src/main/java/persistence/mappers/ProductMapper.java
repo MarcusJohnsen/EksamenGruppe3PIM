@@ -139,26 +139,46 @@ public class ProductMapper implements ProductMapperInterface {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     public void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
-            
-        String sqlEditProduct = "UPDATE Product SET Product_Name = '" + name + "', Product_Description = '" + description + "' WHERE product_ID = " + productID;
-        
-        String sqlEditDistributor = "UPDATE Product_Distributor SET Product_Distributor_Name = '" + distributors + "' WHERE product_ID = " + productID;
-        
-        String sqlCreateNewDistributor = "INSERT INTO Product_Distributor (Product_ID, Product_Distributor_Name) VALUES (" + distributors + "' WHERE product_ID = " + productID;
-        
-        try {
-            DB.getConnection().prepareStatement(sqlEditProduct).executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+
+        String sql = "UPDATE Product SET Product_Name = '" + name + "', Product_Description = '" + description + "' WHERE product_ID = " + productID;
+        executeUpdate(sql);
+
+        sql = "DELETE FROM Product_Distributor WHERE product_ID = " + productID;
+        executeUpdate(sql);
+
+        sql = "INSERT INTO Product_Distributor (Product_ID, Product_Distributor_Name) VALUES ";
+        boolean firstline = true;
+        for (String distributor : distributors) {
+            if (firstline) {
+                firstline = false;
+            } else {
+                sql += ", ";
+            }
+            sql += "(" + productID + ", '" + distributor + "')";
         }
-        
+        executeUpdate(sql);
+
+    }
+
+    private void executeUpdate(String sql) {
         try {
-            DB.getConnection().prepareStatement(sqlEditDistributor).executeUpdate();
+            DB.getConnection().prepareStatement(sql).executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private ResultSet executeQuery(String sql) {
+        ResultSet rs = null;
+        try {
+            rs = DB.getConnection().prepareStatement(sql).executeQuery();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+
 }

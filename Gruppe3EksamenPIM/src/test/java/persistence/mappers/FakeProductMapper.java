@@ -73,9 +73,10 @@ public class FakeProductMapper implements ProductMapperInterface {
             productInformation.remove(product);
         }
     }
-    
+
     @Override
     public void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 }
