@@ -76,7 +76,7 @@ public class FakeProductMapper implements ProductMapperInterface {
 
     @Override
     public void editProduct(int productID, String name, String description, ArrayList<String> distributors) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //This DB-change should not be nessery, as the change is already made in the Product class.
     }
     
 }
