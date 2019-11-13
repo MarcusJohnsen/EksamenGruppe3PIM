@@ -5,6 +5,7 @@
  */
 package presentation;
 
+import businessLogic.Category;
 import businessLogic.Product;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import persistence.mappers.CategoryMapper;
+import persistence.mappers.CategoryMapperInterface;
 import persistence.mappers.ProductMapper;
 import persistence.mappers.ProductMapperInterface;
 
@@ -28,9 +31,13 @@ public class FrontController extends HttpServlet {
         if (needSetup) {
             ProductMapperInterface productMapper = new ProductMapper();
             Product.setProductMapper(productMapper);
-            needSetup = false;
-            
             Product.setupProductListFromDB();
+            
+            CategoryMapperInterface categoryMapper = new CategoryMapper();
+            Category.setCategoryMapper(categoryMapper);
+            Category.setupCategoryListFromDB();
+            
+            needSetup = false;
         }
     }
 

@@ -5,6 +5,9 @@
  */
 package persistence.mappers;
 
+import businessLogic.Category;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -13,5 +16,7 @@ package persistence.mappers;
 public interface CategoryMapperInterface {
     
     public int addNewCategory(String categoryName, String cateoryDescription);
+    
+    public ArrayList<Category> getCategories();
     
 }

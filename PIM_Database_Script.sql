@@ -3,14 +3,14 @@ DROP DATABASE IF EXISTS PIM_Database;
     USE PIM_Database;
     
     CREATE TABLE Categories(
-	Category_ID int unique not null,
-	Catagory_Name varchar(255) not null,
-	Catagory_Description varchar(2550) not null,
+	Category_ID int unique not null auto_increment,
+	Category_Name varchar(255) not null,
+	Category_Description varchar(2550) not null,
 	primary key(Category_ID)
 	);
     
 	CREATE TABLE Attributes(
-    Attribute_ID int unique not null,
+    Attribute_ID int unique auto_increment not null,
 	Attribute_Name varchar(255) not null,
     Attribute_Description varchar(2550) not null,
 	primary key(Attribute_ID)

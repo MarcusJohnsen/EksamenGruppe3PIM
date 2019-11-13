@@ -40,6 +40,7 @@ public class CategoryTest {
         categoryList.add(new Category (DbCategoryID2, DbCategoryName2, DbCategoryDescription2));
         categoryList.add(new Category (DbCategoryID3, DbCategoryName3, DbCategoryDescription3));
         
+        highestCategoryIDInDB = fakeMapper.setProductInformation(categoryList);
         mapper = fakeMapper;
         Category.setCategoryMapper(mapper);
     }

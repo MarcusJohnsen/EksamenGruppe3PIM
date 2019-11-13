@@ -35,7 +35,7 @@ public class Category {
     
     public static Category createNewCategory (String name, String description) {
         Category category = new Category (name, description);
-        //int newCategoryID = CategoryMapper.addcategory(category);
+        int newCategoryID = categoryMapper.addNewCategory(name, description);
         category.categoryID = newCategoryID;
         categoryList.add(category);
         return category;
@@ -45,7 +45,7 @@ public class Category {
         categoryList = categoryMapper.getCategories();
     }
     
-    public static Category findCategoryOnID(int productID) {
+    public static Category findCategoryOnID(int categoryID) {
         for (Category category : categoryList) {
             if (category.categoryID == categoryID) {
                 return category;
@@ -55,7 +55,7 @@ public class Category {
     }
     
     public static void emptyCategoryList() {
-        CategoryList.clear();
+        categoryList.clear();
     }
 
     public int getCategoryID() {

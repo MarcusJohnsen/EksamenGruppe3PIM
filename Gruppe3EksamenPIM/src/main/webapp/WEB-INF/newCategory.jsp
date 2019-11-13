@@ -18,22 +18,16 @@
             <p align="center">
                 Category Name:
                 <br>
-                <input type="text" name="categoryName" value="" />
-            </p>
-
-            <p align="center">
-                Category ID:
-                <br>
-                <input type="text" name="categoryID" value="" />
+                <input type="text" name="Category Name" value="" />
             </p>
 
             <p align="center">
                 Category Description:
                 <br>
-                <textarea name="categoryDescription" rows="8" cols="40"></textarea>
+                <textarea name="Category Description" rows="8" cols="40"></textarea>
             </p>
 
-            <input type="hidden" name="command" value="newCategory" />
+            <input type="hidden" name="command" value="addCategory" />
             <p align="center">
                 <input type="submit" value="Save" />
             </p>

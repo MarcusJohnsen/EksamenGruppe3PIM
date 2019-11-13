@@ -13,14 +13,14 @@ public class AddCategoryCommand extends Command {
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String jspPage = "index";
+        String nextJsp = "index";
         
         String categoryName = request.getParameter("Category Name");
         String categoryDescription = request.getParameter("Category Description");
         
         Category newCategory = Category.createNewCategory(categoryName, categoryDescription);
-        request.getSession().setAttribute("productID", newCategory.getCategoryID());
+        request.getSession().setAttribute("categoryID", newCategory.getCategoryID());
         
-        return jspPage;
+        return nextJsp;
     }
 }
