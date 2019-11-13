@@ -2,7 +2,6 @@ package persistence.mappers;
 
 import businessLogic.Product;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -19,4 +18,6 @@ public interface ProductMapperInterface {
     public ArrayList<String> getProductDistributors(int product_ID);
 
     public void deleteProduct(int productID);
+    
+    public void editProduct(int productID, String name, String description, ArrayList<String> distributors);
 }
