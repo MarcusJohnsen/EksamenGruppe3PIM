@@ -6,7 +6,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.commands.AddProductCommand;
-import presentation.commands.EditProductCommand;
+import presentation.commands.DeleteProductCommand;
+import presentation.commands.SelectProductCommand;
 import presentation.commands.GoToJspCommand;
 import presentation.commands.ViewProductsCommand;
 import presentation.commands.UnknownCommand;
@@ -27,7 +28,9 @@ public abstract class Command {
         commands.put("addProduct", new AddProductCommand());
         commands.put("goToJsp", new GoToJspCommand());
         commands.put("viewAllProducts", new ViewProductsCommand());
-        commands.put("editProduct", new EditProductCommand());
+        commands.put("selectProduct", new SelectProductCommand());
+        //commands.put("editProduct", new EditProductCommand());
+        commands.put("deleteProduct", new DeleteProductCommand());
     }
  
   

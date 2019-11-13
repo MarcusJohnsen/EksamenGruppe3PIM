@@ -15,7 +15,7 @@ import persistence.mappers.ProductMapperInterface;
  */
 public class ProductTest {
 
-    private static ProductMapperInterface mapper;
+    private static FakeProductMapper mapper;
     private static int highestProductIDInDB;
 
     private final static int Db1ProductID = 1;
@@ -118,9 +118,7 @@ public class ProductTest {
         String productName = "Test Product";
         String productDescription = "This is a product for testing, not for using";
         String picturePath = "Picture.file";
-        ArrayList<String> distributors = new ArrayList();
-        distributors.add("Tester 1");
-        distributors.add("Programmer 1");
+        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"}));
         Product testProduct = Product.createNewProduct(productName, productDescription, picturePath, distributors);
         int productID = testProduct.getProductID();
 
@@ -129,6 +127,7 @@ public class ProductTest {
 
         //assert
         assertFalse(Product.getProductList().contains(testProduct));
+        assertFalse(mapper.getProductInformation().contains(testProduct));
         assertTrue(result);
     }
 
@@ -148,18 +147,16 @@ public class ProductTest {
         String productName = "Test Product";
         String productDescription = "This is a product for testing, not for using";
         String picturePath = "Picture.file";
-        ArrayList<String> distributors = new ArrayList();
-        distributors.add("Tester 1");
-        distributors.add("Programmer 1");
+        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"}));
         Product testProduct = Product.createNewProduct(productName, productDescription, picturePath, distributors);
         int productID = testProduct.getProductID();
-        productID++;
 
         //act
-        boolean result = Product.deleteProductOnID(productID);
+        boolean result = Product.deleteProductOnID(productID + 1);
 
         //assert
         assertTrue(Product.getProductList().contains(testProduct));
+        assertTrue(mapper.getProductInformation().contains(testProduct));
         assertFalse(result);
     }
 

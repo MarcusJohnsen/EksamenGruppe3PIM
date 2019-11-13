@@ -52,8 +52,8 @@ public class Product {
         ProductList = productMapper.getProducts();
     }
 
-    static boolean deleteProductOnID(int productID) {
-//        productMapper.deleteProduct(productID);
+    public static boolean deleteProductOnID(int productID) {
+        productMapper.deleteProduct(productID);
         return ProductList.remove(findProductOnID(productID));
     }
 

@@ -20,7 +20,7 @@
         <br><br>
         
         <form action="FrontController" method="POST"> 
-            <input type="hidden" name="command" value="editProduct" />
+            <input type="hidden" name="command" value="selectProduct" />
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
@@ -42,7 +42,7 @@
                         <td align="center" width="3%"> <%=ProductID%> </td>
                         <td align="center" width="20%"> <%=ProductName%> </td>
                         <td align="center" width="30%"> <%=ProductDescription%> </td>
-                        <td align="center" width="1%"><input type="radio" name=productchoice value="<%=ProductID%>"></td>
+                        <td align="center" width="1%"><input type="radio" name=productChoice value="<%=ProductID%>"></td>
                     </tr>
                 </tbody>
                         <%}%>
@@ -50,8 +50,9 @@
             
             <br><br>
             
-            <p align="center"><input type="submit" value="Edit Product"/></p>
+            <p align="center"><input type="submit" name="submitButton" value="Edit Product"/></p>
+            <p align="center"><input type="submit" name="submitButton" value="Delete Product"/></p>
         </form>
-            <p align="center"><input type="submit" value="Delete product"/></p>
+            
     </body>
 </html>

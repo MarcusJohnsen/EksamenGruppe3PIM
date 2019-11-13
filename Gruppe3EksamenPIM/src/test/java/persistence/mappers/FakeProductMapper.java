@@ -27,7 +27,7 @@ public class FakeProductMapper implements ProductMapperInterface {
     @Override
     public int addNewProduct(Product product) {
         int newID = newHighestProductID++;
-        productInformation.add(new Product(newID, product.getName(), product.getDescription(), product.getPicturePath(), product.getDistributors()));
+        productInformation.add(product);
         return newID;
     }
 
@@ -63,7 +63,15 @@ public class FakeProductMapper implements ProductMapperInterface {
 
     @Override
     public void deleteProduct(int productID) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Product> productsToBeRemoved = new ArrayList();
+        for (Product product : productInformation) {
+            if(product.getProductID() == productID){
+                productsToBeRemoved.add(product);
+            }
+        }
+        for (Product product : productsToBeRemoved) {
+            productInformation.remove(product);
+        }
     }
 
 }
