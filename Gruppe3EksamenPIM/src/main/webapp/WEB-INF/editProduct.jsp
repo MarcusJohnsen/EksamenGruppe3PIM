@@ -21,10 +21,10 @@
             ArrayList<String> ProductDist = productList.getDistributors();
             String picturePath = productList.getPicturePath();
             int productID = productList.getProductID();
-
         %>
         <h1 align="center">Edit Product Information for product number <%=productID%></h1>
         <form action="FrontController">
+            <input type="hidden" name="productID" value="<%=productID%>" />
             <p align="center">
                 Product Name:
                 <br>
@@ -58,6 +58,7 @@
             <p align="center">
             Save the changes:
             <br>
+             <input type="hidden" name="command" value="editProduct" />
              <input type="submit" value="Update"/></p>
         </form>
         <script>

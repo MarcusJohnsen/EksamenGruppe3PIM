@@ -10,7 +10,6 @@ import presentation.commands.DeleteProductCommand;
 import presentation.commands.EditProductCommand;
 import presentation.commands.SelectProductCommand;
 import presentation.commands.GoToJspCommand;
-import presentation.commands.ViewProductsCommand;
 import presentation.commands.UnknownCommand;
 
 
@@ -28,7 +27,6 @@ public abstract class Command {
         commands = new HashMap<>();
         commands.put("addProduct", new AddProductCommand());
         commands.put("goToJsp", new GoToJspCommand());
-        commands.put("viewAllProducts", new ViewProductsCommand());
         commands.put("selectProduct", new SelectProductCommand());
         commands.put("editProduct", new EditProductCommand());
         commands.put("deleteProduct", new DeleteProductCommand());

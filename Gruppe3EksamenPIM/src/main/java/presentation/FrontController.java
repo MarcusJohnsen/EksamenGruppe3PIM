@@ -29,6 +29,8 @@ public class FrontController extends HttpServlet {
             ProductMapperInterface productMapper = new ProductMapper();
             Product.setProductMapper(productMapper);
             needSetup = false;
+            
+            Product.setupProductListFromDB();
         }
     }
 
