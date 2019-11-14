@@ -35,14 +35,11 @@ public class Category {
     public static Category createNewCategory(String name, String description) throws IllegalArgumentException {
         Category category = new Category(name, description);
 
-        if (validateCategoryInput(category)) {
-            int newCategoryID = categoryMapper.addNewCategory(category);
-            category.categoryID = newCategoryID;
-            categoryList.add(category);
-            return category;
-        }
-        
-        return null;
+        validateCategoryInput(category);
+        int newCategoryID = categoryMapper.addNewCategory(category);
+        category.categoryID = newCategoryID;
+        categoryList.add(category);
+        return category;
     }
 
     public static void setupCategoryListFromDB() {

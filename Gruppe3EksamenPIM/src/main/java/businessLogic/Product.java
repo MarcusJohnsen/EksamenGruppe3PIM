@@ -44,14 +44,11 @@ public class Product {
         distributors.removeAll(Arrays.asList("", null));
         Product product = new Product(name, description, picturePath, distributors);
 
-        if (validateProductInput(product)) {
-            int newProductID = productMapper.addNewProduct(product);
-            product.productID = newProductID;
-            ProductList.add(product);
-            return product;
-        }
-
-        return null;
+        validateProductInput(product);
+        int newProductID = productMapper.addNewProduct(product);
+        product.productID = newProductID;
+        ProductList.add(product);
+        return product;
     }
 
     public static void setupProductListFromDB() {
