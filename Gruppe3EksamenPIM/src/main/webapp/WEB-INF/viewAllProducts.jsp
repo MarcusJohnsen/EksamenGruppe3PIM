@@ -56,7 +56,7 @@
             <%
             String error = (String)request.getAttribute("error");
             if(error!=null){%>
-            <h2 style="color: red"><%=error%></h2>
+            <h2 style="color: red" align="center"><%=error%></h2>
             <%}%>
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="goToJsp" />
