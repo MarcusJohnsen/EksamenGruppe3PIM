@@ -26,7 +26,7 @@
         <h3>Category Name: <i><%=categoryName%></i></h3>
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="deleteCategory" />
-            <input type="hidden" name="productID" value="<%=categoryID%>" />
+            <input type="hidden" name="categoryID" value="<%=categoryID%>" />
             <input type="submit" value="DELETE" style="background-color: red"/>
         </form>
         <form action="FrontController" method="POST">
