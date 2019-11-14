@@ -1,6 +1,7 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -173,5 +174,33 @@ public class CategoryTest {
 
         //assert
         assertFalse(result);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTestCategoryNameIsEmpty() {
+
+        String categoryName = "";
+        String categoryDescription = "description for this category";
+        
+        Category.createNewCategory(categoryName, categoryDescription);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTestCategoryDescriptionIsEmpty() {
+
+        String categoryName = "categoryName";
+        String categoryDescription = "";
+        
+        Category.createNewCategory(categoryName, categoryDescription);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTestDuplicateCategoryName() {
+
+        String categoryName = "test category";
+        String categoryDescription = "description for this product";
+        
+        Category.createNewCategory(categoryName, categoryDescription);
+        Category.createNewCategory(categoryName, categoryDescription);
     }
 }

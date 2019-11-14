@@ -39,13 +39,19 @@ public class Product {
         productMapper = newMapper;
     }
 
-    public static Product createNewProduct(String name, String description, String picturePath, ArrayList<String> distributors) {
+    public static Product createNewProduct(String name, String description, String picturePath, ArrayList<String> distributors)
+            throws IllegalArgumentException {
         distributors.removeAll(Arrays.asList("", null));
         Product product = new Product(name, description, picturePath, distributors);
-        int newProductID = productMapper.addNewProduct(product);
-        product.productID = newProductID;
-        ProductList.add(product);
-        return product;
+
+        if (validateProductInput(product)) {
+            int newProductID = productMapper.addNewProduct(product);
+            product.productID = newProductID;
+            ProductList.add(product);
+            return product;
+        }
+
+        return null;
     }
 
     public static void setupProductListFromDB() {
@@ -78,6 +84,21 @@ public class Product {
     public static void updatePicturePath(int productID, String picturePath) {
         findProductOnID(productID).picturePath = picturePath;
         productMapper.updatePicturePath(productID, picturePath);
+    }
+
+    public static boolean validateProductInput(Product product) throws IllegalArgumentException {
+
+        if (product.name.isEmpty()) {
+            throw new IllegalArgumentException("please fill out product-name field");
+        }
+        if (product.description.isEmpty()) {
+            throw new IllegalArgumentException("please fill out product-description field");
+        }
+        if (product.distributors.isEmpty()) {
+            throw new IllegalArgumentException("please fill out distributors field");
+        }
+
+        return true;
     }
 
     public static void emptyProductList() {
