@@ -11,10 +11,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>See Categories</title>
+        <title>Category View</title>
     </head>
     <body>
-        <h1 align="center">All Categories</h1>
+        <h1 align="center">Category list</h1>
         <form action="FrontController">
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
@@ -34,7 +34,7 @@
                             String CategoryDescription = category.getDescription();
                     %>  
                     <tr>
-                        <td align="center" width="3%"> <%=CategoryID%> </td>
+                        <td align="center" width="5%"> <%=CategoryID%> </td>
                         <td align="center" width="20%"> <%=CategoryName%> </td>
                         <td align="center" width="30%"> <%=CategoryDescription%> </td>
                         <td align="center" width="1%"><input type="radio" name=categoryChoice value="<%=CategoryID%>"></td>

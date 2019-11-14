@@ -30,5 +30,11 @@
             <input type="hidden" name="goToJsp" value="newCategory" />
             <p align="center"><input type="submit" value="New Category"/></p>
         </form>
+        
+        <form action="FrontController">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="viewAllCategories" />
+            <p align="center"><input type="submit" value="View Category"/></p>
+        </form>
     </body>
 </html>

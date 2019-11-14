@@ -52,10 +52,10 @@ public class CategoryMapper implements CategoryMapperInterface {
         try {
             ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
             while (rs.next()) {
-                int product_ID = rs.getInt("Product_ID");
-                String name = rs.getString("Product_Name");
-                String description = rs.getString("Product_Description");
-                Category category = new Category (product_ID, name, description);
+                int category_ID = rs.getInt("Category_ID");
+                String category_Name = rs.getString("Category_Name");
+                String category_Description = rs.getString("Category_Description");
+                Category category = new Category (category_ID, category_Name, category_Description);
                 categoryList.add(category);
             }
         } catch (SQLException ex) {
