@@ -69,9 +69,7 @@ public class FakeProductMapper implements ProductMapperInterface {
                 productsToBeRemoved.add(product);
             }
         }
-        for (Product product : productsToBeRemoved) {
-            productInformation.remove(product);
-        }
+        productInformation.removeAll(productsToBeRemoved);
     }
 
     @Override

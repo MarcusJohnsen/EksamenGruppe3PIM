@@ -23,9 +23,8 @@ public class FakeCategoryMapper implements CategoryMapperInterface{
     }
 
     @Override
-    public int addNewCategory(String categoryName, String categoryDescription) {
+    public int addNewCategory(Category category) {
         int newID = newHighestCategoryID++;
-        Category category = new Category(newID, categoryName, categoryDescription);
         categoryInformation.add(category);
         return newID;
     }
@@ -49,5 +48,16 @@ public class FakeCategoryMapper implements CategoryMapperInterface{
         }
         newHighest++;
         return newHighest;
+    }
+
+    @Override
+    public void deleteCategory(int categoryID) {
+        ArrayList<Category> categoriesToBeRemoved = new ArrayList();
+        for (Category category : categoryInformation) {
+            if(category.getCategoryID() == categoryID){
+                categoriesToBeRemoved.add(category);
+            }
+        }
+        categoryInformation.removeAll(categoriesToBeRemoved);
     }
 }

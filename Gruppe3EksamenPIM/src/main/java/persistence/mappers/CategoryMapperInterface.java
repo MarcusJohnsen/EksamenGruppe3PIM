@@ -15,8 +15,10 @@ import java.util.ArrayList;
  */
 public interface CategoryMapperInterface {
     
-    public int addNewCategory(String categoryName, String cateoryDescription);
+    public int addNewCategory(Category category);
     
     public ArrayList<Category> getCategories();
+    
+    public void deleteCategory(int categoryID);
     
 }
