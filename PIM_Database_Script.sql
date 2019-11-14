@@ -4,7 +4,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     
     CREATE TABLE Categories(
 	Category_ID int unique not null auto_increment,
-	Category_Name varchar(255) not null,
+	Category_Name varchar(255) unique not null,
 	Category_Description varchar(2550) not null,
 	primary key(Category_ID)
 	);
