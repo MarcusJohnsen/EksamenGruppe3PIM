@@ -53,6 +53,11 @@
             <p align="center"><input type="submit" name="submitButton" value="Edit Product"/></p>
             <p align="center"><input type="submit" name="submitButton" value="Delete Product"/></p>
         </form>
+        <form action="FrontController" method="POST">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="index" />
+            <p align="center"><input type="submit" value="Go Back" /></p>
+        </form>
             
     </body>
 </html>

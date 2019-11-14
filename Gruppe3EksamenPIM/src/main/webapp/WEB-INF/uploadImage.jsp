@@ -21,5 +21,10 @@
                 <input type="submit" value="Save" />
             </p>
         </form>
+        <form action="FrontController" method="POST">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="newProduct" />
+            <p align="center"><input type="submit" value="Go Back" /></p>
+        </form>
     </body>
 </html>

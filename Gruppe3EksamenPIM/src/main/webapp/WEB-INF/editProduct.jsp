@@ -61,6 +61,11 @@
              <input type="hidden" name="command" value="editProduct" />
              <input type="submit" value="Update"/></p>
         </form>
+        <form action="FrontController" method="POST">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="viewAllProducts" />
+            <p align="center"><input type="submit" value="Go Back" /></p>
+        </form>
         <script>
             function newField() {
                 var x = document.createElement("INPUT");
