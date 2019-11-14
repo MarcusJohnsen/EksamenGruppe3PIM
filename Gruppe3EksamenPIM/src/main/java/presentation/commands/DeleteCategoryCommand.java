@@ -1,6 +1,7 @@
 
 package presentation.commands;
 
+import businessLogic.Category;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
