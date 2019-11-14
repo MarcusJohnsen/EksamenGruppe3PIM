@@ -14,15 +14,23 @@ public class SelectProductCommand extends Command {
 
         String nextJsp = null;
         String commandType = request.getParameter("submitButton");
-        int productChoice = Integer.parseInt(request.getParameter("productChoice"));
-        
-        if (commandType.equals("Edit Product")) {
-            nextJsp = "editProduct";
-        } else if (commandType.equals("Delete Product")) {
-            nextJsp = "deleteProduct";
-        }
+        String productChoiceString = request.getParameter("productChoice");
+        if (productChoiceString != null) {
 
-        request.setAttribute("productID", productChoice);
+            int productChoice = Integer.parseInt(productChoiceString);
+            
+            if (commandType.equals("Edit Product")) {
+                nextJsp = "editProduct";
+            } else if (commandType.equals("Delete Product")) {
+                nextJsp = "deleteProduct";
+            }
+            
+            request.setAttribute("productID", productChoice);
+
+        } else {
+            nextJsp = "viewAllProducts";
+            request.setAttribute("error", "No Product Selected!");
+        }
 
         return nextJsp;
     }
