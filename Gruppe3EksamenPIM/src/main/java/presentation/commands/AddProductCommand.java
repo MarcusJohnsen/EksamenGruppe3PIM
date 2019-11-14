@@ -18,14 +18,19 @@ public class AddProductCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String nextJsp = "uploadImage";
-        
+
         // get parameters from request
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
         ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
-        
-        Product newProduct = Product.createNewProduct(productName, productDescription, "", distributors);
-        request.getSession().setAttribute("productID", newProduct.getProductID());
+
+        try {
+            Product newProduct = Product.createNewProduct(productName, productDescription, "", distributors);
+            request.getSession().setAttribute("productID", newProduct.getProductID());
+        } catch (IllegalArgumentException ex) {
+            nextJsp = "newProduct";
+            request.setAttribute("error", ex.getMessage());
+        }
 
         return nextJsp;
     }

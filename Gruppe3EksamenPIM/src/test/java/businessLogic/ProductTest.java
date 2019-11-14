@@ -213,37 +213,71 @@ public class ProductTest {
         assertEquals(Db2ProductDistributors, result.get(1).getDistributors());
         assertEquals(Db3ProductDistributors, result.get(2).getDistributors());
     }
-    
+
     @Test
-    public void testUpdatePicturePath(){
+    public void testUpdatePicturePath() {
         //arrange
         String oldPicturePath = "oldPicturePath.img";
         Product product = Product.createNewProduct("New Test Product", "This is a test", oldPicturePath, new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"})));
         int productID = product.getProductID();
         String newPicturePath = "newPicturePath.img";
-        
+
         //act
         Product.updatePicturePath(productID, newPicturePath);
-        
+
         //assert
         assertTrue(newPicturePath.equals(product.getPicturePath()));
     }
-    
+
     @Test
-    public void testEditProduct(){
+    public void testEditProduct() {
         //arrange
         Product product = Product.createNewProduct("New Test Product", "This is a test", "pic.img", new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"})));
         String name = "";
         String description = "";
         ArrayList<String> distributors = new ArrayList();
-        
+
         //act
         Product.editProduct(product.getProductID(), name, description, distributors);
-        
+
         //assert
         assertTrue(name.equals(product.getName()));
         assertTrue(description.equals(product.getDescription()));
         assertEquals(distributors, product.getDistributors());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTestProductNameIsEmpty() {
+
+        String productName = "";
+        String productDescription = "description for this product";
+        String productPicturePath = "Hello.img";
+        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"}));
+
+        Product.createNewProduct(productName, productDescription, productPicturePath, distributors);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTestProductDescriptionIsEmpty() {
+
+        String productName = "testProduct";
+        String productDescription = "";
+        String productPicturePath = "Hello.img";
+        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"Tester 1", "Programmer 1"}));
+
+        Product.createNewProduct(productName, productDescription, productPicturePath, distributors);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTestProductDistributorsIsEmpty() {
+
+        String productName = "testProduct";
+        String productDescription = "description for this product";
+        String productPicturePath = "Hello.img";
+        ArrayList<String> distributors = new ArrayList();
+
+        Product.createNewProduct(productName, productDescription, productPicturePath, distributors);
+    }
+
+    
 }

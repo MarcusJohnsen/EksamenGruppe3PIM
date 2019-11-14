@@ -50,11 +50,11 @@
             <div id="myDIV" align="center"> 
             </div>
 
-            <p align="center">
+            <!--<p align="center">
                 Select Picture:
                 <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
             </p>
-            <br>
+            <br>-->
             <p align="center">
             Save the changes:
             <br>

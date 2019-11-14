@@ -28,6 +28,12 @@
             </p>
 
             <input type="hidden" name="command" value="addCategory" />
+            <%
+            String error = (String) request.getAttribute("error");
+            if(error != null){
+            %>
+            <h2  align="center" style="color: red"><%=error%></h2>
+            <%}%>
             <p align="center">
                 <input type="submit" value="Save" />
             </p>

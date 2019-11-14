@@ -36,6 +36,13 @@
 
             <div id="myDIV" align="center"> 
             </div>
+            
+            <%
+            String error = (String) request.getAttribute("error");
+            if(error != null){
+            %>
+            <h2 align="center" style="color: red"><%=error%></h2>
+            <%}%>
 
             <p align="center">
                 Save product:
