@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.commands.AddCategoryCommand;
 import presentation.commands.AddProductCommand;
+import presentation.commands.DeleteCategoryCommand;
 import presentation.commands.DeleteProductCommand;
 import presentation.commands.EditProductCommand;
 import presentation.commands.SelectProductCommand;
@@ -30,6 +31,7 @@ public abstract class Command {
         commands.put("editProduct", new EditProductCommand());
         commands.put("deleteProduct", new DeleteProductCommand());
         commands.put("selectCategory", new SelectCategoryCommand());
+        commands.put("deleteCategory", new DeleteCategoryCommand());
     }
   
   public static Command from(HttpServletRequest request) {

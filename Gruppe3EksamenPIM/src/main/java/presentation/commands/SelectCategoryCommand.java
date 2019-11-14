@@ -14,23 +14,31 @@ import presentation.Command;
  * @author andre
  */
 public class SelectCategoryCommand extends Command {
-    
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String nextJsp = null;
         String commandType = request.getParameter("submitButton");
-        int categoryChoice = Integer.parseInt(request.getParameter("categoryChoice"));
-        
-        if (commandType.equals("Edit Category")) {
-            nextJsp = "editCategory";
-        } else if (commandType.equals("Delete Category")) {
-            nextJsp = "deleteCategory";
-        }
+        String categoryChoiceString = request.getParameter("categoryChoice");
 
-        request.setAttribute("categoryID", categoryChoice);
+        if (categoryChoiceString != null) {
+
+            int categoryChoice = Integer.parseInt(categoryChoiceString);
+
+            if (commandType.equals("Edit Category")) {
+                nextJsp = "editCategory";
+            } else if (commandType.equals("Delete Category")) {
+                nextJsp = "deleteCategory";
+            }
+
+            request.setAttribute("categoryID", categoryChoice);
+        } else {
+            nextJsp = "viewAllCategories";
+            request.setAttribute("error", "No Category Selected!");
+        }
 
         return nextJsp;
     }
-    
+
 }

@@ -50,16 +50,21 @@
             <div id="myDIV" align="center"> 
             </div>
 
-            <p align="center">
+            <!--<p align="center">
                 Select Picture:
                 <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
             </p>
-            <br>
+            <br>-->
             <p align="center">
             Save the changes:
             <br>
              <input type="hidden" name="command" value="editProduct" />
              <input type="submit" value="Update"/></p>
+        </form>
+        <form action="FrontController" method="POST">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="viewAllProducts" />
+            <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
         <script>
             function newField() {
