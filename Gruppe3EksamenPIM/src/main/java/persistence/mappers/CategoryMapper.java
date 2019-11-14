@@ -21,14 +21,15 @@ import persistence.DB;
 public class CategoryMapper implements CategoryMapperInterface {
 
     @Override
-    public int addNewCategory(String categoryName, String categoryDescription) {
+    public int addNewCategory(Category category) {
 
-        int newCategoryID = 1;
+        int newCategoryID = selectMax("Category_ID", "Categories");
 
-        String sql = "INSERT INTO Categories (Category_Name, Category_Description) VALUES ('" + categoryName + "', '" + categoryDescription + "')";
+        String sql = "INSERT INTO Categories (Category_Name, Category_Description) VALUES ('" + category.getName() + "', '" + category.getDescription() + "')";
         DB.executeUpdate(sql);
 
-        sql = "SELECT Category_ID FROM Categories WHERE Category_Name = '" + categoryName + "' AND Category_Description = '" + categoryDescription + "'";
+        sql = "SELECT Category_ID FROM Categories WHERE Category_Name = '" + category.getName() + "' AND Category_Description = '" + category.getDescription() + "' "
+                + "AND Category_ID > " + newCategoryID;
         ResultSet rs = DB.executeQuery(sql);
 
         try {
@@ -63,4 +64,25 @@ public class CategoryMapper implements CategoryMapperInterface {
         }
         return categoryList;
     }
+
+    @Override
+    public void deleteCategory(int categoryID) {
+        String sql = "DELETE FROM Categories WHERE Category_ID = " + categoryID;
+        DB.executeUpdate(sql);
+    }
+    
+    private int selectMax(String search_Column, String search_Table) {
+        int maxInt = 1;
+        String sql = "SELECT MAX(" + search_Column + ") as Max FROM " + search_Table;
+        try {
+            ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
+            if (rs.next()) {
+                maxInt = rs.getInt("Max");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return maxInt;
+    }
+    
 }

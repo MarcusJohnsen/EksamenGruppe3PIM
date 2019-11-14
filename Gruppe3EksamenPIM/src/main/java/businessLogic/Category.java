@@ -35,7 +35,7 @@ public class Category {
     
     public static Category createNewCategory (String name, String description) {
         Category category = new Category (name, description);
-        int newCategoryID = categoryMapper.addNewCategory(name, description);
+        int newCategoryID = categoryMapper.addNewCategory(category);
         category.categoryID = newCategoryID;
         categoryList.add(category);
         return category;
@@ -52,6 +52,11 @@ public class Category {
             }
         }
         return null;
+    }
+    
+    public static boolean deleteCategory(int categoryID){
+        categoryMapper.deleteCategory(categoryID);
+        return categoryList.remove(findCategoryOnID(categoryID));
     }
     
     public static void emptyCategoryList() {
