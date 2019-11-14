@@ -9,6 +9,7 @@ import presentation.commands.DeleteProductCommand;
 import presentation.commands.EditProductCommand;
 import presentation.commands.SelectProductCommand;
 import presentation.commands.GoToJspCommand;
+import presentation.commands.SelectCategoryCommand;
 import presentation.commands.UnknownCommand;
 
 /**
@@ -28,6 +29,7 @@ public abstract class Command {
         commands.put("selectProduct", new SelectProductCommand());
         commands.put("editProduct", new EditProductCommand());
         commands.put("deleteProduct", new DeleteProductCommand());
+        commands.put("selectCategory", new SelectCategoryCommand());
     }
   
   public static Command from(HttpServletRequest request) {
