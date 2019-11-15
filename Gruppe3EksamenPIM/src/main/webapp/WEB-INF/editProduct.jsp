@@ -15,12 +15,12 @@
     </head>
     <body>
         <%
-            Product productList = Product.findProductOnID((int) request.getAttribute("productID"));
-            String ProductName = productList.getName();
-            String ProductDescription = productList.getDescription();
-            ArrayList<String> ProductDist = productList.getDistributors();
-            String picturePath = productList.getPicturePath();
-            int productID = productList.getProductID();
+            Product product = (Product) request.getAttribute("product");
+            String ProductName = product.getName();
+            String ProductDescription = product.getDescription();
+            ArrayList<String> ProductDist = product.getDistributors();
+            String picturePath = product.getPicturePath();
+            int productID = product.getProductID();
         %>
         <h1 align="center">Edit Product Information for product number <%=productID%></h1>
         <form action="FrontController">
@@ -56,10 +56,10 @@
             </p>
             <br>-->
             <p align="center">
-            Save the changes:
-            <br>
-             <input type="hidden" name="command" value="editProduct" />
-             <input type="submit" value="Update"/></p>
+                Save the changes:
+                <br>
+                <input type="hidden" name="command" value="editProduct" />
+                <input type="submit" value="Update"/></p>
         </form>
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="goToJsp" />

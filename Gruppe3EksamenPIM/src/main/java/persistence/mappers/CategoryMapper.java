@@ -6,9 +6,10 @@
 package persistence.mappers;
 
 import businessLogic.Category;
-import businessLogic.Product;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,71 +19,70 @@ import persistence.DB;
  *
  * @author Michael N. Korsgaard
  */
-public class CategoryMapper implements CategoryMapperInterface {
+public class CategoryMapper {
 
-    @Override
-    public int addNewCategory(Category category) {
+    private DB database;
 
-        int newCategoryID = selectMax("Category_ID", "Categories");
-
-        String sql = "INSERT INTO Categories (Category_Name, Category_Description) VALUES ('" + category.getName() + "', '" + category.getDescription() + "')";
-        DB.executeUpdate(sql);
-
-        sql = "SELECT Category_ID FROM Categories WHERE Category_Name = '" + category.getName() + "' AND Category_Description = '" + category.getDescription() + "' "
-                + "AND Category_ID > " + newCategoryID;
-        ResultSet rs = DB.executeQuery(sql);
-
-        try {
-            if (rs.next()) {
-                newCategoryID = rs.getInt("Category_ID");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return newCategoryID;
+    public CategoryMapper(DB database) {
+        this.database = database;
     }
-    
-    @Override
-    public ArrayList<Category> getCategories() {
-        //getting all the products from the database
-        ArrayList<Category> categoryList = new ArrayList();
 
-        String sql = "SELECT * FROM PIM_Database.Categories";
-
+    public Category addNewCategory(String categoryName, String categoryDescription) {
         try {
-            ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
+            String SQL = "INSERT INTO Categories (Category_Name, Category_Description) VALUES (?, ?)";
+            PreparedStatement ps = database.getConnection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, categoryName);
+            ps.setString(2, categoryDescription);
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt(1);
+
+            Category category = new Category(id, categoryName, categoryDescription);
+            return category;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Category cannot be inserted in the database");
+        }
+    }
+
+    public ArrayList<Category> getCategories() {
+        try {
+            ArrayList<Category> categoryList = new ArrayList();
+
+            String SQL = "SELECT * FROM Categories";
+            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int category_ID = rs.getInt("Category_ID");
                 String category_Name = rs.getString("Category_Name");
                 String category_Description = rs.getString("Category_Description");
-                Category category = new Category (category_ID, category_Name, category_Description);
+
+                Category category = new Category(category_ID, category_Name, category_Description);
                 categoryList.add(category);
             }
+            return categoryList;
+
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Can't get categories from Database");
         }
-        return categoryList;
     }
 
-    @Override
     public void deleteCategory(int categoryID) {
-        String sql = "DELETE FROM Categories WHERE Category_ID = " + categoryID;
-        DB.executeUpdate(sql);
-    }
-    
-    private int selectMax(String search_Column, String search_Table) {
-        int maxInt = 1;
-        String sql = "SELECT MAX(" + search_Column + ") as Max FROM " + search_Table;
         try {
-            ResultSet rs = DB.getConnection().prepareStatement(sql).executeQuery();
-            if (rs.next()) {
-                maxInt = rs.getInt("Max");
-            }
+            String SQL = "DELETE FROM Categories WHERE Category_ID = ?";
+            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, categoryID);
+            ps.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Can't delete selected category from DB");
         }
-        return maxInt;
     }
-    
+
 }

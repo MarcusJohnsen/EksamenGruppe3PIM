@@ -13,8 +13,8 @@
         <title>Delete Category</title>
     </head>
     <body>
-            <%
-            Category category = Category.findCategoryOnID((int) request.getAttribute("categoryID"));
+        <%
+            Category category = (Category) request.getAttribute("category");
             String categoryName = category.getName();
             int categoryID = category.getCategoryID();
         %>
@@ -35,6 +35,6 @@
             <input type="submit" value="Go Back" />
         </form>
     </center>
-        
-    </body>
+
+</body>
 </html>

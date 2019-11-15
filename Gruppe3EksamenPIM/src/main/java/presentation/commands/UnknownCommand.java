@@ -5,6 +5,7 @@
  */
 package presentation.commands;
 
+import businessLogic.BusinessFacade;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -17,7 +18,7 @@ public class UnknownCommand extends Command{
     
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String msg = "Unknown command. Contact IT";
         throw new IllegalArgumentException(msg);
     }

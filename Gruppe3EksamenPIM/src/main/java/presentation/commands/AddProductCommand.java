@@ -1,5 +1,6 @@
 package presentation.commands;
 
+import businessLogic.BusinessFacade;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +16,7 @@ import presentation.Command;
 public class AddProductCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
 
         String nextJsp = "uploadImage";
 
@@ -25,7 +26,7 @@ public class AddProductCommand extends Command {
         ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
 
         try {
-            Product newProduct = Product.createNewProduct(productName, productDescription, "", distributors);
+            Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributors);
             request.getSession().setAttribute("productID", newProduct.getProductID());
         } catch (IllegalArgumentException ex) {
             nextJsp = "newProduct";

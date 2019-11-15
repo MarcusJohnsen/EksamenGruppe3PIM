@@ -5,6 +5,7 @@
  */
 package presentation.commands;
 
+import businessLogic.BusinessFacade;
 import businessLogic.Product;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,16 +15,16 @@ import presentation.Command;
  *
  * @author Michael N. Korsgaard
  */
-public class DeleteProductCommand extends Command{
+public class DeleteProductCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String jspPage = "viewAllProducts";
         int productID = Integer.parseInt(request.getParameter("productID"));
-        
-        Product.deleteProductOnID(productID);
+
+        businessFacade.deleteProduct(productID);
 
         return jspPage;
     }
-    
+
 }

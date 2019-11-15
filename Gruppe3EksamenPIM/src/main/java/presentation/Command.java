@@ -1,5 +1,6 @@
 package presentation;
 
+import businessLogic.BusinessFacade;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,5 +43,5 @@ public abstract class Command {
         return commands.getOrDefault(commandName, new UnknownCommand());
         //return null;
     }
-    public abstract String execute(HttpServletRequest request, HttpServletResponse response);
+    public abstract String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade);
 }  

@@ -56,8 +56,9 @@ public class UploadServlet extends HttpServlet {
                 System.out.println(ex.getMessage());
             }
             if(picturePath != null){
+                FrontController.setup();
                 int productID = (int) request.getSession().getAttribute("productID");
-                Product.updatePicturePath(productID, picturePath);
+                FrontController.getBusinessFacade().updatePicturePath(productID, picturePath);
             }
         }
 

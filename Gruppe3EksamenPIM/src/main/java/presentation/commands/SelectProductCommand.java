@@ -1,5 +1,6 @@
 package presentation.commands;
 
+import businessLogic.BusinessFacade;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +11,7 @@ import presentation.Command;
 public class SelectProductCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
 
         String nextJsp = null;
         String commandType = request.getParameter("submitButton");
@@ -18,17 +19,21 @@ public class SelectProductCommand extends Command {
         if (productChoiceString != null) {
 
             int productChoice = Integer.parseInt(productChoiceString);
-            
+            Product product = businessFacade.getProductFromID(productChoice);
+
             if (commandType.equals("Edit Product")) {
                 nextJsp = "editProduct";
             } else if (commandType.equals("Delete Product")) {
                 nextJsp = "deleteProduct";
             }
-            
-            request.setAttribute("productID", productChoice);
+
+            request.setAttribute("product", product);
 
         } else {
+            ArrayList<Product> productList = businessFacade.getProductList();
+            request.setAttribute("productList", productList);
             nextJsp = "viewAllProducts";
+
             request.setAttribute("error", "No Product Selected!");
         }
 

@@ -1,5 +1,6 @@
 package presentation.commands;
 
+import businessLogic.BusinessFacade;
 import businessLogic.Category;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,13 +13,13 @@ import presentation.Command;
 public class AddCategoryCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "index";
 
         String categoryName = request.getParameter("Category Name");
         String categoryDescription = request.getParameter("Category Description");
         try {
-            Category newCategory = Category.createNewCategory(categoryName, categoryDescription);
+            Category newCategory = businessFacade.createNewCategory(categoryName, categoryDescription);
             request.getSession().setAttribute("categoryID", newCategory.getCategoryID());
         } catch (IllegalArgumentException ex) {
             nextJsp = "newCategory";

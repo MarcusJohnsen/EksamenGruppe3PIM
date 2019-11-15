@@ -1,15 +1,12 @@
 package businessLogic;
 
 import java.util.ArrayList;
-import persistence.mappers.CategoryMapperInterface;
 
 /**
  *
  * @author Marcus
  */
 public class Category {
-
-    private static CategoryMapperInterface categoryMapper;
 
     private int categoryID;
     private String name;
@@ -23,27 +20,12 @@ public class Category {
         this.description = description;
     }
 
-    private Category(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public static void setupCategoryListFromDB(ArrayList<Category> CategoryListFromDB) {
+        categoryList = CategoryListFromDB;
     }
 
-    public static void setCategoryMapper(CategoryMapperInterface newMapper) {
-        categoryMapper = newMapper;
-    }
-
-    public static Category createNewCategory(String name, String description) throws IllegalArgumentException {
-        Category category = new Category(name, description);
-
-        validateCategoryInput(category);
-        int newCategoryID = categoryMapper.addNewCategory(category);
-        category.categoryID = newCategoryID;
-        categoryList.add(category);
-        return category;
-    }
-
-    public static void setupCategoryListFromDB() {
-        categoryList = categoryMapper.getCategories();
+    public static void addToCategoryList(Category newCategory) {
+        categoryList.add(newCategory);
     }
 
     public static Category findCategoryOnID(int categoryID) {
@@ -56,29 +38,23 @@ public class Category {
     }
 
     public static boolean deleteCategory(int categoryID) {
-        categoryMapper.deleteCategory(categoryID);
         return categoryList.remove(findCategoryOnID(categoryID));
     }
 
-    public static boolean validateCategoryInput(Category category) throws IllegalArgumentException {
-
-        if (category.name.isEmpty()) {
+    public static boolean validateCategoryInput(String categoryName, String categoryDescription) throws IllegalArgumentException {
+        if (categoryName.isEmpty()) {
             throw new IllegalArgumentException("please fill out product-name field");
         }
-        if (category.description.isEmpty()) {
+        if (categoryDescription.isEmpty()) {
             throw new IllegalArgumentException("please fill out product-description field");
         }
 
         for (Category categoryInList : categoryList) {
-            if (category.name.equals(categoryInList.name)) {
+            if (categoryName.equals(categoryInList.name)) {
                 throw new IllegalArgumentException("name already in use");
             }
         }
         return true;
-    }
-
-    public static void emptyCategoryList() {
-        categoryList.clear();
     }
 
     public int getCategoryID() {

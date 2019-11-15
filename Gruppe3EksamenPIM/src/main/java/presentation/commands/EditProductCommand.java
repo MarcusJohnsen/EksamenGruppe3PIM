@@ -1,5 +1,6 @@
 package presentation.commands;
 
+import businessLogic.BusinessFacade;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import presentation.Command;
 public class EditProductCommand extends Command{
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "viewAllProducts";
         
         int productID = Integer.parseInt(request.getParameter("productID"));
@@ -22,7 +23,7 @@ public class EditProductCommand extends Command{
         String productDescription = request.getParameter("Product Description");
         ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
         
-        Product.editProduct(productID, productName, productDescription, distributors);
+        businessFacade.editProduct(productID, productName, productDescription, distributors);
         
         return nextJsp;
     }

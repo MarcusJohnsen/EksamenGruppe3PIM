@@ -14,7 +14,7 @@
     </head>
     <body>
         <%
-            Product product = Product.findProductOnID((int) request.getAttribute("productID"));
+            Product product = (Product) request.getAttribute("product");
             String productName = product.getName();
             int productID = product.getProductID();
         %>

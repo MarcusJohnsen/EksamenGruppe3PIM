@@ -5,18 +5,14 @@
  */
 package presentation;
 
-import businessLogic.Category;
-import businessLogic.Product;
+import businessLogic.BusinessFacade;
+import factory.SystemMode;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import persistence.mappers.CategoryMapper;
-import persistence.mappers.CategoryMapperInterface;
-import persistence.mappers.ProductMapper;
-import persistence.mappers.ProductMapperInterface;
 
 /**
  *
@@ -25,22 +21,22 @@ import persistence.mappers.ProductMapperInterface;
 @WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
 public class FrontController extends HttpServlet {
 
+    private static final SystemMode systemMode = SystemMode.PRODUCTION;
+    private static BusinessFacade businessFacade;
     private static boolean needSetup = true;
 
     public static void setup() {
         if (needSetup) {
-            ProductMapperInterface productMapper = new ProductMapper();
-            Product.setProductMapper(productMapper);
-            Product.setupProductListFromDB();
-            
-            CategoryMapperInterface categoryMapper = new CategoryMapper();
-            Category.setCategoryMapper(categoryMapper);
-            Category.setupCategoryListFromDB();
-            
+            businessFacade = new BusinessFacade(systemMode);
+            businessFacade.setupListsFromDB();
             needSetup = false;
         }
     }
 
+    public static BusinessFacade getBusinessFacade() {
+        return businessFacade;
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
@@ -51,10 +47,11 @@ public class FrontController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        setup();
+
         try {
+            setup();
             Command cmd = Command.from(request);
-            String view = cmd.execute(request, response);
+            String view = cmd.execute(request, response, businessFacade);
             if (view.equals("index")) {
                 request.getRequestDispatcher(view + ".jsp").forward(request, response);
             } else {
