@@ -34,7 +34,7 @@
         <form action="FrontController">
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="viewAllCategories" />
-            <p align="center"><input type="submit" value="View Category"/></p>
+            <p align="center"><input type="submit" value="View Categories"/></p>
         </form>
     </body>
 </html>
