@@ -53,6 +53,9 @@ public class Product {
     }
 
     public static boolean validateProductInput(String productName, String productDescription, ArrayList<String> productDistributors) throws IllegalArgumentException {
+        //Remove all empty fields from distributors
+        productDistributors.removeAll(Arrays.asList("", null));
+
         if (productName.isEmpty()) {
             throw new IllegalArgumentException("please fill out product-name field");
         }

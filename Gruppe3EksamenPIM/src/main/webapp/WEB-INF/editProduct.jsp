@@ -50,6 +50,13 @@
             <div id="myDIV" align="center"> 
             </div>
 
+            <%
+                String error = (String) request.getAttribute("error");
+                if (error != null) {
+            %>
+            <h2 align="center" style="color: red"><%=error%></h2>
+            <%}%>
+
             <!--<p align="center">
                 Select Picture:
                 <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>

@@ -1,27 +1,25 @@
 package presentation.commands;
 
 import businessLogic.BusinessFacade;
-import businessLogic.Category;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
 /**
  *
- * @author Marcus
+ * @author Michael
  */
-public class AddCategoryCommand extends Command {
+public class AddAttributeCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "index";
 
-        String categoryName = request.getParameter("Category Name");
-        String categoryDescription = request.getParameter("Category Description");
+        String attributeTitle = request.getParameter("attributeName");
         try {
-            businessFacade.createNewCategory(categoryName, categoryDescription);
+            businessFacade.createNewAttribute(attributeTitle);
         } catch (IllegalArgumentException ex) {
-            nextJsp = "newCategory";
+            nextJsp = "newAttribute";
             request.setAttribute("error", ex.getMessage());
         }
 
