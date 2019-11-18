@@ -88,10 +88,10 @@ public class BusinessFacade {
         return Product.findProductOnID(productID);
     }
 
-//    public Attribute createNewAttribute(String attributeTitle) throws IllegalArgumentException {
-//        Attribute.validateNewAttributeTitle(attributeTitle);
-//        Attribute newAttribute = storageFacade.addNewAttribute(attributeTitle);
-//        Attribute.addToAttributeList(newAttribute);
-//        return newAttribute;
-//    }
+    public Attribute createNewAttribute(String attributeTitle) throws IllegalArgumentException {
+        Attribute.validateNewAttributeTitle(attributeTitle);
+        Attribute newAttribute = storageFacade.addNewAttribute(attributeTitle);
+        Attribute.addToAttributeList(newAttribute);
+        return newAttribute;
+    }
 }

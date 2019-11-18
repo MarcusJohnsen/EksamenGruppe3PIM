@@ -15,9 +15,9 @@ public class AddAttributeCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "index";
 
-        String attributeTitle = request.getParameter("Attribute Name");
+        String attributeTitle = request.getParameter("attributeName");
         try {
-//            businessFacade.createNewAttribute(attributeTitle);
+            businessFacade.createNewAttribute(attributeTitle);
         } catch (IllegalArgumentException ex) {
             nextJsp = "newAttribute";
             request.setAttribute("error", ex.getMessage());

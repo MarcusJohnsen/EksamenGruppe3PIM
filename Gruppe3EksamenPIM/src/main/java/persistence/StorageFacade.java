@@ -5,11 +5,13 @@
  */
 package persistence;
 
+import businessLogic.Attribute;
 import businessLogic.Category;
 import businessLogic.Product;
 import factory.SystemMode;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import persistence.mappers.AttributeMapper;
 import persistence.mappers.CategoryMapper;
 import persistence.mappers.ProductMapper;
 
@@ -21,12 +23,14 @@ public class StorageFacade {
 
     private CategoryMapper categoryMapper;
     private ProductMapper productMapper;
+    private AttributeMapper attributeMapper;
     private DB database;
 
     public StorageFacade(SystemMode systemMode) {
         this.database = new DB(systemMode);
         this.categoryMapper = new CategoryMapper(database);
         this.productMapper = new ProductMapper(database);
+        this.attributeMapper = new AttributeMapper(database);
     }
 
     public DB getDatabase() {
@@ -63,6 +67,10 @@ public class StorageFacade {
 
     public void editProduct(Product product) {
         productMapper.editProduct(product);
+    }
+    
+    public Attribute addNewAttribute(String AttributeName) {
+        return attributeMapper.addNewAttribute(AttributeName);
     }
 
 }
