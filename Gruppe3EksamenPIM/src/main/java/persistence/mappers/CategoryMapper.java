@@ -43,7 +43,7 @@ public class CategoryMapper {
             return category;
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Category cannot be inserted in the database");
         }
     }
@@ -67,7 +67,7 @@ public class CategoryMapper {
             return categoryList;
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't get categories from Database");
         }
     }
@@ -80,7 +80,7 @@ public class CategoryMapper {
             return ps.executeUpdate();
 
         } catch (SQLException ex) {
-            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't delete selected category from DB");
         }
     }

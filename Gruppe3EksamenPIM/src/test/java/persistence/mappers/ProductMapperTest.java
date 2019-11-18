@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence.mappers;
 
 import businessLogic.Product;
@@ -19,17 +14,14 @@ import persistence.DB;
 
 /**
  *
- * @author Michael N. Korsgaard
+ * @author Marcus
  */
 public class ProductMapperTest {
     
     private static Connection testConnection;
     private final DB database = new DB(SystemMode.TEST);
     private final int numberOfProductsInDB = 3;
-    private final int numberOfProductDistributorsInDB = 6;
     private final int numberOfProductDistributorsForProductIDNr1InDB = 1;
-    private final int numberOfProductDistributorsForProductIDNr2InDB = 2;
-    private final int numberOfProductDistributorsForProductIDNr3InDB = 3;
     
     @Before
     public void setup() {
@@ -53,7 +45,7 @@ public class ProductMapperTest {
     
     @Test
     public void testSetUpOK() {
-        // Just check that we have a connection.
+        // checking that we have a connection.
         assertNotNull(testConnection);
     }
 
@@ -71,7 +63,26 @@ public class ProductMapperTest {
         //assert
         assertEquals(numberOfProductsInDB, result.size());
     }
+    
+    /**
+     * Negative Test of getProducts method, from class ProductMapper.<br>
+     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
+     * We will try to simulate this change by removing the Product table before running the test.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeGetProductsNoProductsTableInDB() {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Product");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Product");
+        }
+        ProductMapper instance = new ProductMapper(database);
 
+        //act
+        ArrayList<Product> result = instance.getProducts();
+    }
+    
     /**
      * Test of addNewProduct method, of class ProductMapper.
      */
@@ -98,6 +109,244 @@ public class ProductMapperTest {
     }
 
     /**
+     * Negative Test of addNewProduct method, of class ProductMapper.<br>
+     * Name field in DB is made to be not null, unique varchar(255).<br>
+     * Names with null value should throw an exception.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewProductNullName() {
+        //arrange
+        String productName = null;
+        String productDescription = "First new description";
+        String productPicturePath = "newProduct.img";
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+    }
+
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * Name field in DB is made to be not null, unique varchar(255).
+     * Therefore inserting exactly 255 characters does not crash it.
+     */
+    @Test
+    public void testAddNewProductNameLengthAtLimit() {
+        //arrange
+        String productName = "";
+        for (int i = 0; i < 255; i++) {
+            productName += "n";
+        }
+        String productDescription = "First new description";
+        String productPicturePath = "newProduct.img";
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        Product result = instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+
+        //assert
+        int expResultID = 4;
+        assertEquals(expResultID, result.getProductID());
+        assertTrue(productName.equals(result.getName()));
+        assertTrue(productDescription.equals(result.getDescription()));
+        assertTrue(productPicturePath.equals(result.getPicturePath()));
+        assertTrue(productDistributors.equals(result.getDistributors()));
+    }
+
+    /**
+     * Negative Test of addNewProduct method, of class ProductMapper.<br>
+     * Name field in DB is made to be not null, unique varchar(255).
+     * Names exceeding the 255 varchar limit should cause an exception to be thrown
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewProductNameLengthExceedLimit() {
+        //arrange
+        String productName = "";
+        for (int i = 0; i < 256; i++) {
+            productName += "n";
+        }
+        String productDescription = "First new description";
+        String productPicturePath = "newProduct.img";
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        Product result = instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+    }
+
+    /**
+     * Negative Test of addNewProduct method, of class ProductMapper.<br>
+     * Description field in DB is made to be not null, unique varchar(255).<br>
+     * Descriptions with null value should throw an exception.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewProductNullDescription() {
+        //arrange
+        String productName = "new product";
+        String productDescription = null;
+        String productPicturePath = "newProduct.img";
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+    }
+
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * Description field in DB is made to be not null, varchar(2550).
+     * Therefore adding exactly 2550 characters should not crash the program.
+     */
+    @Test
+    public void testAddNewProductDescriptionLengthAtLimit() {
+        //arrange
+        String productName = "new product";
+        String productDescription = "";
+        for (int i = 0; i < 2550; i++) {
+            productDescription += "n";
+        }
+        String productPicturePath = "newProduct.img";
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        Product result = instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+
+        //assert
+        int expResultID = 4;
+        assertEquals(expResultID, result.getProductID());
+        assertTrue(productName.equals(result.getName()));
+        assertTrue(productDescription.equals(result.getDescription()));
+        assertTrue(productPicturePath.equals(result.getPicturePath()));
+        assertTrue(productDistributors.equals(result.getDistributors()));
+    }
+
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * Description field in DB is made to be not null, varchar(2550).<br>
+     * Descriptions exceeding the 2550 varchar limit should cause an exception to be thrown
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewProductDescriptionLengthExceedLimit() {
+        //arrange
+        String productName = "new product";
+        String productDescription = "";
+        for (int i = 0; i < 2551; i++) {
+            productDescription += "n";
+        }
+        String productPicturePath = "newProduct.img";
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        Product result = instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+    }
+    
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * picturePath field in DB is made to be not null, varchar(100).
+     * Therefore adding exactly 100 characters should not crash the program.
+     */
+    @Test
+    public void testAddNewProductPicturePathLengthAtLimit() {
+        //arrange
+        String productName = "new product";
+        String productDescription = "First new description";
+        String productPicturePath = "";
+        for (int i = 0; i < 100; i++) {
+            productPicturePath += "n";
+        }
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        Product result = instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+
+        //assert
+        int expResultID = 4;
+        assertEquals(expResultID, result.getProductID());
+        assertTrue(productName.equals(result.getName()));
+        assertTrue(productDescription.equals(result.getDescription()));
+        assertTrue(productPicturePath.equals(result.getPicturePath()));
+        assertTrue(productDistributors.equals(result.getDistributors()));
+    }
+    
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * picturePath field in DB is made to be not null, varchar(100).<br>
+     * picturePaths exceeding the 100 varchar limit should cause an exception to be thrown.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void testAddNewProductPicturePathLengthExceedLimit() {
+        //arrange
+        String productName = "new product";
+        String productDescription = "First new description";
+        String productPicturePath = "";
+        for (int i = 0; i < 101; i++) {
+            productPicturePath += "n";
+        }
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        Product result = instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+    }
+    
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * DistributorName field in DB is made to be not null, varchar(255).
+     * Therefore adding exactly 255 characters should not crash the program.
+     */
+    @Test
+    public void testAddNewProductDistributorsAtLimit() {
+        //arrange
+        String productName = "new product";
+        String productDescription = "First new description";
+        String productPicturePath = "newProduct.img";
+        String productDistributor = "";
+        for (int i = 0; i < 255; i++) {
+            productDistributor += "n";
+        }
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{productDistributor}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        Product result = instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+
+        //assert
+        int expResultID = 4;
+        assertEquals(expResultID, result.getProductID());
+        assertTrue(productName.equals(result.getName()));
+        assertTrue(productDescription.equals(result.getDescription()));
+        assertTrue(productPicturePath.equals(result.getPicturePath()));
+        assertTrue(productDistributors.equals(result.getDistributors()));
+    }
+    
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * DistributorName field in DB is made to be not null, varchar(255).<br>
+     * DistributorName exceeding the 255 varchar limit should cause an exception to be thrown.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void testAddNewProductDistributorsExceedLimit() {
+        //arrange
+        String productName = "new product";
+        String productDescription = "First new description";
+        String productPicturePath = "newProduct.img";
+        String productDistributor = "";
+        for (int i = 0; i < 256; i++) {
+            productDistributor += "n";
+        }
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{productDistributor}));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        Product result = instance.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+    }
+    
+    /**
      * Test of updatePicturePath method, of class ProductMapper.
      */
     @Test
@@ -113,6 +362,25 @@ public class ProductMapperTest {
         //assert
         int expResult = 1;
         assertEquals(expResult, result);
+    }
+    
+    /**
+     * Negative test of updatePicturePath method, of class ProductMapper.
+     * Picturepath field in DB is made to be not null, varchar(100).<br>
+     * Picturepath exceeding the 100 varchar limit should cause an exception to be thrown.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestUpdatePicturePath() {
+        //arrange
+        int productID = 1;
+        String picturePath = "";
+        for (int i = 0; i < 101; i++) {
+            picturePath += "n";
+        }
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        int result = instance.updatePicturePath(productID, picturePath);
     }
 
     /**
@@ -131,7 +399,27 @@ public class ProductMapperTest {
         int expResult = 1;
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Negative test of deleteProduct method, from class ProductMapper.<br>
+     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
+     * We will try to simulate this change by removing the Product table before running the test.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestDeleteProduct() {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Product");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Product");
+        }
+        int productID = 1;
+        ProductMapper instance = new ProductMapper(database);
 
+        //act
+        int result = instance.deleteProduct(productID);
+    }
+    
     /**
      * Test of editProduct method, of class ProductMapper.
      */
@@ -148,6 +436,27 @@ public class ProductMapperTest {
         int expResult = 1;
         assertEquals(expResult, result);
     }
+    
+    /**
+     * Negative test of editProduct method, of class ProductMapper.<br>
+     * Description field in DB is made to be not null, varchar(2550).<br>
+     * Description exceeding the 2550 varchar limit should cause an exception to be thrown.<br>
+     * It's also worth noting that the edit could've also crashed by exceeding the character limit in "Name", "picturePath", "Distributors" or by an ID that doesn't exist.<br>
+     * Showing every single option would've been an overkill and description was therefore chosen.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestEditProduct() {
+        //arrange
+        String productDescription = "";
+        for (int i = 0; i < 2551; i++) {
+            productDescription += "n";
+        }
+        Product product = new Product(1, "newTitle", productDescription, "newPic.img", new ArrayList(Arrays.asList(new String[]{"dist. nr. 1", "dist. nr. 2", "dist. nr. 3"})));
+        ProductMapper instance = new ProductMapper(database);
+
+        //act
+        int result = instance.editProduct(product);
+    }
 
     /**
      * Test of getProductDistributors method, of class ProductMapper.
@@ -163,6 +472,26 @@ public class ProductMapperTest {
 
         //assert
         assertEquals(numberOfProductDistributorsForProductIDNr1InDB, result.size());
+    }
+    
+    /**
+     * Negative test of getProductDistributors method, of class ProductMapper.
+     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
+     * We will try to simulate this change by removing the Product_Distributor table before running the test.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestGetProductDistributors() {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Product_Distributor");
+        }
+        int productID = 1;
+        ProductMapper instance = new ProductMapper(database);
+        
+        //act
+        ArrayList<String> result = instance.getProductDistributors(productID);
     }
 
     /**
@@ -182,7 +511,27 @@ public class ProductMapperTest {
         int expResult = productDistributors.size();
         assertEquals(expResult, result);
     }
-
+    
+    /**
+     * Negative test of addProductDistributors method, of class ProductMapper.
+     * productDistributor field in DB is made to be not null, varchar(255).<br>
+     * productDistributor exceeding the 255 varchar limit should cause an exception to be thrown.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestAddProductDistributors() {
+        //arrange
+        String productDistributor = "";
+        for (int i = 0; i < 256; i++) {
+            productDistributor += "n";
+        }
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{productDistributor}));
+        int productID = 1;
+        ProductMapper instance = new ProductMapper(database);
+        
+        //act
+        int result = instance.addProductDistributors(productDistributors, productID);
+    }
+    
     /**
      * Test of deleteProductDistributors method, of class ProductMapper.
      */
@@ -199,4 +548,23 @@ public class ProductMapperTest {
         assertEquals(numberOfProductDistributorsForProductIDNr1InDB, result);
     }
     
+    /**
+     * Negative test of deleteProductDistributors method, of class ProductMapper.
+     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
+     * We will try to simulate this change by removing the Product_Distributor table before running the test.
+     */
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestDeleteProductDistributors() {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Product_Distributor");
+        }
+        int productID = 1;
+        ProductMapper instance = new ProductMapper(database);
+        
+        //act
+        int result = instance.deleteProductDistributors(productID);
+    }
 }
