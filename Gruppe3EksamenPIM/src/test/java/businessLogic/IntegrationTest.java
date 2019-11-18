@@ -165,4 +165,21 @@ public class IntegrationTest {
         assertTrue(picturePath.equals(result.getPicturePath()));
         
     }
+    
+    @Test
+    public void testGetCategoryFromID() {
+        //arrange
+        int categoryID = 5;
+        String categoryName = "Landscaping";
+        String categoryDist = "For landscaping in garden";
+        Category category = new Category(categoryID, categoryName, categoryDist);
+        Category.addToCategoryList(category);
+        
+        //act
+        Category result = businessFacade.getCategoryFromID(categoryID);
+        
+        //assert
+        assertTrue(categoryName.equals(result.getName()));
+        assertTrue(categoryDist.equals(result.getDescription()));
+    }
 }
