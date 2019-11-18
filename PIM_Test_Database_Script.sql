@@ -23,3 +23,11 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (3,'Mr. Tester'),
     (3,'Miss. Tester');
     
+    CREATE TABLE Fake_PIM_Database.Attributes_Test like PIM_Database.Attributes;
+    INSERT INTO Attributes_Test (Attribute_ID, Attribute_Name) VALUES
+    (1,'Size'),
+    (2,'Color'),
+    (3,'Height'),
+    (4,'Weight'),
+    (5,'Length');
+    
