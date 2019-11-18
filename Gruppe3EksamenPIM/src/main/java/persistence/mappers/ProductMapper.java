@@ -70,13 +70,13 @@ public class ProductMapper {
 
     }
 
-    public void updatePicturePath(int productID, String picturePath) {
+    public int updatePicturePath(int productID, String picturePath) {
         try {
             String SQL = "UPDATE Product SET picturePath = ? WHERE product_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setString(1, picturePath);
             ps.setInt(2, productID);
-            ps.executeUpdate();
+            return ps.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
@@ -84,7 +84,7 @@ public class ProductMapper {
         }
     }
 
-    public void deleteProduct(int productID) {
+    public int deleteProduct(int productID) {
         //Delete all distributers for product in Product_distributers table
         deleteProductDistributors(productID);
 
@@ -92,7 +92,7 @@ public class ProductMapper {
             String SQL = "DELETE FROM Product WHERE product_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, productID);
-            ps.executeUpdate();
+            return ps.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,7 +101,7 @@ public class ProductMapper {
 
     }
 
-    public void editProduct(Product product) {
+    public int editProduct(Product product) {
         try {
             //Update product in product table
             String SQL = "UPDATE Product SET Product_Name = ?, Product_Description = ? WHERE product_ID = ?";
@@ -109,18 +109,21 @@ public class ProductMapper {
             ps.setString(1, product.getName());
             ps.setString(2, product.getDescription());
             ps.setInt(3, product.getProductID());
-            ps.executeUpdate();
+            int result = ps.executeUpdate();
+
+            //Delete all old distributers for product in Product_distributers table
+            deleteProductDistributors(product.getProductID());
+
+            //Insert all new distributers for product in Product_distributers table
+            addProductDistributors(product.getDistributors(), product.getProductID());
+            
+            return result;
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't update product in database");
         }
 
-        //Delete all old distributers for product in Product_distributers table
-        deleteProductDistributors(product.getProductID());
-
-        //Insert all new distributers for product in Product_distributers table
-        addProductDistributors(product.getDistributors(), product.getProductID());
     }
 
     public ArrayList<String> getProductDistributors(int product_ID) {
@@ -142,7 +145,7 @@ public class ProductMapper {
 
     }
 
-    public void addProductDistributors(ArrayList<String> productDistributors, int productID) {
+    public int addProductDistributors(ArrayList<String> productDistributors, int productID) {
         try {
             String SQL = "INSERT INTO Product_Distributor (Product_ID, Product_Distributor_Name) VALUES ";
             boolean firstline = true;
@@ -154,19 +157,19 @@ public class ProductMapper {
                 }
                 SQL += "(" + productID + ", '" + distributor + "')";
             }
-            database.getConnection().prepareStatement(SQL).executeUpdate();
+            return database.getConnection().prepareStatement(SQL).executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't add distributers to productID " + productID);
         }
     }
 
-    public void deleteProductDistributors(int productID) {
+    public int deleteProductDistributors(int productID) {
         try {
             String SQL = "DELETE FROM Product_Distributor WHERE product_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, productID);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't delete distributors for productID " + productID);

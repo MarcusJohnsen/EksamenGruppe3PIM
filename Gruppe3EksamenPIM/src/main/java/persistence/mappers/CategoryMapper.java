@@ -72,12 +72,12 @@ public class CategoryMapper {
         }
     }
 
-    public void deleteCategory(int categoryID) {
+    public int deleteCategory(int categoryID) {
         try {
             String SQL = "DELETE FROM Categories WHERE Category_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, categoryID);
-            ps.executeUpdate();
+            return ps.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
