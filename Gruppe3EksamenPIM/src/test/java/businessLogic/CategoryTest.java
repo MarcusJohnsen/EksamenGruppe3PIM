@@ -59,15 +59,27 @@ public class CategoryTest {
         String categoryDescription1 = "spark til den";
         String categoryName2 = "bold";
         String categoryDescription2 = "kast den";
-    
-        //act
         Category result = new Category (categoryID1, categoryName1, categoryDescription1);
         Category.addToCategoryList(result);
+    
+        //act
         Category.validateCategoryInput(categoryName2, categoryDescription2);
     }
     
     @Test
-    public void negativeTestFindCategoryOnID() {
+    public void negativeTestFindCategoryOnIDNull() {
+        //arrange
+        int categoryID = 1;
+        String categoryName = "kæledyr";
+        String categoryDescription = "ting til kæledyr";
+        Category category = new Category (categoryID, categoryName, categoryDescription);
+        Category.addToCategoryList(category);
+        
+        //act
+        Category result = Category.findCategoryOnID(5);
+        
+        //assert
+        assertNull(result);
         
     }
 }
