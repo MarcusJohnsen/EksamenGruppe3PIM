@@ -44,9 +44,6 @@ public class BusinessFacade {
     }
 
     public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributors) {
-        //Remove all empty fields from distributors
-        productDistributors.removeAll(Arrays.asList("", null));
-
         validateProductInput(productName, productDescription, productDistributors);
         Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
         Product.addToProductList(newProduct);
@@ -58,10 +55,8 @@ public class BusinessFacade {
         return Product.deleteProductOnID(productID);
     }
 
-    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributors) {
-        //Remove all empty fields from distributors
-        productDistributors.removeAll(Arrays.asList("", null));
-
+    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributors) throws IllegalArgumentException {
+        validateProductInput(productName, productDescription, productDistributors);
         Product product = findProductOnID(productID);
         product.editProduct(productName, productDescription, productDistributors);
         storageFacade.editProduct(product);
@@ -92,4 +87,11 @@ public class BusinessFacade {
     public Product getProductFromID(int productID) {
         return Product.findProductOnID(productID);
     }
+
+//    public Attribute createNewAttribute(String attributeTitle) throws IllegalArgumentException {
+//        Attribute.validateNewAttributeTitle(attributeTitle);
+//        Attribute newAttribute = storageFacade.addNewAttribute(attributeTitle);
+//        Attribute.addToAttributeList(newAttribute);
+//        return newAttribute;
+//    }
 }
