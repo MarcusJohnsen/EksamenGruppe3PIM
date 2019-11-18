@@ -12,19 +12,26 @@ import presentation.Command;
  *
  * @author Michael N. Korsgaard
  */
-public class EditProductCommand extends Command{
+public class EditProductCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "viewAllProducts";
-        
+
         int productID = Integer.parseInt(request.getParameter("productID"));
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
         ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
-        
-        businessFacade.editProduct(productID, productName, productDescription, distributors);
-        
+
+        try {
+            businessFacade.editProduct(productID, productName, productDescription, distributors);
+        } catch (IllegalArgumentException ex) {
+            nextJsp = "editProduct";
+            request.setAttribute("error", ex.getMessage());
+            
+            Product product = businessFacade.getProductFromID(productID);
+            request.setAttribute("product", product);
+        }
         return nextJsp;
     }
 }
