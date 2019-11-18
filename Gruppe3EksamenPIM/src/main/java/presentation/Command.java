@@ -4,6 +4,7 @@ import businessLogic.BusinessFacade;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import presentation.commands.AddAttributeCommand;
 import presentation.commands.AddCategoryCommand;
 import presentation.commands.AddProductCommand;
 import presentation.commands.DeleteCategoryCommand;
@@ -27,6 +28,7 @@ public abstract class Command {
         commands = new HashMap<>();
         commands.put("addProduct", new AddProductCommand());
         commands.put("addCategory", new AddCategoryCommand());
+        commands.put("addAttribute", new AddAttributeCommand());
         commands.put("goToJsp", new GoToJspCommand());
         commands.put("selectProduct", new SelectProductCommand());
         commands.put("editProduct", new EditProductCommand());
