@@ -12,7 +12,6 @@ DROP DATABASE IF EXISTS PIM_Database;
 	CREATE TABLE Attributes(
     Attribute_ID int unique auto_increment not null,
 	Attribute_Name varchar(255) not null,
-    Attribute_Description varchar(2550) not null,
 	primary key(Attribute_ID)
 	);
     
