@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -62,15 +64,150 @@ public class CategoryMapperTest {
         String categoryName = "New Category";
         String categoryDescription = "This is a new category";
         CategoryMapper instance = new CategoryMapper(database);
-        
+
         //act
         Category result = instance.addNewCategory(categoryName, categoryDescription);
-        
+
         //assert
         int expResultID = 4;
         assertEquals(expResultID, result.getCategoryID());
         assertTrue(categoryName.equals(result.getName()));
         assertTrue(categoryDescription.equals(result.getDescription()));
+    }
+
+    /**
+     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
+     * Name is unique, so Category Mapper should throw IllegalArgumentException if dublicate name is attempted to be uploaded to DB
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewCategoryDublicateName() {
+        //arrange
+        String categoryName = "New Category";
+        String categoryDescriptionNr1 = "First new description";
+        String categoryDescriptionNr2 = "Second new description";
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        instance.addNewCategory(categoryName, categoryDescriptionNr1);
+        instance.addNewCategory(categoryName, categoryDescriptionNr2);
+    }
+
+    /**
+     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
+     * Name field in DB is made to be not null, uniqie varchar(255).<br>
+     * Names with null value should throw an exception.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewCategoryNullName() {
+        //arrange
+        String categoryName = null;
+        String categoryDescription = "new description";
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        instance.addNewCategory(categoryName, categoryDescription);
+    }
+
+    /**
+     * Test of addNewCategory method, of class CategoryMapper.<br>
+     * Name field in DB is made to be not null, uniqie varchar(255).
+     */
+    @Test
+    public void testAddNewCategoryNameLengthAtLimit() {
+        //arrange
+        String categoryName = "";
+        for (int i = 0; i < 255; i++) {
+            categoryName += "n";
+        }
+        String categoryDescription = "new description";
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        Category result = instance.addNewCategory(categoryName, categoryDescription);
+
+        //assert
+        int expResultID = 4;
+        assertEquals(expResultID, result.getCategoryID());
+        assertTrue(categoryName.equals(result.getName()));
+        assertTrue(categoryDescription.equals(result.getDescription()));
+    }
+
+    /**
+     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
+     * Name field in DB is made to be not null, uniqie varchar(255).<br>
+     * Names exceeding the 255 varchar limit should cause an exception to be thrown
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewCategoryNameLengthExceedLimit() {
+        //arrange
+        String categoryName = "";
+        for (int i = 0; i < 256; i++) {
+            categoryName += "n";
+        }
+        String categoryDescription = "new description";
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        instance.addNewCategory(categoryName, categoryDescription);
+    }
+
+    /**
+     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
+     * Description field in DB is made to be not null, varchar(2550).<br>
+     * Descriptions with null value should throw an exception.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewCategoryNullDesciption() {
+        //arrange
+        String categoryName = "New Category";
+        String categoryDescription = null;
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        instance.addNewCategory(categoryName, categoryDescription);
+    }
+
+    /**
+     * Test of addNewCategory method, of class CategoryMapper.<br>
+     * Description field in DB is made to be not null, varchar(2550).
+     */
+    @Test
+    public void testAddNewCategoryDesciptionLengthAtLimit() {
+        //arrange
+        String categoryName = "New Category";
+        String categoryDescription = "";
+        for (int i = 0; i < 2550; i++) {
+            categoryDescription += "n";
+        }
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        Category result = instance.addNewCategory(categoryName, categoryDescription);
+
+        //assert
+        int expResultID = 4;
+        assertEquals(expResultID, result.getCategoryID());
+        assertTrue(categoryName.equals(result.getName()));
+        assertTrue(categoryDescription.equals(result.getDescription()));
+    }
+
+    /**
+     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
+     * Description field in DB is made to be not null, varchar(2550).<br>
+     * Descriptions exceeding the 2550 varchar limit should cause an exception to be thrown
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAddNewCategoryDesciptionLengthExceedLimit() {
+        //arrange
+        String categoryName = "New Category";
+        String categoryDescription = "";
+        for (int i = 0; i < 2551; i++) {
+            categoryDescription += "n";
+        }
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        instance.addNewCategory(categoryName, categoryDescription);
     }
 
     /**
@@ -80,12 +217,32 @@ public class CategoryMapperTest {
     public void testGetCategories() {
         //arrange
         CategoryMapper instance = new CategoryMapper(database);
-        
+
         //act
         ArrayList<Category> result = instance.getCategories();
-        
+
         //assert
         assertEquals(numberOfCategoriesInDB, result.size());
+    }
+
+    /**
+     * Negative Test of getCategories method, of class CategoryMapper.<br>
+     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
+     * We will try to simulate this change by removing the Categories table before running the test.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeGetCategoriesNoCategoriesTableInDB() {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Categories");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Categories");
+        }
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        ArrayList<Category> result = instance.getCategories();
+
     }
 
     /**
@@ -95,10 +252,51 @@ public class CategoryMapperTest {
     public void testDeleteCategory() {
         int categoryID = 1;
         CategoryMapper instance = new CategoryMapper(database);
-        
+
         //act
         int result = instance.deleteCategory(categoryID);
-        
+
+        //assert
+        int expResult = 1;
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Negative Test of deleteCategory method, of class CategoryMapper.<br>
+     * If given an ID that does not match an CategoryID in the DB, it will affect 0 rows, and should therefore return 0.
+     */
+    @Test
+    public void testNegativeDeleteCategoryNoMatchingID() {
+        int categoryID = 0;
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        int result = instance.deleteCategory(categoryID);
+
+        //assert
+        int expResult = 0;
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Negative Test of deleteCategory method, of class CategoryMapper.<br>
+     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
+     * We will try to simulate this change by removing the Categories table before running the test.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeDeleteCategoryNoCategoriesTableInDB() {
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Categories");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Categories");
+        }
+
+        int categoryID = 1;
+        CategoryMapper instance = new CategoryMapper(database);
+
+        //act
+        int result = instance.deleteCategory(categoryID);
+
         //assert
         int expResult = 1;
         assertEquals(expResult, result);
