@@ -78,4 +78,8 @@ public class Attribute {
         return attributeTitle;
     }
     
+    public HashMap<Integer, String> getAttributeValues() {
+        return attributeValues;
+    }
+    
 }
