@@ -7,17 +7,15 @@ package presentation.commands;
 
 import businessLogic.BusinessFacade;
 import businessLogic.Category;
-import businessLogic.Product;
-import java.util.ArrayList;
-import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import presentation.Command;
 
 /**
  *
  * @author Andreas
  */
-public class EditCategoryCommand {
+public class EditCategoryCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "viewAllCategory";
@@ -29,7 +27,7 @@ public class EditCategoryCommand {
         try {
             businessFacade.editCategory(categoryID, categoryName, categoryDescription);
         } catch (IllegalArgumentException ex) {
-            nextJsp = "editProduct";
+            nextJsp = "editCategory";
             request.setAttribute("error", ex.getMessage());
             
             Category category = businessFacade.getCategoryFromID(categoryID);
