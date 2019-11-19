@@ -48,6 +48,10 @@ public class StorageFacade {
     public ArrayList<Category> getCategories() {
         return categoryMapper.getCategories();
     }
+    
+    public ArrayList<Attribute> getAttributes() {
+        return attributeMapper.getAttributes();
+    }
 
     public void deleteCategory(int categoryID) {
         categoryMapper.deleteCategory(categoryID);

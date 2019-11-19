@@ -41,8 +41,7 @@
                 <input type="submit" value="Update"/></p>
         </form>
         <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="addAttributeToCategory" />
+            <input type="hidden" name="command" value="selectAttributesForCategory" />
             <p align="center"><input type="submit" value="Add attribute to category" /></p>
         </form>     
         <form action="FrontController" method="POST">

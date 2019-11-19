@@ -25,6 +25,10 @@ public class Attribute {
         this.attributeValues = attributeValues;
     }
     
+    public static void setupAttributeListFromDB(ArrayList<Attribute> AttributeListFromDB) {
+        attributeList = AttributeListFromDB;
+    }
+    
     public static Attribute findAttributeOnID(int attributeID){
         for (Attribute attribute : attributeList) {
             if(attribute.getAttributeID() == attributeID){
