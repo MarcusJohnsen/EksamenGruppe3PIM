@@ -40,6 +40,11 @@ public class Category {
     public static boolean deleteCategory(int categoryID) {
         return categoryList.remove(findCategoryOnID(categoryID));
     }
+    
+    public void editProduct(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
     public static boolean validateCategoryInput(String categoryName, String categoryDescription) throws IllegalArgumentException {
         if (categoryName.isEmpty()) {
@@ -56,7 +61,7 @@ public class Category {
         }
         return true;
     }
-
+    
     public int getCategoryID() {
         return categoryID;
     }

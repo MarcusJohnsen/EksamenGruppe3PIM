@@ -6,6 +6,7 @@
 package persistence.mappers;
 
 import businessLogic.Category;
+import businessLogic.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -84,5 +85,21 @@ public class CategoryMapper {
             throw new IllegalArgumentException("Can't delete selected category from DB");
         }
     }
+    
+    public int editCategory(Category category) {
+        try {
+            //Update category in category table
+            String SQL = "UPDATE Categories SET Category_Name = ?, Category_Description = ? WHERE Category_ID = ?";
+            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setString(1, category.getName());
+            ps.setString(2, category.getDescription());
+            ps.setInt(3, category.getCategoryID());
+            int result = ps.executeUpdate();
+            return result;
 
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Can't update category in database");
+        }
+    }
 }
