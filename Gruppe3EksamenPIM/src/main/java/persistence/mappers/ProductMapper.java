@@ -1,11 +1,13 @@
 package persistence.mappers;
 
+import businessLogic.Category;
 import businessLogic.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
@@ -22,18 +24,36 @@ public class ProductMapper {
         this.database = database;
     }
 
-    public ArrayList<Product> getProducts() {
+    public ArrayList<Product> getProducts(ArrayList<Category> categoryList) {
         try {
             ArrayList<Product> productList = new ArrayList();
-            String SQL = "SELECT * FROM Product";
+            HashMap<Integer, ArrayList<Category>> productCategoriesMap = new HashMap();
+
+            String SQL = "SELECT * FROM Product_Categories";
             ResultSet rs = database.getConnection().prepareStatement(SQL).executeQuery();
+            while (rs.next()) {
+                int productID = rs.getInt("Product_ID");
+                if (productCategoriesMap.get(productID) == null) {
+                    productCategoriesMap.put(productID, new ArrayList());
+                }
+                int categoryID = rs.getInt("Category_ID");
+                for (Category category : categoryList) {
+                    if (category.getCategoryID() == categoryID) {
+                        productCategoriesMap.get(productID).add(category);
+                    }
+                }
+            }
+
+            SQL = "SELECT * FROM Product";
+            rs = database.getConnection().prepareStatement(SQL).executeQuery();
             while (rs.next()) {
                 int product_ID = rs.getInt("Product_ID");
                 String name = rs.getString("Product_Name");
                 String description = rs.getString("Product_Description");
                 String picturePath = rs.getString("picturePath");
                 ArrayList<String> distributors = getProductDistributors(product_ID);
-                Product product = new Product(product_ID, name, description, picturePath, distributors);
+                ArrayList<Category> productCategories = productCategoriesMap.get(product_ID);
+                Product product = new Product(product_ID, name, description, picturePath, distributors, productCategories);
                 productList.add(product);
             }
             return productList;
@@ -60,7 +80,8 @@ public class ProductMapper {
 
             addProductDistributors(productDistributors, newProductID);
 
-            Product newProduct = new Product(newProductID, productName, productDescription, productPicturePath, productDistributors);
+            ArrayList<Category> productCategories = new ArrayList();
+            Product newProduct = new Product(newProductID, productName, productDescription, productPicturePath, productDistributors, productCategories);
             return newProduct;
 
         } catch (SQLException ex) {
@@ -116,7 +137,7 @@ public class ProductMapper {
 
             //Insert all new distributers for product in Product_distributers table
             addProductDistributors(product.getDistributors(), product.getProductID());
-            
+
             return result;
 
         } catch (SQLException ex) {

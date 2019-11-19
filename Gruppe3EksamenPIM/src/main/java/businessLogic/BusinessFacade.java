@@ -27,8 +27,10 @@ public class BusinessFacade {
     }
 
     public void setupListsFromDB() {
-        Product.setupProductListFromDB(storageFacade.getProducts());
-        Category.setupCategoryListFromDB(storageFacade.getCategories());
+        ArrayList<Category> categoryList = storageFacade.getCategories();
+        ArrayList<Product> productList = storageFacade.getProducts(categoryList);
+        Category.setupCategoryListFromDB(categoryList);
+        Product.setupProductListFromDB(productList);
     }
 
     public Category createNewCategory(String categoryName, String categoryDescription) throws IllegalArgumentException {

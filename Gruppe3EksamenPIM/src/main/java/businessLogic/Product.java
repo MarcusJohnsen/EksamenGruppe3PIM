@@ -14,15 +14,17 @@ public class Product {
     private String description;
     private String picturePath;
     private ArrayList<String> distributors;
+    ArrayList<Category> productCategories;
 
     private static ArrayList<Product> productList = new ArrayList();
 
-    public Product(int productID, String name, String description, String picturePath, ArrayList<String> distributors) {
+    public Product(int productID, String name, String description, String picturePath, ArrayList<String> distributors, ArrayList<Category> productCategories) {
         this.productID = productID;
         this.name = name;
         this.description = description;
         this.picturePath = picturePath;
         this.distributors = distributors;
+        this.productCategories = productCategories;
     }
 
     public static void setupProductListFromDB(ArrayList<Product> productListFromDB) {
@@ -96,4 +98,9 @@ public class Product {
     public void setPicturePath(String picturePath) {
         this.picturePath = picturePath;
     }
+
+    public ArrayList<Category> getProductCategories() {
+        return productCategories;
+    }
+    
 }

@@ -50,6 +50,7 @@ public class CategoryMapperTest {
     public void testSetUpOK() {
         // Just check that we have a connection.
         assertNotNull(testConnection);
+        
     }
 
     public CategoryMapperTest() {
