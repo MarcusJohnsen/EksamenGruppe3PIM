@@ -46,7 +46,7 @@ public class BusinessFacade {
     public void editCategory(int categoryID, String categoryName, String categoryDescription) throws IllegalArgumentException {
         validateCategoryInput(categoryName, categoryDescription);
         Category category = findCategoryOnID(categoryID);
-        category.editProduct(categoryName, categoryDescription);
+        category.editCategory(categoryName, categoryDescription);
         storageFacade.editCategory(category);
     }
 
