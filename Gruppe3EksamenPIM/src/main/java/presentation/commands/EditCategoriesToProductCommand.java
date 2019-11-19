@@ -22,7 +22,14 @@ public class EditCategoriesToProductCommand extends Command{
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "editProduct";
-        ArrayList<String> categoryChoices = new ArrayList(Arrays.asList(request.getParameterValues("categoryChoices")));
+        ArrayList<String> categoryChoices;
+        
+        if(request.getParameterValues("categoryChoices") != null){
+            categoryChoices = new ArrayList(Arrays.asList(request.getParameterValues("categoryChoices")));
+        } else {
+            categoryChoices = new ArrayList();
+        }
+        
         Product product = businessFacade.getProductFromID(Integer.parseInt(request.getParameter("productID")));
         
         businessFacade.editCategoriesToProduct(product, categoryChoices);
@@ -30,5 +37,4 @@ public class EditCategoriesToProductCommand extends Command{
         request.setAttribute("product", product);
         return nextJsp;
     }
-    
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businessLogic;
 
 import factory.SystemMode;
@@ -11,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -20,8 +14,7 @@ import static org.junit.Assert.*;
  *
  * @author Michael N. Korsgaard
  */
-public class IntegrationTest {
-
+ public class IntegrationTest {
     private static Connection testConnection;
     private final BusinessFacade businessFacade = new BusinessFacade(SystemMode.TEST);
 
@@ -50,6 +43,10 @@ public class IntegrationTest {
                 stmt.execute("drop table if exists Product_Categories");
                 stmt.execute("create table Product_Categories like Product_Categories_Test");
                 stmt.execute("insert into Product_Categories select * from Product_Categories_Test");
+                
+                stmt.execute("drop table if exists Category_Attributes");
+                stmt.execute("create table Category_Attributes like Category_Attributes_Test");
+                stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
                 businessFacade.setupListsFromDB();
             }
 
@@ -181,7 +178,8 @@ public class IntegrationTest {
         int categoryID = 5;
         String categoryName = "Landscaping";
         String categoryDist = "For landscaping in garden";
-        Category category = new Category(categoryID, categoryName, categoryDist);
+        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        Category category = new Category(categoryID, categoryName, categoryDist, categoryAttributes);
         Category.addToCategoryList(category);
 
         //act
@@ -228,7 +226,6 @@ public class IntegrationTest {
         
         
     }
-    
     
     
     }

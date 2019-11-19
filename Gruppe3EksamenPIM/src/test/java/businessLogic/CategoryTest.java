@@ -1,5 +1,6 @@
 package businessLogic;
 
+import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -21,9 +22,10 @@ public class CategoryTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
+        ArrayList<Attribute> categoryAttributes = new ArrayList();
     
         //act
-        Category result = new Category (categoryID, categoryName, categoryDescription);
+        Category result = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
     
         //assert
         assertEquals(categoryID, result.getCategoryID());
@@ -57,9 +59,10 @@ public class CategoryTest {
         int categoryID1 = 1;
         String categoryName1 = "bold";
         String categoryDescription1 = "spark til den";
+        ArrayList<Attribute> categoryAttributes = new ArrayList();
         String categoryName2 = "bold";
         String categoryDescription2 = "kast den";
-        Category result = new Category (categoryID1, categoryName1, categoryDescription1);
+        Category result = new Category (categoryID1, categoryName1, categoryDescription1, categoryAttributes);
         Category.addToCategoryList(result);
     
         //act
@@ -72,7 +75,8 @@ public class CategoryTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
-        Category category = new Category (categoryID, categoryName, categoryDescription);
+        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
         Category.addToCategoryList(category);
         
         //act

@@ -13,11 +13,17 @@ public class Category {
     private String description;
 
     private static ArrayList<Category> categoryList = new ArrayList();
+    ArrayList<Attribute> categoryAttributes;
 
-    public Category(int categoryID, String name, String description) {
+    public Category(int categoryID, String name, String description, ArrayList<Attribute> categoryAttributes) {
         this.categoryID = categoryID;
         this.name = name;
         this.description = description;
+        if (categoryAttributes != null) {
+            this.categoryAttributes = categoryAttributes;
+        } else {
+            this.categoryAttributes = new ArrayList();
+        }
     }
 
     public static void setupCategoryListFromDB(ArrayList<Category> CategoryListFromDB) {
@@ -92,5 +98,13 @@ public class Category {
 
     public static ArrayList<Category> getCategoryList() {
         return categoryList;
+    }
+    
+    public ArrayList<Attribute> getCategoryAttributes() {
+        return categoryAttributes;
+    }
+    
+    public void setCategoryAttributes(ArrayList<Attribute> categoryAttributes) {
+        this.categoryAttributes = categoryAttributes;
     }
 }

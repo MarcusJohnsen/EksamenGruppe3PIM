@@ -11,6 +11,7 @@ import static businessLogic.Product.findProductOnID;
 import static businessLogic.Product.validateProductInput;
 import factory.SystemMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import persistence.StorageFacade;
 
 /**
@@ -27,9 +28,9 @@ public class BusinessFacade {
     }
 
     public void setupListsFromDB() {
-        ArrayList<Category> categoryList = storageFacade.getCategories();
-        ArrayList<Product> productList = storageFacade.getProducts(categoryList);
         ArrayList<Attribute> attributeList = storageFacade.getAttributes();
+        ArrayList<Category> categoryList = storageFacade.getCategories(attributeList);
+        ArrayList<Product> productList = storageFacade.getProducts(categoryList);
         Category.setupCategoryListFromDB(categoryList);
         Product.setupProductListFromDB(productList);
         Attribute.setupAttributeListFromDB(attributeList);
@@ -119,5 +120,11 @@ public class BusinessFacade {
         ArrayList<Category> categoryList = Category.getMatchingCategoriesOnIDs(categoryChoices);
         product.setProductCategories(categoryList);
         storageFacade.editCategoriesToProduct(product);
+    }
+    
+    public void editAttributesToCategory(Category category, ArrayList<String> attributeChoices){
+        ArrayList<Attribute> attributeList = Attribute.getMatchingAttributesOnIDs(attributeChoices);
+        category.setCategoryAttributes(attributeList);
+        storageFacade.editAttributeToCategory(category);
     }
 }

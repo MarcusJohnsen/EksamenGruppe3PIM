@@ -10,6 +10,7 @@ import presentation.commands.EditCategoriesToProductCommand;
 import presentation.commands.AddProductCommand;
 import presentation.commands.DeleteCategoryCommand;
 import presentation.commands.DeleteProductCommand;
+import presentation.commands.EditAttributesToCategoryCommand;
 import presentation.commands.EditCategoryCommand;
 import presentation.commands.EditProductCommand;
 import presentation.commands.SelectProductCommand;
@@ -43,6 +44,7 @@ public abstract class Command {
         commands.put("selectAttributesForCategory", new SelectAttributesForCategoryCommand());
         commands.put("editCategory", new EditCategoryCommand());
         commands.put("editCategoriesToProduct", new EditCategoriesToProductCommand());
+        commands.put("editAttributesToCategory", new EditAttributesToCategoryCommand());
     }
 
   public static Command from(HttpServletRequest request) {
