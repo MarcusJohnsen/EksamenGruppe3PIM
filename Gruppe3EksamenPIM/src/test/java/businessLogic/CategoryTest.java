@@ -38,7 +38,7 @@ public class CategoryTest {
         String categoryDescription = "Category has no name";
         
         //act
-        Category.validateCategoryInput(categoryName, categoryDescription);
+        Category.validateCategoryInput(categoryName, categoryDescription, null);
     }
     
     @Test(expected = IllegalArgumentException.class) 
@@ -48,7 +48,7 @@ public class CategoryTest {
         String categoryDescription = "";
         
         //act
-        Category.validateCategoryInput(categoryName, categoryDescription);
+        Category.validateCategoryInput(categoryName, categoryDescription, null);
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -63,7 +63,7 @@ public class CategoryTest {
         Category.addToCategoryList(result);
     
         //act
-        Category.validateCategoryInput(categoryName2, categoryDescription2);
+        Category.validateCategoryInput(categoryName2, categoryDescription2, null);
     }
     
     @Test

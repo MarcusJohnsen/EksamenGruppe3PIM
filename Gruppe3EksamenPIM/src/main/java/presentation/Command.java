@@ -9,6 +9,7 @@ import presentation.commands.AddCategoryCommand;
 import presentation.commands.AddProductCommand;
 import presentation.commands.DeleteCategoryCommand;
 import presentation.commands.DeleteProductCommand;
+import presentation.commands.EditCategoryCommand;
 import presentation.commands.EditProductCommand;
 import presentation.commands.SelectProductCommand;
 import presentation.commands.GoToJspCommand;
@@ -39,8 +40,9 @@ public abstract class Command {
         commands.put("deleteCategory", new DeleteCategoryCommand());
         commands.put("selectCategoriesForProduct", new SelectCategoriesForProductCommand());
         commands.put("selectAttributesForCategory", new SelectAttributesForCategoryCommand());
-  }
-  
+        commands.put("editCategory", new EditCategoryCommand());
+    }
+
   public static Command from(HttpServletRequest request) {
         String commandName = request.getParameter("command");
         if (commands == null) {

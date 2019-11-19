@@ -34,7 +34,7 @@ public class BusinessFacade {
     }
 
     public Category createNewCategory(String categoryName, String categoryDescription) throws IllegalArgumentException {
-        Category.validateCategoryInput(categoryName, categoryDescription);
+        Category.validateCategoryInput(categoryName, categoryDescription, null);
         Category newCategory = storageFacade.addNewCategory(categoryName, categoryDescription);
         Category.addToCategoryList(newCategory);
         return newCategory;
@@ -46,7 +46,7 @@ public class BusinessFacade {
     }
     
     public void editCategory(int categoryID, String categoryName, String categoryDescription) throws IllegalArgumentException {
-        validateCategoryInput(categoryName, categoryDescription);
+        validateCategoryInput(categoryName, categoryDescription, categoryID);
         Category category = findCategoryOnID(categoryID);
         category.editCategory(categoryName, categoryDescription);
         storageFacade.editCategory(category);

@@ -40,13 +40,13 @@ public class Category {
     public static boolean deleteCategory(int categoryID) {
         return categoryList.remove(findCategoryOnID(categoryID));
     }
-    
+
     public void editCategory(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public static boolean validateCategoryInput(String categoryName, String categoryDescription) throws IllegalArgumentException {
+    public static boolean validateCategoryInput(String categoryName, String categoryDescription, Integer categoryID) throws IllegalArgumentException {
         if (categoryName.isEmpty()) {
             throw new IllegalArgumentException("please fill out product-name field");
         }
@@ -56,12 +56,18 @@ public class Category {
 
         for (Category categoryInList : categoryList) {
             if (categoryName.equals(categoryInList.name)) {
-                throw new IllegalArgumentException("name already in use");
+                if (categoryID != null) {
+                    if (categoryID != categoryInList.getCategoryID()) {
+                        throw new IllegalArgumentException("name already in use");
+                    }
+                } else {
+                    throw new IllegalArgumentException("name already in use");
+                }
             }
         }
         return true;
     }
-    
+
     public int getCategoryID() {
         return categoryID;
     }

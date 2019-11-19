@@ -50,6 +50,7 @@
                 <br>
                 <br>
                 <%}%>
+                <input type="text" name="Product Distributors" value=""/>
 
             </p>
             <div id="myDIV" align="center"> 
