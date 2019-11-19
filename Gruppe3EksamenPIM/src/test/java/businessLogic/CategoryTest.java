@@ -17,18 +17,18 @@ public class CategoryTest {
     
     @Test
     public void testCreateCategory() {
-    //arrange
-    int categoryID = 1;
-    String categoryName = "kæledyr";
-    String categoryDescription = "ting til kæledyr";
+        //arrange
+        int categoryID = 1;
+        String categoryName = "kæledyr";
+        String categoryDescription = "ting til kæledyr";
     
-    //act
-    Category result = new Category (categoryID, categoryName, categoryDescription);
+        //act
+        Category result = new Category (categoryID, categoryName, categoryDescription);
     
-    //assert
-    assertEquals(categoryID, result.getCategoryID());
-    assertTrue(categoryName.equals(result.getName()));
-    assertTrue(categoryDescription.equals(result.getDescription()));
+        //assert
+        assertEquals(categoryID, result.getCategoryID());
+        assertTrue(categoryName.equals(result.getName()));
+        assertTrue(categoryDescription.equals(result.getDescription()));
     }
     
     @Test(expected = IllegalArgumentException.class) 

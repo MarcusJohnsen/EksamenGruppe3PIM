@@ -29,8 +29,10 @@ public class BusinessFacade {
     public void setupListsFromDB() {
         ArrayList<Category> categoryList = storageFacade.getCategories();
         ArrayList<Product> productList = storageFacade.getProducts(categoryList);
+        ArrayList<Attribute> attributeList = storageFacade.getAttributes();
         Category.setupCategoryListFromDB(categoryList);
         Product.setupProductListFromDB(productList);
+        Attribute.setupAttributeListFromDB(attributeList);
     }
 
     public Category createNewCategory(String categoryName, String categoryDescription) throws IllegalArgumentException {
@@ -76,6 +78,14 @@ public class BusinessFacade {
         product.setPicturePath(picturePath);
         storageFacade.updatePicturePath(productID, picturePath);
     }
+    
+    public Attribute createNewAttribute(String attributeTitle) throws IllegalArgumentException {
+        Attribute.validateNewAttributeTitle(attributeTitle);
+        Attribute newAttribute = storageFacade.addNewAttribute(attributeTitle);
+        Attribute.addToAttributeList(newAttribute);
+        return newAttribute;
+    }
+    
 
     public StorageFacade getStorageFacade() {
         return storageFacade;
@@ -96,12 +106,13 @@ public class BusinessFacade {
     public Product getProductFromID(int productID) {
         return Product.findProductOnID(productID);
     }
-
-    public Attribute createNewAttribute(String attributeTitle) throws IllegalArgumentException {
-        Attribute.validateNewAttributeTitle(attributeTitle);
-        Attribute newAttribute = storageFacade.addNewAttribute(attributeTitle);
-        Attribute.addToAttributeList(newAttribute);
-        return newAttribute;
+    
+    public ArrayList<Attribute> getAttributeList() {
+        return Attribute.getAttributeList();
+    }
+    
+    public Attribute getAttributeFromID(int attributeID) {
+        return Attribute.findAttributeOnID(attributeID);
     }
     
     public void editCategoriesToProduct(Product product, ArrayList<String> categoryChoices){
