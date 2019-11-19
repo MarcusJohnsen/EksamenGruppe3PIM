@@ -41,7 +41,7 @@ public class Category {
         return categoryList.remove(findCategoryOnID(categoryID));
     }
     
-    public void editProduct(String name, String description) {
+    public void editCategory(String name, String description) {
         this.name = name;
         this.description = description;
     }
