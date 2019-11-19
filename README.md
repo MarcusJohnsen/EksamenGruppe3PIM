@@ -2,13 +2,7 @@
 
 Gruppe:
 
-Andreas
-
-Cahit
-
-Marcus
-
-Michael
+Andreas, Cahit, Marcus & Michael
 
 
 Før programmet kan køres:
