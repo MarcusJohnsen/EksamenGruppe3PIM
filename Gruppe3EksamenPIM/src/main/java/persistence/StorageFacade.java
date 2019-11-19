@@ -52,6 +52,10 @@ public class StorageFacade {
     public void deleteCategory(int categoryID) {
         categoryMapper.deleteCategory(categoryID);
     }
+    
+    public void editCategory(Category category) {
+        categoryMapper.editCategory(category);
+    }
 
     public Product addNewProduct(String productName, String productDescription, String noImageFileName, ArrayList<String> productDistributors) {
         return productMapper.addNewProduct(productName, productDescription, noImageFileName, productDistributors);

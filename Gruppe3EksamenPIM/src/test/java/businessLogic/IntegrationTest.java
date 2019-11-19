@@ -219,7 +219,6 @@ public class IntegrationTest {
     public void testNegativeValidateNewAttributeTitleNoAttributeTitle(){
         
         String attributeTitle1 = "";
-        
         Attribute result1 = businessFacade.createNewAttribute(attributeTitle1);
         
         
