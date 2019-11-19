@@ -26,7 +26,7 @@
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="selectCategoriesForProduct" />
             <input type="hidden" name="productID" value="<%=productID%>" />
-            <p align="center"><input type="submit" value="Add Categoies to Product" /></p>
+            <p align="center"><input type="submit" value="Add Categories to Product" /></p>
         </form>
         <form action="FrontController">
             <input type="hidden" name="productID" value="<%=productID%>" />

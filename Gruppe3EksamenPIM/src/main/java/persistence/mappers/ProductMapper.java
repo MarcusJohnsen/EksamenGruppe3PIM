@@ -204,18 +204,20 @@ public class ProductMapper {
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, productID);
             ps.executeUpdate();
-            
-            SQL = "INSERT INTO Product_Categories (Product_ID, Category_ID) VALUES ";
-            boolean firstline = true;
-            for (Category category : product.getProductCategories()) {
-                if (firstline) {
-                    firstline = false;
-                } else {
-                    SQL += ", ";
+
+            if (!product.getProductCategories().isEmpty()) {
+                SQL = "INSERT INTO Product_Categories (Product_ID, Category_ID) VALUES ";
+                boolean firstline = true;
+                for (Category category : product.getProductCategories()) {
+                    if (firstline) {
+                        firstline = false;
+                    } else {
+                        SQL += ", ";
+                    }
+                    SQL += "(" + productID + ", '" + category.getCategoryID() + "')";
                 }
-                SQL += "(" + productID + ", '" + category.getCategoryID() + "')";
+                database.getConnection().prepareStatement(SQL).executeUpdate();
             }
-            database.getConnection().prepareStatement(SQL).executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't change the categories tied to productID " + product.getProductID());

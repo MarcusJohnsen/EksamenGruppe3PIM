@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence.mappers;
 
+import businessLogic.Attribute;
 import businessLogic.Category;
 import businessLogic.Product;
 import java.sql.PreparedStatement;
@@ -12,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
@@ -40,7 +37,8 @@ public class CategoryMapper {
             rs.next();
             int id = rs.getInt(1);
 
-            Category category = new Category(id, categoryName, categoryDescription);
+            ArrayList<Attribute> categoryAttributes = new ArrayList();
+            Category category = new Category(id, categoryName, categoryDescription, categoryAttributes);
             return category;
 
         } catch (SQLException ex) {
@@ -49,20 +47,35 @@ public class CategoryMapper {
         }
     }
 
-    public ArrayList<Category> getCategories() {
+    public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
         try {
             ArrayList<Category> categoryList = new ArrayList();
+            HashMap<Integer, ArrayList<Attribute>> categoryAttributesMap = new HashMap();
+            
+            String SQL = "SELECT * FROM category_attributes";
+            ResultSet rs = database.getConnection().prepareStatement(SQL).executeQuery();
+            while (rs.next()) {
+                int categoryID = rs.getInt("Category_ID");
+                if (categoryAttributesMap.get(categoryID) == null) {
+                    categoryAttributesMap.put(categoryID, new ArrayList());
+                }
+                int attributeID = rs.getInt("Attribute_ID");
+                for (Attribute attribute : attributeList) {
+                    if (attribute.getAttributeID() == attributeID) {
+                        categoryAttributesMap.get(categoryID).add(attribute);
+                    }
+                }
+            }
 
-            String SQL = "SELECT * FROM Categories";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-
-            ResultSet rs = ps.executeQuery();
+            SQL = "SELECT * FROM Categories";
+            rs = database.getConnection().prepareStatement(SQL).executeQuery();
             while (rs.next()) {
                 int category_ID = rs.getInt("Category_ID");
                 String category_Name = rs.getString("Category_Name");
                 String category_Description = rs.getString("Category_Description");
-
-                Category category = new Category(category_ID, category_Name, category_Description);
+                
+                ArrayList<Attribute> categoryAttributes = categoryAttributesMap.get(category_ID);
+                Category category = new Category(category_ID, category_Name, category_Description, categoryAttributes);
                 categoryList.add(category);
             }
             return categoryList;
@@ -100,6 +113,33 @@ public class CategoryMapper {
         } catch (SQLException ex) {
             Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't update category in database");
+        }
+    }
+    
+    public void editAttributeToCategories(Category category) {
+        try {
+            int categoryID = category.getCategoryID();
+            String SQL = "DELETE FROM category_attributes WHERE category_ID = ?";
+            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, categoryID);
+            ps.executeUpdate();
+            
+            if(!category.getCategoryAttributes().isEmpty()){
+            SQL = "INSERT INTO Category_Attributes (Category_ID, Attribute_ID) VALUES ";
+            boolean firstline = true;
+            for (Attribute attribute : category.getCategoryAttributes()) {
+                if (firstline) {
+                    firstline = false;
+                } else {
+                    SQL += ", ";
+                }
+                SQL += "(" + categoryID + ", '" + attribute.getAttributeID() + "')";
+            }
+            database.getConnection().prepareStatement(SQL).executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Can't change the attributes tied to categoryID " + category.getCategoryID());
         }
     }
 }

@@ -16,10 +16,12 @@
     </head>
     <body>
         <%
-            //Category category = (Category) request.getAttribute("category");
+            Category category = (Category) request.getAttribute("category");
             ArrayList<Attribute> attributeList = (ArrayList<Attribute>) request.getAttribute("attributeList");
+            int categoryID = category.getCategoryID();
         %>
-        <h1 align="center">Connect attributes to Categories</h1>
+        <h1 align="center">Add attribute to category</h1>
+        <h3 align="center"><%=category.getName()%>, product ID: <%=categoryID%></h3>
         <form action="FrontController">
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
@@ -36,15 +38,29 @@
                             int AttributeID = attribute.getAttributeID();
                             String AttributeTitle = attribute.getAttributeTitle();
                             //String AttributeValue = attribute.getAttributeValues();
+                            boolean alreadyOnCategory = category.getCategoryAttributes().contains(attribute);
                     %>  
                     <tr>
                         <td align="center" width="5%"> <%=AttributeID%> </td>
                         <td align="center" width="20%"> <%=AttributeTitle%> </td>
-                        <td align="center" width="1%"><input type="radio" name=categoryChoice value="<%=AttributeID%>"></td>
+                        <%if (alreadyOnCategory) {%>
+                        <td align="center" width="1%"><input type="checkbox" name=attributeChoices value="<%=AttributeID%>" checked></td>
+                            <%} else {%>
+                        <td align="center" width="1%"><input type="checkbox" name=attributeChoices value="<%=AttributeID%>"></td>
+                            <%}%>
                     </tr>
                 </tbody>
                 <%}%>
             </table>
+            <br>
+            <input type="hidden" name="categoryID" value="<%=categoryID%>" />
+            <input type="hidden" name="command" value="editAttributesToCategory" />
+            <p align="center"><input type="submit" value="Submit Changes" /></p>
+        </form>
+        <form action="FrontController" method="POST">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="viewAllCategories" />
+            <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
     </body>
 </html>

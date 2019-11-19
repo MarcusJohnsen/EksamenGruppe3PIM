@@ -39,3 +39,11 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (2,3),
     (3,1);
     
+    CREATE TABLE Fake_PIM_Database.Category_Attributes_Test like PIM_Database.Category_attributes;
+    INSERT INTO Category_Attributes_Test (Category_ID, Attribute_ID) VALUES
+    (1,1),
+    (1,2),
+    (1,3),
+    (2,3),
+    (3,1);
+    

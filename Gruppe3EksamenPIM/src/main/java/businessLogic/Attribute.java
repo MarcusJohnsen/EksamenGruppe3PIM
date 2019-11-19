@@ -60,6 +60,16 @@ public class Attribute {
     public static boolean addToAttributeList(Attribute attribute){
         return attributeList.add(attribute);
     }
+    
+    public static ArrayList<Attribute> getMatchingAttributesOnIDs(ArrayList<String> attributeChoices) {
+        ArrayList<Attribute> result = new ArrayList();
+        for (Attribute attribute : attributeList) {
+            if(attributeChoices.contains(Integer.toString(attribute.getAttributeID()))){
+                result.add(attribute);
+            }
+        }
+        return result;
+    }
 
     public static ArrayList<Attribute> getAttributeList() {
         return attributeList;

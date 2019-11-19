@@ -1,19 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence.mappers;
 
+import businessLogic.Attribute;
 import businessLogic.Category;
 import factory.SystemMode;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -28,6 +21,7 @@ public class CategoryMapperTest {
     private static Connection testConnection;
     private final DB database = new DB(SystemMode.TEST);
     private final int numberOfCategoriesInDB = 3;
+    private ArrayList<Attribute> attributeList = new ArrayList();
 
     @Before
     public void setup() {
@@ -220,7 +214,7 @@ public class CategoryMapperTest {
         CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        ArrayList<Category> result = instance.getCategories();
+        ArrayList<Category> result = instance.getCategories(attributeList);
 
         //assert
         assertEquals(numberOfCategoriesInDB, result.size());
@@ -242,7 +236,7 @@ public class CategoryMapperTest {
         CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        ArrayList<Category> result = instance.getCategories();
+        ArrayList<Category> result = instance.getCategories(attributeList);
 
     }
 
@@ -308,7 +302,8 @@ public class CategoryMapperTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
-        Category category = new Category (categoryID, categoryName, categoryDescription);
+        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
         CategoryMapper instance = new CategoryMapper(database);
         
         //act

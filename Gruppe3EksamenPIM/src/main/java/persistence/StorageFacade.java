@@ -45,8 +45,8 @@ public class StorageFacade {
         return productMapper.getProducts(categoryList);
     }
 
-    public ArrayList<Category> getCategories() {
-        return categoryMapper.getCategories();
+    public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
+        return categoryMapper.getCategories(attributeList);
     }
     
     public ArrayList<Attribute> getAttributes() {
@@ -84,5 +84,8 @@ public class StorageFacade {
     public void editCategoriesToProduct(Product product) {
         productMapper.editCategoriesToProduct(product);
     }
-
+    
+    public void editAttributeToCategory(Category category) {
+        categoryMapper.editAttributeToCategories(category);
+    }
 }
