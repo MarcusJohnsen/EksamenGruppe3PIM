@@ -43,7 +43,7 @@
                 <%}%>
             </table>
             <input type="hidden" name="command" value="selectCategory" />
-            <!--<p align="center"><input type="submit" name="submitButton" value="Edit Category"/></p>-->
+            <p align="center"><input type="submit" name="submitButton" value="Edit Category"/></p>
             <p align="center"><input type="submit" name="submitButton" value="Delete Category"/></p>
         </form>
         <%
