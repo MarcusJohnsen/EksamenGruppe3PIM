@@ -55,6 +55,7 @@ public class AttributeTest {
         
         //assert
         assertTrue(Attribute.findAttributeOnID(5).getAttributeTitle().equals("weight"));
+        assertTrue(Attribute.findAttributeOnID(6).getAttributeTitle().equals("height"));
     }
     
     @Test
