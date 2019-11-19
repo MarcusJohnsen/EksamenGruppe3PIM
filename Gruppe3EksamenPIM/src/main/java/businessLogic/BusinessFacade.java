@@ -5,12 +5,12 @@
  */
 package businessLogic;
 
+import static businessLogic.Category.findCategoryOnID;
+import static businessLogic.Category.validateCategoryInput;
 import static businessLogic.Product.findProductOnID;
 import static businessLogic.Product.validateProductInput;
 import factory.SystemMode;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import persistence.StorageFacade;
 
 /**
@@ -43,6 +43,13 @@ public class BusinessFacade {
     public boolean deleteCategory(int categoryID) {
         storageFacade.deleteCategory(categoryID);
         return Category.deleteCategory(categoryID);
+    }
+    
+    public void editCategory(int categoryID, String categoryName, String categoryDescription) throws IllegalArgumentException {
+        validateCategoryInput(categoryName, categoryDescription);
+        Category category = findCategoryOnID(categoryID);
+        category.editCategory(categoryName, categoryDescription);
+        storageFacade.editCategory(category);
     }
 
     public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributors) {

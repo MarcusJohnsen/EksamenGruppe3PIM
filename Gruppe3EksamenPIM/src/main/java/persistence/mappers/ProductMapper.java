@@ -132,10 +132,10 @@ public class ProductMapper {
             ps.setInt(3, product.getProductID());
             int result = ps.executeUpdate();
 
-            //Delete all old distributers for product in Product_distributers table
+            //Delete all old distributors for product in Product_distributors table
             deleteProductDistributors(product.getProductID());
 
-            //Insert all new distributers for product in Product_distributers table
+            //Insert all new distributors for product in Product_distributors table
             addProductDistributors(product.getDistributors(), product.getProductID());
 
             return result;
