@@ -23,6 +23,11 @@
             int productID = product.getProductID();
         %>
         <h1 align="center">Edit Product Information for product number <%=productID%></h1>
+        <form action="FrontController" method="POST">
+            <input type="hidden" name="command" value="selectCategoriesForProduct" />
+            <input type="hidden" name="productID" value="<%=productID%>" />
+            <p align="center"><input type="submit" value="Add Categoies to Product" /></p>
+        </form>
         <form action="FrontController">
             <input type="hidden" name="productID" value="<%=productID%>" />
             <p align="center">

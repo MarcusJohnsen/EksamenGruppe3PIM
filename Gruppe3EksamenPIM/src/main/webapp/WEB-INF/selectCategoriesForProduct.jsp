@@ -16,7 +16,7 @@
     </head>
     <body>
         <%
-            Product product = (Product) request.getAttribute("Product");
+            Product product = (Product) request.getAttribute("product");
             ArrayList<Category> categoryList = (ArrayList<Category>) request.getAttribute("categoryList");
         %>
         <h1 align="center">Add Category to product</h1>
