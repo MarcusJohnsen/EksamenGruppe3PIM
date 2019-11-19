@@ -37,9 +37,14 @@
             <p align="center">
                 Save the changes:
                 <br>
-                <input type="hidden" name="command" value="editProduct" />
+                <input type="hidden" name="command" value="editCategory"/>
                 <input type="submit" value="Update"/></p>
         </form>
+        <form action="FrontController" method="POST">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="addAttributeToCategory" />
+            <p align="center"><input type="submit" value="Add attribute to category" /></p>
+        </form>     
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="viewAllCategories" />

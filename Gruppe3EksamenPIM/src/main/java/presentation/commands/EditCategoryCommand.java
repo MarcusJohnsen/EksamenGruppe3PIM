@@ -18,8 +18,8 @@ import presentation.Command;
 public class EditCategoryCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
-        String nextJsp = "viewAllCategory";
-
+        String nextJsp = "viewAllCategories";
+        request.setAttribute("categoryList", businessFacade.getCategoryList());
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         String categoryName = request.getParameter("Category Name");
         String categoryDescription = request.getParameter("Category Description");

@@ -17,7 +17,7 @@ public class EditProductCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "viewAllProducts";
-
+        request.setAttribute("productList", businessFacade.getProductList());
         int productID = Integer.parseInt(request.getParameter("productID"));
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
