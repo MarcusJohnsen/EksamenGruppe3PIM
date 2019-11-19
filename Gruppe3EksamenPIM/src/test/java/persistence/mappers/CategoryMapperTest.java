@@ -301,5 +301,21 @@ public class CategoryMapperTest {
         int expResult = 1;
         assertEquals(expResult, result);
     }
+    
+    @Test
+    public void testEditCategory() {
+        int categoryID = 1;
+        String categoryName = "kæledyr";
+        String categoryDescription = "ting til kæledyr";
+        Category category = new Category (categoryID, categoryName, categoryDescription);
+        CategoryMapper instance = new CategoryMapper(database);
+        
+        //act
+        int result = instance.editCategory(category);
+        
+        //assert
+        int expresult = 1;
+        assertEquals(expresult, result);
+    }
 
 }
