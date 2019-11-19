@@ -13,7 +13,8 @@ import presentation.commands.EditCategoryCommand;
 import presentation.commands.EditProductCommand;
 import presentation.commands.SelectProductCommand;
 import presentation.commands.GoToJspCommand;
-import presentation.commands.SelectAttributesForCategory;
+import presentation.commands.SelectAttributesForCategoryCommand;
+import presentation.commands.SelectCategoriesForProductCommand;
 import presentation.commands.SelectCategoryCommand;
 import presentation.commands.UnknownCommand;
 
@@ -37,7 +38,8 @@ public abstract class Command {
         commands.put("deleteProduct", new DeleteProductCommand());
         commands.put("selectCategory", new SelectCategoryCommand());
         commands.put("deleteCategory", new DeleteCategoryCommand());
-        commands.put("selectAttributesForCategory", new SelectAttributesForCategory());
+        commands.put("selectCategoriesForProduct", new SelectCategoriesForProductCommand());
+        commands.put("selectAttributesForCategory", new SelectAttributesForCategoryCommand());
         commands.put("editCategory", new EditCategoryCommand());
     }
 

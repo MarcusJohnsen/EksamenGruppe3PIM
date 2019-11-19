@@ -11,7 +11,7 @@ import presentation.Command;
  *
  * @author cahit
  */
-public class SelectAttributesForCategory extends Command {
+public class SelectAttributesForCategoryCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {

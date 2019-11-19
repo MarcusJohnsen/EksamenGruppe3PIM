@@ -41,8 +41,8 @@ public class StorageFacade {
         return categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
-    public ArrayList<Product> getProducts() {
-        return productMapper.getProducts();
+    public ArrayList<Product> getProducts(ArrayList<Category> categoryList) {
+        return productMapper.getProducts(categoryList);
     }
 
     public ArrayList<Category> getCategories() {

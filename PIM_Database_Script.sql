@@ -8,6 +8,10 @@ DROP DATABASE IF EXISTS PIM_Database;
 	Category_Description varchar(2550) not null,
 	primary key(Category_ID)
 	);
+    INSERT INTO Categories (Category_Name, Category_Description) VALUES 
+    ('Tests','These are tests'),
+    ('Products','These are products'),
+    ('Unknowns','We are not sure what these are');
     
 	CREATE TABLE Attributes(
     Attribute_ID int unique auto_increment not null,

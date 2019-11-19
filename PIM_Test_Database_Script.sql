@@ -31,3 +31,11 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (4,'Weight'),
     (5,'Length');
     
+    CREATE TABLE Fake_PIM_Database.Product_Categories_Test like PIM_Database.Product_Categories;
+    INSERT INTO Product_Categories_Test (Product_ID, Category_ID) VALUES
+    (1,1),
+    (1,2),
+    (1,3),
+    (2,3),
+    (3,1);
+    

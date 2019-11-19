@@ -16,10 +16,10 @@
         <br>
         <form action="FrontController">
             <p align="center">
-            Attribute name:
-            <br>
-            <input type="hidden" name="command" value="addAttribute" />
-            <input type="text" name="attributeName" value="" /> </p>
+                Attribute name:
+                <br>
+                <input type="hidden" name="command" value="addAttribute" />
+                <input type="text" name="attributeName" value="" /> </p>
             <p align="center"><input type="submit" value="Save" /></p>
         </form>
         <form action="FrontController" method="POST">
