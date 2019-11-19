@@ -77,4 +77,8 @@ public class StorageFacade {
         return attributeMapper.addNewAttribute(AttributeName);
     }
 
+    public void editCategoriesToProduct(Product product) {
+        productMapper.editCategoriesToProduct(product);
+    }
+
 }

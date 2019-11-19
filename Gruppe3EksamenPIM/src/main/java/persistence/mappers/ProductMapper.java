@@ -197,4 +197,29 @@ public class ProductMapper {
         }
     }
 
+    public void editCategoriesToProduct(Product product) {
+        try {
+            int productID = product.getProductID();
+            String SQL = "DELETE FROM Product_Categories WHERE product_ID = ?";
+            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+            
+            SQL = "INSERT INTO Product_Categories (Product_ID, Category_ID) VALUES ";
+            boolean firstline = true;
+            for (Category category : product.getProductCategories()) {
+                if (firstline) {
+                    firstline = false;
+                } else {
+                    SQL += ", ";
+                }
+                SQL += "(" + productID + ", '" + category.getCategoryID() + "')";
+            }
+            database.getConnection().prepareStatement(SQL).executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Can't change the categories tied to productID " + product.getProductID());
+        }
+    }
+
 }

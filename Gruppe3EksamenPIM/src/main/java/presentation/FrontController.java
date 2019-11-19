@@ -57,7 +57,7 @@ public class FrontController extends HttpServlet {
             } else {
                 request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
             }
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {
             request.setAttribute("error", ex.getMessage());
             request.getRequestDispatcher("/WEB-INF/errorpage.jsp").forward(request, response);
         }

@@ -103,4 +103,10 @@ public class BusinessFacade {
         Attribute.addToAttributeList(newAttribute);
         return newAttribute;
     }
+    
+    public void editCategoriesToProduct(Product product, ArrayList<String> categoryChoices){
+        ArrayList<Category> categoryList = Category.getMatchingCategoriesOnIDs(categoryChoices);
+        product.setProductCategories(categoryList);
+        storageFacade.editCategoriesToProduct(product);
+    }
 }

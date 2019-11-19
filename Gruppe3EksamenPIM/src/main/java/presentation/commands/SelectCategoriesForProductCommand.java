@@ -17,7 +17,7 @@ public class SelectCategoriesForProductCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
 
-        String nextJsp = "selectCategoriesForProduct";
+        String nextJsp = "editCategoriesForProduct";
         int productID = Integer.parseInt(request.getParameter("productID"));
 
         Product product = businessFacade.getProductFromID(productID);

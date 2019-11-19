@@ -68,6 +68,16 @@ public class Category {
         return true;
     }
 
+    public static ArrayList<Category> getMatchingCategoriesOnIDs(ArrayList<String> categoryChoices) {
+        ArrayList<Category> result = new ArrayList();
+        for (Category category : categoryList) {
+            if(categoryChoices.contains(Integer.toString(category.getCategoryID()))){
+                result.add(category);
+            }
+        }
+        return result;
+    }
+
     public int getCategoryID() {
         return categoryID;
     }

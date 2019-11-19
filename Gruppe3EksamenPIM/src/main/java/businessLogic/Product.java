@@ -24,7 +24,12 @@ public class Product {
         this.description = description;
         this.picturePath = picturePath;
         this.distributors = distributors;
-        this.productCategories = productCategories;
+        if (productCategories != null) {
+            this.productCategories = productCategories;
+        } else {
+            this.productCategories = new ArrayList();
+        }
+
     }
 
     public static void setupProductListFromDB(ArrayList<Product> productListFromDB) {
@@ -101,6 +106,10 @@ public class Product {
 
     public ArrayList<Category> getProductCategories() {
         return productCategories;
+    }
+
+    public void setProductCategories(ArrayList<Category> productCategories) {
+        this.productCategories = productCategories;
     }
     
 }
