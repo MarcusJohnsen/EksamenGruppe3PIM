@@ -53,15 +53,35 @@ public class AttributeMapper {
 
     public ArrayList<Attribute> getAttributes() {
         try {
-            ArrayList<Attribute> attributeList = new ArrayList();
-            HashMap<Integer, String> value = new HashMap();
-            String SQL = "SELECT * FROM Attributes";
+            String SQL = "SELECT * FROM product_attributes";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-
             ResultSet rs = ps.executeQuery();
+            HashMap<Integer, HashMap<Integer, String>> productAttributeValues = new HashMap();
+            while (rs.next()) {
+                int productID = rs.getInt("Product_ID");
+                int attributeID = rs.getInt("Attribute_ID");
+                String productAttributeValue = rs.getString("Attribute_Info");
+                if(productAttributeValues.get(attributeID) != null){
+                    productAttributeValues.get(attributeID).put(productID, productAttributeValue);
+                } else {
+                    HashMap<Integer, String> value = new HashMap();
+                    value.put(productID, productAttributeValue);
+                    productAttributeValues.put(attributeID, value);
+                }
+            }
+            
+            ArrayList<Attribute> attributeList = new ArrayList();
+            SQL = "SELECT * FROM Attributes";
+            ps = database.getConnection().prepareStatement(SQL);
+
+            rs = ps.executeQuery();
             while (rs.next()) {
                 int attribute_ID = rs.getInt("Attribute_ID");
                 String attribute_Name = rs.getString("Attribute_Name");
+                HashMap<Integer, String> value = productAttributeValues.get(attribute_ID);
+                if(value == null){
+                    value = new HashMap();
+                }
 
                 Attribute attribute = new Attribute(attribute_ID, attribute_Name, value);
                 attributeList.add(attribute);

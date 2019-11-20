@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -149,10 +150,10 @@ import static org.junit.Assert.*;
         String firstDistributor2 = "1st Distributor";
         String secondDistributor2 = "2nd Distributor";
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{firstDistributor, secondDistributor}));
-        ArrayList<String> productAttributes = new ArrayList(Arrays.asList(new String[]{firstDistributor2, secondDistributor2}));
+        HashMap<Integer, String> productAttributeValues = new HashMap();
 
         //act
-        businessFacade.editProduct(productID, productName, productDescription, productDistributors, productAttributes);
+        businessFacade.editProduct(productID, productName, productDescription, productDistributors, productAttributeValues);
         Product result = businessFacade.getProductFromID(productID);
 
         //assert

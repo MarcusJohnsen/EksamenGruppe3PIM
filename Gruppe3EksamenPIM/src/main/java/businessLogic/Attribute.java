@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author Michael N. Korsgaard
  */
 public class Attribute {
-    
+
     private int attributeID;
     private String attributeTitle;
     private HashMap<Integer, String> attributeValues;
@@ -24,41 +24,40 @@ public class Attribute {
         this.attributeTitle = attributeTitle;
         this.attributeValues = attributeValues;
     }
-    
+
     public static void setupAttributeListFromDB(ArrayList<Attribute> AttributeListFromDB) {
         attributeList = AttributeListFromDB;
     }
-    
-    public static Attribute findAttributeOnID(int attributeID){
+
+    public static Attribute findAttributeOnID(int attributeID) {
         for (Attribute attribute : attributeList) {
-            if(attribute.getAttributeID() == attributeID){
+            if (attribute.getAttributeID() == attributeID) {
                 return attribute;
             }
         }
         return null;
     }
-    
-    public static boolean validateNewAttributeTitle(String attributeTitle){
-        if(attributeTitle.isEmpty()){
+
+    public static boolean validateNewAttributeTitle(String attributeTitle) {
+        if (attributeTitle.isEmpty()) {
             throw new IllegalArgumentException("New Attribute need a title");
         }
         for (Attribute attribute : attributeList) {
-            if(attribute.getAttributeTitle().equals(attributeTitle)){
+            if (attribute.getAttributeTitle().equals(attributeTitle)) {
                 throw new IllegalArgumentException("Dublicate attribute already exist");
             }
         }
         return true;
     }
-    
-    
-    public static boolean addToAttributeList(Attribute attribute){
+
+    public static boolean addToAttributeList(Attribute attribute) {
         return attributeList.add(attribute);
     }
-    
+
     public static ArrayList<Attribute> getMatchingAttributesOnIDs(ArrayList<String> attributeChoices) {
         ArrayList<Attribute> result = new ArrayList();
         for (Attribute attribute : attributeList) {
-            if(attributeChoices.contains(Integer.toString(attribute.getAttributeID()))){
+            if (attributeChoices.contains(Integer.toString(attribute.getAttributeID()))) {
                 result.add(attribute);
             }
         }
@@ -68,12 +67,13 @@ public class Attribute {
     public static ArrayList<Attribute> getAttributeList() {
         return attributeList;
     }
-    
-    public boolean insertValueIntoAttribute (String value, int productID){
-        boolean hadPreviousValue = attributeValues.put(productID, value) != null;
+
+    public boolean insertValueIntoAttribute(String value, int productID) {
+        String previousValue = this.attributeValues.put(productID, value);
+        boolean hadPreviousValue = previousValue != null;
         return hadPreviousValue;
     }
-    
+
     public String getAttributeValueForID(int productID) {
         return attributeValues.get(productID);
     }
@@ -85,9 +85,9 @@ public class Attribute {
     public String getAttributeTitle() {
         return attributeTitle;
     }
-    
+
     public HashMap<Integer, String> getAttributeValues() {
         return attributeValues;
     }
-    
+
 }

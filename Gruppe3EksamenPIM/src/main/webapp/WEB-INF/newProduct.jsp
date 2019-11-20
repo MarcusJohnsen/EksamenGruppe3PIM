@@ -19,7 +19,7 @@
             <p align="center">
                 Product Name:
                 <br>
-                <input type="text" name="Product Name" value="" />
+                <input type="text" name="Product Name" value="" required="required"/>
             </p>
 
             <p align="center">
