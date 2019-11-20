@@ -213,4 +213,61 @@ public class ProductTest {
         Product.validateProductInput(productName, productDescription, productDistributors);
     }
 
+    @Test
+    public void testFindProductOnProductID(){
+    
+        
+    int categoryID1 = 100;
+    String categoryName1 = "newsletters";
+    String categoryDescription1 = "papermade";
+    ArrayList<Attribute> categoryAttributes1 = new ArrayList();  
+
+    Category category1 = new Category(categoryID1, categoryName1, categoryDescription1, categoryAttributes1);
+    
+    int productId1 = 1;
+    String productName1 = "burner";
+    String description1 = "fire";
+    String picPath1 = "thisIsAnImagePath1.png";
+    ArrayList<String> distributors1 = new ArrayList(Arrays.asList(new String[]{"marvel1","dc comic1"}));
+    ArrayList<Category> productCategories1 = new ArrayList();
+    productCategories1.add(category1);
+    //ArrayList<Attribute> productAttributes1 = new ArrayList(Arrays.asList(new String[]{"size1","volume1","weight1"}));
+   
+    int productId2 = 2;
+    String productName2 = "freezer";
+    String description2 = "ice";
+    String picPath2 = "thisIsAnImagePath2.png";
+    ArrayList<String> distributors2 = new ArrayList(Arrays.asList(new String[]{"marvel2","dc comic2"}));
+    ArrayList<Category> productCategories2 = new ArrayList();
+    productCategories2.add(category1);
+    //ArrayList<Attribute> productAttributes2 = new ArrayList(Arrays.asList(new String[]{"size2","volume2","weight2"}));
+   
+    int productId3 = 3;
+    String productName3 = "vaporizer";
+    String description3 = "water";
+    String picPath3 = "thisIsAnImagePath3.png";
+    ArrayList<String> distributors3 = new ArrayList(Arrays.asList(new String[]{"marvel3","dc comic3"}));
+    ArrayList<Category> productCategories3 = new ArrayList();
+    productCategories3.add(category1);
+    //ArrayList<Attribute> productAttributes3 = new ArrayList(Arrays.asList(new String[]{"size3","volume3","weight3"}));
+    
+    Product product1 = new Product(productId1, productName1, description1, picPath1, distributors1, productCategories1);
+    Product product2 = new Product(productId2, productName2, description2, picPath2, distributors2, productCategories2);
+    Product product3 = new Product(productId3, productName3, description3, picPath3, distributors3, productCategories3);
+    
+    Product.addToProductList(product1);
+    Product.addToProductList(product2);
+    Product.addToProductList(product3);
+    
+   ArrayList<Product> result = new ArrayList(); 
+   result = Product.findProductsOnCategoryID(100);
+   
+   int expResultSize = 3;
+   assertEquals(expResultSize, result.size());
+       
+    
+        
+        
+    }
+    
 }
