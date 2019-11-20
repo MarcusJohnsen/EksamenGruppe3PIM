@@ -23,8 +23,8 @@
             ArrayList<String> ProductDist = product.getDistributors();
             String picturePath = product.getPicturePath();
             int productID = product.getProductID();
-            Attribute attribute = (Attribute) request.getAttribute("attribute");
-            ArrayList<Attribute> attributes = 
+            
+            ArrayList<Attribute> attributes = product.getProductAttributes();
             
         %>
         <h1 align="center">Edit Product Information for product number <%=productID%></h1>
@@ -48,7 +48,7 @@
             </p>
 
             <p align="center">
-                Product Distributors: <img onclick="newFieldD()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/> 
+                Product Distributors: <img onclick="newField()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/> 
                 <br>
                 <%for (String productdist : ProductDist) {%>
                 <input type="text" name="Product Distributors" value="<%=productdist%>"/>
@@ -58,22 +58,28 @@
                 <input type="text" name="Product Distributors" value=""/>
 
             </p>
-            <div id="myDIVD" align="center"> 
+            <div id="myDIV" align="center"> 
             </div>
-            <p align="center">
-                Product Attributes <img onclick="newFieldA()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/> 
-                <br>
-                <%for (Attribute attributeList : attributes) {%>
-                <input type="text" name="Product Attributes" value="<%=attributeList%>"/>
-                <br>
-                <br>
-                <%}%>
-                <input type="text" name="Product Attributes" value=""/>
-
-            </p>
             
-            <div id="myDIVA" align="center"> 
-            </div>
+                <table align="center" border="1" width = "20%" style="float: top">
+                <thead>
+                    <tr>
+                        <td align="left">Attribute Name</td>
+                        <td align="center">Attribute Description</td>
+                    </tr>
+                </thead>
+                <br>
+                <%for (Attribute attribute : attributes) {
+                String value = attribute.getAttributeValueForID(productID);
+                String attributeTitle = attribute.getAttributeTitle();
+                %>
+                <tr>
+                        <td align="left" width="20%"> <%=attributeTitle%> </td>
+                        <td align="center" width="30%"> <input type="text" style="width: 98%" name="Product Attributes" value="<%=value%>"/> </td>
+                    </tr>
+                </tbody>
+                <%}%>
+            </table>
 
             <%
                 String error = (String) request.getAttribute("error");
@@ -99,27 +105,16 @@
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
         <script>
-            function newFieldD() {
+            function newField() {
                 var x = document.createElement("INPUT");
                 var br = document.createElement('br');
                 var br2 = document.createElement('br');
                 x.setAttribute("type", "text");
                 x.setAttribute("name", "Product Distributors");
-                document.getElementById("myDIVD").appendChild(x);
-                document.getElementById("myDIVD").appendChild(br);
-                document.getElementById("myDIVD").appendChild(br2);
+                document.getElementById("myDIV").appendChild(x);
+                document.getElementById("myDIV").appendChild(br);
+                document.getElementById("myDIV").appendChild(br2);
             }
-            function newFieldA() {
-                var x = document.createElement("INPUT");
-                var br = document.createElement('br');
-                var br2 = document.createElement('br');
-                x.setAttribute("type", "text");
-                x.setAttribute("name", "Product Attributes");
-                document.getElementById("myDIVA").appendChild(x);
-                document.getElementById("myDIVA").appendChild(br);
-                document.getElementById("myDIVA").appendChild(br2);
-            }
-            
         </script>
     </body>
 </html>
