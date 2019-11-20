@@ -98,4 +98,8 @@ public class StorageFacade {
             attributeMapper.updateProductAttributeSelections(product);
         }
     }
+
+    public void updateProductAttributeValues(Product product) {
+        attributeMapper.updateProductAttributeValues(product);
+    }
 }

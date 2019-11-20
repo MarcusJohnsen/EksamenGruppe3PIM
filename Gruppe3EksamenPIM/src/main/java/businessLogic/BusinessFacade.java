@@ -72,6 +72,7 @@ public class BusinessFacade {
         Product product = findProductOnID(productID);
         product.editProduct(productName, productDescription, productDistributors);
         storageFacade.editProduct(product);
+        storageFacade.updateProductAttributeValues(product);
     }
 
     public void updatePicturePath(int productID, String picturePath) {

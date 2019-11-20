@@ -104,12 +104,33 @@ public class AttributeMapper {
                     } else {
                         SQL += ", ";
                     }
-                    SQL += "(" + productID + ", " + productAttribute.getAttributeID() + ", '" + productAttribute.getAttributeValueForID(productID) + "')";
+                    String attributeValue = productAttribute.getAttributeValueForID(productID);
+                    if(attributeValue == null){
+                        attributeValue = "";
+                    }
+                    SQL += "(" + productID + ", " + productAttribute.getAttributeID() + ", '" + attributeValue + "')";
 
                 }
                 database.getConnection().prepareStatement(SQL).executeUpdate();
             }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Can't update the new product-attribute connections in the database");
+        }
+    }
+
+    public void updateProductAttributeValues(Product product) {
+        try {
+            int productID = product.getProductID();
+            for (Attribute productAttribute : product.getProductAttributes()) {
+                String SQL = "UPDATE product_attributes SET Attribute_Info = ? WHERE Product_ID = ? AND Attribute_ID = ?";
+                PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+                ps.setString(1, productAttribute.getAttributeValueForID(productID));
+                ps.setInt(2, productID);
+                ps.setInt(3, productAttribute.getAttributeID());
+                ps.executeUpdate();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't update the new product-attribute connections in the database");
