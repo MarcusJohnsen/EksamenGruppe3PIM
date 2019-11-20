@@ -4,6 +4,8 @@
     Author     : Andreas
 --%>
 
+<%@page import="java.util.HashMap"%>
+<%@page import="businessLogic.Attribute"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="businessLogic.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -21,6 +23,9 @@
             ArrayList<String> ProductDist = product.getDistributors();
             String picturePath = product.getPicturePath();
             int productID = product.getProductID();
+            Attribute attribute = (Attribute) request.getAttribute("attribute");
+            ArrayList<Attribute> attributes = 
+            
         %>
         <h1 align="center">Edit Product Information for product number <%=productID%></h1>
         <form action="FrontController" method="POST">
@@ -43,7 +48,7 @@
             </p>
 
             <p align="center">
-                Product Distributors: <img onclick="newField()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/> 
+                Product Distributors: <img onclick="newFieldD()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/> 
                 <br>
                 <%for (String productdist : ProductDist) {%>
                 <input type="text" name="Product Distributors" value="<%=productdist%>"/>
@@ -53,7 +58,21 @@
                 <input type="text" name="Product Distributors" value=""/>
 
             </p>
-            <div id="myDIV" align="center"> 
+            <div id="myDIVD" align="center"> 
+            </div>
+            <p align="center">
+                Product Attributes <img onclick="newFieldA()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/> 
+                <br>
+                <%for (Attribute attributeList : attributes) {%>
+                <input type="text" name="Product Attributes" value="<%=attributeList%>"/>
+                <br>
+                <br>
+                <%}%>
+                <input type="text" name="Product Attributes" value=""/>
+
+            </p>
+            
+            <div id="myDIVA" align="center"> 
             </div>
 
             <%
@@ -80,16 +99,27 @@
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
         <script>
-            function newField() {
+            function newFieldD() {
                 var x = document.createElement("INPUT");
                 var br = document.createElement('br');
                 var br2 = document.createElement('br');
                 x.setAttribute("type", "text");
                 x.setAttribute("name", "Product Distributors");
-                document.getElementById("myDIV").appendChild(x);
-                document.getElementById("myDIV").appendChild(br);
-                document.getElementById("myDIV").appendChild(br2);
+                document.getElementById("myDIVD").appendChild(x);
+                document.getElementById("myDIVD").appendChild(br);
+                document.getElementById("myDIVD").appendChild(br2);
             }
+            function newFieldA() {
+                var x = document.createElement("INPUT");
+                var br = document.createElement('br');
+                var br2 = document.createElement('br');
+                x.setAttribute("type", "text");
+                x.setAttribute("name", "Product Attributes");
+                document.getElementById("myDIVA").appendChild(x);
+                document.getElementById("myDIVA").appendChild(br);
+                document.getElementById("myDIVA").appendChild(br2);
+            }
+            
         </script>
     </body>
 </html>
