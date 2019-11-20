@@ -45,11 +45,12 @@ public class Product {
         this.productAttributes = new ArrayList(attributeSet);
     }
     
-    public static void updateCategoryAttributes(int categoryID) {
-        ArrayList<Product> productsNeedingUpdatedAttributes = findProductsOnCategoryID(categoryID);
-        for (Product productsNeedingUpdatedAttribute : productsNeedingUpdatedAttributes) {
+    public static ArrayList<Product> updateCategoryAttributes(int categoryID) {
+        ArrayList<Product> result = findProductsOnCategoryID(categoryID);
+        for (Product productsNeedingUpdatedAttribute : result) {
             productsNeedingUpdatedAttribute.createAttributesFromCategories();
         }
+        return result;
     }
     
     public static ArrayList<Product> findProductsOnCategoryID(int categoryID){
@@ -146,4 +147,8 @@ public class Product {
         return productCategories;
     }
 
+    public ArrayList<Attribute> getProductAttributes() {
+        return productAttributes;
+    }
+    
 }

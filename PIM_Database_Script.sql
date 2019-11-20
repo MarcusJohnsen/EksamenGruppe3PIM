@@ -65,8 +65,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     CREATE TABLE Product_Attributes(
     Product_ID int not null,
     Attribute_ID int not null,
-    Attribute_Name varchar (255) not null,
-    Attribute_Info varchar (2550) not null,
+    Attribute_Info varchar (2550),
     foreign key(Product_ID) references Product(Product_ID),
     foreign key(Attribute_ID) references Attributes(Attribute_ID),
     primary key(Product_ID, Attribute_ID)
