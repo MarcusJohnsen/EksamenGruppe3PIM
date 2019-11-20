@@ -7,6 +7,7 @@ package persistence.mappers;
 
 import businessLogic.Attribute;
 import businessLogic.Category;
+import businessLogic.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ import persistence.DB;
  * @author Andreas
  */
 public class AttributeMapper {
+
     private DB database;
 
     public AttributeMapper(DB database) {
@@ -82,6 +84,35 @@ public class AttributeMapper {
         } catch (SQLException ex) {
             Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't delete selected attribute from DB");
+        }
+    }
+
+    public void updateProductAttributeSelections(Product product) {
+        try {
+            int productID = product.getProductID();
+            String SQL = "DELETE FROM Product_Attributes WHERE product_ID = ?";
+            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+
+            if (!product.getProductAttributes().isEmpty()) {
+                SQL = "INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES ";
+                boolean firstline = true;
+                for (Attribute productAttribute : product.getProductAttributes()) {
+                    if (firstline) {
+                        firstline = false;
+                    } else {
+                        SQL += ", ";
+                    }
+                    SQL += "(" + productID + ", " + productAttribute.getAttributeID() + ", '" + productAttribute.getAttributeValueForID(productID) + "')";
+
+                }
+                database.getConnection().prepareStatement(SQL).executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Can't update the new product-attribute connections in the database");
         }
     }
 

@@ -48,7 +48,7 @@ public class StorageFacade {
     public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
         return categoryMapper.getCategories(attributeList);
     }
-    
+
     public ArrayList<Attribute> getAttributes() {
         return attributeMapper.getAttributes();
     }
@@ -56,7 +56,7 @@ public class StorageFacade {
     public void deleteCategory(int categoryID) {
         categoryMapper.deleteCategory(categoryID);
     }
-    
+
     public void editCategory(Category category) {
         categoryMapper.editCategory(category);
     }
@@ -76,7 +76,7 @@ public class StorageFacade {
     public void editProduct(Product product) {
         productMapper.editProduct(product);
     }
-    
+
     public Attribute addNewAttribute(String AttributeName) {
         return attributeMapper.addNewAttribute(AttributeName);
     }
@@ -84,8 +84,18 @@ public class StorageFacade {
     public void editCategoriesToProduct(Product product) {
         productMapper.editCategoriesToProduct(product);
     }
-    
+
     public void editAttributeToCategory(Category category) {
         categoryMapper.editAttributeToCategories(category);
+    }
+
+    public void updateProductAttributeSelections(Product product) {
+        attributeMapper.updateProductAttributeSelections(product);
+    }
+
+    public void updateProductAttributeSelections(ArrayList<Product> productsUpdated) {
+        for (Product product : productsUpdated) {
+            attributeMapper.updateProductAttributeSelections(product);
+        }
     }
 }

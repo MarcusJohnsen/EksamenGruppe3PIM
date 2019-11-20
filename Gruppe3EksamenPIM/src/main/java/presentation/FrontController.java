@@ -48,7 +48,7 @@ public class FrontController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try {
+//        try {
             setup();
             Command cmd = Command.from(request);
             String view = cmd.execute(request, response, businessFacade);
@@ -57,10 +57,10 @@ public class FrontController extends HttpServlet {
             } else {
                 request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
             }
-        } catch (Exception ex) {
-            request.setAttribute("error", ex.getMessage());
-            request.getRequestDispatcher("/WEB-INF/errorpage.jsp").forward(request, response);
-        }
+//        } catch (Exception ex) {
+//            request.setAttribute("error", ex.getMessage());
+//            request.getRequestDispatcher("/WEB-INF/errorpage.jsp").forward(request, response);
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
