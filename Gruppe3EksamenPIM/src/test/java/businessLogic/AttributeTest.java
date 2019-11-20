@@ -1,5 +1,6 @@
 package businessLogic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -75,4 +76,44 @@ public class AttributeTest {
         assertNull(result);
     }
     
+    @Test (expected = IllegalArgumentException.class)
+    public void negativValidationAttributeTitle() {
+        //arrange
+        String attributeTitle = "";
+        
+        //act
+        Attribute.validateNewAttributeTitle(attributeTitle);
+    }
+    
+    @Test   (expected = IllegalArgumentException.class)
+    public void testValidateAttributeTitle() {
+        //arrange
+        int attributeID = 1;
+        String attributeTitle = "weight";
+        HashMap<Integer, String> attributeValues = new HashMap<>();
+        attributeValues.put(1, "attribute number 1");
+        Attribute attribute = new Attribute (attributeID, attributeTitle, attributeValues);
+        Attribute.addToAttributeList(attribute);
+        
+        //act
+        Attribute.validateNewAttributeTitle(attributeTitle);
+    }
+    
+    @Test
+    public void testGetMatchingAttributesOnIDs() {
+//        //arrange
+//        int attributeID = 1;
+//        String attributeTitle = "Have";
+//        Attribute attribute = new Attribute(int, String, HashMap<>);
+//        int attributeID2 = 2;
+//        String attributeTitle2 = "Electronic";
+//        HashMap<Integer, String> attributeValues = new HashMap<>();
+//        ArrayList<String> attributeChoices = new ArrayList();
+//        attributeChoices.add(attributeTitle);
+//        attributeChoices.add(attributeTitle2);
+//        
+//        Attribute.getMatchingAttributesOnIDs(attributeChoices);
+        
+        
+    }
 }

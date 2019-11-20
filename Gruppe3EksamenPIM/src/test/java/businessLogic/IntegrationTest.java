@@ -47,6 +47,10 @@ import static org.junit.Assert.*;
                 stmt.execute("drop table if exists Category_Attributes");
                 stmt.execute("create table Category_Attributes like Category_Attributes_Test");
                 stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
+                
+                stmt.execute("drop table if exists Product_Attributes");
+                stmt.execute("create table Product_Attributes like Product_Attributes_Test");
+                stmt.execute("insert into Product_Attributes select * from Product_Attributes_Test");
                 businessFacade.setupListsFromDB();
             }
 

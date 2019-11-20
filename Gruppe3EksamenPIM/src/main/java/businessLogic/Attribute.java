@@ -50,12 +50,6 @@ public class Attribute {
         return true;
     }
     
-    public static boolean validateNewAttributeValue(String attributeValue){
-        if(attributeValue.isEmpty()){
-            throw new IllegalArgumentException("Can't insert empty value");
-        }
-        return true;
-    }
     
     public static boolean addToAttributeList(Attribute attribute){
         return attributeList.add(attribute);

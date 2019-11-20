@@ -47,3 +47,11 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (2,3),
     (3,1);
     
+    CREATE TABLE Fake_PIM_Database.Product_Attributes_Test like PIM_Database.Product_Attributes;
+    INSERT INTO Product_Attributes_Test (Product_ID, Attribute_ID, Attributes_Info) VALUES
+    (1,1,"Bla"),
+    (1,2,"Blabla"),
+    (1,3,"Blablabla"),
+    (2,3,"Blablablabla"),
+    (3,1,"Blablablablabla");
+    
