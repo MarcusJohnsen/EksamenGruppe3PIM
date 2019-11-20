@@ -118,13 +118,14 @@ public class BusinessFacade {
     
     public void editCategoriesToProduct(Product product, ArrayList<String> categoryChoices){
         ArrayList<Category> categoryList = Category.getMatchingCategoriesOnIDs(categoryChoices);
-        product.setProductCategories(categoryList);
+        product.editProductCategories(categoryList);
         storageFacade.editCategoriesToProduct(product);
     }
     
     public void editAttributesToCategory(Category category, ArrayList<String> attributeChoices){
         ArrayList<Attribute> attributeList = Attribute.getMatchingAttributesOnIDs(attributeChoices);
         category.setCategoryAttributes(attributeList);
+        Product.updateCategoryAttributes(category.getCategoryID());
         storageFacade.editAttributeToCategory(category);
     }
 }

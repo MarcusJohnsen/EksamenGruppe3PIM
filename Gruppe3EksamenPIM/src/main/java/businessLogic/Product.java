@@ -2,6 +2,8 @@ package businessLogic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -14,7 +16,8 @@ public class Product {
     private String description;
     private String picturePath;
     private ArrayList<String> distributors;
-    ArrayList<Category> productCategories;
+    private ArrayList<Category> productCategories;
+    private ArrayList<Attribute> productAttributes;
 
     private static ArrayList<Product> productList = new ArrayList();
 
@@ -26,10 +29,40 @@ public class Product {
         this.distributors = distributors;
         if (productCategories != null) {
             this.productCategories = productCategories;
+            createAttributesFromCategories();
         } else {
+            this.productAttributes = new ArrayList();
             this.productCategories = new ArrayList();
         }
 
+    }
+
+    private void createAttributesFromCategories() {
+        Set<Attribute> attributeSet = new HashSet();
+        for (Category productCategory : productCategories) {
+            attributeSet.addAll(productCategory.getCategoryAttributes());
+        }
+        this.productAttributes = new ArrayList(attributeSet);
+    }
+    
+    public static void updateCategoryAttributes(int categoryID) {
+        ArrayList<Product> productsNeedingUpdatedAttributes = findProductsOnCategoryID(categoryID);
+        for (Product productsNeedingUpdatedAttribute : productsNeedingUpdatedAttributes) {
+            productsNeedingUpdatedAttribute.createAttributesFromCategories();
+        }
+    }
+    
+    public static ArrayList<Product> findProductsOnCategoryID(int categoryID){
+        ArrayList<Product> result = new ArrayList();
+        for (Product product : productList) {
+            for (Category productCategory : product.getProductCategories()) {
+                if(productCategory.getCategoryID() == categoryID){
+                    result.add(product);
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     public static void setupProductListFromDB(ArrayList<Product> productListFromDB) {
@@ -76,6 +109,11 @@ public class Product {
         return true;
     }
 
+    public void editProductCategories(ArrayList<Category> productCategories) {
+        this.productCategories = productCategories;
+        createAttributesFromCategories();
+    }
+
     public int getProductID() {
         return productID;
     }
@@ -108,8 +146,4 @@ public class Product {
         return productCategories;
     }
 
-    public void setProductCategories(ArrayList<Category> productCategories) {
-        this.productCategories = productCategories;
-    }
-    
 }
