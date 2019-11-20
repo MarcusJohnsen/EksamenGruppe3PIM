@@ -146,10 +146,13 @@ import static org.junit.Assert.*;
         String productDescription = "This is new newest product for testing";
         String firstDistributor = "1st Distributor";
         String secondDistributor = "2nd Distributor";
+        String firstDistributor2 = "1st Distributor";
+        String secondDistributor2 = "2nd Distributor";
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{firstDistributor, secondDistributor}));
+        ArrayList<String> productAttributes = new ArrayList(Arrays.asList(new String[]{firstDistributor2, secondDistributor2}));
 
         //act
-        businessFacade.editProduct(productID, productName, productDescription, productDistributors);
+        businessFacade.editProduct(productID, productName, productDescription, productDistributors, productAttributes);
         Product result = businessFacade.getProductFromID(productID);
 
         //assert

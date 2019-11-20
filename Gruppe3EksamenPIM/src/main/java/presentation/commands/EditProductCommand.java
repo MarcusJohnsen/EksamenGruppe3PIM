@@ -22,9 +22,10 @@ public class EditProductCommand extends Command {
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
         ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
+        ArrayList<String> attributes = new ArrayList(Arrays.asList(request.getParameterValues("Product Attributes")));
 
         try {
-            businessFacade.editProduct(productID, productName, productDescription, distributors);
+            businessFacade.editProduct(productID, productName, productDescription, distributors, attributes);
         } catch (IllegalArgumentException ex) {
             nextJsp = "editProduct";
             request.setAttribute("error", ex.getMessage());

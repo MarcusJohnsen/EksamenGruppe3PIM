@@ -67,7 +67,7 @@ public class BusinessFacade {
         return Product.deleteProductOnID(productID);
     }
 
-    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributors) throws IllegalArgumentException {
+    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributors, ArrayList<String> productAttributes) throws IllegalArgumentException {
         validateProductInput(productName, productDescription, productDistributors);
         Product product = findProductOnID(productID);
         product.editProduct(productName, productDescription, productDistributors);
