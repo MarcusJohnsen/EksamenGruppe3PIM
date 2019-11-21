@@ -207,7 +207,7 @@ public class ProductMapper {
         }
     }
 
-    public void editCategoriesToProduct(Product product) {
+    public void editProductCategories(Product product) {
         try {
             int productID = product.getProductID();
             String SQL = "DELETE FROM Product_Categories WHERE product_ID = ?";

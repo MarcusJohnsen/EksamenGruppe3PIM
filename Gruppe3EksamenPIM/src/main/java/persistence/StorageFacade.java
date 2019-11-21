@@ -82,7 +82,7 @@ public class StorageFacade {
     }
 
     public void editCategoriesToProduct(Product product) {
-        productMapper.editCategoriesToProduct(product);
+        productMapper.editProductCategories(product);
     }
 
     public void editAttributeToCategory(Category category) {
