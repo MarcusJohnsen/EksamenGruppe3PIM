@@ -23,20 +23,20 @@
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="selectAttributesForCategory" />
             <input type="hidden" name="categoryID" value="<%=CategoryID%>" />
-            <p align="center"><input type="submit" value="Add Attributes to Category" /></p>
+            <p align="center"><input type="submit" value="Add Attributes to Category" required="required" /></p>
         </form>
         <form action="FrontController">
-            <input type="hidden" name="categoryID" value="<%=CategoryID%>" />
+            <input type="hidden" name="categoryID" value="<%=CategoryID%>"/>
             <p align="center">
                 Category Name:
                 <br>
-                <input type="text" name="Category Name" value="<%=CategoryName%>"/>
+                <input type="text" name="Category Name" value="<%=CategoryName%>" required="required"/>
             </p>
             
             <p align="center">
                 Category Description:
                 <br>
-                <textarea name="Category Description" rows="8" cols="40"><%=CategoryDescription%></textarea>
+                <textarea name="Category Description" rows="8" cols="40" required="required"><%=CategoryDescription%></textarea>
             </p>
             
             <p align="center">

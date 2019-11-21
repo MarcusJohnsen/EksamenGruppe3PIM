@@ -19,7 +19,7 @@
                 Attribute name:
                 <br>
                 <input type="hidden" name="command" value="addAttribute" />
-                <input type="text" name="attributeName" value="" /> </p>
+                <input type="text" name="attributeName" value="" required="required /> </p>
             <p align="center"><input type="submit" value="Save" /></p>
         </form>
         <form action="FrontController" method="POST">

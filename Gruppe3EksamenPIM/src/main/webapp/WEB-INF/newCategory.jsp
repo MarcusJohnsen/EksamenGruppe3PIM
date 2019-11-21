@@ -18,13 +18,13 @@
             <p align="center">
                 Category Name:
                 <br>
-                <input type="text" name="Category Name" value="" />
+                <input type="text" name="Category Name" value="" required="required" />
             </p>
 
             <p align="center">
                 Category Description:
                 <br>
-                <textarea name="Category Description" rows="8" cols="40"></textarea>
+                <textarea name="Category Description" rows="8" cols="40" required="required" ></textarea>
             </p>
 
             <input type="hidden" name="command" value="addCategory" />

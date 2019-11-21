@@ -38,13 +38,13 @@
             <p align="center">
                 Product Name:
                 <br>
-                <input type="text" name="Product Name" value="<%=ProductName%>"/>
+                <input type="text" name="Product Name" value="<%=ProductName%>" required="required"/>
             </p>
 
             <p align="center">
                 Product Description:
                 <br>
-                <textarea name="Product Description" rows="8" cols="40"><%=ProductDescription%></textarea>
+                <textarea name="Product Description" rows="8" cols="40" required="required"><%=ProductDescription%> </textarea>
             </p>
 
             <p align="center">
