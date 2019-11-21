@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -255,7 +256,7 @@ public class CategoryMapperTest {
         int expResult = 1;
         assertEquals(expResult, result);
     }
-
+    
     /**
      * Negative Test of deleteCategory method, of class CategoryMapper.<br>
      * If given an ID that does not match an CategoryID in the DB, it will affect 0 rows, and should therefore return 0.
@@ -291,10 +292,6 @@ public class CategoryMapperTest {
 
         //act
         int result = instance.deleteCategory(categoryID);
-
-        //assert
-        int expResult = 1;
-        assertEquals(expResult, result);
     }
     
     @Test
@@ -313,5 +310,37 @@ public class CategoryMapperTest {
         int expresult = 1;
         assertEquals(expresult, result);
     }
-
+    
+   /* @Test
+    public void testEditAttributesToCategory() {
+        int categoryID = 1;
+        String categoryName = "hej";
+        String categoryDescription = "hejhej";
+        ArrayList<Attribute> categoryAttributes = new ArrayList(Arrays.asList(new String[] {"hej", "hejhejhej"}));
+        Category category = new Category(categoryID, categoryName, categoryDescription, attributeList);
+        CategoryMapper instance = new CategoryMapper(database);
+        
+        //act
+        instance.editAttributeToCategories(category);
+        ArrayList<Attribute> attributeList = storageFacade.getAttributes();
+        
+        //assert
+        assertTrue()
+    } */
+    
+    /**
+     * Trying to update a category with a null value and expecting a crash due to it.
+     */
+    @Test (expected = IllegalArgumentException.class) 
+    public void negativeTestEditCategory() {
+        int categoryID = 1;
+        String categoryName = "kæledyr";
+        String categoryDescription = null;
+        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
+        CategoryMapper instance = new CategoryMapper(database);
+        
+        //act
+        int result = instance.editCategory(category);
+    }
 }
