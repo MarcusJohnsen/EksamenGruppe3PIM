@@ -1,6 +1,7 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -101,19 +102,27 @@ public class AttributeTest {
     
     @Test
     public void testGetMatchingAttributesOnIDs() {
-//        //arrange
-//        int attributeID = 1;
-//        String attributeTitle = "Have";
-//        Attribute attribute = new Attribute(int, String, HashMap<>);
-//        int attributeID2 = 2;
-//        String attributeTitle2 = "Electronic";
-//        HashMap<Integer, String> attributeValues = new HashMap<>();
-//        ArrayList<String> attributeChoices = new ArrayList();
-//        attributeChoices.add(attributeTitle);
-//        attributeChoices.add(attributeTitle2);
-//        
-//        Attribute.getMatchingAttributesOnIDs(attributeChoices);
+        //arrange
+        int attributeID1 = 11;
+        int attributeID2 = 12;
+        int attributeID3 = 13;
+        Attribute attribute1 = new Attribute(attributeID1, "Have", new HashMap());
+        Attribute attribute2 = new Attribute(attributeID2, "Electronic", new HashMap());
+        Attribute attribute3 = new Attribute(attributeID3, "Mad", new HashMap());
+        Attribute.addToAttributeList(attribute1);
+        Attribute.addToAttributeList(attribute2);
+        Attribute.addToAttributeList(attribute3);
+        ArrayList<String> searchAttributeIDs = new ArrayList(Arrays.asList(new String[]{Integer.toString(attributeID1), Integer.toString(attributeID2)}));
         
+        //act
+        ArrayList<Attribute> result = Attribute.getMatchingAttributesOnIDs(searchAttributeIDs);
+        
+        assertTrue(result.contains(attribute1));
+        assertTrue(result.contains(attribute2));
+        assertFalse(result.contains(attribute3));
         
     }
+    
+    
+    
 }
