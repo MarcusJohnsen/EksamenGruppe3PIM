@@ -216,7 +216,8 @@ public class ProductTest {
     @Test
     public void testFindProductOnProductID(){
     
-        
+     // arrange   
+    
     int categoryID1 = 100;
     String categoryName1 = "newsletters";
     String categoryDescription1 = "papermade";
@@ -259,8 +260,13 @@ public class ProductTest {
     Product.addToProductList(product2);
     Product.addToProductList(product3);
     
+    
+    // act
+    
    ArrayList<Product> result = new ArrayList(); 
    result = Product.findProductsOnCategoryID(100);
+   
+   // assert
    
    int expResultSize = 3;
    assertEquals(expResultSize, result.size());
@@ -269,5 +275,8 @@ public class ProductTest {
         
         
     }
+    
+    
+    
     
 }
