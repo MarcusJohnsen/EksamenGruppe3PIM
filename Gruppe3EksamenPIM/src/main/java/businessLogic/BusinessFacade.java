@@ -12,6 +12,7 @@ import static businessLogic.Product.validateProductInput;
 import factory.SystemMode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import persistence.StorageFacade;
 
 /**
@@ -45,7 +46,13 @@ public class BusinessFacade {
 
     public boolean deleteCategory(int categoryID) {
         storageFacade.deleteCategory(categoryID);
-        return Category.deleteCategory(categoryID);
+        ArrayList<Product> productsWithCategory = Product.findProductsOnCategoryID(categoryID);
+        Category category = Category.findCategoryOnID(categoryID);
+        Product.deleteCategoryFromProducts(category);
+        boolean categoryWasDeleted = Category.deleteCategory(categoryID);
+        Product.createAttributesFromCategories(productsWithCategory);
+        storageFacade.updateProductAttributeSelections(productsWithCategory);
+        return categoryWasDeleted;
     }
     
     public void editCategory(int categoryID, String categoryName, String categoryDescription) throws IllegalArgumentException {
@@ -67,9 +74,10 @@ public class BusinessFacade {
         return Product.deleteProductOnID(productID);
     }
 
-    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributors) throws IllegalArgumentException {
+    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributors, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
         validateProductInput(productName, productDescription, productDistributors);
         Product product = findProductOnID(productID);
+        product.updateProductValues(productAttributeValues);
         product.editProduct(productName, productDescription, productDistributors);
         storageFacade.editProduct(product);
         storageFacade.updateProductAttributeValues(product);

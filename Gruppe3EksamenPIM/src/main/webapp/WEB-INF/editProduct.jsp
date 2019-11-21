@@ -23,9 +23,9 @@
             ArrayList<String> ProductDist = product.getDistributors();
             String picturePath = product.getPicturePath();
             int productID = product.getProductID();
-            
+
             ArrayList<Attribute> attributes = product.getProductAttributes();
-            
+
         %>
         <h1 align="center">Edit Product Information for product number <%=productID%></h1>
         <form action="FrontController" method="POST">
@@ -60,8 +60,8 @@
             </p>
             <div id="myDIV" align="center"> 
             </div>
-            
-                <table align="center" border="1" width = "20%" style="float: top">
+
+            <table align="center" border="1" width = "20%" style="float: top">
                 <thead>
                     <tr>
                         <td align="left">Attribute Name</td>
@@ -70,13 +70,14 @@
                 </thead>
                 <br>
                 <%for (Attribute attribute : attributes) {
-                String value = attribute.getAttributeValueForID(productID);
-                String attributeTitle = attribute.getAttributeTitle();
+                        int attributeID = attribute.getAttributeID();
+                        String value = attribute.getAttributeValueForID(productID);
+                        String attributeTitle = attribute.getAttributeTitle();
                 %>
                 <tr>
-                        <td align="left" width="20%"> <%=attributeTitle%> </td>
-                        <td align="center" width="30%"> <input type="text" style="width: 98%" name="Product Attributes" value="<%=value%>"/> </td>
-                    </tr>
+                    <td align="left" width="20%"> <%=attributeTitle%> </td>
+                    <td align="center" width="30%"> <input type="text" style="width: 98%" name="AttributeID<%=attributeID%>" value="<%=value%>"/> </td>
+                </tr>
                 </tbody>
                 <%}%>
             </table>

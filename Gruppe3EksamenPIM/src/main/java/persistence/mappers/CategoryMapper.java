@@ -88,8 +88,18 @@ public class CategoryMapper {
 
     public int deleteCategory(int categoryID) {
         try {
-            String SQL = "DELETE FROM Categories WHERE Category_ID = ?";
+            String SQL = "DELETE FROM category_attributes WHERE Category_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, categoryID);
+            ps.executeUpdate();
+            
+            SQL = "DELETE FROM product_categories WHERE Category_ID = ?";
+            ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, categoryID);
+            ps.executeUpdate();
+            
+            SQL = "DELETE FROM Categories WHERE Category_ID = ?";
+            ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, categoryID);
             return ps.executeUpdate();
 

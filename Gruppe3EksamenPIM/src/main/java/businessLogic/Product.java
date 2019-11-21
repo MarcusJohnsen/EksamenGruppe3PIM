@@ -2,6 +2,7 @@ package businessLogic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,6 +37,12 @@ public class Product {
         }
 
     }
+    
+    public static void deleteCategoryFromProducts(Category category) {
+        for (Product product : productList) {
+            product.productCategories.remove(category);
+        }
+    }
 
     private void createAttributesFromCategories() {
         Set<Attribute> attributeSet = new HashSet();
@@ -45,6 +52,12 @@ public class Product {
         this.productAttributes = new ArrayList(attributeSet);
     }
     
+    public static void createAttributesFromCategories(ArrayList<Product> products){
+        for (Product product : products) {
+            product.createAttributesFromCategories();
+        }
+    }
+
     public static ArrayList<Product> updateCategoryAttributes(int categoryID) {
         ArrayList<Product> result = findProductsOnCategoryID(categoryID);
         for (Product productsNeedingUpdatedAttribute : result) {
@@ -52,12 +65,12 @@ public class Product {
         }
         return result;
     }
-    
-    public static ArrayList<Product> findProductsOnCategoryID(int categoryID){
+
+    public static ArrayList<Product> findProductsOnCategoryID(int categoryID) {
         ArrayList<Product> result = new ArrayList();
         for (Product product : productList) {
             for (Category productCategory : product.getProductCategories()) {
-                if(productCategory.getCategoryID() == categoryID){
+                if (productCategory.getCategoryID() == categoryID) {
                     result.add(product);
                     break;
                 }
@@ -91,6 +104,14 @@ public class Product {
         this.name = name;
         this.description = description;
         this.distributors = distributors;
+    }
+
+    public void updateProductValues(HashMap<Integer, String> productAttributeValues) {
+        for (Attribute productAttribute : this.productAttributes) {
+            int attributeID = productAttribute.getAttributeID();
+            String newValue = productAttributeValues.get(attributeID);
+            productAttribute.insertValueIntoAttribute(newValue, this.productID);
+        }
     }
 
     public static boolean validateProductInput(String productName, String productDescription, ArrayList<String> productDistributors) throws IllegalArgumentException {
@@ -150,5 +171,5 @@ public class Product {
     public ArrayList<Attribute> getProductAttributes() {
         return productAttributes;
     }
-    
+
 }

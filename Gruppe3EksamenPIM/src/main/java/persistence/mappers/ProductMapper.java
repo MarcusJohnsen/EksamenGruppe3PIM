@@ -110,8 +110,18 @@ public class ProductMapper {
         deleteProductDistributors(productID);
 
         try {
-            String SQL = "DELETE FROM Product WHERE product_ID = ?";
+            String SQL = "DELETE FROM product_attributes WHERE product_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+            
+            SQL = "DELETE FROM product_categories WHERE product_ID = ?";
+            ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, productID);
+            ps.executeUpdate();
+            
+            SQL = "DELETE FROM Product WHERE product_ID = ?";
+            ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, productID);
             return ps.executeUpdate();
 
