@@ -25,7 +25,7 @@
             <p align="center">
                 Product Description:
                 <br>
-                <textarea name="Product Description" rows="8" cols="40"></textarea>
+                <textarea name="Product Description" rows="8" cols="40" required="required"></textarea>
             </p>
 
             <p align="center">

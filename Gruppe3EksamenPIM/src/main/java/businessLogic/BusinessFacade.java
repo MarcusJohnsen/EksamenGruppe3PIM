@@ -54,7 +54,7 @@ public class BusinessFacade {
         storageFacade.updateProductAttributeSelections(productsWithCategory);
         return categoryWasDeleted;
     }
-    
+
     public void editCategory(int categoryID, String categoryName, String categoryDescription) throws IllegalArgumentException {
         validateCategoryInput(categoryName, categoryDescription, categoryID);
         Category category = findCategoryOnID(categoryID);
@@ -88,14 +88,13 @@ public class BusinessFacade {
         product.setPicturePath(picturePath);
         storageFacade.updatePicturePath(productID, picturePath);
     }
-    
+
     public Attribute createNewAttribute(String attributeTitle) throws IllegalArgumentException {
         Attribute.validateNewAttributeTitle(attributeTitle);
         Attribute newAttribute = storageFacade.addNewAttribute(attributeTitle);
         Attribute.addToAttributeList(newAttribute);
         return newAttribute;
     }
-    
 
     public StorageFacade getStorageFacade() {
         return storageFacade;
@@ -116,23 +115,23 @@ public class BusinessFacade {
     public Product getProductFromID(int productID) {
         return Product.findProductOnID(productID);
     }
-    
+
     public ArrayList<Attribute> getAttributeList() {
         return Attribute.getAttributeList();
     }
-    
+
     public Attribute getAttributeFromID(int attributeID) {
         return Attribute.findAttributeOnID(attributeID);
     }
-    
-    public void editCategoriesToProduct(Product product, ArrayList<String> categoryChoices){
+
+    public void editCategoriesToProduct(Product product, ArrayList<String> categoryChoices) {
         ArrayList<Category> categoryList = Category.getMatchingCategoriesOnIDs(categoryChoices);
         product.editProductCategories(categoryList);
         storageFacade.editCategoriesToProduct(product);
         storageFacade.updateProductAttributeSelections(product);
     }
-    
-    public void editAttributesToCategory(Category category, ArrayList<String> attributeChoices){
+
+    public void editAttributesToCategory(Category category, ArrayList<String> attributeChoices) {
         ArrayList<Attribute> attributeList = Attribute.getMatchingAttributesOnIDs(attributeChoices);
         category.setCategoryAttributes(attributeList);
         ArrayList<Product> productsUpdated = Product.updateCategoryAttributes(category.getCategoryID());
