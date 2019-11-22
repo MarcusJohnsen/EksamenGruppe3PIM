@@ -33,7 +33,7 @@ public class CategoryMapperTest {
             testConnection = database.getConnection();
             // reset test database
             try (Statement stmt = testConnection.createStatement()) {
-                                stmt.execute("drop table if exists Product_Distributor");
+                stmt.execute("drop table if exists Product_Distributor");
                 stmt.execute("drop table if exists Product_Categories");
                 stmt.execute("drop table if exists Product_Attributes");
                 stmt.execute("drop table if exists Category_Attributes");
