@@ -37,12 +37,23 @@ public class ProductMapperTest {
                 stmt.execute("drop table if exists Product");
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
+                
                 stmt.execute("drop table if exists Product_Distributor");
                 stmt.execute("create table Product_Distributor like Product_Distributor_Test");
                 stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
+                
                 stmt.execute("drop table if exists Product_Categories");
                 stmt.execute("create table Product_Categories like Product_Categories_Test");
                 stmt.execute("insert into Product_Categories select * from Product_Categories_Test");
+                
+                stmt.execute("drop table if exists Product_Attributes");
+                stmt.execute("create table Product_Attributes like Product_Attributes_Test");
+                stmt.execute("insert into Product_Attributes select * from Product_Attributes_Test");
+                
+                stmt.execute("drop table if exists Attributes");
+                stmt.execute("create table Attributes like Attributes_Test");
+                stmt.execute("insert into Attributes select * from Attributes_Test");
+                
             }
             categoryList.clear();
 
