@@ -1,6 +1,8 @@
 package persistence.mappers;
 
 import businessLogic.Attribute;
+import businessLogic.Category;
+import businessLogic.Product;
 import factory.SystemMode;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,7 +19,6 @@ public class AttributeMapperTest {
     private static Connection testConnection;
     private final DB database = new DB(SystemMode.TEST);
     private final AttributeMapper attributeMapper = new AttributeMapper(database);
-    private final int numberOfAttributesInDB = 3;
 
     @Before
     public void setup() {
@@ -94,13 +95,13 @@ public class AttributeMapperTest {
      */
     @Test (expected = IllegalArgumentException.class)
     public void negativeTestGetAttributes() {
+        //arrange
         try {
             database.getConnection().createStatement().execute("drop table if exists Product_Attributes");
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Attributes");
         }
-        AttributeMapper instance = new AttributeMapper(database);
-        ArrayList<Attribute> result = instance.getAttributes();
+        ArrayList<Attribute> result = attributeMapper.getAttributes();
     }
     
     @Test
@@ -110,11 +111,100 @@ public class AttributeMapperTest {
         
         //act
         int result = attributeMapper.deleteAttribute(attributeID);
-        //ArrayList<Attribute> result2 = attributeMapper.getAttributes();
         
         //assert
         int expResult = 1;
         assertEquals(expResult, result); 
-        //assertEquals(result2.size(), 5);
+    }
+    
+    /**
+     * Negative Test of deleteAttribute method, from class AttributeMapper.<br>
+     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
+     * We will try to simulate this change by removing the Attributes table before running the test.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTestDeleteAttribute() {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Attributes");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Attributes");
+        }
+        int attributeID = 1;
+        
+        //act
+        int result = attributeMapper.deleteAttribute(attributeID);
+    }
+    
+    /**
+     * this test creates an attribute and puts it in a category, and then creates a category and puts it in a product
+     * the value of the attribute is cleared and the method is run. The result shows that if the value is empty
+     * then the method creates an empty String.
+     */
+    @Test
+    public void testUpdateProductAttributeSelectionsAttributeValuesNull() {
+        //arrange
+        int attributeID = 6;
+        String attributeName = "hej";
+        HashMap<Integer, String> attributeValues = new HashMap();
+        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
+        
+        int categoryID = 3;
+        String categoryName = "New Category";
+        String categoryDescription = "New Description";
+        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        categoryAttributes.add(attribute);
+        Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
+        
+        int productID = 2;
+        String productName = "New Product";
+        String productDescription = "This is a new product";
+        String productPicturePath = "newProduct.img";
+        ArrayList<String> productDistributors = new ArrayList();
+        ArrayList<Category> productCategories = new ArrayList();
+        productCategories.add(category);
+        Product product = new Product(productID, productName,productDescription, productPicturePath, productDistributors, productCategories);
+        
+        //act
+        attribute.getAttributeValues().clear();
+        attributeMapper.updateProductAttributeSelections(product);
+        
+        //assert
+        assertNotNull(attribute.getAttributeValues());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestUpdateProductAttributeSelections() {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Attributes");
+            database.getConnection().createStatement().execute("drop table if exists Product");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Attributes");
+        }
+        
+        /* int attributeID = 6;
+        String attributeName = null;
+        HashMap<Integer, String> attributeValues = new HashMap();
+        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
+        
+        int categoryID = 3;
+        String categoryName = "New Category";
+        String categoryDescription = "New Description";
+        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        categoryAttributes.add(attribute);
+        Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes); */
+        
+        int productID = 2;
+        String productName = "New Product";
+        String productDescription = "This is a new product";
+        String productPicturePath = "newProduct.img";
+        ArrayList<String> productDistributors = new ArrayList();
+        ArrayList<Category> productCategories = new ArrayList();
+       // productCategories.add(category);
+        Product product = new Product(productID, productName,productDescription, productPicturePath, productDistributors, productCategories);
+        
+        attributeMapper.updateProductAttributeValues(product);
+        
     }
 }
