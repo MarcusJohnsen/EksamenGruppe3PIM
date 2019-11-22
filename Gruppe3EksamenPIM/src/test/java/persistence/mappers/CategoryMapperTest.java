@@ -7,10 +7,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import persistence.DB;
+import persistence.StorageFacade;
 
 /**
  *
@@ -20,6 +23,7 @@ public class CategoryMapperTest {
 
     private static Connection testConnection;
     private final DB database = new DB(SystemMode.TEST);
+    private final CategoryMapper categoryMapper = new CategoryMapper(database);
     private final int numberOfCategoriesInDB = 3;
     private ArrayList<Attribute> attributeList = new ArrayList();
 
@@ -70,6 +74,7 @@ public class CategoryMapperTest {
             testConnection = null;
             System.out.println("Could not open connection to database: " + ex.getMessage());
         }
+        attributeList.clear();
     }
 
     @Test
@@ -90,10 +95,9 @@ public class CategoryMapperTest {
         //arrange
         String categoryName = "New Category";
         String categoryDescription = "This is a new category";
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        Category result = instance.addNewCategory(categoryName, categoryDescription);
+        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription);
 
         //assert
         int expResultID = 4;
@@ -112,11 +116,10 @@ public class CategoryMapperTest {
         String categoryName = "New Category";
         String categoryDescriptionNr1 = "First new description";
         String categoryDescriptionNr2 = "Second new description";
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        instance.addNewCategory(categoryName, categoryDescriptionNr1);
-        instance.addNewCategory(categoryName, categoryDescriptionNr2);
+        categoryMapper.addNewCategory(categoryName, categoryDescriptionNr1);
+        categoryMapper.addNewCategory(categoryName, categoryDescriptionNr2);
     }
 
     /**
@@ -129,10 +132,9 @@ public class CategoryMapperTest {
         //arrange
         String categoryName = null;
         String categoryDescription = "new description";
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        instance.addNewCategory(categoryName, categoryDescription);
+        categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
     /**
@@ -147,10 +149,9 @@ public class CategoryMapperTest {
             categoryName += "n";
         }
         String categoryDescription = "new description";
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        Category result = instance.addNewCategory(categoryName, categoryDescription);
+        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription);
 
         //assert
         int expResultID = 4;
@@ -172,10 +173,9 @@ public class CategoryMapperTest {
             categoryName += "n";
         }
         String categoryDescription = "new description";
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        instance.addNewCategory(categoryName, categoryDescription);
+        categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
     /**
@@ -188,10 +188,9 @@ public class CategoryMapperTest {
         //arrange
         String categoryName = "New Category";
         String categoryDescription = null;
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        instance.addNewCategory(categoryName, categoryDescription);
+        categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
     /**
@@ -206,10 +205,9 @@ public class CategoryMapperTest {
         for (int i = 0; i < 2550; i++) {
             categoryDescription += "n";
         }
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        Category result = instance.addNewCategory(categoryName, categoryDescription);
+        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription);
 
         //assert
         int expResultID = 4;
@@ -231,10 +229,9 @@ public class CategoryMapperTest {
         for (int i = 0; i < 2551; i++) {
             categoryDescription += "n";
         }
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        instance.addNewCategory(categoryName, categoryDescription);
+        categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
     /**
@@ -243,10 +240,9 @@ public class CategoryMapperTest {
     @Test
     public void testGetCategories() {
         //arrange
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        ArrayList<Category> result = instance.getCategories(attributeList);
+        ArrayList<Category> result = categoryMapper.getCategories(attributeList);
 
         //assert
         assertEquals(numberOfCategoriesInDB, result.size());
@@ -265,10 +261,9 @@ public class CategoryMapperTest {
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Categories");
         }
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        ArrayList<Category> result = instance.getCategories(attributeList);
+        ArrayList<Category> result = categoryMapper.getCategories(attributeList);
 
     }
 
@@ -278,10 +273,9 @@ public class CategoryMapperTest {
     @Test
     public void testDeleteCategory() {
         int categoryID = 1;
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        int result = instance.deleteCategory(categoryID);
+        int result = categoryMapper.deleteCategory(categoryID);
 
         //assert
         int expResult = 1;
@@ -295,10 +289,9 @@ public class CategoryMapperTest {
     @Test
     public void testNegativeDeleteCategoryNoMatchingID() {
         int categoryID = 0;
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        int result = instance.deleteCategory(categoryID);
+        int result = categoryMapper.deleteCategory(categoryID);
 
         //assert
         int expResult = 0;
@@ -319,10 +312,9 @@ public class CategoryMapperTest {
         }
 
         int categoryID = 1;
-        CategoryMapper instance = new CategoryMapper(database);
 
         //act
-        int result = instance.deleteCategory(categoryID);
+        int result = categoryMapper.deleteCategory(categoryID);
     }
     
     @Test
@@ -332,32 +324,45 @@ public class CategoryMapperTest {
         String categoryDescription = "ting til kæledyr";
         ArrayList<Attribute> categoryAttributes = new ArrayList();
         Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
-        CategoryMapper instance = new CategoryMapper(database);
         
         //act
-        int result = instance.editCategory(category);
+        int result = categoryMapper.editCategory(category);
         
         //assert
         int expresult = 1;
         assertEquals(expresult, result);
     }
     
-   /* @Test
+   @Test
     public void testEditAttributesToCategory() {
         int categoryID = 1;
         String categoryName = "hej";
         String categoryDescription = "hejhej";
-        ArrayList<Attribute> categoryAttributes = new ArrayList(Arrays.asList(new String[] {"hej", "hejhejhej"}));
+        attributeList.add(new Attribute(2, "jeh", new HashMap<Integer, String>()));
+        attributeList.add(new Attribute(3, "ejh", new HashMap<Integer, String>()));
         Category category = new Category(categoryID, categoryName, categoryDescription, attributeList);
-        CategoryMapper instance = new CategoryMapper(database);
         
         //act
-        instance.editAttributeToCategories(category);
-        ArrayList<Attribute> attributeList = storageFacade.getAttributes();
+        categoryMapper.editAttributeToCategories(category);
+        ArrayList<Category> result = categoryMapper.getCategories(attributeList);
+        
         
         //assert
-        assertTrue()
-    } */
+        assertTrue(category.getCategoryAttributes().containsAll(result.get(0).getCategoryAttributes()));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestEditCategoryNoMatchingID() {
+        int categoryID = 69;
+        String categoryName = "hej";
+        String categoryDescription = "hejhej";
+        attributeList.add(new Attribute(0, categoryName, new HashMap<Integer, String>()));
+        Category category = new Category(categoryID, "No", categoryDescription, attributeList);
+        
+        categoryMapper.editAttributeToCategories(category);
+        
+    }
+    
     
     /**
      * Trying to update a category with a null value and expecting a crash due to it.
@@ -369,9 +374,8 @@ public class CategoryMapperTest {
         String categoryDescription = null;
         ArrayList<Attribute> categoryAttributes = new ArrayList();
         Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
-        CategoryMapper instance = new CategoryMapper(database);
         
         //act
-        int result = instance.editCategory(category);
+        int result = categoryMapper.editCategory(category);
     }
 }
