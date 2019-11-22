@@ -96,8 +96,18 @@ public class AttributeMapper {
 
     public int deleteAttribute(int attributeID) {
         try {
-            String SQL = "DELETE FROM Attributes WHERE Attribute_ID = ?";
+            String SQL = "DELETE FROM category_attributes WHERE Attribute_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, attributeID);
+            ps.executeUpdate();
+            
+            SQL = "DELETE FROM product_attributes WHERE Attribute_ID = ?";
+            ps = database.getConnection().prepareStatement(SQL);
+            ps.setInt(1, attributeID);
+            ps.executeUpdate();
+            
+            SQL = "DELETE FROM Attributes WHERE Attribute_ID = ?";
+            ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, attributeID);
             return ps.executeUpdate();
 
