@@ -162,11 +162,11 @@ public class ProductMapper {
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();
-            throw new IllegalArgumentException("Can't delete product from database");
-        } finally {
             database.setAutoCommit(true);
+            throw new IllegalArgumentException("Can't delete product from database");
         }
 
+        database.setAutoCommit(true);
         return rowsAffected;
 
     }
@@ -209,11 +209,11 @@ public class ProductMapper {
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();
-            throw new IllegalArgumentException("Can't update product in database");
-        } finally {
             database.setAutoCommit(true);
+            throw new IllegalArgumentException("Can't update product in database");
         }
 
+        database.setAutoCommit(true);
         return rowsAffected;
     }
 
@@ -248,11 +248,11 @@ public class ProductMapper {
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();
-            throw new IllegalArgumentException("Can't change the categories tied to productID " + product.getProductID());
-        } finally {
             database.setAutoCommit(true);
+            throw new IllegalArgumentException("Can't change the categories tied to productID " + product.getProductID());
         }
 
+        database.setAutoCommit(true);
         return rowsAffected;
     }
 
