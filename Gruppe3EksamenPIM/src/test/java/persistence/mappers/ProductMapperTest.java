@@ -12,6 +12,7 @@ import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import persistence.DB;
 
 /**
@@ -65,7 +66,7 @@ public class ProductMapperTest {
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Product_Attributes select * from Product_Attributes_Test");
-                
+
                 stmt.execute("create table Category_Attributes like Category_Attributes_Test");
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
                 stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
@@ -410,7 +411,7 @@ public class ProductMapperTest {
         int result = productMapper.deleteProduct(productID);
 
         //assert
-        int expResult = 1;
+        int expResult = 8;
         assertEquals(expResult, result);
     }
 
@@ -445,7 +446,7 @@ public class ProductMapperTest {
         int result = productMapper.editProduct(product);
 
         //assert
-        int expResult = 1;
+        int expResult = 5;
         assertEquals(expResult, result);
     }
 
@@ -467,107 +468,6 @@ public class ProductMapperTest {
 
         //act
         int result = productMapper.editProduct(product);
-    }
-
-    /**
-     * Test of getProductDistributors method, of class ProductMapper.
-     */
-    @Test
-    public void testGetProductDistributors() {
-        //arrange
-        int product_ID = 1;
-
-        //act
-        ArrayList<String> result = productMapper.getProductDistributors(product_ID);
-
-        //assert
-        assertEquals(numberOfProductDistributorsForProductIDNr1InDB, result.size());
-    }
-
-    /**
-     * Negative test of getProductDistributors method, of class ProductMapper. The only way this method should be able to fail is if there is a structural change in the DB.<br>
-     * We will try to simulate this change by removing the Product_Distributor table before running the test.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestGetProductDistributors() {
-        //arrange
-        try {
-            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
-        } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Product_Distributor");
-        }
-        int productID = 1;
-
-        //act
-        ArrayList<String> result = productMapper.getProductDistributors(productID);
-    }
-
-    /**
-     * Test of addProductDistributors method, of class ProductMapper.
-     */
-    @Test
-    public void testAddProductDistributors() {
-        //arrange
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"new Dist. 1", "new Dist. 2", "new Dist. 3"}));
-        int productID = 1;
-
-        //act
-        int result = productMapper.addProductDistributors(productDistributors, productID);
-
-        //assert
-        int expResult = productDistributors.size();
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Negative test of addProductDistributors method, of class ProductMapper. productDistributor field in DB is made to be not null, varchar(255).<br>
-     * productDistributor exceeding the 255 varchar limit should cause an exception to be thrown.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestAddProductDistributors() {
-        //arrange
-        String productDistributor = "";
-        for (int i = 0; i < 256; i++) {
-            productDistributor += "n";
-        }
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{productDistributor}));
-        int productID = 1;
-
-        //act
-        int result = productMapper.addProductDistributors(productDistributors, productID);
-    }
-
-    /**
-     * Test of deleteProductDistributors method, of class ProductMapper.
-     */
-    @Test
-    public void testDeleteProductDistributors() {
-        //arrange
-        int productID = 1;
-
-        //act
-        int result = productMapper.deleteProductDistributors(productID);
-
-        //assert
-        assertEquals(numberOfProductDistributorsForProductIDNr1InDB, result);
-    }
-
-    /**
-     * Negative test of deleteProductDistributors method, of class ProductMapper. The only way this method should be able to fail is if there is a structural change in the DB.<br>
-     * We will try to simulate this change by removing the Product_Distributor table before running the test.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestDeleteProductDistributors() {
-        //arrange
-        try {
-            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
-        } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Product_Distributor");
-        }
-        int productID = 1;
-
-        //act
-        int result = productMapper.deleteProductDistributors(productID);
     }
 
     /**

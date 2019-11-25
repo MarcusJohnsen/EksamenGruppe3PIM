@@ -56,7 +56,7 @@ public class AttributeMapperTest {
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Product_Attributes select * from Product_Attributes_Test");
-                
+
                 stmt.execute("create table Category_Attributes like Category_Attributes_Test");
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
                 stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
@@ -74,26 +74,26 @@ public class AttributeMapperTest {
         // Just check that we have a connection.
         assertNotNull(testConnection);
     }
-    
+
     /**
      * Trying to insert a null name value into the database, and thus expecting a crash
      */
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void negativeTestAddNewAttribute() {
         //arrange
         String attributeName = null;
         AttributeMapper instance = new AttributeMapper(database);
-        
+
         //act
         Attribute result = instance.addNewAttribute(attributeName);
     }
-    
+
     /**
      * Negative Test of getAttributes method, from class AttributeMapper.<br>
      * The only way this method should be able to fail is if there is a structural change in the DB.<br>
      * We will try to simulate this change by removing the Product_Attributes table before running the test.
      */
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void negativeTestGetAttributes() {
         //arrange
         try {
@@ -103,20 +103,20 @@ public class AttributeMapperTest {
         }
         ArrayList<Attribute> result = attributeMapper.getAttributes();
     }
-    
+
     @Test
     public void testDeleteAttribute() {
         //arrange
         int attributeID = 1;
-        
+
         //act
         int result = attributeMapper.deleteAttribute(attributeID);
-        
+
         //assert
-        int expResult = 1;
-        assertEquals(expResult, result); 
+        int expResult = 5;
+        assertEquals(expResult, result);
     }
-    
+
     /**
      * Negative Test of deleteAttribute method, from class AttributeMapper.<br>
      * The only way this method should be able to fail is if there is a structural change in the DB.<br>
@@ -131,15 +131,13 @@ public class AttributeMapperTest {
             fail("Could not make the structural change to the DB-table Attributes");
         }
         int attributeID = 1;
-        
+
         //act
         int result = attributeMapper.deleteAttribute(attributeID);
     }
-    
+
     /**
-     * this test creates an attribute and puts it in a category, and then creates a category and puts it in a product
-     * the value of the attribute is cleared and the method is run. The result shows that if the value is empty
-     * then the method creates an empty String.
+     * this test creates an attribute and puts it in a category, and then creates a category and puts it in a product the value of the attribute is cleared and the method is run. The result shows that if the value is empty then the method creates an empty String.
      */
     @Test
     public void testUpdateProductAttributeSelectionsAttributeValuesNull() {
@@ -148,14 +146,14 @@ public class AttributeMapperTest {
         String attributeName = "hej";
         HashMap<Integer, String> attributeValues = new HashMap();
         Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
-        
+
         int categoryID = 3;
         String categoryName = "New Category";
         String categoryDescription = "New Description";
         ArrayList<Attribute> categoryAttributes = new ArrayList();
         categoryAttributes.add(attribute);
         Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
-        
+
         int productID = 2;
         String productName = "New Product";
         String productDescription = "This is a new product";
@@ -163,17 +161,17 @@ public class AttributeMapperTest {
         ArrayList<String> productDistributors = new ArrayList();
         ArrayList<Category> productCategories = new ArrayList();
         productCategories.add(category);
-        Product product = new Product(productID, productName,productDescription, productPicturePath, productDistributors, productCategories);
-        
+        Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
+
         //act
         attribute.getAttributeValues().clear();
         attributeMapper.updateProductAttributeSelections(product);
-        
+
         //assert
         assertNotNull(attribute.getAttributeValues());
     }
-    
-    @Test (expected = IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void negativeTestUpdateProductAttributeSelections() {
         //arrange
         try {
@@ -181,23 +179,22 @@ public class AttributeMapperTest {
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Attributes");
         }
-        
+
         int productID = 2;
         String productName = "New Product";
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
         ArrayList<String> productDistributors = new ArrayList();
         ArrayList<Category> productCategories = new ArrayList();
-        Product product = new Product(productID, productName,productDescription, productPicturePath, productDistributors, productCategories);
-        
+        Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
+
         int attributeID = 1;
         String attributeName = null;
         HashMap<Integer, String> attributeValues = new HashMap();
         Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
-        
+
         product.getProductAttributes().add(attribute);
-        
         attributeMapper.updateProductAttributeSelections(product);
-        
+        attributeMapper.updateProductAttributeValues(product);
     }
 }

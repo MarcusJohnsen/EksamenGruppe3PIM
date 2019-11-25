@@ -2,7 +2,6 @@ package persistence.mappers;
 
 import businessLogic.Attribute;
 import businessLogic.Category;
-import businessLogic.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,7 +50,7 @@ public class CategoryMapper {
         try {
             ArrayList<Category> categoryList = new ArrayList();
             HashMap<Integer, ArrayList<Attribute>> categoryAttributesMap = new HashMap();
-            
+
             String SQL = "SELECT * FROM category_attributes";
             ResultSet rs = database.getConnection().prepareStatement(SQL).executeQuery();
             while (rs.next()) {
@@ -73,7 +72,7 @@ public class CategoryMapper {
                 int category_ID = rs.getInt("Category_ID");
                 String category_Name = rs.getString("Category_Name");
                 String category_Description = rs.getString("Category_Description");
-                
+
                 ArrayList<Attribute> categoryAttributes = categoryAttributesMap.get(category_ID);
                 Category category = new Category(category_ID, category_Name, category_Description, categoryAttributes);
                 categoryList.add(category);
@@ -87,29 +86,37 @@ public class CategoryMapper {
     }
 
     public int deleteCategory(int categoryID) {
+        int rowsAffected = 0;
         try {
-            String SQL = "DELETE FROM category_attributes WHERE Category_ID = ?";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setInt(1, categoryID);
-            ps.executeUpdate();
-            
-            SQL = "DELETE FROM product_categories WHERE Category_ID = ?";
-            ps = database.getConnection().prepareStatement(SQL);
-            ps.setInt(1, categoryID);
-            ps.executeUpdate();
-            
-            SQL = "DELETE FROM Categories WHERE Category_ID = ?";
-            ps = database.getConnection().prepareStatement(SQL);
-            ps.setInt(1, categoryID);
-            int result = ps.executeUpdate();
-            return result;
+            database.setAutoCommit(false);
 
+            String sqlDeleteCategoryAttributes = "DELETE FROM category_attributes WHERE Category_ID = ?";
+            PreparedStatement psDeleteCategoryAttributes = database.getConnection().prepareStatement(sqlDeleteCategoryAttributes);
+            psDeleteCategoryAttributes.setInt(1, categoryID);
+            rowsAffected += psDeleteCategoryAttributes.executeUpdate();
+
+            String sqlDeleteProductCategories = "DELETE FROM product_categories WHERE Category_ID = ?";
+            PreparedStatement psDeleteProductCategories = database.getConnection().prepareStatement(sqlDeleteProductCategories);
+            psDeleteProductCategories.setInt(1, categoryID);
+            rowsAffected += psDeleteProductCategories.executeUpdate();
+
+            String sqlDeleteCategory = "DELETE FROM Categories WHERE Category_ID = ?";
+            PreparedStatement psDeleteCategory = database.getConnection().prepareStatement(sqlDeleteCategory);
+            psDeleteCategory.setInt(1, categoryID);
+            rowsAffected += psDeleteCategory.executeUpdate();
+
+            database.getConnection().commit();
         } catch (SQLException ex) {
             Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
             throw new IllegalArgumentException("Can't delete selected category from DB");
         }
+        database.setAutoCommit(true);
+
+        return rowsAffected;
     }
-    
+
     public int editCategory(Category category) {
         try {
             //Update category in category table
@@ -126,31 +133,39 @@ public class CategoryMapper {
             throw new IllegalArgumentException("Can't update category in database");
         }
     }
-    
-    public void editAttributeToCategories(Category category) {
+
+    public int editAttributeToCategories(Category category) {
+        int rowsAffected = 0;
+
         try {
+            database.setAutoCommit(false);
             int categoryID = category.getCategoryID();
             String SQL = "DELETE FROM category_attributes WHERE category_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, categoryID);
-            ps.executeUpdate();
-            
-            if(!category.getCategoryAttributes().isEmpty()){
-            SQL = "INSERT INTO Category_Attributes (Category_ID, Attribute_ID) VALUES ";
-            boolean firstline = true;
-            for (Attribute attribute : category.getCategoryAttributes()) {
-                if (firstline) {
-                    firstline = false;
-                } else {
-                    SQL += ", ";
+            rowsAffected += ps.executeUpdate();
+
+            if (!category.getCategoryAttributes().isEmpty()) {
+                SQL = "INSERT INTO Category_Attributes (Category_ID, Attribute_ID) VALUES ";
+                boolean firstline = true;
+                for (Attribute attribute : category.getCategoryAttributes()) {
+                    if (firstline) {
+                        firstline = false;
+                    } else {
+                        SQL += ", ";
+                    }
+                    SQL += "(" + categoryID + ", '" + attribute.getAttributeID() + "')";
                 }
-                SQL += "(" + categoryID + ", '" + attribute.getAttributeID() + "')";
-            }
-            database.getConnection().prepareStatement(SQL).executeUpdate();
+                rowsAffected += database.getConnection().prepareStatement(SQL).executeUpdate();
             }
         } catch (SQLException ex) {
             Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
             throw new IllegalArgumentException("Can't change the attributes tied to categoryID " + category.getCategoryID());
         }
+
+        database.setAutoCommit(true);
+        return rowsAffected;
     }
 }

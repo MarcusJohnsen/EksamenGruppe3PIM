@@ -23,50 +23,37 @@ public class DBTest {
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String PROPERTIESFILEPATH = "/db.properties";
+    private static final SystemMode systemMode = SystemMode.TEST;
 
     @Test
     public void testConstructorForTests() {
-        try {
-            //arrange
-            SystemMode systemMode = SystemMode.TEST;
+        //act
+        DB result = new DB(systemMode);
+        Connection testConnection = result.getConnection();
 
-            //act
-            DB result = new DB(systemMode);
-            Connection testConnection = result.getConnection();
-
-            //assert
-            assertNotNull(result);
-            assertNotNull(testConnection);
-
-        } catch (SQLException ex) {
-            fail("An SQL exception was caught unexpectedly");
-        }
+        //assert
+        assertNotNull(result);
+        assertNotNull(testConnection);
     }
 
     @Test
     public void testConstructorForProduction() {
-        try {
-            //arrange
-            SystemMode systemMode = SystemMode.PRODUCTION;
+        //arrange
+        SystemMode systemModeProduction = SystemMode.PRODUCTION;
 
-            //act
-            DB result = new DB(systemMode);
-            Connection testConnection = result.getConnection();
+        //act
+        DB result = new DB(systemModeProduction);
+        Connection testConnection = result.getConnection();
 
-            //assert
-            assertNotNull(result);
-            assertNotNull(testConnection);
-
-        } catch (SQLException ex) {
-            fail("An SQL exception was caught unexpectedly");
-        }
+        //assert
+        assertNotNull(result);
+        assertNotNull(testConnection);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeCreateConnectionNoDBFile() {
 
         //arrange
-        SystemMode systemMode = SystemMode.TEST;
         DB database = new DB(systemMode);
         String badPropertiesPathNoFile = "";
 
@@ -78,7 +65,6 @@ public class DBTest {
     public void testNegativeCreateConnectionEmptyDBFile() {
 
         //arrange
-        SystemMode systemMode = SystemMode.TEST;
         DB database = new DB(systemMode);
         String badPropertiesPathEmptyFile = "/testEmptyDB.properties";
 
@@ -90,7 +76,6 @@ public class DBTest {
     public void testNegativeCreateConnectionBadInfoDBFile() {
 
         //arrange
-        SystemMode systemMode = SystemMode.TEST;
         DB database = new DB(systemMode);
         String badPropertiesPathBadInfo = "/testBadInfoDB.properties";
 
@@ -101,7 +86,6 @@ public class DBTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeCreateConnectionNoSuitableDriver() {
         //arrange
-        SystemMode systemMode = SystemMode.TEST;
         DB database = new DB(systemMode);
         String badDriver = "NoClassLikeThis";
 
@@ -111,22 +95,43 @@ public class DBTest {
 
     @Test
     public void testGetConnectionNoConnection() {
+        //arrange
+        DB database = new DB(systemMode);
+        database.setConnection(null);
+
+        //act
+        Connection result = database.getConnection();
+
+        //assert
+        assertNotNull(database);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeSetAutoCommit() {
+        //arrange
+        DB database = new DB(systemMode);
         try {
-            //arrange
-            SystemMode systemMode = SystemMode.TEST;
-            DB database = new DB(systemMode);
-            database.setConn(null);
-
-            //act
-            Connection result = database.getConnection();
-
-            //assert
-            assertNotNull(database);
-            assertNotNull(result);
-
+            database.getConnection().close();
         } catch (SQLException ex) {
-            fail("An SQL exception was caught unexpectedly");
+            fail("Could not close the database connection");
         }
+
+        //act
+        database.setAutoCommit(true);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeRollBack() {
+        //arrange
+        DB database = new DB(systemMode);
+        try {
+            database.getConnection().close();
+        } catch (SQLException ex) {
+            fail("Could not close the database connection");
+        }
+
+        //act
+        database.rollBack();
     }
 
 }

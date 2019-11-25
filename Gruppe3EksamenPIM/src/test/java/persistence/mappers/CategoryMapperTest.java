@@ -7,13 +7,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import persistence.DB;
-import persistence.StorageFacade;
 
 /**
  *
@@ -63,7 +61,7 @@ public class CategoryMapperTest {
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Product_Attributes select * from Product_Attributes_Test");
-                
+
                 stmt.execute("create table Category_Attributes like Category_Attributes_Test");
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
                 stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
@@ -81,7 +79,7 @@ public class CategoryMapperTest {
     public void testSetUpOK() {
         // Just check that we have a connection.
         assertNotNull(testConnection);
-        
+
     }
 
     public CategoryMapperTest() {
@@ -278,10 +276,10 @@ public class CategoryMapperTest {
         int result = categoryMapper.deleteCategory(categoryID);
 
         //assert
-        int expResult = 1;
+        int expResult = 6;
         assertEquals(expResult, result);
     }
-    
+
     /**
      * Negative Test of deleteCategory method, of class CategoryMapper.<br>
      * If given an ID that does not match an CategoryID in the DB, it will affect 0 rows, and should therefore return 0.
@@ -316,24 +314,24 @@ public class CategoryMapperTest {
         //act
         int result = categoryMapper.deleteCategory(categoryID);
     }
-    
+
     @Test
     public void testEditCategory() {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
         ArrayList<Attribute> categoryAttributes = new ArrayList();
-        Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
-        
+        Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
+
         //act
         int result = categoryMapper.editCategory(category);
-        
+
         //assert
         int expresult = 1;
         assertEquals(expresult, result);
     }
-    
-   @Test
+
+    @Test
     public void testEditAttributesToCategory() {
         int categoryID = 1;
         String categoryName = "hej";
@@ -341,40 +339,38 @@ public class CategoryMapperTest {
         attributeList.add(new Attribute(2, "jeh", new HashMap<Integer, String>()));
         attributeList.add(new Attribute(3, "ejh", new HashMap<Integer, String>()));
         Category category = new Category(categoryID, categoryName, categoryDescription, attributeList);
-        
+
         //act
         categoryMapper.editAttributeToCategories(category);
         ArrayList<Category> result = categoryMapper.getCategories(attributeList);
-        
-        
+
         //assert
         assertTrue(category.getCategoryAttributes().containsAll(result.get(0).getCategoryAttributes()));
     }
-    
-    @Test (expected = IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void negativeTestEditCategoryNoMatchingID() {
         int categoryID = 69;
         String categoryName = "hej";
         String categoryDescription = "hejhej";
         attributeList.add(new Attribute(0, categoryName, new HashMap<Integer, String>()));
         Category category = new Category(categoryID, "No", categoryDescription, attributeList);
-        
+
         categoryMapper.editAttributeToCategories(category);
-        
+
     }
-    
-    
+
     /**
      * Trying to update a category with a null value and expecting a crash due to it.
      */
-    @Test (expected = IllegalArgumentException.class) 
+    @Test(expected = IllegalArgumentException.class)
     public void negativeTestEditCategory() {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = null;
         ArrayList<Attribute> categoryAttributes = new ArrayList();
-        Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
-        
+        Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
+
         //act
         int result = categoryMapper.editCategory(category);
     }
