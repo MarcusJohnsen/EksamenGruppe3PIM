@@ -101,7 +101,8 @@ public class CategoryMapper {
             SQL = "DELETE FROM Categories WHERE Category_ID = ?";
             ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, categoryID);
-            return ps.executeUpdate();
+            int result = ps.executeUpdate();
+            return result;
 
         } catch (SQLException ex) {
             Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);

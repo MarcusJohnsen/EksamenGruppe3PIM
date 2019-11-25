@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence.mappers;
 
 import businessLogic.Attribute;
-import businessLogic.Category;
 import businessLogic.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import businessLogic.Attribute;
 import businessLogic.Category;
+import businessLogic.Distributor;
 import businessLogic.Product;
 import factory.SystemMode;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import persistence.mappers.AttributeMapper;
 import persistence.mappers.CategoryMapper;
+import persistence.mappers.DistributorMapper;
 import persistence.mappers.ProductMapper;
 
 /**
@@ -24,6 +20,7 @@ public class StorageFacade {
     private CategoryMapper categoryMapper;
     private ProductMapper productMapper;
     private AttributeMapper attributeMapper;
+    private DistributorMapper distributorMapper;
     private DB database;
 
     public StorageFacade(SystemMode systemMode) {
@@ -31,6 +28,7 @@ public class StorageFacade {
         this.categoryMapper = new CategoryMapper(database);
         this.productMapper = new ProductMapper(database);
         this.attributeMapper = new AttributeMapper(database);
+        this.distributorMapper = new DistributorMapper(database);
     }
 
     public DB getDatabase() {
@@ -51,6 +49,10 @@ public class StorageFacade {
 
     public ArrayList<Attribute> getAttributes() {
         return attributeMapper.getAttributes();
+    }
+    
+    public ArrayList<Distributor> getDistributors() {
+        return distributorMapper.getDistributors();
     }
 
     public void deleteCategory(int categoryID) {
@@ -87,6 +89,18 @@ public class StorageFacade {
 
     public void editAttributeToCategory(Category category) {
         categoryMapper.editAttributeToCategories(category);
+    }
+    
+    public Distributor addNewDistributor(String distributorName, String distributorDescription) {
+        return distributorMapper.addNewDistributor(distributorName, distributorDescription);
+    }
+    
+    public void deleteDistributor(int distributorID) {
+        distributorMapper.deleteDistributor(distributorID);
+    }
+
+    public void editDistributor(Distributor distributor) {
+        distributorMapper.editDistributor(distributor);
     }
 
     public void updateProductAttributeSelections(Product product) {

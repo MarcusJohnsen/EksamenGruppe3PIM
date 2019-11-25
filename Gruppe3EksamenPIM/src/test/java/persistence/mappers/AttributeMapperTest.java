@@ -191,13 +191,13 @@ public class AttributeMapperTest {
         Product product = new Product(productID, productName,productDescription, productPicturePath, productDistributors, productCategories);
         
         int attributeID = 1;
-        String attributeName = "hej";
+        String attributeName = null;
         HashMap<Integer, String> attributeValues = new HashMap();
         Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
         
         product.getProductAttributes().add(attribute);
         
-        attributeMapper.updateProductAttributeValues(product);
+        attributeMapper.updateProductAttributeSelections(product);
         
     }
 }

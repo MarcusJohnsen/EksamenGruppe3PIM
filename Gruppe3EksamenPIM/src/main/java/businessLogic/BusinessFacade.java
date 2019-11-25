@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businessLogic;
 
 import static businessLogic.Category.findCategoryOnID;
@@ -11,7 +6,6 @@ import static businessLogic.Product.findProductOnID;
 import static businessLogic.Product.validateProductInput;
 import factory.SystemMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import persistence.StorageFacade;
 
@@ -32,9 +26,11 @@ public class BusinessFacade {
         ArrayList<Attribute> attributeList = storageFacade.getAttributes();
         ArrayList<Category> categoryList = storageFacade.getCategories(attributeList);
         ArrayList<Product> productList = storageFacade.getProducts(categoryList);
+        ArrayList<Distributor> distributorList = storageFacade.getDistributors();
         Category.setupCategoryListFromDB(categoryList);
         Product.setupProductListFromDB(productList);
         Attribute.setupAttributeListFromDB(attributeList);
+        Distributor.setupDistributorListFromDB(distributorList);
     }
 
     public Category createNewCategory(String categoryName, String categoryDescription) throws IllegalArgumentException {
@@ -94,6 +90,13 @@ public class BusinessFacade {
         Attribute newAttribute = storageFacade.addNewAttribute(attributeTitle);
         Attribute.addToAttributeList(newAttribute);
         return newAttribute;
+    }
+    
+     public Distributor createNewDistributor(String distributorName, String distributorDescription) throws IllegalArgumentException {
+        Distributor.validateDistributorInput(distributorName, distributorDescription);
+        Distributor newDistributor = storageFacade.addNewDistributor(distributorName, distributorDescription);
+        Distributor.addToDistributorList(newDistributor);
+        return newDistributor;
     }
 
     public StorageFacade getStorageFacade() {
