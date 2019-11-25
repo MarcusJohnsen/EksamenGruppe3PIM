@@ -28,7 +28,7 @@ public class DB {
         createConnection(PROPERTIESFILEPATH, DRIVER);
     }
 
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
         if (conn == null) {
             createConnection(PROPERTIESFILEPATH, DRIVER);
         }
@@ -74,8 +74,26 @@ public class DB {
         }
     }
 
-    public void setConn(Connection conn) {
+    public void setConnection(Connection conn) {
         this.conn = conn;
+    }
+    
+    public void setAutoCommit(boolean autoCommitSetting){
+        try {
+            conn.setAutoCommit(autoCommitSetting);
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("An error occurred when change connection autoCommit status");
+        }
+    }
+    
+    public void rollBack(){
+        try {
+            conn.rollback();
+        } catch (SQLException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("An error occurred when trying to roll back commits for the database connection");
+        }
     }
 
 }

@@ -6,7 +6,6 @@
 package persistence.mappers;
 
 import businessLogic.Attribute;
-import businessLogic.Category;
 import businessLogic.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,7 +60,7 @@ public class AttributeMapper {
                 int productID = rs.getInt("Product_ID");
                 int attributeID = rs.getInt("Attribute_ID");
                 String productAttributeValue = rs.getString("Attribute_Info");
-                if(productAttributeValues.get(attributeID) != null){
+                if (productAttributeValues.get(attributeID) != null) {
                     productAttributeValues.get(attributeID).put(productID, productAttributeValue);
                 } else {
                     HashMap<Integer, String> value = new HashMap();
@@ -69,7 +68,7 @@ public class AttributeMapper {
                     productAttributeValues.put(attributeID, value);
                 }
             }
-            
+
             ArrayList<Attribute> attributeList = new ArrayList();
             SQL = "SELECT * FROM Attributes";
             ps = database.getConnection().prepareStatement(SQL);
@@ -79,7 +78,7 @@ public class AttributeMapper {
                 int attribute_ID = rs.getInt("Attribute_ID");
                 String attribute_Name = rs.getString("Attribute_Name");
                 HashMap<Integer, String> value = productAttributeValues.get(attribute_ID);
-                if(value == null){
+                if (value == null) {
                     value = new HashMap();
                 }
 
@@ -95,53 +94,87 @@ public class AttributeMapper {
     }
 
     public int deleteAttribute(int attributeID) {
+        int rowsAffected = 0;
+
         try {
-            String SQL = "DELETE FROM Attributes WHERE Attribute_ID = ?";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setInt(1, attributeID);
-            return ps.executeUpdate();
+            database.setAutoCommit(false);
+
+            String sqlDeleteCategoryAttributes = "DELETE FROM category_attributes WHERE Attribute_ID = ?";
+            PreparedStatement psDeleteCategoryAttributes = database.getConnection().prepareStatement(sqlDeleteCategoryAttributes);
+            psDeleteCategoryAttributes.setInt(1, attributeID);
+            rowsAffected += psDeleteCategoryAttributes.executeUpdate();
+
+            String sqlDeleteProductAttributes = "DELETE FROM product_attributes WHERE Attribute_ID = ?";
+            PreparedStatement psDeleteProductAttributes = database.getConnection().prepareStatement(sqlDeleteProductAttributes);
+            psDeleteProductAttributes.setInt(1, attributeID);
+            rowsAffected += psDeleteProductAttributes.executeUpdate();
+
+            String sqlDeleteAttribute = "DELETE FROM Attributes WHERE Attribute_ID = ?";
+            PreparedStatement psDeleteAttribute = database.getConnection().prepareStatement(sqlDeleteAttribute);
+            psDeleteAttribute.setInt(1, attributeID);
+            rowsAffected += psDeleteAttribute.executeUpdate();
+
+            database.getConnection().commit();
 
         } catch (SQLException ex) {
             Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
             throw new IllegalArgumentException("Can't delete selected attribute from DB");
         }
+
+        database.setAutoCommit(true);
+        return rowsAffected;
     }
 
-    public void updateProductAttributeSelections(Product product) {
+    public int updateProductAttributeSelections(Product product) {
+        int rowsAffected = 0;
+
         try {
+            database.setAutoCommit(false);
             int productID = product.getProductID();
-            String SQL = "DELETE FROM Product_Attributes WHERE product_ID = ?";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            String sqlDeleteProductAttributes = "DELETE FROM Product_Attributes WHERE product_ID = ?";
+            PreparedStatement ps = database.getConnection().prepareStatement(sqlDeleteProductAttributes);
             ps.setInt(1, productID);
-            ps.executeUpdate();
+            rowsAffected += ps.executeUpdate();
 
             if (!product.getProductAttributes().isEmpty()) {
-                SQL = "INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES ";
+                String sqlInsertProductAttributes = "INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES ";
                 boolean firstline = true;
                 for (Attribute productAttribute : product.getProductAttributes()) {
                     if (firstline) {
                         firstline = false;
                     } else {
-                        SQL += ", ";
+                        sqlInsertProductAttributes += ", ";
                     }
                     String attributeValue = productAttribute.getAttributeValueForID(productID);
-                    if(attributeValue == null){
+                    if (attributeValue == null) {
                         attributeValue = "";
                     }
-                    SQL += "(" + productID + ", " + productAttribute.getAttributeID() + ", '" + attributeValue + "')";
+                    sqlInsertProductAttributes += "(" + productID + ", " + productAttribute.getAttributeID() + ", '" + attributeValue + "')";
 
                 }
-                database.getConnection().prepareStatement(SQL).executeUpdate();
+                rowsAffected += database.getConnection().prepareStatement(sqlInsertProductAttributes).executeUpdate();
             }
+
+            database.getConnection().commit();
 
         } catch (SQLException ex) {
             Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
             throw new IllegalArgumentException("Can't update the new product-attribute connections in the database");
         }
+
+        database.setAutoCommit(true);
+        return rowsAffected;
     }
 
-    public void updateProductAttributeValues(Product product) {
+    public int updateProductAttributeValues(Product product) {
+        int rowsAffacted = 0;
+
         try {
+            database.setAutoCommit(false);
             int productID = product.getProductID();
             for (Attribute productAttribute : product.getProductAttributes()) {
                 String SQL = "UPDATE product_attributes SET Attribute_Info = ? WHERE Product_ID = ? AND Attribute_ID = ?";
@@ -149,12 +182,19 @@ public class AttributeMapper {
                 ps.setString(1, productAttribute.getAttributeValueForID(productID));
                 ps.setInt(2, productID);
                 ps.setInt(3, productAttribute.getAttributeID());
-                ps.executeUpdate();
+                rowsAffacted += ps.executeUpdate();
             }
+            database.getConnection().commit();
+
         } catch (SQLException ex) {
             Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
             throw new IllegalArgumentException("Can't update the new product-attribute connections in the database");
         }
+
+        database.setAutoCommit(true);
+        return rowsAffacted;
     }
 
 }
