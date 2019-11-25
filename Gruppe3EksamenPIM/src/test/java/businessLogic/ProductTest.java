@@ -341,4 +341,25 @@ public class ProductTest {
     }
     
     
+    @Test
+    public void testEditProductCategories(){
+    
+        //Attribute:int attributeID, String attributeTitle, HashMap<Integer, String> attributeValues
+        int attributeID = 1;
+        String attributeTitle = "Size";
+        HashMap<Integer,String> attributeValues =  new HashMap<>();
+        attributeValues.put(attributeID,attributeTitle);
+        
+        Attribute attribute = new Attribute(attributeID, attributeTitle, attributeValues);
+        
+        
+        //Category:int categoryID, String name, String description, ArrayList<Attribute> categoryAttributes
+        int categoryID = 100;
+        String name = "burner";
+        String description = "fire";
+        ArrayList<Attribute>categoryAttributes = new ArrayList(Arrays.asList(new String[]{"firestarter", "firecharger"}));
+        Category category = new Category(categoryID, name, description, categoryAttributes);
+        
+    }
+    
 }
