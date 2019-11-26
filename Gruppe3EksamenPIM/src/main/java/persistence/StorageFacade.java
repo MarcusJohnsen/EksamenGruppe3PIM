@@ -38,6 +38,27 @@ public class StorageFacade {
     public ArrayList<Product> getProducts(ArrayList<Category> categoryList, ArrayList<Distributor> distributorList) {
         return productMapper.getProducts(categoryList, distributorList);
     }
+    
+    /**
+     * 
+     * @param categoryName 
+     * @param categoryDescription
+     * Adds new category object and stores it in the Database.
+     * @return New category object
+     *  
+     */
+    
+    public Category addNewCategory(String categoryName, String categoryDescription) {
+        return categoryMapper.addNewCategory(categoryName, categoryDescription);
+    }
+
+    
+    /**
+     * 
+     * @param categoryList
+     * 
+     * @return A List of products.
+     */
 
     public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
         return categoryMapper.getCategories(attributeList);
@@ -49,10 +70,6 @@ public class StorageFacade {
     
     public ArrayList<Distributor> getDistributors() {
         return distributorMapper.getDistributors();
-    }
-    
-    public Category addNewCategory(String categoryName, String categoryDescription) {
-        return categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
     public void deleteCategory(int categoryID) {
