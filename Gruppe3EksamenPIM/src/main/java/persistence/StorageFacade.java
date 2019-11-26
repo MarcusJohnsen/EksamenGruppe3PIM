@@ -42,48 +42,62 @@ public class StorageFacade {
     public ArrayList<Product> getProducts(ArrayList<Category> categoryList, ArrayList<Distributor> distributorList) {
         return productMapper.getProducts(categoryList, distributorList);
     }
-    
+
     /**
-     * 
-     * @param categoryName 
-     * @param categoryDescription
-     * Adds new category object and stores it in the Database.
-     * @return New category object
-     *  
+     *
+     * @param categoryName
+     * @param categoryDescription Adds new category object and stores it in the
+     * Database.
+     * @return new category object
+     *
      */
-    
     public Category addNewCategory(String categoryName, String categoryDescription) {
         return categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
-    
     /**
-     * 
-     * @param categoryList
-     * 
-     * @return A List of products.
+     *
+     * @param attributeList
+     * @return attributeList
      */
-
     public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
         return categoryMapper.getCategories(attributeList);
     }
 
+    /**
+     *
+     * @return attribute objects
+     */
     public ArrayList<Attribute> getAttributes() {
         return attributeMapper.getAttributes();
     }
-    
+
     public ArrayList<Distributor> getDistributors() {
         return distributorMapper.getDistributors();
     }
 
+    /**
+     *
+     * @param categoryID is used to find and delete the category object
+     */
     public void deleteCategory(int categoryID) {
         categoryMapper.deleteCategory(categoryID);
     }
 
+    /**
+     * @param category edits the category object.
+     */
     public void editCategory(Category category) {
         categoryMapper.editCategory(category);
     }
 
+    /**
+     *
+     * @param productName
+     * @param productDescription
+     * @param noImageFileName
+     * @return
+     */
     public Product addNewProduct(String productName, String productDescription, String noImageFileName) {
         return productMapper.addNewProduct(productName, productDescription, noImageFileName);
     }
@@ -111,11 +125,11 @@ public class StorageFacade {
     public void editAttributeToCategory(Category category) {
         categoryMapper.editAttributeToCategories(category);
     }
-    
+
     public Distributor addNewDistributor(String distributorName, String distributorDescription) {
         return distributorMapper.addNewDistributor(distributorName, distributorDescription);
     }
-    
+
     public void deleteDistributor(int distributorID) {
         distributorMapper.deleteDistributor(distributorID);
     }
@@ -137,18 +151,19 @@ public class StorageFacade {
     public void updateProductAttributeValues(Product product) {
         attributeMapper.updateProductAttributeValues(product);
     }
-    
+
     public Bundle addNewBundle(String bundleName, String bundleDescription) {
         return bundleMapper.addNewBundle(bundleName, bundleDescription);
     }
-    
+
     public void deleteBundle(int bundleID) {
         bundleMapper.deleteBundle(bundleID);
     }
-    
+
     public void editBundle(Bundle bundle) {
         bundleMapper.editBundle(bundle);
     }
+
     public ArrayList<Bundle> getBundles(ArrayList<Product> productList) {
         return bundleMapper.getBundle(productList);
     }
