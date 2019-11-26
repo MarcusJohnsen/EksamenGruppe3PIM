@@ -1,5 +1,7 @@
 package businessLogic;
 
+import static businessLogic.Bundle.findBundleOnID;
+import static businessLogic.Bundle.validateBundleInput;
 import static businessLogic.Category.findCategoryOnID;
 import static businessLogic.Category.validateCategoryInput;
 import static businessLogic.Product.findProductOnID;
@@ -29,10 +31,12 @@ public class BusinessFacade {
         ArrayList<Category> categoryList = storageFacade.getCategories(attributeList);
         ArrayList<Distributor> distributorList = storageFacade.getDistributors();
         ArrayList<Product> productList = storageFacade.getProducts(categoryList, distributorList);
-        Category.setupCategoryListFromDB(categoryList);
-        Product.setupProductListFromDB(productList);
+        ArrayList<Bundle> bundleList = storageFacade.getBundles(productList);
         Attribute.setupAttributeListFromDB(attributeList);
         Distributor.setupDistributorListFromDB(distributorList);
+        Category.setupCategoryListFromDB(categoryList);
+        Product.setupProductListFromDB(productList);
+        Bundle.setupBundleListFromDB(bundleList);
     }
 
     public Category createNewCategory(String categoryName, String categoryDescription) throws IllegalArgumentException {
@@ -170,5 +174,38 @@ public class BusinessFacade {
         ArrayList<Product> productsUpdated = Product.updateCategoryAttributes(category.getCategoryID());
         storageFacade.updateProductAttributeSelections(productsUpdated);
         storageFacade.editAttributeToCategory(category);
+    }
+    
+    public Bundle createNewBundle(String bundleName, String bundleDescription) throws IllegalArgumentException {
+        Bundle.validateBundleInput(bundleName, bundleDescription, null);
+        Bundle newBundle = storageFacade.addNewBundle(bundleName, bundleDescription);
+        Bundle.addToBundleList(newBundle);
+        return newBundle;
+    }
+    
+    public boolean deleteBundle(int bundleID) {
+        storageFacade.deleteBundle(bundleID);
+        ArrayList<Product> productsWithBundle = Product.findProductsOnCategoryID(bundleID);
+        Bundle bundle = Bundle.findBundleOnID(bundleID);
+        Product.deleteBundleFromProducts(bundle);
+        boolean bundleWasDeleted = Bundle.deleteBundle(bundleID);
+        //Product.createAttributesFromCategories(productsWithCategory);
+        //storageFacade.updateProductAttributeSelections(productsWithCategory);
+        return bundleWasDeleted;
+    }
+    
+    public ArrayList<Bundle> getBundleList() {
+        return Bundle.getBundleList();
+    }
+    
+    public Bundle getBundleFromID(int bundleID) {
+        return Bundle.findBundleOnID(bundleID);
+    }
+    
+    public void editBundle(int bundleID, String bundleName, String bundleDescription) throws IllegalArgumentException {
+        validateBundleInput(bundleName, bundleDescription, bundleID);
+        Bundle bundle = findBundleOnID(bundleID);
+        bundle.editBundle(bundleName, bundleDescription);
+        storageFacade.editBundle(bundle);
     }
 }

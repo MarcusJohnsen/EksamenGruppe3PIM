@@ -1,5 +1,6 @@
 package presentation.commands;
 
+import businessLogic.Bundle;
 import businessLogic.BusinessFacade;
 import businessLogic.Category;
 import businessLogic.Distributor;
@@ -31,8 +32,13 @@ public class GoToJspCommand extends Command {
             case "viewAllDistributors":;
                 ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
                 request.setAttribute("distributorList", distributorList);
+            case "viewAllBundles":
+                ArrayList<Bundle> bundleList = businessFacade.getBundleList();
+                request.setAttribute("bundleList", bundleList);
+                break;
             default:
                 break;
+                
         }
 
         return jspPage;

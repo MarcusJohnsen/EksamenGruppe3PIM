@@ -18,6 +18,7 @@ public class Product {
     private ArrayList<Distributor> productDistributors;
     private ArrayList<Category> productCategories;
     private ArrayList<Attribute> productAttributes;
+    private ArrayList<Bundle> productBundle;
 
     private static ArrayList<Product> productList = new ArrayList();
 
@@ -62,7 +63,6 @@ public class Product {
         }
     }
 
-    
     /**
      * Traverses the productCategories-List and adds all the unique categoryAttributes to new HashSet.
      */
@@ -119,6 +119,24 @@ public class Product {
         for (Product product : productList) {
             for (Category productCategory : product.getProductCategories()) {
                 if (productCategory.getCategoryID() == categoryID) {
+                    result.add(product);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+    public static void deleteBundleFromProducts(Bundle bundle) {
+        for (Product product : productList) {
+            product.productCategories.remove(bundle);
+        }
+    }
+    
+    public static ArrayList<Product> findProductsOnBundleID(int bundleID) {
+        ArrayList<Product> result = new ArrayList();
+        for (Product product : productList) {
+            for (Bundle productBundle : product.getProductBundle()) {
+                if (productBundle.getBundleID() == bundleID) {
                     result.add(product);
                     break;
                 }
@@ -236,83 +254,43 @@ public class Product {
     }
 
     
-    /**
-     * 
-     * @return productID
-     */
-    
-    
     public int getProductID() {
         return productID;
     }
 
-    
-    /**
-     * 
-     * @return name
-     */
-    
     public String getName() {
         return name;
     }
 
-    
-    /**
-     * 
-     * @return description
-     */
-    
     public String getDescription() {
         return description;
     }
-
-    
-    /**
-     * 
-     * @return picturePath
-     */
     
     public String getPicturePath() {
         return picturePath;
     }
     
-    /**
-     * 
-     * @return productList
-     */
-    
     public static ArrayList<Product> getProductList() {
         return productList;
     }
-    
-    /**
-     * 
-     * @param picturePath Sets new value for picturePath
-     */
     
     public void setPicturePath(String picturePath) {
         this.picturePath = picturePath;
     }
 
-    /**
-     * 
-     * @return productCategories
-     */
-    
     public ArrayList<Category> getProductCategories() {
         return productCategories;
     }
 
-    /**
-     * 
-     * @return productAttributes
-     */
-    
     public ArrayList<Attribute> getProductAttributes() {
         return productAttributes;
     }
     
     public ArrayList<Distributor> getProductDistributors() {
         return productDistributors;
+    }
+    
+    public ArrayList<Bundle> getProductBundle() {
+        return productBundle;
     }
 }
