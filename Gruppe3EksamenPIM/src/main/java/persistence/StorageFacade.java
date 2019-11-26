@@ -37,10 +37,29 @@ public class StorageFacade {
         return database;
     }
 
+    
+    /**
+     * 
+     * @param categoryName 
+     * @param categoryDescription
+     * Adds new category object and stores it in the Database.
+     * @return New category object
+     *  
+     */
+    
     public Category addNewCategory(String categoryName, String categoryDescription) {
         return categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
+    
+    /**
+     * 
+     * @param categoryList
+     * 
+     * @return A List of products.
+     */
+    
+    
     public ArrayList<Product> getProducts(ArrayList<Category> categoryList) {
         return productMapper.getProducts(categoryList);
     }
