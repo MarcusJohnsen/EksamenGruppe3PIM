@@ -43,7 +43,7 @@ public class StorageFacade {
      * @param categoryName 
      * @param categoryDescription
      * Adds new category object and stores it in the Database.
-     * @return New category object
+     * @return new category object
      *  
      */
     
@@ -55,31 +55,55 @@ public class StorageFacade {
     /**
      * 
      * @param categoryList
-     * 
-     * @return A List of products.
+     * @return list of products.
      */
-    
     
     public ArrayList<Product> getProducts(ArrayList<Category> categoryList) {
         return productMapper.getProducts(categoryList);
     }
 
+    
+    /**
+     * 
+     * @param attributeList
+     * @return attributeList
+     */
     public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
         return categoryMapper.getCategories(attributeList);
     }
 
+    /**
+     * 
+     * @return attribute objects
+     */
     public ArrayList<Attribute> getAttributes() {
         return attributeMapper.getAttributes();
     }
 
+    /**
+     * 
+     * @param categoryID is used to find and delete the category object
+     */
     public void deleteCategory(int categoryID) {
         categoryMapper.deleteCategory(categoryID);
     }
 
+    /**
+     * @param category
+     * edits the category object.
+     */
     public void editCategory(Category category) {
         categoryMapper.editCategory(category);
     }
 
+    /**
+     * 
+     * @param productName
+     * @param productDescription
+     * @param noImageFileName
+     * @param productDistributors
+     * @return 
+     */
     public Product addNewProduct(String productName, String productDescription, String noImageFileName, ArrayList<String> productDistributors) {
         return productMapper.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
     }

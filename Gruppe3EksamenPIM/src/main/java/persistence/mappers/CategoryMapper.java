@@ -24,7 +24,19 @@ public class CategoryMapper {
         this.database = database;
     }
 
-    public Category addNewCategory(String categoryName, String categoryDescription) {
+    /**
+     * Creates new category object and stores it in the database. Get's the
+     * CategoryID from the database, and returns the Category object with the
+     * new ID
+     *
+     * @param categoryName String with length no longer than 255 charactors
+     * @param categoryDescription String with length no longer than 2550 charactors
+     *
+     * @return the category object with an ID given from the database.
+     * @throws IllegalArgumentException stating that category object could not
+     * be inserted, due to a sql error with the database.
+     */
+   public Category addNewCategory(String categoryName, String categoryDescription) {
         try {
             String SQL = "INSERT INTO Categories (Category_Name, Category_Description) VALUES (?, ?)";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -46,6 +58,12 @@ public class CategoryMapper {
         }
     }
 
+  
+   /**
+    * Gets the categoryList from the Database 
+    * @param attributeList
+    * @return 
+    */
     public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
         try {
             ArrayList<Category> categoryList = new ArrayList();
