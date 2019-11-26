@@ -28,13 +28,14 @@ public class ProductMapperTest {
 
     //setting up common variables so I won't have to write them for every single test
     private final int numberOfProductsInDB = 3;
-    private int productID = 1;
+    private final int productID = 1;
     private String productName = "Cykel";
     private String productDescription = "This is a new product";
     private String productPicturePath = "newProduct.img";
     private final ArrayList<Category> categoryList = new ArrayList();
-    private final ArrayList<Distributor> distributorList = new ArrayList();
-
+    Distributor distributor = new Distributor(1, "Company", "Test company");
+    private final ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new Distributor[]{distributor}));
+        
     @BeforeClass
     public static void oneTimeSetup() {
         try {
@@ -157,7 +158,7 @@ public class ProductMapperTest {
     @Test
     public void testGetProducts() {
         //act
-        ArrayList<Product> result = productMapper.getProducts(categoryList, distributorList);
+        ArrayList<Product> result = productMapper.getProducts(categoryList, productDistributors);
 
         //assert
         assertEquals(numberOfProductsInDB, result.size());
@@ -177,7 +178,7 @@ public class ProductMapperTest {
             fail("Could not make the structural change to the DB-table Product");
         }
         //act
-        productMapper.getProducts(categoryList, distributorList);
+        productMapper.getProducts(categoryList, productDistributors);
     }
 
     /**
@@ -186,7 +187,7 @@ public class ProductMapperTest {
     @Test
     public void testAddNewProduct() {
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
 
         //assert
         int expResultID = 4;
@@ -207,7 +208,7 @@ public class ProductMapperTest {
         productName = null;
 
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -222,7 +223,7 @@ public class ProductMapperTest {
             productName += "n";
         }
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
 
         //assert
         int expResultID = 4;
@@ -244,7 +245,7 @@ public class ProductMapperTest {
             productName += "n";
         }
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -258,7 +259,7 @@ public class ProductMapperTest {
         productDescription = null;
         
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -273,7 +274,7 @@ public class ProductMapperTest {
             productDescription += "n";
         }
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
 
         //assert
         int expResultID = 4;
@@ -296,7 +297,7 @@ public class ProductMapperTest {
             productDescription += "n";
         }
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -311,7 +312,7 @@ public class ProductMapperTest {
             productPicturePath += "n";
         }
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
 
         //assert
         int expResultID = 4;
@@ -334,7 +335,7 @@ public class ProductMapperTest {
             productPicturePath += "n";
         }
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -404,7 +405,7 @@ public class ProductMapperTest {
     @Test
     public void testEditProduct() {
         //arrange
-        Product product = new Product(productID, "newTitle", "newDescription", "newPic.img", distributorList, categoryList);
+        Product product = new Product(productID, "newTitle", "newDescription", "newPic.img", productDistributors, categoryList);
 
         //act
         int result = productMapper.editProduct(product);

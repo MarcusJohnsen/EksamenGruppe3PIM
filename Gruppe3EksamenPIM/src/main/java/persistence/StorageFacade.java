@@ -98,8 +98,8 @@ public class StorageFacade {
      * @param noImageFileName
      * @return
      */
-    public Product addNewProduct(String productName, String productDescription, String noImageFileName) {
-        return productMapper.addNewProduct(productName, productDescription, noImageFileName);
+    public Product addNewProduct(String productName, String productDescription, String noImageFileName, ArrayList<Distributor> productDistributors) {
+        return productMapper.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
     }
 
     public void deleteProduct(int productID) {

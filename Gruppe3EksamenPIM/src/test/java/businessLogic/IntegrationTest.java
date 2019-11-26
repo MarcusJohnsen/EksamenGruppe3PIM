@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import org.junit.Test;
 import org.junit.Before;
@@ -125,9 +126,11 @@ import static org.junit.Assert.*;
         //arrange
         String productName = "Newest Product";
         String productDescription = "This is new newest product for testing";
+        Distributor distributor = new Distributor(1, "Company", "Test company");
+        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new Distributor[]{distributor}));
         
         //act
-        Product result = businessFacade.createNewProduct(productName, productDescription);
+        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributors);
 
         //assert
         assertTrue(productName.equals(result.getName()));

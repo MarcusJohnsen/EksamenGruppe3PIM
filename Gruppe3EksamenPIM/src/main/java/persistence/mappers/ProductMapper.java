@@ -30,18 +30,19 @@ public class ProductMapper {
             ArrayList<Product> productList = new ArrayList();
             HashMap<Integer, ArrayList<Category>> productCategoriesMap = new HashMap();
             HashMap<Integer, ArrayList<Distributor>> productDistributorsMap = new HashMap();
-            
+
             String SQL = "SELECT * FROM Product_Distributor";
             ResultSet rs = database.getConnection().prepareStatement(SQL).executeQuery();
             while (rs.next()) {
                 int productID = rs.getInt("Product_ID");
                 if (productDistributorsMap.get(productID) == null) {
                     productDistributorsMap.put(productID, new ArrayList());
-                } 
+                }
                 int distributorID = rs.getInt("Distributor_ID");
-                for (Distributor distributor : distributorList)
+                for (Distributor distributor : distributorList) {
                     if (distributor.getDistributorID() == distributorID) {
                         productDistributorsMap.get(productID).add(distributor);
+                    }
                 }
             }
 
@@ -80,26 +81,43 @@ public class ProductMapper {
         }
     }
 
-    public Product addNewProduct(String productName, String productDescription, String productPicturePath) {
+    public Product addNewProduct(String productName, String productDescription, String productPicturePath, ArrayList<Distributor> productDistributors) {
+        int rowsAffected = 0;
         try {
-            String SQL = "INSERT INTO Product (Product_Name, Product_Description, picturePath) VALUES (?, ?, ?)";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, productName);
-            ps.setString(2, productDescription);
-            ps.setString(3, productPicturePath);
-            ps.executeUpdate();
+            database.setAutoCommit(false);
 
-            ResultSet rs = ps.getGeneratedKeys();
+            String sqlInsertNewProduct = "INSERT INTO Product (Product_Name, Product_Description, picturePath) VALUES (?, ?, ?)";
+            PreparedStatement psInsertNewProduct = database.getConnection().prepareStatement(sqlInsertNewProduct, Statement.RETURN_GENERATED_KEYS);
+            psInsertNewProduct.setString(1, productName);
+            psInsertNewProduct.setString(2, productDescription);
+            psInsertNewProduct.setString(3, productPicturePath);
+            rowsAffected += psInsertNewProduct.executeUpdate();
+
+            ResultSet rs = psInsertNewProduct.getGeneratedKeys();
             rs.next();
-            int newProductID = rs.getInt(1);
+            int productID = rs.getInt(1);
 
-            ArrayList<Category> productCategories = new ArrayList();
-            ArrayList<Distributor> productDistributors = new ArrayList();
-            Product newProduct = new Product(newProductID, productName, productDescription, productPicturePath, productDistributors, productCategories);
-            return newProduct;
-
+            String sqlInsertProductDistributors = "INSERT INTO Product_Distributor (Product_ID, Distributor_ID) VALUES ";
+            boolean firstline = true;
+            for (Distributor distributor : productDistributors) {
+                if (firstline) {
+                    firstline = false;
+                } else {
+                    sqlInsertProductDistributors += ", ";
+                }
+                sqlInsertProductDistributors += "(" + productID + ", '" + distributor.getDistributorID() + "')";
+            }
+            rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
+            database.getConnection().commit();
+            database.setAutoCommit(true);
+            
+            Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, null);
+            return product;
+            
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
             throw new IllegalArgumentException("Can't add product to database");
         }
 
@@ -124,7 +142,6 @@ public class ProductMapper {
 
         try {
             database.setAutoCommit(false);
-
             //Delete all distributers for product in Product_Distributers table
             String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE product_ID = ?";
             PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteProductDistributors);
@@ -142,7 +159,7 @@ public class ProductMapper {
             PreparedStatement psDeleteProductCategories = database.getConnection().prepareStatement(sqlDeleteProductCategories);
             psDeleteProductCategories.setInt(1, productID);
             rowsAffected += psDeleteProductCategories.executeUpdate();
-            
+
             //DELETE all connections for the product and it's categories in Product_Categories table
             String sqlDeleteProductBundles = "DELETE FROM product_bundles WHERE product_ID = ?";
             PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlDeleteProductBundles);
@@ -173,7 +190,6 @@ public class ProductMapper {
 
         try {
             database.setAutoCommit(false);
-
             //Update product in product table
             String sqlUpdateProduct = "UPDATE Product SET Product_Name = ?, Product_Description = ? WHERE product_ID = ?";
             PreparedStatement psUpdateProduct = database.getConnection().prepareStatement(sqlUpdateProduct);
@@ -193,7 +209,7 @@ public class ProductMapper {
         database.setAutoCommit(true);
         return rowsAffected;
     }
-    
+
     public int editProductDistributors(Product product) {
         int rowsAffected = 0;
 
@@ -205,11 +221,10 @@ public class ProductMapper {
             String sqlDeleteDistributors = "DELETE FROM Product_Distributor WHERE product_ID = ?";
             PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteDistributors);
             psDeleteProductDistributors.setInt(1, productID);
-            psDeleteProductDistributors.executeUpdate();
+            rowsAffected += psDeleteProductDistributors.executeUpdate();
 
-            
             if (!product.getProductDistributors().isEmpty()) {
-                String sqlInsertProductDistributors = "INSERT INTO Product_Categories (Product_ID, Category_ID) VALUES ";
+                String sqlInsertProductDistributors = "INSERT INTO Product_Distributor (Product_ID, Distributor_ID) VALUES ";
                 boolean firstline = true;
                 for (Distributor distributor : product.getProductDistributors()) {
                     if (firstline) {
@@ -219,10 +234,9 @@ public class ProductMapper {
                     }
                     sqlInsertProductDistributors += "(" + productID + ", '" + distributor.getDistributorID() + "')";
                 }
-                database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
+                rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
             }
             database.getConnection().commit();
-
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();

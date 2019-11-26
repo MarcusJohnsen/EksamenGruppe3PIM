@@ -38,15 +38,6 @@ public class Distributor {
         distributorList.add(newDistributor);
     }
     
-    public static Distributor findDistributorOnID(int distributorID) {
-        for (Distributor distributor : distributorList) {
-            if (distributor.distributorID == distributorID) {
-                return distributor;
-            }
-        }
-        return null;
-    }
-    
     public static boolean deleteDistributor(int distributorID) {
         return distributorList.remove(findDistributorOnID(distributorID));
     }
@@ -66,6 +57,14 @@ public class Distributor {
         return result;
     }
     
+    public static Distributor findDistributorOnID(int distributorID) {
+        for (Distributor distributor : distributorList) {
+            if (distributor.distributorID == distributorID) {
+                return distributor;
+            }
+        }
+        return null;
+    }
     
     
     public static ArrayList<Distributor> getDistributorList() {
