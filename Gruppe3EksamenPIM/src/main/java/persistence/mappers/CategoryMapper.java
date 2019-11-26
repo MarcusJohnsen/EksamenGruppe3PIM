@@ -105,7 +105,6 @@ public class CategoryMapper {
 
     public int deleteCategory(int categoryID) {
         int rowsAffected = 0;
-
         try {
             database.setAutoCommit(false);
 
@@ -125,7 +124,6 @@ public class CategoryMapper {
             rowsAffected += psDeleteCategory.executeUpdate();
 
             database.getConnection().commit();
-
         } catch (SQLException ex) {
             Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();

@@ -103,10 +103,10 @@ public class Category {
    
     public static boolean validateCategoryInput(String categoryName, String categoryDescription, Integer categoryID) throws IllegalArgumentException {
         if (categoryName.isEmpty()) {
-            throw new IllegalArgumentException("please fill out product-name field");
+            throw new IllegalArgumentException("please fill out category-name field");
         }
         if (categoryDescription.isEmpty()) {
-            throw new IllegalArgumentException("please fill out product-description field");
+            throw new IllegalArgumentException("please fill out category-description field");
         }
 
         for (Category categoryInList : categoryList) {

@@ -1,25 +1,30 @@
 package persistence.mappers;
 
-import businessLogic.Attribute;
-import businessLogic.Category;
 import businessLogic.Distributor;
-import businessLogic.Product;
 import factory.SystemMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import persistence.DB;
 
-public class AttributeMapperTest {
+/**
+ * 
+ * @author Marcus
+ */
+public class DistributorMapperTest {
 
-    private static Connection testConnection;
     private final DB database = new DB(SystemMode.TEST);
-    private final AttributeMapper attributeMapper = new AttributeMapper(database);
+    private final DistributorMapper distributorMapper = new DistributorMapper(database);
+    private static Connection testConnection;
+    private final int AmountOfDistributorsInDB = 3;
+    
+    private final String distributorDescription = "First new description";
+    private final String distributorName = "Arla";
+
 
     @Before
     public void setup() {
@@ -27,6 +32,7 @@ public class AttributeMapperTest {
             testConnection = database.getConnection();
             // reset test database
             try (Statement stmt = testConnection.createStatement()) {
+
                 stmt.execute("drop table if exists Product_Distributor");
                 stmt.execute("drop table if exists Product_Categories");
                 stmt.execute("drop table if exists Product_Attributes");
@@ -87,130 +93,111 @@ public class AttributeMapperTest {
 
     @Test
     public void testSetUpOK() {
-        // Just check that we have a connection.
+        // checking that we have a connection.
         assertNotNull(testConnection);
     }
-
-    /**
-     * Trying to insert a null name value into the database, and thus expecting a crash
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestAddNewAttribute() {
-        //arrange
-        String attributeName = null;
-        AttributeMapper instance = new AttributeMapper(database);
-
+    
+    @Test
+    public void testGetDistributors() {
         //act
-        Attribute result = instance.addNewAttribute(attributeName);
+        ArrayList<Distributor> result = distributorMapper.getDistributors();
+        
+        //assert
+        assertEquals(AmountOfDistributorsInDB, result.size());
     }
-
-    /**
-     * Negative Test of getAttributes method, from class AttributeMapper.<br>
-     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
-     * We will try to simulate this change by removing the Product_Attributes table before running the test.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestGetAttributes() {
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestGetDistributors() {
         //arrange
         try {
-            database.getConnection().createStatement().execute("drop table if exists Product_Attributes");
+            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
+            database.getConnection().createStatement().execute("drop table if exists Distributor");
         } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Attributes");
+            fail("Could not make the structural change to the DB-table Distributor");
         }
-        ArrayList<Attribute> result = attributeMapper.getAttributes();
+        ArrayList<Distributor> result = distributorMapper.getDistributors();
     }
-
+    
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * DistributorName field in DB is made to be not null, varchar(255). Therefore adding exactly 255 characters should not crash the program.
+     */
     @Test
-    public void testDeleteAttribute() {
+    public void testAddNewDistributorNameAtLimit() {
         //arrange
-        int attributeID = 1;
-
+        String distributorName = "";
+        for (int i = 0; i < 255; i++) {
+            distributorName += "n";
+        }
         //act
-        int result = attributeMapper.deleteAttribute(attributeID);
+        Distributor result = distributorMapper.addNewDistributor(distributorName, distributorDescription);
 
         //assert
-        int expResult = 5;
+        int expResultID = 4;
+        assertEquals(expResultID, result.getDistributorID());
+        assertTrue(distributorName.equals(result.getDistributorName()));
+        assertTrue(distributorDescription.equals(result.getDistributorDescription()));
+    }
+
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * DistributorName field in DB is made to be not null, varchar(255).<br>
+     * DistributorName exceeding the 255 varchar limit should cause an exception to be thrown.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddNewDistributorNameExceedLimit() {
+        //arrange
+        String distributorName = "";
+        for (int i = 0; i < 256; i++) {
+            distributorName += "n";
+        }
+        //act
+        Distributor result = distributorMapper.addNewDistributor(distributorName, distributorDescription);
+    }
+    
+    @Test
+    public void testAddNewDistributorDescriptionAtLimit() {
+        //arrange
+        String distributorDescription = "";
+        for (int i = 0; i < 2550; i++) {
+            distributorDescription += "n";
+        }
+        //act
+        Distributor result = distributorMapper.addNewDistributor(distributorName, distributorDescription);
+
+        //assert
+        int expResultID = 4;
+        assertEquals(expResultID, result.getDistributorID());
+        assertTrue(distributorName.equals(result.getDistributorName()));
+        assertTrue(distributorDescription.equals(result.getDistributorDescription()));
+    }
+
+    /**
+     * Test of addNewProduct method, of class ProductMapper.<br>
+     * DistributorName field in DB is made to be not null, varchar(255).<br>
+     * DistributorName exceeding the 255 varchar limit should cause an exception to be thrown.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddNewDistributorDescriptionExceedLimit() {
+        //arrange
+        String distributorDescription = "";
+        for (int i = 0; i < 2551; i++) {
+            distributorDescription += "n";
+        }
+        //act
+        Distributor result = distributorMapper.addNewDistributor(distributorName, distributorDescription);
+    }
+    
+    @Test
+    public void testDeleteDistributor() {
+        //arrange
+        int distributorID = 1;
+        
+        //act
+        int result = distributorMapper.deleteDistributor(distributorID);
+        
+        //assert
+        int expResult = 2;
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Negative Test of deleteAttribute method, from class AttributeMapper.<br>
-     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
-     * We will try to simulate this change by removing the Product_Attributes table before running the test.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestDeleteAttribute() {
-        //arrange
-        try {
-            database.getConnection().createStatement().execute("drop table if exists Product_Attributes");
-        } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Attributes");
-        }
-        int attributeID = 1;
-
-        //act
-        int result = attributeMapper.deleteAttribute(attributeID);
-    }
-
-    /**
-     * this test creates an attribute and puts it in a category, and then creates a category and puts it in a product the value of the attribute is cleared and the method is run. The result shows that if the value is empty then the method creates an empty String.
-     */
-    @Test
-    public void testUpdateProductAttributeSelectionsAttributeValuesNull() {
-        //arrange
-        int attributeID = 1;
-        String attributeName = "hej";
-        HashMap<Integer, String> attributeValues = new HashMap();
-        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
-
-        int categoryID = 3;
-        String categoryName = "New Category";
-        String categoryDescription = "New Description";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
-        categoryAttributes.add(attribute);
-        Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
-
-        int productID = 2;
-        String productName = "New Product";
-        String productDescription = "This is a new product";
-        String productPicturePath = "newProduct.img";
-        ArrayList<Distributor> productDistributors = new ArrayList();
-        ArrayList<Category> productCategories = new ArrayList();
-        productCategories.add(category);
-        Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
-
-        //act
-        attribute.getAttributeValues().clear();
-        attributeMapper.updateProductAttributeSelections(product);
-
-        //assert
-        assertNotNull(attribute.getAttributeValues());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestUpdateProductAttributeSelections() {
-        //arrange
-        try {
-            database.getConnection().createStatement().execute("drop table if exists product_attributes");
-        } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Attributes");
-        }
-
-        int productID = 2;
-        String productName = "New Product";
-        String productDescription = "This is a new product";
-        String productPicturePath = "newProduct.img";
-        ArrayList<Distributor> productDistributors = new ArrayList();
-        ArrayList<Category> productCategories = new ArrayList();
-        Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
-
-        int attributeID = 1;
-        String attributeName = null;
-        HashMap<Integer, String> attributeValues = new HashMap();
-        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
-
-        product.getProductAttributes().add(attribute);
-        attributeMapper.updateProductAttributeSelections(product);
-        attributeMapper.updateProductAttributeValues(product);
     }
 }

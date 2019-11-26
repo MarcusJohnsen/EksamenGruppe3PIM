@@ -1,18 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import businessLogic.Attribute;
+import businessLogic.Bundle;
 import businessLogic.Category;
+import businessLogic.Distributor;
 import businessLogic.Product;
 import factory.SystemMode;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import persistence.mappers.AttributeMapper;
+import persistence.mappers.BundleMapper;
 import persistence.mappers.CategoryMapper;
+import persistence.mappers.DistributorMapper;
 import persistence.mappers.ProductMapper;
 
 /**
@@ -24,6 +22,8 @@ public class StorageFacade {
     private CategoryMapper categoryMapper;
     private ProductMapper productMapper;
     private AttributeMapper attributeMapper;
+    private DistributorMapper distributorMapper;
+    private BundleMapper bundleMapper;
     private DB database;
 
     public StorageFacade(SystemMode systemMode) {
@@ -31,40 +31,32 @@ public class StorageFacade {
         this.categoryMapper = new CategoryMapper(database);
         this.productMapper = new ProductMapper(database);
         this.attributeMapper = new AttributeMapper(database);
+        this.distributorMapper = new DistributorMapper(database);
+        this.bundleMapper = new BundleMapper(database);
     }
 
     public DB getDatabase() {
         return database;
     }
 
-    
+    public ArrayList<Product> getProducts(ArrayList<Category> categoryList, ArrayList<Distributor> distributorList) {
+        return productMapper.getProducts(categoryList, distributorList);
+    }
+
     /**
-     * 
-     * @param categoryName 
-     * @param categoryDescription
-     * Adds new category object and stores it in the Database.
+     *
+     * @param categoryName
+     * @param categoryDescription Adds new category object and stores it in the
+     * Database.
      * @return new category object
-     *  
+     *
      */
-    
     public Category addNewCategory(String categoryName, String categoryDescription) {
         return categoryMapper.addNewCategory(categoryName, categoryDescription);
     }
 
-    
     /**
-     * 
-     * @param categoryList
-     * @return list of products.
-     */
-    
-    public ArrayList<Product> getProducts(ArrayList<Category> categoryList) {
-        return productMapper.getProducts(categoryList);
-    }
-
-    
-    /**
-     * 
+     *
      * @param attributeList
      * @return attributeList
      */
@@ -73,15 +65,19 @@ public class StorageFacade {
     }
 
     /**
-     * 
+     *
      * @return attribute objects
      */
     public ArrayList<Attribute> getAttributes() {
         return attributeMapper.getAttributes();
     }
 
+    public ArrayList<Distributor> getDistributors() {
+        return distributorMapper.getDistributors();
+    }
+
     /**
-     * 
+     *
      * @param categoryID is used to find and delete the category object
      */
     public void deleteCategory(int categoryID) {
@@ -89,23 +85,21 @@ public class StorageFacade {
     }
 
     /**
-     * @param category
-     * edits the category object.
+     * @param category edits the category object.
      */
     public void editCategory(Category category) {
         categoryMapper.editCategory(category);
     }
 
     /**
-     * 
+     *
      * @param productName
      * @param productDescription
      * @param noImageFileName
-     * @param productDistributors
-     * @return 
+     * @return
      */
-    public Product addNewProduct(String productName, String productDescription, String noImageFileName, ArrayList<String> productDistributors) {
-        return productMapper.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
+    public Product addNewProduct(String productName, String productDescription, String noImageFileName) {
+        return productMapper.addNewProduct(productName, productDescription, noImageFileName);
     }
 
     public void deleteProduct(int productID) {
@@ -132,6 +126,18 @@ public class StorageFacade {
         categoryMapper.editAttributeToCategories(category);
     }
 
+    public Distributor addNewDistributor(String distributorName, String distributorDescription) {
+        return distributorMapper.addNewDistributor(distributorName, distributorDescription);
+    }
+
+    public void deleteDistributor(int distributorID) {
+        distributorMapper.deleteDistributor(distributorID);
+    }
+
+    public void editDistributor(Distributor distributor) {
+        distributorMapper.editDistributor(distributor);
+    }
+
     public void updateProductAttributeSelections(Product product) {
         attributeMapper.updateProductAttributeSelections(product);
     }
@@ -144,5 +150,21 @@ public class StorageFacade {
 
     public void updateProductAttributeValues(Product product) {
         attributeMapper.updateProductAttributeValues(product);
+    }
+
+    public Bundle addNewBundle(String bundleName, String bundleDescription) {
+        return bundleMapper.addNewBundle(bundleName, bundleDescription);
+    }
+
+    public void deleteBundle(int bundleID) {
+        bundleMapper.deleteBundle(bundleID);
+    }
+
+    public void editBundle(Bundle bundle) {
+        bundleMapper.editBundle(bundle);
+    }
+
+    public ArrayList<Bundle> getBundles(ArrayList<Product> productList) {
+        return bundleMapper.getBundle(productList);
     }
 }

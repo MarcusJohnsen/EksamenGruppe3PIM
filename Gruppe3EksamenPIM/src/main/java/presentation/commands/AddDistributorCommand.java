@@ -6,24 +6,23 @@ import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
 /**
- *
+ * 
  * @author Marcus
  */
-public class AddCategoryCommand extends Command {
+public class AddDistributorCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String nextJsp = "index";
-
-        String categoryName = request.getParameter("Category Name");
-        String categoryDescription = request.getParameter("Category Description");
+        
+        String distributorName = request.getParameter("Distributor Name");
+        String distributorDescription = request.getParameter("Distributor Description");
         try {
-            businessFacade.createNewCategory(categoryName, categoryDescription);
+            businessFacade.createNewDistributor(distributorName, distributorDescription);
         } catch (IllegalArgumentException ex) {
-            nextJsp = "newCategory";
+            nextJsp = "newDistributor";
             request.setAttribute("error", ex.getMessage());
         }
-
         return nextJsp;
     }
 }

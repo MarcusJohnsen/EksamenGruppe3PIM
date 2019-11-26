@@ -36,22 +36,20 @@ DROP DATABASE IF EXISTS PIM_Database;
     );
     INSERT INTO Product (Product_Name, Product_Description, picturePath) VALUES ('barbermaskine', 'klipper skæg', 'razor.jpg');
     
-    /*
     CREATE TABLE Distributor(
-    Distributor_ID int unique not null,
+    Distributor_ID int unique not null auto_increment,
     Distributor_Name varchar(255) not null,
     Distributor_Description varchar(2550) not null,
     primary key(Distributor_ID)
     );
-    */
+    INSERT INTO Distributor (Distributor_Name, Distributor_Description) VALUES ('Arla', 'Ost');
     
     CREATE TABLE Product_Distributor(
     Product_ID int not null,
-    /*Distributor_ID int unique not null,*/
-    Product_Distributor_Name varchar(255) not null,
+    Distributor_ID int not null,
     foreign key(Product_ID) references Product(Product_ID),
-    /*foreign key(Distributor_ID) references Distributor(Distributor_ID),*/
-    primary key(Product_ID, Product_Distributor_Name)
+    foreign key(Distributor_ID) references Distributor(Distributor_ID),
+    primary key(Product_ID, Distributor_ID)
     );
     
     CREATE TABLE Product_Categories(
@@ -70,3 +68,22 @@ DROP DATABASE IF EXISTS PIM_Database;
     foreign key(Attribute_ID) references Attributes(Attribute_ID),
     primary key(Product_ID, Attribute_ID)
     );
+    
+    CREATE TABLE Bundles(
+    Bundle_ID int unique not null auto_increment,
+	Bundle_Name varchar(255) not null,
+    Bundle_Description varchar(2550) not null,
+    primary key(Bundle_ID)
+    );
+    insert into Bundles (Bundle_ID, Bundle_Name, Bundle_Description) values 
+    (1, 'People', 'This is for people');
+    
+    CREATE TABLE Product_Bundles(
+    Product_ID int not null,
+    Bundle_ID int not null,
+    Product_amount int not null,
+    foreign key(Product_ID) references Product(Product_ID),
+    foreign key(Bundle_ID) references Bundles(Bundle_ID),
+    primary key(Product_ID, Bundle_ID)
+    );
+    

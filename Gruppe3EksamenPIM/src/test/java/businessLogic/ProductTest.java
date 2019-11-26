@@ -1,6 +1,5 @@
 package businessLogic;
 
-import static businessLogic.Product.findProductsOnCategoryID;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,16 +26,16 @@ public class ProductTest {
         String productName = "spiderman";
         String productDescription = "the hero spiderman";
         String picturePath = "testimage.png";
-        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"marvel"}));
+        ArrayList<Distributor> productDistributors = new ArrayList();
         ArrayList<Category> productCategories = new ArrayList();
         
-        Product result = new Product(productId, productName, productDescription, picturePath, distributors, productCategories);
+        Product result = new Product(productId, productName, productDescription, picturePath, productDistributors, productCategories);
         
         assertTrue(productName.equals(result.getName()));
         assertTrue(productDescription.equals(result.getDescription()));
         assertTrue(picturePath.equals(result.getPicturePath()));
         assertEquals(productId, result.getProductID());
-        assertEquals(distributors, result.getDistributors());
+        assertEquals(productDistributors, result.getProductDistributors());
         assertEquals(productCategories, result.getProductCategories());
     }
     
@@ -48,12 +47,12 @@ public class ProductTest {
         String[] productName = new String[]{"spiderman", "superman", "batman"};
         String[] productDescription = new String[]{"the hero spiderman", "the hero superman", "the hero batman"};
         String[] picturePath = new String[]{"testimageSpiderman.png", "testimageSuperman.png", "testimageBatman.png"};
-        ArrayList<String>[] distributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
+        ArrayList<Distributor>[] productDistributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
         ArrayList<Category>[] productCategories = new ArrayList[]{new ArrayList(), new ArrayList(), new ArrayList()};
         
-        Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], distributors[0], productCategories[0]);
-        Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], distributors[1], productCategories[1]);
-        Product product3 = new Product(productID[2], productName[2], productDescription[2], picturePath[2], distributors[2], productCategories[2]);
+        Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], productDistributors[0], productCategories[0]);
+        Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], productDistributors[1], productCategories[1]);
+        Product product3 = new Product(productID[2], productName[2], productDescription[2], picturePath[2], productDistributors[2], productCategories[2]);
 
         //act
         Product.addToProductList(product1);
@@ -74,11 +73,11 @@ public class ProductTest {
         String[] productName = new String[]{"spiderman", "superman", "batman"};
         String[] productDescription = new String[]{"the hero spiderman", "the hero superman", "the hero batman"};
         String[] picturePath = new String[]{"testimageSpiderman.png", "testimageSuperman.png", "testimageBatman.png"};
-        ArrayList<String>[] distributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
+        ArrayList<Distributor>[] productDistributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
         ArrayList<Category>[] productCategories = new ArrayList[]{new ArrayList(), new ArrayList(), new ArrayList()};
-        Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], distributors[0], productCategories[0]);
-        Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], distributors[1], productCategories[1]);
-        Product product3 = new Product(productID[2], productName[2], productDescription[2], picturePath[2], distributors[2], productCategories[2]);
+        Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], productDistributors[0], productCategories[0]);
+        Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], productDistributors[1], productCategories[1]);
+        Product product3 = new Product(productID[2], productName[2], productDescription[2], picturePath[2], productDistributors[2], productCategories[2]);
         
         Product.addToProductList(product1);
         Product.addToProductList(product2);
@@ -101,11 +100,11 @@ public class ProductTest {
         String[] productName = new String[]{"spiderman", "superman", "batman"};
         String[] productDescription = new String[]{"the hero spiderman", "the hero superman", "the hero batman"};
         String[] picturePath = new String[]{"testimageSpiderman.png", "testimageSuperman.png", "testimageBatman.png"};
-        ArrayList<String>[] distributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
+        ArrayList<Distributor>[] productDistributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
         ArrayList<Category>[] productCategories = new ArrayList[]{new ArrayList(), new ArrayList(), new ArrayList()};
-        Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], distributors[0], productCategories[0]);
-        Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], distributors[1], productCategories[1]);
-        Product product3 = new Product(productID[2], productName[2], productDescription[2], picturePath[2], distributors[2], productCategories[2]);
+        Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], productDistributors[0], productCategories[0]);
+        Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], productDistributors[1], productCategories[1]);
+        Product product3 = new Product(productID[2], productName[2], productDescription[2], picturePath[2], productDistributors[2], productCategories[2]);
         
         Product.addToProductList(product1);
         Product.addToProductList(product2);
@@ -127,10 +126,10 @@ public class ProductTest {
         String productName = "joker";
         String productDescription = "the insane clown";
         String picturePath = "testimageJoker.png";
-        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"marvel"}));
+        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new String[]{"marvel"}));
         ArrayList<Category> productCategories = new ArrayList();
         
-        Product product = new Product(productID, productName, productDescription, picturePath, distributors, productCategories);
+        Product product = new Product(productID, productName, productDescription, picturePath, productDistributors, productCategories);
         Product.addToProductList(product);
         
         Product result = Product.findProductOnID(productID + 1);
@@ -154,9 +153,9 @@ public class ProductTest {
         
         String productName = "";
         String productDescription = "the hero joker";
-        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"marvel"}));
+        //ArrayList<Distributor>[] productDistributors = new ArrayList(Arrays.asList(new String[]{"marvel"}));
         
-        boolean result = Product.validateProductInput(productName, productDescription, distributors);
+        boolean result = Product.validateProductInput(productName, productDescription);
         
         assertTrue(result);
         
@@ -167,53 +166,53 @@ public class ProductTest {
         
         String productName = "joker";
         String productDescription = "";
-        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"marvel"}));
+        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new String[]{"marvel"}));
         
-        boolean result = Product.validateProductInput(productName, productDescription, distributors);
+        boolean result = Product.validateProductInput(productName, productDescription);
         
         assertTrue(result);
         
     }
     
-    @Test(expected = IllegalArgumentException.class)
+   /* @Test(expected = IllegalArgumentException.class)
     public void testNegativeValidateProductInputNoDistributorInput() {
         
         String productName = "joker";
         String productDescription = "the hero joker";
-        ArrayList<String> distributors = new ArrayList();
+        ArrayList<Distributor>[] productDistributors = new ArrayList();
         distributors.add(null);
         
         boolean result = Product.validateProductInput(productName, productDescription, distributors);
         
         assertTrue(result);
         
-    }
+    } */
     
-    @Test
+   /* @Test
     public void testValidateProductInputEmptyDistributorsButNotTotalEmpty() {
         //arrange
         String productName = "Batman";
         String productDescription = "This is the 'best' superhero ever";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"", "batman", null}));
+        ArrayList<Distributor>[] productDistributors = new ArrayList(Arrays.asList(new String[]{"", "batman", null}));
 
         //act
-        Product.validateProductInput(productName, productDescription, productDistributors);
+        Product.validateProductInput(productName, productDescription);
 
         //assert
         int expSize = 1;
         assertEquals(expSize, productDistributors.size());
-    }
+    } */
     
-    @Test(expected = IllegalArgumentException.class)
+   /* @Test(expected = IllegalArgumentException.class)
     public void testValidateProductInputEmptyDistributorsEmptyValues() {
         //arrange
         String productName = "Batman";
         String productDescription = "This is the 'best' superhero ever";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"", "", null}));
+        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new String[]{"", "", null}));
 
         //act
-        Product.validateProductInput(productName, productDescription, productDistributors);
-    }
+        Product.validateProductInput(productName, productDescription);
+    } */
     
     @Test
     public void testFindProductOnProductID() {
@@ -230,7 +229,7 @@ public class ProductTest {
         String productName1 = "burner";
         String description1 = "fire";
         String picPath1 = "thisIsAnImagePath1.png";
-        ArrayList<String> distributors1 = new ArrayList(Arrays.asList(new String[]{"marvel1", "dc comic1"}));
+        ArrayList<Distributor> distributors1 = new ArrayList(Arrays.asList(new String[]{"marvel1", "dc comic1"}));
         ArrayList<Category> productCategories1 = new ArrayList();
         productCategories1.add(category1);
         //ArrayList<Attribute> productAttributes1 = new ArrayList(Arrays.asList(new String[]{"size1","volume1","weight1"}));
@@ -239,7 +238,7 @@ public class ProductTest {
         String productName2 = "freezer";
         String description2 = "ice";
         String picPath2 = "thisIsAnImagePath2.png";
-        ArrayList<String> distributors2 = new ArrayList(Arrays.asList(new String[]{"marvel2", "dc comic2"}));
+        ArrayList<Distributor> distributors2 = new ArrayList(Arrays.asList(new String[]{"marvel2", "dc comic2"}));
         ArrayList<Category> productCategories2 = new ArrayList();
         productCategories2.add(category1);
         //ArrayList<Attribute> productAttributes2 = new ArrayList(Arrays.asList(new String[]{"size2","volume2","weight2"}));
@@ -248,7 +247,7 @@ public class ProductTest {
         String productName3 = "vaporizer";
         String description3 = "water";
         String picPath3 = "thisIsAnImagePath3.png";
-        ArrayList<String> distributors3 = new ArrayList(Arrays.asList(new String[]{"marvel3", "dc comic3"}));
+        ArrayList<Distributor> distributors3 = new ArrayList(Arrays.asList(new String[]{"marvel3", "dc comic3"}));
         ArrayList<Category> productCategories3 = new ArrayList();
         productCategories3.add(category1);
         //ArrayList<Attribute> productAttributes3 = new ArrayList(Arrays.asList(new String[]{"size3","volume3","weight3"}));
@@ -284,7 +283,7 @@ public class ProductTest {
         String productName1 = "burner";
         String description1 = "fire";
         String picPath1 = "thisIsAnImagePath1.png";
-        ArrayList<String> distributors1 = new ArrayList(Arrays.asList(new String[]{"marvel1", "dc comic1"}));
+        ArrayList<Distributor> distributors1 = new ArrayList(Arrays.asList(new String[]{"marvel1", "dc comic1"}));
         ArrayList<Category> productCategories1 = new ArrayList();
         productCategories1.add(category);
         
@@ -292,7 +291,7 @@ public class ProductTest {
         String productName2 = "freezer";
         String description2 = "ice";
         String picPath2 = "thisIsAnImagePath2.png";
-        ArrayList<String> distributors2 = new ArrayList(Arrays.asList(new String[]{"marvel2", "dc comic2"}));
+        ArrayList<Distributor> distributors2 = new ArrayList(Arrays.asList(new String[]{"marvel2", "dc comic2"}));
         ArrayList<Category> productCategories2 = new ArrayList();
         productCategories2.add(category);
         
@@ -300,7 +299,7 @@ public class ProductTest {
         String productName3 = "vaporizer";
         String description3 = "water";
         String picPath3 = "thisIsAnImagePath3.png";
-        ArrayList<String> distributors3 = new ArrayList(Arrays.asList(new String[]{"marvel3", "dc comic3"}));
+        ArrayList<Distributor> distributors3 = new ArrayList(Arrays.asList(new String[]{"marvel3", "dc comic3"}));
         ArrayList<Category> productCategories3 = new ArrayList();
         
         Product product1 = new Product(productId1, productName1, description1, picPath1, distributors1, productCategories1);
@@ -329,7 +328,7 @@ public class ProductTest {
         String name = "burner";        
         String description = "fire";        
         String picturePath = "this is an imageTest.png";        
-        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{"firestarter", "firecharger"}));
+        ArrayList<Distributor> distributors = new ArrayList(Arrays.asList(new String[]{"firestarter", "firecharger"}));
 
         // ArrayList<Attribute> productAttributes = new ArrayList();
         Product result = new Product(productID, name, description, picturePath, distributors, null);

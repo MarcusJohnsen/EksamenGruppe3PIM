@@ -2,6 +2,7 @@ package presentation.commands;
 
 import businessLogic.Attribute;
 import businessLogic.BusinessFacade;
+import businessLogic.Distributor;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,9 +24,10 @@ public class EditProductCommand extends Command {
         int productID = Integer.parseInt(request.getParameter("productID"));
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
-        ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
+        //ArrayList<Distributor> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
         
         HashMap<Integer, String> productAttributeValues = new HashMap();
+        ArrayList<Distributor> distributors = new ArrayList();
         Product product = businessFacade.getProductFromID(productID);
         for (Attribute productAttribute : product.getProductAttributes()) {
             int attributeValue = productAttribute.getAttributeID();

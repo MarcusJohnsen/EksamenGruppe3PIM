@@ -1,7 +1,6 @@
 package businessLogic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,18 +15,25 @@ public class Product {
     private String name;
     private String description;
     private String picturePath;
-    private ArrayList<String> distributors;
+    private ArrayList<Distributor> productDistributors;
     private ArrayList<Category> productCategories;
     private ArrayList<Attribute> productAttributes;
+    private ArrayList<Bundle> productBundle;
 
     private static ArrayList<Product> productList = new ArrayList();
 
-    public Product(int productID, String name, String description, String picturePath, ArrayList<String> distributors, ArrayList<Category> productCategories) {
+    public Product(int productID, String name, String description, String picturePath, ArrayList<Distributor> distributors, ArrayList<Category> productCategories) {
         this.productID = productID;
         this.name = name;
         this.description = description;
         this.picturePath = picturePath;
-        this.distributors = distributors;
+        
+        if (productDistributors != null) {
+            this.productDistributors = distributors;
+        } else {
+            this.productDistributors = new ArrayList();
+        }
+        
         if (productCategories != null) {
             this.productCategories = productCategories;
             createAttributesFromCategories();
@@ -50,8 +56,13 @@ public class Product {
             product.productCategories.remove(category);
         }
     }
-
     
+    public static void deleteDistributorFromProducts(Distributor distributor) {
+        for (Product product : productList) {
+            product.productDistributors.remove(distributor);
+        }
+    }
+
     /**
      * Traverses the productCategories-List and adds all the unique categoryAttributes to new HashSet.
      */
@@ -115,6 +126,24 @@ public class Product {
         }
         return result;
     }
+    public static void deleteBundleFromProducts(Bundle bundle) {
+        for (Product product : productList) {
+            product.productCategories.remove(bundle);
+        }
+    }
+    
+    public static ArrayList<Product> findProductsOnBundleID(int bundleID) {
+        ArrayList<Product> result = new ArrayList();
+        for (Product product : productList) {
+            for (Bundle productBundle : product.getProductBundle()) {
+                if (productBundle.getBundleID() == bundleID) {
+                    result.add(product);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
 
     /**
      * @param productListFromDB
@@ -161,18 +190,14 @@ public class Product {
         return null;
     }
 
-    
     /**
      * 
      * @param name Is edited.
      * @param description Is edited.
-     * @param distributors Is edited.
      */
-    
-    public void editProduct(String name, String description, ArrayList<String> distributors) {
+    public void editProduct(String name, String description) {
         this.name = name;
         this.description = description;
-        this.distributors = distributors;
     }
 
     
@@ -195,14 +220,13 @@ public class Product {
      * Validating productInput by checking for empty fields.
      * @param productName - Must not be empty.
      * @param productDescription - Must not be empty.
-     * @param productDistributors - Must not be empty.
-     * @return Boolean true if name, description and distributors dont have empty field-values.
+     * @return Boolean true if name and description don't have empty field-values.
      * @throws IllegalArgumentException if returned boolean is false.
      */
     
-    public static boolean validateProductInput(String productName, String productDescription, ArrayList<String> productDistributors) throws IllegalArgumentException {
+    public static boolean validateProductInput(String productName, String productDescription) throws IllegalArgumentException {
         //Remove all empty fields from distributors
-        productDistributors.removeAll(Arrays.asList("", null));
+        //productDistributors.removeAll(Arrays.asList("", null));
 
         if (productName.isEmpty()) {
             throw new IllegalArgumentException("please fill out product-name field");
@@ -210,10 +234,6 @@ public class Product {
         if (productDescription.isEmpty()) {
             throw new IllegalArgumentException("please fill out product-description field");
         }
-        if (productDistributors.isEmpty()) {
-            throw new IllegalArgumentException("please fill out at least one distributor field");
-        }
-
         return true;
     }
 
@@ -228,96 +248,49 @@ public class Product {
         this.productCategories = productCategories;
         createAttributesFromCategories();
     }
+    
+    public void editProductDistributors(ArrayList<Distributor> productDistributors) {
+        this.productDistributors = productDistributors;
+    }
 
-    
-    /**
-     * 
-     * @return productID
-     */
-    
     
     public int getProductID() {
         return productID;
     }
 
-    
-    /**
-     * 
-     * @return name
-     */
-    
     public String getName() {
         return name;
     }
 
-    
-    /**
-     * 
-     * @return description
-     */
-    
     public String getDescription() {
         return description;
     }
-
-    
-    /**
-     * 
-     * @return picturePath
-     */
     
     public String getPicturePath() {
         return picturePath;
     }
-
-    
-    /**
-     * 
-     * @return distributors
-     */
-    
-    public ArrayList<String> getDistributors() {
-        return distributors;
-    }
-
-    
-    /**
-     * 
-     * @return productList
-     */
     
     public static ArrayList<Product> getProductList() {
         return productList;
     }
-
-    
-    /**
-     * 
-     * @param picturePath Sets new value for picturePath
-     */
     
     public void setPicturePath(String picturePath) {
         this.picturePath = picturePath;
     }
 
-    
-    /**
-     * 
-     * @return productCategories
-     */
-    
     public ArrayList<Category> getProductCategories() {
         return productCategories;
     }
 
-    
-    /**
-     * 
-     * @return productAttributes
-     */
-    
     public ArrayList<Attribute> getProductAttributes() {
         return productAttributes;
     }
-
+    
+    public ArrayList<Distributor> getProductDistributors() {
+        return productDistributors;
+    }
+    
+    public ArrayList<Bundle> getProductBundle() {
+        return productBundle;
+    }
 }

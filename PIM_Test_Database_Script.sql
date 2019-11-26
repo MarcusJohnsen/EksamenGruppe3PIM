@@ -22,15 +22,21 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (4,'Weight'),
     (5,'Length');
     
+    CREATE TABLE Fake_PIM_Database.Distributor_Test like PIM_Database.Distributor;
+    INSERT INTO Distributor_Test (Distributor_Name, Distributor_Description) VALUES
+    ('Test Distributor', 'This distributor is for testing'),
+    ('Test Distributor nr. 2', 'This second distributor is for testing'),
+    ('Test Distributor nr. 3', 'This third distributor is for testing');
+    
     CREATE TABLE Fake_PIM_Database.Product_Distributor_Test like PIM_Database.Product_Distributor;
     ALTER TABLE Product_Distributor_Test ADD FOREIGN KEY(Product_ID) REFERENCES Product_Test(Product_ID);
-    INSERT INTO Product_Distributor_Test(Product_ID, Product_Distributor_Name) VALUES
-    (1,'Mr. Programmer'),
-    (2,'Miss. Tester'),
-    (2,'Mr. Tester'),
-    (3,'Mr. Programmer'),
-    (3,'Mr. Tester'),
-    (3,'Miss. Tester');
+    ALTER TABLE Product_Distributor_Test ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor_Test(Distributor_ID);
+    INSERT INTO Product_Distributor_Test(Product_ID, Distributor_ID) VALUES
+    (1,1),
+    (1,2),
+    (3,2),
+    (2,2),
+    (1,3);
     
     CREATE TABLE Fake_PIM_Database.Product_Categories_Test like PIM_Database.Product_Categories;
     ALTER TABLE Product_Categories_Test ADD FOREIGN KEY(Category_ID) REFERENCES Categories_Test(Category_ID);
@@ -61,4 +67,21 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (1,3,"Blablabla"),
     (2,3,"Blablablabla"),
     (3,1,"Blablablablabla");
+    
+    Create Table Fake_PIM_Database.Bundles_Test like PIM_Database.Bundles;
+    INSERT INTO Bundles_Test (Bundle_ID, Bundle_Name, Bundle_Description) VALUES
+    (1,"a","Bla"),
+    (2,"b","Blabla"),
+    (3,"c","Blablabla");
+    
+    
+    CREATE TABLE Fake_PIM_Database.Product_Bundles_Test like PIM_Database.Product_Bundles;
+    ALTER TABLE Product_Bundles_Test ADD FOREIGN KEY(Product_ID) REFERENCES Product_Test(Product_ID);
+    ALTER TABLE Product_Bundles_Test ADD FOREIGN KEY(Bundle_ID) REFERENCES Bundles_Test(Bundle_ID);
+    INSERT INTO Product_Bundles_Test (Product_ID, Bundle_ID, Product_amount) VALUES
+    (1,1, 3),
+    (1,2, 2),
+    (1,3, 1),
+    (2,3, 5),
+    (3,1, 6);
     

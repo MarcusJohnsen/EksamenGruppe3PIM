@@ -26,7 +26,7 @@ public class AddProductCommand extends Command {
         ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
 
         try {
-            Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributors);
+            Product newProduct = businessFacade.createNewProduct(productName, productDescription);
             request.getSession().setAttribute("productID", newProduct.getProductID());
         } catch (IllegalArgumentException ex) {
             nextJsp = "newProduct";
