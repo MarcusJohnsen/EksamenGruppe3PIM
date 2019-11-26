@@ -151,6 +151,12 @@ public class ProductMapper {
             PreparedStatement psDeleteProductCategories = database.getConnection().prepareStatement(sqlDeleteProductCategories);
             psDeleteProductCategories.setInt(1, productID);
             rowsAffected += psDeleteProductCategories.executeUpdate();
+            
+            //DELETE all connections for the product and it's categories in Product_Categories table
+            String sqlDeleteProductBundles = "DELETE FROM product_bundles WHERE product_ID = ?";
+            PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlDeleteProductBundles);
+            psDeleteProductBundles.setInt(1, productID);
+            rowsAffected += psDeleteProductBundles.executeUpdate();
 
             //DELETE all products from Product table, after having removed all connections to other tables
             String sqlDeleteProduct = "DELETE FROM Product WHERE product_ID = ?";

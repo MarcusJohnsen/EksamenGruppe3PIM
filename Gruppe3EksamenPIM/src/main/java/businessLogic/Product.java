@@ -19,6 +19,7 @@ public class Product {
     private ArrayList<String> distributors;
     private ArrayList<Category> productCategories;
     private ArrayList<Attribute> productAttributes;
+    private ArrayList<Bundle> productBundle;
 
     private static ArrayList<Product> productList = new ArrayList();
 
@@ -71,6 +72,24 @@ public class Product {
         for (Product product : productList) {
             for (Category productCategory : product.getProductCategories()) {
                 if (productCategory.getCategoryID() == categoryID) {
+                    result.add(product);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+    public static void deleteBundleFromProducts(Bundle bundle) {
+        for (Product product : productList) {
+            product.productCategories.remove(bundle);
+        }
+    }
+    
+    public static ArrayList<Product> findProductsOnBundleID(int bundleID) {
+        ArrayList<Product> result = new ArrayList();
+        for (Product product : productList) {
+            for (Bundle productBundle : product.getProductBundle()) {
+                if (productBundle.getBundleID() == bundleID) {
                     result.add(product);
                     break;
                 }
@@ -170,6 +189,10 @@ public class Product {
 
     public ArrayList<Attribute> getProductAttributes() {
         return productAttributes;
+    }
+    
+    public ArrayList<Bundle> getProductBundle() {
+        return productBundle;
     }
 
 }

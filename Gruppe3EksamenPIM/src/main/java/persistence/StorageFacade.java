@@ -6,12 +6,14 @@
 package persistence;
 
 import businessLogic.Attribute;
+import businessLogic.Bundle;
 import businessLogic.Category;
 import businessLogic.Product;
 import factory.SystemMode;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import persistence.mappers.AttributeMapper;
+import persistence.mappers.BundleMapper;
 import persistence.mappers.CategoryMapper;
 import persistence.mappers.ProductMapper;
 
@@ -24,6 +26,7 @@ public class StorageFacade {
     private CategoryMapper categoryMapper;
     private ProductMapper productMapper;
     private AttributeMapper attributeMapper;
+    private BundleMapper bundleMapper;
     private DB database;
 
     public StorageFacade(SystemMode systemMode) {
@@ -31,6 +34,7 @@ public class StorageFacade {
         this.categoryMapper = new CategoryMapper(database);
         this.productMapper = new ProductMapper(database);
         this.attributeMapper = new AttributeMapper(database);
+        this.bundleMapper = new BundleMapper(database);
     }
 
     public DB getDatabase() {
@@ -101,5 +105,20 @@ public class StorageFacade {
 
     public void updateProductAttributeValues(Product product) {
         attributeMapper.updateProductAttributeValues(product);
+    }
+    
+    public Bundle addNewBundle(String bundleName, String bundleDescription) {
+        return bundleMapper.addNewBundle(bundleName, bundleDescription);
+    }
+    
+    public void deleteBundle(int bundleID) {
+        bundleMapper.deleteBundle(bundleID);
+    }
+    
+    public void editBundle(Bundle bundle) {
+        bundleMapper.editBundle(bundle);
+    }
+    public ArrayList<Bundle> getBundles(ArrayList<Product> productList) {
+        return bundleMapper.getBundle(productList);
     }
 }

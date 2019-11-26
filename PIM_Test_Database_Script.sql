@@ -62,3 +62,20 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (2,3,"Blablablabla"),
     (3,1,"Blablablablabla");
     
+    Create Table Fake_PIM_Database.Bundles_Test like PIM_Database.Bundles;
+    INSERT INTO Bundles_Test (Bundle_ID, Bundle_Name, Bundle_Description) VALUES
+    (1,"a","Bla"),
+    (2,"b","Blabla"),
+    (3,"c","Blablabla");
+    
+    
+    CREATE TABLE Fake_PIM_Database.Product_Bundles_Test like PIM_Database.Product_Bundles;
+    ALTER TABLE Product_Bundles_Test ADD FOREIGN KEY(Product_ID) REFERENCES Product_Test(Product_ID);
+    ALTER TABLE Product_Bundles_Test ADD FOREIGN KEY(Bundle_ID) REFERENCES Bundles_Test(Bundle_ID);
+    INSERT INTO Product_Bundles_Test (Product_ID, Bundle_ID, Product_amount) VALUES
+    (1,1, 3),
+    (1,2, 2),
+    (1,3, 1),
+    (2,3, 5),
+    (3,1, 6);
+    

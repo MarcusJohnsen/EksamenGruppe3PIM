@@ -43,5 +43,17 @@
             <p align="center"><input type="submit" value="New Attribute" style="width: 150px; height: 25px"/></p>
         </form>
         
+        <form action="FrontController">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="newBundle" />
+            <p align="center"><input type="submit" value="New Bundle" style="width: 150px; height: 25px"/></p>
+        </form>
+        
+        <form action="FrontController">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="viewAllBundles" />
+            <p align="center"><input type="submit" value="View Bundles" style="width: 150px; height: 25px"/></p>
+        </form>
+        
     </body>
 </html>

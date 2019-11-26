@@ -29,16 +29,21 @@ public class AttributeMapperTest {
                 stmt.execute("drop table if exists Product_Distributor");
                 stmt.execute("drop table if exists Product_Categories");
                 stmt.execute("drop table if exists Product_Attributes");
+                stmt.execute("drop table if exists Product_Bundles");
                 stmt.execute("drop table if exists Category_Attributes");
                 stmt.execute("drop table if exists Product");
                 stmt.execute("drop table if exists Categories");
                 stmt.execute("drop table if exists Attributes");
+                stmt.execute("drop table if exists Bundles");
 
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
 
                 stmt.execute("create table Categories like Categories_Test");
                 stmt.execute("insert into Categories select * from Categories_Test");
+                
+                stmt.execute("create table Bundles like Bundles_Test");
+                stmt.execute("insert into Bundles select * from Bundles_Test");
 
                 stmt.execute("create table Attributes like Attributes_Test");
                 stmt.execute("insert into Attributes select * from Attributes_Test");
@@ -46,6 +51,11 @@ public class AttributeMapperTest {
                 stmt.execute("create table Product_Distributor like Product_Distributor_Test");
                 stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
                 stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
+                
+                stmt.execute("create table Product_Bundles like Product_Bundles_Test");
+                stmt.execute("ALTER TABLE Product_Bundles ADD FOREIGN KEY(Bundle_ID) REFERENCES Bundles(Bundle_ID)");
+                stmt.execute("ALTER TABLE Product_Bundles ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("insert into Product_Bundles select * from Product_Bundles_Test");
 
                 stmt.execute("create table Product_Categories like Product_Categories_Test");
                 stmt.execute("ALTER TABLE Product_Categories ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
@@ -56,7 +66,7 @@ public class AttributeMapperTest {
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Product_Attributes select * from Product_Attributes_Test");
-
+                
                 stmt.execute("create table Category_Attributes like Category_Attributes_Test");
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
                 stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
