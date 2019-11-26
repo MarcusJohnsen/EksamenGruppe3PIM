@@ -2,6 +2,7 @@ package persistence.mappers;
 
 import businessLogic.Attribute;
 import businessLogic.Category;
+import businessLogic.Distributor;
 import businessLogic.Product;
 import factory.SystemMode;
 import java.sql.Connection;
@@ -12,7 +13,6 @@ import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.Ignore;
 import persistence.DB;
 
 /**
@@ -24,10 +24,10 @@ public class ProductMapperTest {
     private final DB database = new DB(SystemMode.TEST);
     private final ProductMapper productMapper = new ProductMapper(database);
     private final ArrayList<Category> categoryList = new ArrayList();
+    private final ArrayList<Distributor> distributorList = new ArrayList();
     private static Connection testConnection;
 
     private final int numberOfProductsInDB = 3;
-    private final int numberOfProductDistributorsForProductIDNr1InDB = 1;
 
     @Before
     public void setup() {
@@ -43,6 +43,7 @@ public class ProductMapperTest {
                 stmt.execute("drop table if exists Product");
                 stmt.execute("drop table if exists Categories");
                 stmt.execute("drop table if exists Attributes");
+                stmt.execute("drop table if exists Distributor");
 
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
@@ -52,9 +53,13 @@ public class ProductMapperTest {
 
                 stmt.execute("create table Attributes like Attributes_Test");
                 stmt.execute("insert into Attributes select * from Attributes_Test");
+                
+                stmt.execute("create table Distributor like Distributor_Test");
+                stmt.execute("insert into Distributor select * from Distributor_Test");
 
                 stmt.execute("create table Product_Distributor like Product_Distributor_Test");
                 stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor(Distributor_ID)");
                 stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
 
                 stmt.execute("create table Product_Categories like Product_Categories_Test");
@@ -93,7 +98,7 @@ public class ProductMapperTest {
     @Test
     public void testGetProducts() {
         //act
-        ArrayList<Product> result = productMapper.getProducts(categoryList);
+        ArrayList<Product> result = productMapper.getProducts(categoryList, distributorList);
 
         //assert
         assertEquals(numberOfProductsInDB, result.size());
@@ -114,7 +119,7 @@ public class ProductMapperTest {
         }
 
         //act
-        ArrayList<Product> result = productMapper.getProducts(categoryList);
+        ArrayList<Product> result = productMapper.getProducts(categoryList, distributorList);
     }
 
     /**
@@ -126,10 +131,10 @@ public class ProductMapperTest {
         String productName = "New Product";
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        //ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
 
         //assert
         int expResultID = 4;
@@ -137,7 +142,6 @@ public class ProductMapperTest {
         assertTrue(productName.equals(result.getName()));
         assertTrue(productDescription.equals(result.getDescription()));
         assertTrue(productPicturePath.equals(result.getPicturePath()));
-        assertEquals(productDistributors, result.getDistributors());
 
     }
 
@@ -155,7 +159,7 @@ public class ProductMapperTest {
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath);
     }
 
     /**
@@ -174,7 +178,7 @@ public class ProductMapperTest {
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
 
         //assert
         int expResultID = 4;
@@ -182,7 +186,6 @@ public class ProductMapperTest {
         assertTrue(productName.equals(result.getName()));
         assertTrue(productDescription.equals(result.getDescription()));
         assertTrue(productPicturePath.equals(result.getPicturePath()));
-        assertTrue(productDistributors.equals(result.getDistributors()));
     }
 
     /**
@@ -201,7 +204,7 @@ public class ProductMapperTest {
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
     }
 
     /**
@@ -218,7 +221,7 @@ public class ProductMapperTest {
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath);
     }
 
     /**
@@ -237,7 +240,7 @@ public class ProductMapperTest {
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
 
         //assert
         int expResultID = 4;
@@ -245,7 +248,6 @@ public class ProductMapperTest {
         assertTrue(productName.equals(result.getName()));
         assertTrue(productDescription.equals(result.getDescription()));
         assertTrue(productPicturePath.equals(result.getPicturePath()));
-        assertTrue(productDistributors.equals(result.getDistributors()));
     }
 
     /**
@@ -265,7 +267,7 @@ public class ProductMapperTest {
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
     }
 
     /**
@@ -284,7 +286,7 @@ public class ProductMapperTest {
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
 
         //assert
         int expResultID = 4;
@@ -292,7 +294,6 @@ public class ProductMapperTest {
         assertTrue(productName.equals(result.getName()));
         assertTrue(productDescription.equals(result.getDescription()));
         assertTrue(productPicturePath.equals(result.getPicturePath()));
-        assertTrue(productDistributors.equals(result.getDistributors()));
     }
 
     /**
@@ -312,56 +313,7 @@ public class ProductMapperTest {
         ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
 
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
-    }
-
-    /**
-     * Test of addNewProduct method, of class ProductMapper.<br>
-     * DistributorName field in DB is made to be not null, varchar(255). Therefore adding exactly 255 characters should not crash the program.
-     */
-    @Test
-    public void testAddNewProductDistributorsAtLimit() {
-        //arrange
-        String productName = "new product";
-        String productDescription = "First new description";
-        String productPicturePath = "newProduct.img";
-        String productDistributor = "";
-        for (int i = 0; i < 255; i++) {
-            productDistributor += "n";
-        }
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{productDistributor}));
-
-        //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
-
-        //assert
-        int expResultID = 4;
-        assertEquals(expResultID, result.getProductID());
-        assertTrue(productName.equals(result.getName()));
-        assertTrue(productDescription.equals(result.getDescription()));
-        assertTrue(productPicturePath.equals(result.getPicturePath()));
-        assertTrue(productDistributors.equals(result.getDistributors()));
-    }
-
-    /**
-     * Test of addNewProduct method, of class ProductMapper.<br>
-     * DistributorName field in DB is made to be not null, varchar(255).<br>
-     * DistributorName exceeding the 255 varchar limit should cause an exception to be thrown.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddNewProductDistributorsExceedLimit() {
-        //arrange
-        String productName = "new product";
-        String productDescription = "First new description";
-        String productPicturePath = "newProduct.img";
-        String productDistributor = "";
-        for (int i = 0; i < 256; i++) {
-            productDistributor += "n";
-        }
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{productDistributor}));
-
-        //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
     }
 
     /**
@@ -411,7 +363,7 @@ public class ProductMapperTest {
         int result = productMapper.deleteProduct(productID);
 
         //assert
-        int expResult = 8;
+        int expResult = 10;
         assertEquals(expResult, result);
     }
 
@@ -440,13 +392,13 @@ public class ProductMapperTest {
     @Test
     public void testEditProduct() {
         //arrange
-        Product product = new Product(1, "newTitle", "newDescription", "newPic.img", new ArrayList(Arrays.asList(new String[]{"dist. nr. 1", "dist. nr. 2", "dist. nr. 3"})), categoryList);
+        Product product = new Product(1, "newTitle", "newDescription", "newPic.img", distributorList, categoryList);
 
         //act
         int result = productMapper.editProduct(product);
 
         //assert
-        int expResult = 5;
+        int expResult = 1;
         assertEquals(expResult, result);
     }
 
@@ -476,7 +428,7 @@ public class ProductMapperTest {
     @Test
     public void testEditProductCategories() {
         //arrange
-        ArrayList<String> distributors = new ArrayList(Arrays.asList(new String[]{}));
+        ArrayList<Distributor> distributors = new ArrayList(Arrays.asList(new String[]{}));
         int[] categoryID = new int[]{1, 2};
         Category category1 = new Category(categoryID[0], "Tests", "These are tests", new ArrayList<Attribute>());
         Category category2 = new Category(categoryID[1], "Tests", "These are tests", new ArrayList<Attribute>());
@@ -485,6 +437,7 @@ public class ProductMapperTest {
         Product product = new Product(1, "Test Product", "This product is for testing", "test.jpg", distributors, categoryList);
         AttributeMapper attributeMapper = new AttributeMapper(database);
         CategoryMapper categoryMapper = new CategoryMapper(database);
+        DistributorMapper distributorMapper = new DistributorMapper(database);
 
         //act
         productMapper.editProductCategories(product);
@@ -492,7 +445,8 @@ public class ProductMapperTest {
         //assert
         ArrayList<Attribute> attributeListFromDB = attributeMapper.getAttributes();
         ArrayList<Category> categoryListFromDB = categoryMapper.getCategories(attributeListFromDB);
-        ArrayList<Product> productListFromDB = productMapper.getProducts(categoryListFromDB);
+        ArrayList<Distributor> distributorListFromDB = distributorMapper.getDistributors();
+        ArrayList<Product> productListFromDB = productMapper.getProducts(categoryListFromDB, distributorListFromDB);
         Product productFromDB = productListFromDB.get(0);
         assertEquals(categoryList.size(), productFromDB.getProductCategories().size());
         assertEquals(category1.getCategoryID(), productFromDB.getProductCategories().get(0).getCategoryID());

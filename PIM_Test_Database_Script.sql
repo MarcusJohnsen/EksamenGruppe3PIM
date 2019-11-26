@@ -22,15 +22,21 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (4,'Weight'),
     (5,'Length');
     
+    CREATE TABLE Fake_PIM_Database.Distributor_Test like PIM_Database.Distributor;
+    INSERT INTO Distributor_Test (Distributor_Name, Distributor_Description) VALUES
+    ('Test Distributor', 'This distributor is for testing'),
+    ('Test Distributor nr. 2', 'This second distributor is for testing'),
+    ('Test Distributor nr. 3', 'This third distributor is for testing');
+    
     CREATE TABLE Fake_PIM_Database.Product_Distributor_Test like PIM_Database.Product_Distributor;
     ALTER TABLE Product_Distributor_Test ADD FOREIGN KEY(Product_ID) REFERENCES Product_Test(Product_ID);
-    INSERT INTO Product_Distributor_Test(Product_ID, Product_Distributor_Name) VALUES
-    (1,'Mr. Programmer'),
-    (2,'Miss. Tester'),
-    (2,'Mr. Tester'),
-    (3,'Mr. Programmer'),
-    (3,'Mr. Tester'),
-    (3,'Miss. Tester');
+    ALTER TABLE Product_Distributor_Test ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor_Test(Distributor_ID);
+    INSERT INTO Product_Distributor_Test(Product_ID, Distributor_ID) VALUES
+    (1,1),
+    (1,2),
+    (3,2),
+    (2,2),
+    (1,3);
     
     CREATE TABLE Fake_PIM_Database.Product_Categories_Test like PIM_Database.Product_Categories;
     ALTER TABLE Product_Categories_Test ADD FOREIGN KEY(Category_ID) REFERENCES Categories_Test(Category_ID);

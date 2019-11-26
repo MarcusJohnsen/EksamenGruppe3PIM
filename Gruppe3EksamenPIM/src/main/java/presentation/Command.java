@@ -6,18 +6,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.commands.AddAttributeCommand;
 import presentation.commands.AddCategoryCommand;
+import presentation.commands.AddDistributorCommand;
 import presentation.commands.EditCategoriesToProductCommand;
 import presentation.commands.AddProductCommand;
 import presentation.commands.DeleteCategoryCommand;
+import presentation.commands.DeleteDistributorCommand;
 import presentation.commands.DeleteProductCommand;
 import presentation.commands.EditAttributesToCategoryCommand;
 import presentation.commands.EditCategoryCommand;
+import presentation.commands.EditDistributorCommand;
 import presentation.commands.EditProductCommand;
 import presentation.commands.SelectProductCommand;
 import presentation.commands.GoToJspCommand;
 import presentation.commands.SelectAttributesForCategoryCommand;
 import presentation.commands.SelectCategoriesForProductCommand;
 import presentation.commands.SelectCategoryCommand;
+import presentation.commands.SelectDistributorCommand;
 import presentation.commands.UnknownCommand;
 
 /**
@@ -34,6 +38,7 @@ public abstract class Command {
         commands.put("addProduct", new AddProductCommand());
         commands.put("addCategory", new AddCategoryCommand());
         commands.put("addAttribute", new AddAttributeCommand());
+        commands.put("addDistributor", new AddDistributorCommand());
         commands.put("goToJsp", new GoToJspCommand());
         commands.put("selectProduct", new SelectProductCommand());
         commands.put("editProduct", new EditProductCommand());
@@ -45,6 +50,9 @@ public abstract class Command {
         commands.put("editCategory", new EditCategoryCommand());
         commands.put("editCategoriesToProduct", new EditCategoriesToProductCommand());
         commands.put("editAttributesToCategory", new EditAttributesToCategoryCommand());
+        commands.put("selectDistributor", new SelectDistributorCommand());
+        commands.put("editDistributor", new EditDistributorCommand());
+        commands.put("deleteDistributor", new DeleteDistributorCommand());
     }
 
   public static Command from(HttpServletRequest request) {

@@ -32,6 +32,7 @@ import static org.junit.Assert.*;
                 stmt.execute("drop table if exists Product");
                 stmt.execute("drop table if exists Categories");
                 stmt.execute("drop table if exists Attributes");
+                stmt.execute("drop table if exists Distributor");
 
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
@@ -41,9 +42,13 @@ import static org.junit.Assert.*;
 
                 stmt.execute("create table Attributes like Attributes_Test");
                 stmt.execute("insert into Attributes select * from Attributes_Test");
+                
+                stmt.execute("create table Distributor like Distributor_Test");
+                stmt.execute("insert into Distributor select * from Distributor_Test");
 
                 stmt.execute("create table Product_Distributor like Product_Distributor_Test");
                 stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor(Distributor_ID)");
                 stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
 
                 stmt.execute("create table Product_Categories like Product_Categories_Test");
@@ -115,17 +120,16 @@ import static org.junit.Assert.*;
         //arrange
         String productName = "Newest Product";
         String productDescription = "This is new newest product for testing";
-        String firstDistributor = "1st Distributor";
-        String secondDistributor = "2nd Distributor";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{firstDistributor, secondDistributor}));
+        //String firstDistributor = "1st Distributor";
+        //String secondDistributor = "2nd Distributor";
+        //ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{firstDistributor, secondDistributor}));
 
         //act
-        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributors);
+        Product result = businessFacade.createNewProduct(productName, productDescription);
 
         //assert
         assertTrue(productName.equals(result.getName()));
         assertTrue(productDescription.equals(result.getDescription()));
-        assertEquals(productDistributors, result.getDistributors());
         assertTrue(businessFacade.getProductList().contains(result));
     }
 
@@ -157,7 +161,7 @@ import static org.junit.Assert.*;
         String secondDistributor = "2nd Distributor";
         String firstDistributor2 = "1st Distributor";
         String secondDistributor2 = "2nd Distributor";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{firstDistributor, secondDistributor}));
+        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new String[]{firstDistributor, secondDistributor}));
         HashMap<Integer, String> productAttributeValues = new HashMap();
 
         //act
@@ -167,8 +171,6 @@ import static org.junit.Assert.*;
         //assert
         assertTrue(result.getName().equals(productName));
         assertTrue(result.getDescription().equals(productDescription));
-        assertTrue(result.getDistributors().contains(firstDistributor));
-        assertTrue(result.getDistributors().contains(secondDistributor));
 
     }
 

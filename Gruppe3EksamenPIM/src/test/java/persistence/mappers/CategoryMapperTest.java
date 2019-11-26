@@ -38,6 +38,7 @@ public class CategoryMapperTest {
                 stmt.execute("drop table if exists Product");
                 stmt.execute("drop table if exists Categories");
                 stmt.execute("drop table if exists Attributes");
+                stmt.execute("drop table if exists Distributor");
 
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
@@ -47,9 +48,13 @@ public class CategoryMapperTest {
 
                 stmt.execute("create table Attributes like Attributes_Test");
                 stmt.execute("insert into Attributes select * from Attributes_Test");
+                
+                stmt.execute("create table Distributor like Distributor_Test");
+                stmt.execute("insert into Distributor select * from Distributor_Test");
 
                 stmt.execute("create table Product_Distributor like Product_Distributor_Test");
                 stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor(Distributor_ID)");
                 stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
 
                 stmt.execute("create table Product_Categories like Product_Categories_Test");

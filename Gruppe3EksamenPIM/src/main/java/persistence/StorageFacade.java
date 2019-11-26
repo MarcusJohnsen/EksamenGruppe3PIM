@@ -35,12 +35,8 @@ public class StorageFacade {
         return database;
     }
 
-    public Category addNewCategory(String categoryName, String categoryDescription) {
-        return categoryMapper.addNewCategory(categoryName, categoryDescription);
-    }
-
-    public ArrayList<Product> getProducts(ArrayList<Category> categoryList) {
-        return productMapper.getProducts(categoryList);
+    public ArrayList<Product> getProducts(ArrayList<Category> categoryList, ArrayList<Distributor> distributorList) {
+        return productMapper.getProducts(categoryList, distributorList);
     }
 
     public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
@@ -54,6 +50,10 @@ public class StorageFacade {
     public ArrayList<Distributor> getDistributors() {
         return distributorMapper.getDistributors();
     }
+    
+    public Category addNewCategory(String categoryName, String categoryDescription) {
+        return categoryMapper.addNewCategory(categoryName, categoryDescription);
+    }
 
     public void deleteCategory(int categoryID) {
         categoryMapper.deleteCategory(categoryID);
@@ -63,8 +63,8 @@ public class StorageFacade {
         categoryMapper.editCategory(category);
     }
 
-    public Product addNewProduct(String productName, String productDescription, String noImageFileName, ArrayList<String> productDistributors) {
-        return productMapper.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
+    public Product addNewProduct(String productName, String productDescription, String noImageFileName) {
+        return productMapper.addNewProduct(productName, productDescription, noImageFileName);
     }
 
     public void deleteProduct(int productID) {

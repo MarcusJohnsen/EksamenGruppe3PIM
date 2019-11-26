@@ -2,6 +2,7 @@ package persistence.mappers;
 
 import businessLogic.Attribute;
 import businessLogic.Category;
+import businessLogic.Distributor;
 import businessLogic.Product;
 import factory.SystemMode;
 import java.sql.Connection;
@@ -33,6 +34,7 @@ public class AttributeMapperTest {
                 stmt.execute("drop table if exists Product");
                 stmt.execute("drop table if exists Categories");
                 stmt.execute("drop table if exists Attributes");
+                stmt.execute("drop table if exists Distributor");
 
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
@@ -42,9 +44,13 @@ public class AttributeMapperTest {
 
                 stmt.execute("create table Attributes like Attributes_Test");
                 stmt.execute("insert into Attributes select * from Attributes_Test");
+                
+                stmt.execute("create table Distributor like Distributor_Test");
+                stmt.execute("insert into Distributor select * from Distributor_Test");
 
                 stmt.execute("create table Product_Distributor like Product_Distributor_Test");
                 stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor(Distributor_ID)");
                 stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
 
                 stmt.execute("create table Product_Categories like Product_Categories_Test");
@@ -158,7 +164,7 @@ public class AttributeMapperTest {
         String productName = "New Product";
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList();
+        ArrayList<Distributor> productDistributors = new ArrayList();
         ArrayList<Category> productCategories = new ArrayList();
         productCategories.add(category);
         Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
@@ -184,7 +190,7 @@ public class AttributeMapperTest {
         String productName = "New Product";
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList();
+        ArrayList<Distributor> productDistributors = new ArrayList();
         ArrayList<Category> productCategories = new ArrayList();
         Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
 

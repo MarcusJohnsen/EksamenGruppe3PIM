@@ -65,23 +65,29 @@ public class DistributorMapper {
     }
 
     public int deleteDistributor(int distributorID) {
+        int rowsAffected = 0;
         try {
-            // *** En lignende metode eksisterer i ProductMapper (deleteProductDistributors) så ved ikke om den skal bruges
-            /* String SQL = "DELETE FROM Product_Distributor WHERE distributor_ID = ?";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setInt(1, distributorID);
-            ps.executeUpdate(); */
+            database.setAutoCommit(false);
+
+            String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE distributor_ID = ?";
+            PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteProductDistributors);
+            psDeleteProductDistributors.setInt(1, distributorID);
+            rowsAffected += psDeleteProductDistributors.executeUpdate();
+
+            String sqlDeleteDistributor = "DELETE FROM Distributor WHERE distributor_ID = ?";
+            PreparedStatement psDeleteDistributor = database.getConnection().prepareStatement(sqlDeleteDistributor);
+            psDeleteDistributor.setInt(1, distributorID);
+            rowsAffected += psDeleteDistributor.executeUpdate();
             
-            String SQL = "DELETE FROM Distributor WHERE distributor_ID = ?";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setInt(1, distributorID);
-            ps.executeUpdate();
-            
-            return ps.executeUpdate();
+        database.getConnection().commit();
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalArgumentException("Can't delete selected distributor from DB");
+            Logger.getLogger(DistributorMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
+            throw new IllegalArgumentException("Can't delete distributor from DB");
         }
+        database.setAutoCommit(true);
+        return rowsAffected;
     }
 
     public int editDistributor(Distributor distributor) {
@@ -95,10 +101,8 @@ public class DistributorMapper {
             return result;
             
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DistributorMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't update selected distributor from DB");
         }
     }
-
-    
 }

@@ -2,6 +2,7 @@ package presentation.commands;
 
 import businessLogic.BusinessFacade;
 import businessLogic.Category;
+import businessLogic.Distributor;
 import businessLogic.Product;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,9 @@ public class GoToJspCommand extends Command {
                 ArrayList<Category> categoryList = businessFacade.getCategoryList();
                 request.setAttribute("categoryList", categoryList);
                 break;
+            case "viewAllDistributors":;
+                ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
+                request.setAttribute("distributorList", distributorList);
             default:
                 break;
         }

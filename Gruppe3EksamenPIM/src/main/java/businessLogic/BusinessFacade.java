@@ -4,6 +4,8 @@ import static businessLogic.Category.findCategoryOnID;
 import static businessLogic.Category.validateCategoryInput;
 import static businessLogic.Product.findProductOnID;
 import static businessLogic.Product.validateProductInput;
+import static businessLogic.Distributor.findDistributorOnID;
+import static businessLogic.Distributor.validateDistributorInput;
 import factory.SystemMode;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +27,8 @@ public class BusinessFacade {
     public void setupListsFromDB() {
         ArrayList<Attribute> attributeList = storageFacade.getAttributes();
         ArrayList<Category> categoryList = storageFacade.getCategories(attributeList);
-        ArrayList<Product> productList = storageFacade.getProducts(categoryList);
         ArrayList<Distributor> distributorList = storageFacade.getDistributors();
+        ArrayList<Product> productList = storageFacade.getProducts(categoryList, distributorList);
         Category.setupCategoryListFromDB(categoryList);
         Product.setupProductListFromDB(productList);
         Attribute.setupAttributeListFromDB(attributeList);
@@ -58,9 +60,9 @@ public class BusinessFacade {
         storageFacade.editCategory(category);
     }
 
-    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributors) {
-        validateProductInput(productName, productDescription, productDistributors);
-        Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
+    public Product createNewProduct(String productName, String productDescription) {
+        validateProductInput(productName, productDescription);
+        Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName);
         Product.addToProductList(newProduct);
         return newProduct;
     }
@@ -70,11 +72,11 @@ public class BusinessFacade {
         return Product.deleteProductOnID(productID);
     }
 
-    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributors, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
-        validateProductInput(productName, productDescription, productDistributors);
+    public void editProduct(int productID, String productName, String productDescription, ArrayList<Distributor> productDistributors, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
+        validateProductInput(productName, productDescription);
         Product product = findProductOnID(productID);
         product.updateProductValues(productAttributeValues);
-        product.editProduct(productName, productDescription, productDistributors);
+        product.editProduct(productName, productDescription);
         storageFacade.editProduct(product);
         storageFacade.updateProductAttributeValues(product);
     }
@@ -92,11 +94,31 @@ public class BusinessFacade {
         return newAttribute;
     }
     
-     public Distributor createNewDistributor(String distributorName, String distributorDescription) throws IllegalArgumentException {
+     public Distributor createNewDistributor(String distributorName, String distributorDescription) {
         Distributor.validateDistributorInput(distributorName, distributorDescription);
         Distributor newDistributor = storageFacade.addNewDistributor(distributorName, distributorDescription);
         Distributor.addToDistributorList(newDistributor);
         return newDistributor;
+    }
+     
+    public boolean deleteDistributor(int distributorID) {
+        storageFacade.deleteDistributor(distributorID);
+        //ArrayList<Distributor> productsWithDistributor = Product.findProductsOnCategoryID(categoryID);
+        Distributor distributor = Distributor.findDistributorOnID(distributorID);
+        //Product.deleteCategoryFromProducts(category);
+        //boolean categoryWasDeleted = Category.deleteCategory(categoryID);
+        //Product.createAttributesFromCategories(productsWithCategory);
+        storageFacade.deleteDistributor(distributorID);
+                //updateProductAttributeSelections(productsWithCategory);
+        //return categoryWasDeleted;
+        return Distributor.deleteDistributor(distributorID);
+    }
+
+    public void editDistributor(int distributorID, String distributorName, String distributorDescription) throws IllegalArgumentException {
+        validateDistributorInput(distributorName, distributorDescription);
+        Distributor distributor = findDistributorOnID(distributorID);
+        distributor.editDistributor(distributorName, distributorDescription);
+        storageFacade.editDistributor(distributor);
     }
 
     public StorageFacade getStorageFacade() {
@@ -125,6 +147,14 @@ public class BusinessFacade {
 
     public Attribute getAttributeFromID(int attributeID) {
         return Attribute.findAttributeOnID(attributeID);
+    }
+    
+    public ArrayList<Distributor> getDistributorList() {
+        return Distributor.getDistributorList();
+    }
+    
+    public Distributor getDistributorFromID(int distributorID) {
+        return Distributor.findDistributorOnID(distributorID);
     }
 
     public void editCategoriesToProduct(Product product, ArrayList<String> categoryChoices) {

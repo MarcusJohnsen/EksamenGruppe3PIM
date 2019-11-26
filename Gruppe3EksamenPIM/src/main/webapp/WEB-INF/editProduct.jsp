@@ -20,12 +20,9 @@
             Product product = (Product) request.getAttribute("product");
             String ProductName = product.getName();
             String ProductDescription = product.getDescription();
-            ArrayList<String> ProductDist = product.getDistributors();
+            //ArrayList<String> ProductDist = product.getDistributors();
             String picturePath = product.getPicturePath();
             int productID = product.getProductID();
-
-            ArrayList<Attribute> attributes = product.getProductAttributes();
-
         %>
         <h1 align="center">Edit Product Information for product number <%=productID%></h1>
         <form action="FrontController" method="POST">
@@ -47,17 +44,6 @@
                 <textarea name="Product Description" rows="8" cols="40" required="required"><%=ProductDescription%> </textarea>
             </p>
 
-            <p align="center">
-                Product Distributors: <img onclick="newField()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/> 
-                <br>
-                <%for (String productdist : ProductDist) {%>
-                <input type="text" name="Product Distributors" value="<%=productdist%>"/>
-                <br>
-                <br>
-                <%}%>
-                <input type="text" name="Product Distributors" value=""/>
-
-            </p>
             <div id="myDIV" align="center"> 
             </div>
 
@@ -69,7 +55,9 @@
                     </tr>
                 </thead>
                 <br>
-                <%for (Attribute attribute : attributes) {
+                <%
+                    ArrayList<Attribute> attributeList = (ArrayList<Attribute>) product.getProductAttributes();
+                    for (Attribute attribute : attributeList) {
                         int attributeID = attribute.getAttributeID();
                         String value = attribute.getAttributeValueForID(productID);
                         String attributeTitle = attribute.getAttributeTitle();
@@ -89,11 +77,11 @@
             <h2 align="center" style="color: red"><%=error%></h2>
             <%}%>
 
-            <!--<p align="center">
+            <p align="center">
                 Select Picture:
                 <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
             </p>
-            <br>-->
+            <br>
             <p align="center">
                 Save the changes:
                 <br>
