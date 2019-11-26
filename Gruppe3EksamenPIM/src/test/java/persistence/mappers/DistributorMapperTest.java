@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import persistence.DB;
 
@@ -17,22 +18,20 @@ import persistence.DB;
  */
 public class DistributorMapperTest {
 
-    private final DB database = new DB(SystemMode.TEST);
+    private final static DB database = new DB(SystemMode.TEST);
     private final DistributorMapper distributorMapper = new DistributorMapper(database);
     private static Connection testConnection;
     private final int AmountOfDistributorsInDB = 3;
     
-    private final String distributorDescription = "First new description";
-    private final String distributorName = "Arla";
-
-
-    @Before
-    public void setup() {
+    //setting up common variables so I won't have to write them for every single test
+    private String distributorName = "Arla";
+    private String distributorDescription = "First new description";
+    
+    @BeforeClass
+    public static void oneTimeSetup() {
         try {
             testConnection = database.getConnection();
-            // reset test database
             try (Statement stmt = testConnection.createStatement()) {
-
                 stmt.execute("drop table if exists Product_Distributor");
                 stmt.execute("drop table if exists Product_Categories");
                 stmt.execute("drop table if exists Product_Attributes");
@@ -56,14 +55,6 @@ public class DistributorMapperTest {
                 stmt.execute("create table Attributes like Attributes_Test");
                 stmt.execute("insert into Attributes select * from Attributes_Test");
                 
-                stmt.execute("create table Distributor like Distributor_Test");
-                stmt.execute("insert into Distributor select * from Distributor_Test");
-
-                stmt.execute("create table Product_Distributor like Product_Distributor_Test");
-                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
-                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor(Distributor_ID)");
-                stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
-                
                 stmt.execute("create table Product_Bundles like Product_Bundles_Test");
                 stmt.execute("ALTER TABLE Product_Bundles ADD FOREIGN KEY(Bundle_ID) REFERENCES Bundles(Bundle_ID)");
                 stmt.execute("ALTER TABLE Product_Bundles ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
@@ -83,6 +74,29 @@ public class DistributorMapperTest {
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
                 stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
+            }
+        } catch (SQLException ex) {
+            testConnection = null;
+            System.out.println("Could not open connection to database: " + ex.getMessage());
+        }
+    }
+
+    @Before
+    public void setup() {
+        try {
+            testConnection = database.getConnection();
+            // reset test database
+            try (Statement stmt = testConnection.createStatement()) {
+                stmt.execute("drop table if exists Product_Distributor");
+                stmt.execute("drop table if exists Distributor");
+                
+                stmt.execute("create table Distributor like Distributor_Test");
+                stmt.execute("insert into Distributor select * from Distributor_Test");
+
+                stmt.execute("create table Product_Distributor like Product_Distributor_Test");
+                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor(Distributor_ID)");
+                stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
             }
 
         } catch (SQLException ex) {
@@ -108,14 +122,13 @@ public class DistributorMapperTest {
     
     @Test (expected = IllegalArgumentException.class)
     public void negativeTestGetDistributors() {
-        //arrange
         try {
             database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
             database.getConnection().createStatement().execute("drop table if exists Distributor");
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Distributor");
         }
-        ArrayList<Distributor> result = distributorMapper.getDistributors();
+        distributorMapper.getDistributors();
     }
     
     /**
@@ -125,7 +138,7 @@ public class DistributorMapperTest {
     @Test
     public void testAddNewDistributorNameAtLimit() {
         //arrange
-        String distributorName = "";
+        distributorName = "";
         for (int i = 0; i < 255; i++) {
             distributorName += "n";
         }
@@ -147,18 +160,18 @@ public class DistributorMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAddNewDistributorNameExceedLimit() {
         //arrange
-        String distributorName = "";
+        distributorName = "";
         for (int i = 0; i < 256; i++) {
             distributorName += "n";
         }
         //act
-        Distributor result = distributorMapper.addNewDistributor(distributorName, distributorDescription);
+        distributorMapper.addNewDistributor(distributorName, distributorDescription);
     }
     
     @Test
     public void testAddNewDistributorDescriptionAtLimit() {
         //arrange
-        String distributorDescription = "";
+        distributorDescription = "";
         for (int i = 0; i < 2550; i++) {
             distributorDescription += "n";
         }
@@ -180,12 +193,12 @@ public class DistributorMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAddNewDistributorDescriptionExceedLimit() {
         //arrange
-        String distributorDescription = "";
+        distributorDescription = "";
         for (int i = 0; i < 2551; i++) {
             distributorDescription += "n";
         }
         //act
-        Distributor result = distributorMapper.addNewDistributor(distributorName, distributorDescription);
+        distributorMapper.addNewDistributor(distributorName, distributorDescription);
     }
     
     @Test
