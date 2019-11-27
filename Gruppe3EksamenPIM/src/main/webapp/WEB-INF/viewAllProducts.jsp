@@ -52,6 +52,7 @@
 
             <p align="center"><input type="submit" name="submitButton" value="Edit Product"/></p>
             <p align="center"><input type="submit" name="submitButton" value="Delete Product"/></p>
+            <p align="center"><input type="submit" name="submitButton" value="View all product details"/></p>
         </form>
         <%
                 String error = (String) request.getAttribute("error");
@@ -63,6 +64,5 @@
             <input type="hidden" name="goToJsp" value="index" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
-
     </body>
 </html>

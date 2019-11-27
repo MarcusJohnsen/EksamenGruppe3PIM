@@ -4,29 +4,7 @@ import businessLogic.BusinessFacade;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import presentation.commands.AddAttributeCommand;
-import presentation.commands.AddBundleCommand;
-import presentation.commands.AddCategoryCommand;
-import presentation.commands.AddDistributorCommand;
-import presentation.commands.EditCategoriesToProductCommand;
-import presentation.commands.AddProductCommand;
-import presentation.commands.DeleteBundleCommand;
-import presentation.commands.DeleteCategoryCommand;
-import presentation.commands.DeleteDistributorCommand;
-import presentation.commands.DeleteProductCommand;
-import presentation.commands.EditAttributesToCategoryCommand;
-import presentation.commands.EditBundleCommand;
-import presentation.commands.EditCategoryCommand;
-import presentation.commands.EditDistributorCommand;
-import presentation.commands.EditProductCommand;
-import presentation.commands.SelectProductCommand;
-import presentation.commands.GoToJspCommand;
-import presentation.commands.SelectAttributesForCategoryCommand;
-import presentation.commands.SelectBundleCommand;
-import presentation.commands.SelectCategoriesForProductCommand;
-import presentation.commands.SelectCategoryCommand;
-import presentation.commands.SelectDistributorCommand;
-import presentation.commands.UnknownCommand;
+import presentation.commands.*;
 
 /**
  *
@@ -44,20 +22,30 @@ public abstract class Command {
         commands.put("addAttribute", new AddAttributeCommand());
         commands.put("addDistributor", new AddDistributorCommand());
         commands.put("addBundle", new AddBundleCommand());
+        
         commands.put("goToJsp", new GoToJspCommand());
+        
         commands.put("selectProduct", new SelectProductCommand());
         commands.put("editProduct", new EditProductCommand());
         commands.put("deleteProduct", new DeleteProductCommand());
+        
         commands.put("selectCategory", new SelectCategoryCommand());
+        commands.put("editCategory", new EditCategoryCommand());
         commands.put("deleteCategory", new DeleteCategoryCommand());
+        
+        commands.put("selectAttribute", new SelectAttributeCommand());
+        commands.put("editAttribute", new EditAttributeCommand());
+        commands.put("deleteAttribute", new DeleteAttributeCommand());
+        
         commands.put("selectCategoriesForProduct", new SelectCategoriesForProductCommand());
         commands.put("selectAttributesForCategory", new SelectAttributesForCategoryCommand());
-        commands.put("editCategory", new EditCategoryCommand());
         commands.put("editCategoriesToProduct", new EditCategoriesToProductCommand());
         commands.put("editAttributesToCategory", new EditAttributesToCategoryCommand());
+        
         commands.put("selectDistributor", new SelectDistributorCommand());
         commands.put("editDistributor", new EditDistributorCommand());
         commands.put("deleteDistributor", new DeleteDistributorCommand());
+        
         commands.put("selectBundle", new SelectBundleCommand());
         commands.put("editBundle", new EditBundleCommand());
         commands.put("deleteBundle", new DeleteBundleCommand());
@@ -69,7 +57,6 @@ public abstract class Command {
             initCommands();
         }
         return commands.getOrDefault(commandName, new UnknownCommand());
-        //return null;
     }
     public abstract String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade);
 }  

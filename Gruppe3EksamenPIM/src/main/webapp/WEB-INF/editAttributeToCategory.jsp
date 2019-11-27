@@ -27,7 +27,7 @@
                 <thead>
                     <tr bgcolor = "#FF4B4B">
                         <td align="center">Attribute ID</td>
-                        <td align="center">Attribute Title</td>
+                        <td align="center">Attribute Name</td>
                         <td align="center">Attribute Value</td>
                     </tr>
                 </thead>
@@ -36,13 +36,12 @@
                     <%
                             for (Attribute attribute : attributeList) {
                             int AttributeID = attribute.getAttributeID();
-                            String AttributeTitle = attribute.getAttributeTitle();
-                            //String AttributeValue = attribute.getAttributeValues();
+                            String AttributeName = attribute.getAttributeName();
                             boolean alreadyOnCategory = category.getCategoryAttributes().contains(attribute);
                     %>  
                     <tr>
                         <td align="center" width="5%"> <%=AttributeID%> </td>
-                        <td align="center" width="20%"> <%=AttributeTitle%> </td>
+                        <td align="center" width="20%"> <%=AttributeName%> </td>
                         <%if (alreadyOnCategory) {%>
                         <td align="center" width="1%"><input type="checkbox" name=attributeChoices value="<%=AttributeID%>" checked></td>
                             <%} else {%>

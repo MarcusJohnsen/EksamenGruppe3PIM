@@ -15,11 +15,8 @@
         <title>Create Bundle</title>
     </head>
     <body>
-        <%
-        
-        %>
         <h1 align="center">Create Bundle</h1>
-        <form action="FrontController">
+        <form action="FrontController" method="POST">
             <p align="center">
                 Bundle Name:
                 <br>
@@ -61,7 +58,8 @@
                         <td align="center" width="3%"> <%=ProductID%> </td>
                         <td align="center" width="20%"> <%=ProductName%> </td>
                         <td align="center" width="30%"> <%=ProductDescription%> </td>
-                        <td align="center" width="1%"><input type="checkbox" name=productChoice value="<%=ProductID%>"></td>
+                        <td align="center" width="1%"><input type="checkbox" name="productChoice" value="<%=ProductID%>"></td>
+                        <td align="center" width="3%"><input type="text" name="ProductIDAmount<%=ProductID%>" value="1" size="1" style="text-align: center;"/></td>
                     </tr>
                 </tbody>
                 <%}%>

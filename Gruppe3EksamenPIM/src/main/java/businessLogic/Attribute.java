@@ -10,13 +10,13 @@ import java.util.HashMap;
 public class Attribute {
 
     private int attributeID;
-    private String attributeTitle;
+    private String attributeName;
     private HashMap<Integer, String> attributeValues;
     private static ArrayList<Attribute> attributeList = new ArrayList();
 
     public Attribute(int attributeID, String attributeTitle, HashMap<Integer, String> attributeValues) {
         this.attributeID = attributeID;
-        this.attributeTitle = attributeTitle;
+        this.attributeName = attributeTitle;
         this.attributeValues = attributeValues;
     }
 
@@ -49,7 +49,7 @@ public class Attribute {
     
     /**
      * 
-     * @param attributeTitle Validates the attributeTitle. The given title must not be empty or already existing.
+     * @param attributeTitle Validates the attributeName. The given title must not be empty or already existing.
      * @return Boolean true if given title is not empty/already existing
      * @throw Exception if boolean is not true.
      */
@@ -59,7 +59,7 @@ public class Attribute {
             throw new IllegalArgumentException("New Attribute need a title");
         }
         for (Attribute attribute : attributeList) {
-            if (attribute.getAttributeTitle().equals(attributeTitle)) {
+            if (attribute.getAttributeName().equals(attributeTitle)) {
                 throw new IllegalArgumentException("Dublicate attribute already exist");
             }
         }
@@ -74,6 +74,14 @@ public class Attribute {
     
     public static boolean addToAttributeList(Attribute attribute) {
         return attributeList.add(attribute);
+    }
+    
+    void editAttribute(String attributeName) {
+        this.attributeName = attributeName;
+    }
+    
+    public static boolean deleteAttribute(int attributeID) {
+        return attributeList.remove(findAttributeOnID(attributeID));
     }
 
     /**
@@ -140,11 +148,11 @@ public class Attribute {
     
     /**
      * 
-     * @return attributeTitle
+     * @return attributeName
      */
     
-    public String getAttributeTitle() {
-        return attributeTitle;
+    public String getAttributeName() {
+        return attributeName;
     }
 
     
@@ -156,5 +164,4 @@ public class Attribute {
     public HashMap<Integer, String> getAttributeValues() {
         return attributeValues;
     }
-
 }

@@ -44,6 +44,11 @@ public class GoToJspCommand extends Command {
                 bundleList = businessFacade.getBundleList();
                 request.setAttribute("bundleList", bundleList);
                 break;
+            case "viewAllAttributes":
+                attributeList = businessFacade.getAttributeList();
+                request.setAttribute("attributeList", attributeList);
+                break;
+                
             case "newBundle":
                 productList = businessFacade.getProductList();
                 request.setAttribute("productList", productList);
@@ -58,10 +63,7 @@ public class GoToJspCommand extends Command {
                 break;
             default:
                 break;
-
         }
-
         return jspPage;
     }
-
 }

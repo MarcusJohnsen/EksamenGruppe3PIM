@@ -121,6 +121,20 @@ public class AttributeMapper {
         database.setAutoCommit(true);
         return rowsAffected;
     }
+    
+    public int editAttribute(Attribute attribute) {
+        try {
+            String SQL = "UPDATE Attributes SET Attribute_Name = ? WHERE Attribute_ID = ?";
+            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
+            ps.setString(1, attribute.getAttributeName());
+            ps.setInt(2, attribute.getAttributeID());
+            int result = ps.executeUpdate();
+            return result;
+        } catch (SQLException ex) {
+            Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Can't update selected attribute from DB");
+        }
+    }
 
     public int updateProductAttributeSelections(Product product) {
         int rowsAffected = 0;

@@ -64,12 +64,12 @@ public class Product {
         this.productAttributes = new ArrayList(attributeSet);
     }
 
-    public static ArrayList<Product> getMatchingProductsOnIDs(ArrayList<String> productIDChoices) {
-        ArrayList<Product> result = new ArrayList();
-        if (productIDChoices != null) {
+    public static HashMap<Product, Integer> getMatchingProductsOnIDs(HashMap<Integer, Integer> productChoices) {
+        HashMap<Product, Integer> result = new HashMap();
+        if (productChoices != null) {
             for (Product product : productList) {
-                if (productIDChoices.contains(Integer.toString(product.getProductID()))) {
-                    result.add(product);
+                if (productChoices.get(product.getProductID()) != null){
+                    result.put(product, productChoices.get(product.getProductID()));
                 }
             }
         }

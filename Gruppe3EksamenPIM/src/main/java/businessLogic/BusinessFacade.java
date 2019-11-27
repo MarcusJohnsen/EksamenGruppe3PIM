@@ -1,5 +1,7 @@
 package businessLogic;
 
+import static businessLogic.Attribute.findAttributeOnID;
+import static businessLogic.Attribute.validateNewAttributeTitle;
 import static businessLogic.Bundle.findBundleOnID;
 import static businessLogic.Bundle.validateBundleInput;
 import static businessLogic.Category.findCategoryOnID;
@@ -98,6 +100,20 @@ public class BusinessFacade {
         return newAttribute;
     }
     
+    public void editAttribute(int attributeID, String attributeName) {
+        validateNewAttributeTitle(attributeName);
+        Attribute attribute = findAttributeOnID(attributeID);
+        attribute.editAttribute(attributeName);
+        storageFacade.editAttribute(attribute);
+    }
+    
+    public boolean deleteAttribute(int attributeID) {
+        storageFacade.deleteAttribute(attributeID);
+        Attribute.findAttributeOnID(attributeID);
+        boolean attributeWasDeleted = Attribute.deleteAttribute(attributeID);
+        return attributeWasDeleted;
+    }
+    
      public Distributor createNewDistributor(String distributorName, String distributorDescription) {
         Distributor.validateDistributorInput(distributorName, distributorDescription);
         Distributor newDistributor = storageFacade.addNewDistributor(distributorName, distributorDescription);
@@ -107,14 +123,7 @@ public class BusinessFacade {
      
     public boolean deleteDistributor(int distributorID) {
         storageFacade.deleteDistributor(distributorID);
-        //ArrayList<Distributor> productsWithDistributor = Product.findProductsOnCategoryID(categoryID);
-        Distributor distributor = Distributor.findDistributorOnID(distributorID);
-        //Product.deleteCategoryFromProducts(category);
-        //boolean categoryWasDeleted = Category.deleteCategory(categoryID);
-        //Product.createAttributesFromCategories(productsWithCategory);
-        storageFacade.deleteDistributor(distributorID);
-                //updateProductAttributeSelections(productsWithCategory);
-        //return categoryWasDeleted;
+        Distributor.findDistributorOnID(distributorID);
         return Distributor.deleteDistributor(distributorID);
     }
 
@@ -176,9 +185,9 @@ public class BusinessFacade {
         storageFacade.editAttributeToCategory(category);
     }
     
-    public Bundle createNewBundle(String bundleName, String bundleDescription, ArrayList<String> productListForBundleStrings) throws IllegalArgumentException {
+    public Bundle createNewBundle(String bundleName, String bundleDescription, HashMap<Integer, Integer> productChoices) throws IllegalArgumentException {
         Bundle.validateBundleInput(bundleName, bundleDescription, null);
-        ArrayList<Product> productListForBundle = Product.getMatchingProductsOnIDs(productListForBundleStrings);
+        HashMap<Product, Integer> productListForBundle = Product.getMatchingProductsOnIDs(productChoices);
         Bundle newBundle = storageFacade.addNewBundle(bundleName, bundleDescription, productListForBundle);
         Bundle.addToBundleList(newBundle);
         return newBundle;
@@ -190,8 +199,6 @@ public class BusinessFacade {
         Bundle bundle = Bundle.findBundleOnID(bundleID);
         Product.deleteBundleFromProducts(bundle);
         boolean bundleWasDeleted = Bundle.deleteBundle(bundleID);
-        //Product.createAttributesFromCategories(productsWithCategory);
-        //storageFacade.updateProductAttributeSelections(productsWithCategory);
         return bundleWasDeleted;
     }
     
@@ -203,9 +210,9 @@ public class BusinessFacade {
         return Bundle.findBundleOnID(bundleID);
     }
     
-    public void editBundle(int bundleID, String bundleName, String bundleDescription, ArrayList<String> productListForBundleStrings) throws IllegalArgumentException {
-        validateBundleInput(bundleName, bundleDescription, bundleID);
-        ArrayList<Product> productListForBundle = Product.getMatchingProductsOnIDs(productListForBundleStrings);
+    public void editBundle(int bundleID, String bundleName, String bundleDescription, HashMap<Integer, Integer> productChoices) throws IllegalArgumentException {
+        Bundle.validateBundleInput(bundleName, bundleDescription, bundleID);
+        HashMap<Product, Integer> productListForBundle = Product.getMatchingProductsOnIDs(productChoices);
         Bundle bundle = findBundleOnID(bundleID);
         bundle.editBundle(bundleName, bundleDescription, productListForBundle);
         storageFacade.editBundle(bundle);
