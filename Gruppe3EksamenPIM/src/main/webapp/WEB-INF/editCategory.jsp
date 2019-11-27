@@ -23,7 +23,7 @@
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="selectAttributesForCategory" />
             <input type="hidden" name="categoryID" value="<%=CategoryID%>" />
-            <p align="center"><input type="submit" value="Add Attributes to Category" required="required" /></p>
+            <p align="center"><input type="submit" value="Add Attributes to Category"/></p>
         </form>
         <form action="FrontController">
             <input type="hidden" name="categoryID" value="<%=CategoryID%>"/>

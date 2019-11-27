@@ -25,6 +25,15 @@ public class ProductMapper {
         this.database = database;
     }
 
+    /**
+     * 
+     * 
+     * @param categoryList ArrayList of category objects
+     * @param distributorList ArrayList of distributor objects 
+     * 
+     * @return 
+     */
+    
     public ArrayList<Product> getProducts(ArrayList<Category> categoryList, ArrayList<Distributor> distributorList) {
         try {
             ArrayList<Product> productList = new ArrayList();
