@@ -25,25 +25,23 @@ public class AddProductCommand extends Command {
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
         
-        ArrayList<Distributor>distributorChoices;
+        ArrayList<String>distributorChoices;
         
          if(request.getParameterValues("distributorChoices") != null){
             distributorChoices = new ArrayList(Arrays.asList(request.getParameterValues("distributorChoices")));
         } else {
             distributorChoices = new ArrayList();
         }
-        
-        //Distributor distributor  = businessFacade.getDistributorFromID(Integer.parseInt(request.getParameter("distributorID")));
         try {
-            Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributorChoices);
-            request.getSession().setAttribute("productID", newProduct.getProductID());
+           Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributorChoices);
+           request.getSession().setAttribute("productID", newProduct.getProductID());
         } catch (IllegalArgumentException ex) {
             nextJsp = "newProduct";
             ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
             request.setAttribute("distributorList", distributorList);
             request.setAttribute("error", ex.getMessage());
         }
-
+                
         return nextJsp;
     }
 
