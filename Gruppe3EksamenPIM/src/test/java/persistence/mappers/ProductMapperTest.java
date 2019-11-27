@@ -13,6 +13,7 @@ import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import persistence.DB;
 
 /**
@@ -21,21 +22,25 @@ import persistence.DB;
  */
 public class ProductMapperTest {
 
-    private final DB database = new DB(SystemMode.TEST);
+    private final static DB database = new DB(SystemMode.TEST);
     private final ProductMapper productMapper = new ProductMapper(database);
-    private final ArrayList<Category> categoryList = new ArrayList();
-    private final ArrayList<Distributor> distributorList = new ArrayList();
     private static Connection testConnection;
 
+    //setting up common variables so I won't have to write them for every single test
     private final int numberOfProductsInDB = 3;
-
-    @Before
-    public void setup() {
+    private final int productID = 1;
+    private String productName = "Cykel";
+    private String productDescription = "This is a new product";
+    private String productPicturePath = "newProduct.img";
+    private final ArrayList<Category> categoryList = new ArrayList();
+    Distributor distributor = new Distributor(1, "Company", "Test company");
+    private final ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new Distributor[]{distributor}));
+        
+    @BeforeClass
+    public static void oneTimeSetup() {
         try {
             testConnection = database.getConnection();
-            // reset test database
             try (Statement stmt = testConnection.createStatement()) {
-
                 stmt.execute("drop table if exists Product_Distributor");
                 stmt.execute("drop table if exists Product_Categories");
                 stmt.execute("drop table if exists Product_Attributes");
@@ -86,10 +91,55 @@ public class ProductMapperTest {
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
                 stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
+            }
+        } catch (SQLException ex) {
+            testConnection = null;
+            System.out.println("Could not open connection to database: " + ex.getMessage());
+        }
+    }
+    
+    @Before
+    public void setup() {
+        try {
+            testConnection = database.getConnection();
+            // reset test database
+            try (Statement stmt = testConnection.createStatement()) {
+                stmt.execute("drop table if exists Product_Distributor");
+                stmt.execute("drop table if exists Product_Categories");
+                stmt.execute("drop table if exists Product_Attributes");
+                stmt.execute("drop table if exists Product_Bundles");
+                stmt.execute("drop table if exists Category_Attributes");
+                stmt.execute("drop table if exists Product");
 
+                stmt.execute("create table Product like Product_Test");
+                stmt.execute("insert into Product select * from Product_Test");
+
+                stmt.execute("create table Product_Distributor like Product_Distributor_Test");
+                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor(Distributor_ID)");
+                stmt.execute("insert into Product_Distributor select * from Product_Distributor_Test");
+                
+                stmt.execute("create table Product_Bundles like Product_Bundles_Test");
+                stmt.execute("ALTER TABLE Product_Bundles ADD FOREIGN KEY(Bundle_ID) REFERENCES Bundles(Bundle_ID)");
+                stmt.execute("ALTER TABLE Product_Bundles ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("insert into Product_Bundles select * from Product_Bundles_Test");
+
+                stmt.execute("create table Product_Categories like Product_Categories_Test");
+                stmt.execute("ALTER TABLE Product_Categories ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
+                stmt.execute("ALTER TABLE Product_Categories ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("insert into Product_Categories select * from Product_Categories_Test");
+
+                stmt.execute("create table Product_Attributes like Product_Attributes_Test");
+                stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
+                stmt.execute("insert into Product_Attributes select * from Product_Attributes_Test");
+                
+                stmt.execute("create table Category_Attributes like Category_Attributes_Test");
+                stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
+                stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
+                stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
             }
             categoryList.clear();
-
         } catch (SQLException ex) {
             testConnection = null;
             System.out.println("Could not open connection to database: " + ex.getMessage());
@@ -108,7 +158,7 @@ public class ProductMapperTest {
     @Test
     public void testGetProducts() {
         //act
-        ArrayList<Product> result = productMapper.getProducts(categoryList, distributorList);
+        ArrayList<Product> result = productMapper.getProducts(categoryList, productDistributors);
 
         //assert
         assertEquals(numberOfProductsInDB, result.size());
@@ -127,9 +177,8 @@ public class ProductMapperTest {
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Product");
         }
-
         //act
-        ArrayList<Product> result = productMapper.getProducts(categoryList, distributorList);
+        productMapper.getProducts(categoryList, productDistributors);
     }
 
     /**
@@ -137,14 +186,8 @@ public class ProductMapperTest {
      */
     @Test
     public void testAddNewProduct() {
-        //arrange
-        String productName = "New Product";
-        String productDescription = "This is a new product";
-        String productPicturePath = "newProduct.img";
-        //ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
-
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
 
         //assert
         int expResultID = 4;
@@ -152,7 +195,6 @@ public class ProductMapperTest {
         assertTrue(productName.equals(result.getName()));
         assertTrue(productDescription.equals(result.getDescription()));
         assertTrue(productPicturePath.equals(result.getPicturePath()));
-
     }
 
     /**
@@ -163,13 +205,10 @@ public class ProductMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAddNewProductNullName() {
         //arrange
-        String productName = null;
-        String productDescription = "First new description";
-        String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
+        productName = null;
 
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -179,16 +218,12 @@ public class ProductMapperTest {
     @Test
     public void testAddNewProductNameLengthAtLimit() {
         //arrange
-        String productName = "";
+        productName = "";
         for (int i = 0; i < 255; i++) {
             productName += "n";
         }
-        String productDescription = "First new description";
-        String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
-
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
 
         //assert
         int expResultID = 4;
@@ -205,16 +240,12 @@ public class ProductMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAddNewProductNameLengthExceedLimit() {
         //arrange
-        String productName = "";
+        productName = "";
         for (int i = 0; i < 256; i++) {
             productName += "n";
         }
-        String productDescription = "First new description";
-        String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
-
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -225,13 +256,10 @@ public class ProductMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAddNewProductNullDescription() {
         //arrange
-        String productName = "new product";
-        String productDescription = null;
-        String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
-
+        productDescription = null;
+        
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -241,16 +269,12 @@ public class ProductMapperTest {
     @Test
     public void testAddNewProductDescriptionLengthAtLimit() {
         //arrange
-        String productName = "new product";
-        String productDescription = "";
+        productDescription = "";
         for (int i = 0; i < 2550; i++) {
             productDescription += "n";
         }
-        String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
-
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
 
         //assert
         int expResultID = 4;
@@ -268,16 +292,12 @@ public class ProductMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAddNewProductDescriptionLengthExceedLimit() {
         //arrange
-        String productName = "new product";
-        String productDescription = "";
+        productDescription = "";
         for (int i = 0; i < 2551; i++) {
             productDescription += "n";
         }
-        String productPicturePath = "newProduct.img";
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
-
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -287,16 +307,12 @@ public class ProductMapperTest {
     @Test
     public void testAddNewProductPicturePathLengthAtLimit() {
         //arrange
-        String productName = "new product";
-        String productDescription = "First new description";
-        String productPicturePath = "";
+        productPicturePath = "";
         for (int i = 0; i < 100; i++) {
             productPicturePath += "n";
         }
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
-
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
 
         //assert
         int expResultID = 4;
@@ -314,16 +330,12 @@ public class ProductMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testAddNewProductPicturePathLengthExceedLimit() {
         //arrange
-        String productName = "new product";
-        String productDescription = "First new description";
-        String productPicturePath = "";
+        productPicturePath = "";
         for (int i = 0; i < 101; i++) {
             productPicturePath += "n";
         }
-        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{"ProductTester", "ProductBuilder"}));
-
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
 
     /**
@@ -332,7 +344,6 @@ public class ProductMapperTest {
     @Test
     public void testUpdatePicturePath() {
         //arrange
-        int productID = 1;
         String picturePath = "";
 
         //act
@@ -350,15 +361,12 @@ public class ProductMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void negativeTestUpdatePicturePath() {
         //arrange
-        int productID = 1;
         String picturePath = "";
         for (int i = 0; i < 101; i++) {
             picturePath += "n";
         }
-        ProductMapper instance = new ProductMapper(database);
-
         //act
-        int result = instance.updatePicturePath(productID, picturePath);
+        productMapper.updatePicturePath(productID, picturePath);
     }
 
     /**
@@ -366,9 +374,6 @@ public class ProductMapperTest {
      */
     @Test
     public void testDeleteProduct() {
-        //arrange
-        int productID = 1;
-
         //act
         int result = productMapper.deleteProduct(productID);
 
@@ -390,10 +395,8 @@ public class ProductMapperTest {
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Product");
         }
-        int productID = 1;
-
         //act
-        int result = productMapper.deleteProduct(productID);
+        productMapper.deleteProduct(productID);
     }
 
     /**
@@ -402,7 +405,7 @@ public class ProductMapperTest {
     @Test
     public void testEditProduct() {
         //arrange
-        Product product = new Product(1, "newTitle", "newDescription", "newPic.img", distributorList, categoryList);
+        Product product = new Product(productID, "newTitle", "newDescription", "newPic.img", productDistributors, categoryList);
 
         //act
         int result = productMapper.editProduct(product);
@@ -422,12 +425,11 @@ public class ProductMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void negativeTestEditProduct() {
         //arrange
-        String productDescription = "";
+        productDescription = "";
         for (int i = 0; i < 2551; i++) {
             productDescription += "n";
         }
-        Product product = new Product(1, "newTitle", productDescription, "newPic.img", new ArrayList(Arrays.asList(new String[]{"dist. nr. 1", "dist. nr. 2", "dist. nr. 3"})), categoryList);
-
+        Product product = new Product(productID, "newTitle", productDescription, "newPic.img", new ArrayList(Arrays.asList(new String[]{"dist. nr. 1", "dist. nr. 2", "dist. nr. 3"})), categoryList);
         //act
         int result = productMapper.editProduct(product);
     }

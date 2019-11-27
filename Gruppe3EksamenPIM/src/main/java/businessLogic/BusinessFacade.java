@@ -64,9 +64,9 @@ public class BusinessFacade {
         storageFacade.editCategory(category);
     }
 
-    public Product createNewProduct(String productName, String productDescription) {
+    public Product createNewProduct(String productName, String productDescription, ArrayList<Distributor> productDistributors) {
         validateProductInput(productName, productDescription);
-        Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName);
+        Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
         Product.addToProductList(newProduct);
         return newProduct;
     }

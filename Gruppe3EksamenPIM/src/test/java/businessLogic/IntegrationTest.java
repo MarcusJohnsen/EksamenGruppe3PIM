@@ -90,7 +90,6 @@ import static org.junit.Assert.*;
         assertNotNull(testConnection);
     }
 
-    //Category createNewCategory(String categoryName, String categoryDescription) throws IllegalArgumentException
     @Test
     public void testCreateNewCategory() {
         //arrange
@@ -106,7 +105,6 @@ import static org.junit.Assert.*;
         assertTrue(businessFacade.getCategoryList().contains(result));
     }
 
-    //boolean deleteCategory(int categoryID)
     @Test
     public void testDeleteCategory() {
         //arrange
@@ -121,21 +119,18 @@ import static org.junit.Assert.*;
         for (Category category : categoryList) {
             assertNotEquals(categoryID, category.getCategoryID());
         }
-
     }
 
-    //Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributors)
     @Test
     public void testCreateNewProduct() {
         //arrange
         String productName = "Newest Product";
         String productDescription = "This is new newest product for testing";
-        //String firstDistributor = "1st Distributor";
-        //String secondDistributor = "2nd Distributor";
-        //ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{firstDistributor, secondDistributor}));
-
+        Distributor distributor = new Distributor(1, "Company", "Test company");
+        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new Distributor[]{distributor}));
+        
         //act
-        Product result = businessFacade.createNewProduct(productName, productDescription);
+        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributors);
 
         //assert
         assertTrue(productName.equals(result.getName()));
@@ -143,7 +138,6 @@ import static org.junit.Assert.*;
         assertTrue(businessFacade.getProductList().contains(result));
     }
 
-    //boolean deleteProduct(int productID)
     @Test
     public void testDeleteProduct() {
         //arrange
@@ -160,18 +154,13 @@ import static org.junit.Assert.*;
         }
     }
 
-    //void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributors)
     @Test
     public void testEditProduct() {
         //arrange
         int productID = 1;
         String productName = "Newest Product";
         String productDescription = "This is new newest product for testing";
-        String firstDistributor = "1st Distributor";
-        String secondDistributor = "2nd Distributor";
-        String firstDistributor2 = "1st Distributor";
-        String secondDistributor2 = "2nd Distributor";
-        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new String[]{firstDistributor, secondDistributor}));
+        ArrayList<Distributor> productDistributors = new ArrayList();
         HashMap<Integer, String> productAttributeValues = new HashMap();
 
         //act
@@ -181,10 +170,8 @@ import static org.junit.Assert.*;
         //assert
         assertTrue(result.getName().equals(productName));
         assertTrue(result.getDescription().equals(productDescription));
-
     }
 
-    //void updatePicturePath(int productID, String picturePath)
     @Test
     public void testUpdatePicturePath() {
         //arrange
@@ -197,7 +184,6 @@ import static org.junit.Assert.*;
 
         //assert
         assertTrue(picturePath.equals(result.getPicturePath()));
-
     }
 
     @Test
@@ -219,21 +205,21 @@ import static org.junit.Assert.*;
     }
 
     @Test
-
     public void testCreateNewAttribute() {
-
+        //arrange
         String attributeTitle1 = "tester1";
         String attributeTitle2 = "tester2";
         String attributeTitle3 = "tester3";
-
-        Attribute result1 = businessFacade.createNewAttribute(attributeTitle1);
-        Attribute result2 = businessFacade.createNewAttribute(attributeTitle2);
-        Attribute result3 = businessFacade.createNewAttribute(attributeTitle3);
-
         int expIDResult1 = 6;
         int expIDResult2 = expIDResult1 + 1;
         int expIDResult3 = expIDResult2 + 1;
         
+        //act
+        Attribute result1 = businessFacade.createNewAttribute(attributeTitle1);
+        Attribute result2 = businessFacade.createNewAttribute(attributeTitle2);
+        Attribute result3 = businessFacade.createNewAttribute(attributeTitle3);
+
+        //assert
         assertEquals(expIDResult1,result1.getAttributeID());
         assertEquals(expIDResult2,result2.getAttributeID());
         assertEquals(expIDResult3,result3.getAttributeID());
@@ -241,19 +227,14 @@ import static org.junit.Assert.*;
         assertTrue(attributeTitle1.equals(result1.getAttributeTitle()));
         assertTrue(attributeTitle2.equals(result2.getAttributeTitle()));
         assertTrue(attributeTitle3.equals(result3.getAttributeTitle()));
-
-
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeValidateNewAttributeTitleNoAttributeTitle(){
-        
+        //arrange
         String attributeTitle1 = "";
-        Attribute result1 = businessFacade.createNewAttribute(attributeTitle1);
         
-        
-        
+        //act
+        businessFacade.createNewAttribute(attributeTitle1);
     }
-    
-    
-    }
+}

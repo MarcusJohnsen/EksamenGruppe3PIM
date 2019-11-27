@@ -22,18 +22,12 @@ public class Product {
 
     private static ArrayList<Product> productList = new ArrayList();
 
-    public Product(int productID, String name, String description, String picturePath, ArrayList<Distributor> distributors, ArrayList<Category> productCategories) {
+    public Product(int productID, String name, String description, String picturePath, ArrayList<Distributor> productDistributors, ArrayList<Category> productCategories) {
         this.productID = productID;
         this.name = name;
         this.description = description;
         this.picturePath = picturePath;
-        
-        if (productDistributors != null) {
-            this.productDistributors = distributors;
-        } else {
-            this.productDistributors = new ArrayList();
-        }
-        
+        this.productDistributors = productDistributors;
         if (productCategories != null) {
             this.productCategories = productCategories;
             createAttributesFromCategories();
@@ -41,7 +35,6 @@ public class Product {
             this.productAttributes = new ArrayList();
             this.productCategories = new ArrayList();
         }
-
     }
     
     
