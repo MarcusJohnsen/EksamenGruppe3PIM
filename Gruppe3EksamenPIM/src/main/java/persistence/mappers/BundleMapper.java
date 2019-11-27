@@ -22,14 +22,16 @@ import java.util.HashMap;
  * @author Andreas
  */
 public class BundleMapper {
+
     private DB database;
 
     public BundleMapper(DB database) {
         this.database = database;
     }
-    
-    public Bundle addNewBundle(String bundleName, String bundleDescription) {
+
+    public Bundle addNewBundle(String bundleName, String bundleDescription, ArrayList<Product> productListForBundle) {
         try {
+            database.setAutoCommit(false);
             String SQL = "INSERT INTO Bundles (Bundle_Name, Bundle_Description) VALUES (?, ?)";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, bundleName);
@@ -38,18 +40,36 @@ public class BundleMapper {
 
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
-            int id = rs.getInt(1);
+            int bundleID = rs.getInt(1);
 
-            ArrayList<Product> bundleProduct = new ArrayList();
-            Bundle bundle = new Bundle(id, bundleName, bundleDescription, bundleProduct);
+            if (!productListForBundle.isEmpty()) {
+                boolean firstline = true;
+                for (Product product : productListForBundle) {
+                    if (firstline) {
+                        SQL = "INSERT INTO Bundle_Products (Bundle_ID, Product_ID) VALUES ";
+                        firstline = false;
+                    } else {
+                        SQL += ", ";
+                    }
+                    SQL += "(" + bundleID + ", " + product.getProductID() + ")";
+                }
+                database.getConnection().prepareStatement(SQL).executeUpdate();
+            }
+
+            Bundle bundle = new Bundle(bundleID, bundleName, bundleDescription, productListForBundle);
+
+            database.getConnection().commit();
+            database.setAutoCommit(true);
             return bundle;
 
         } catch (SQLException ex) {
             Logger.getLogger(BundleMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
             throw new IllegalArgumentException("Bundle cannot be inserted in the database");
         }
     }
-    
+
     public ArrayList<Bundle> getBundle(ArrayList<Product> productList) {
         try {
             ArrayList<Bundle> bundleList = new ArrayList();
@@ -88,18 +108,18 @@ public class BundleMapper {
             throw new IllegalArgumentException("Can't get bundles from Database");
         }
     }
-    
+
     public int deleteBundle(int bundleID) {
-        int rowsAffected = 0;
 
         try {
+            int rowsAffected = 0;
             database.setAutoCommit(false);
 
             String sqlDeleteBundleProducts = "DELETE FROM bundle_products WHERE Bundle_ID = ?";
             PreparedStatement psDeleteBundleProducts = database.getConnection().prepareStatement(sqlDeleteBundleProducts);
             psDeleteBundleProducts.setInt(1, bundleID);
             rowsAffected += psDeleteBundleProducts.executeUpdate();
-            
+
             String sqlDeleteProductBundles = "DELETE FROM product_categories WHERE Bundle_ID = ?";
             PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlDeleteProductBundles);
             psDeleteProductBundles.setInt(1, bundleID);
@@ -111,6 +131,9 @@ public class BundleMapper {
             rowsAffected += psDeleteBundle.executeUpdate();
 
             database.getConnection().commit();
+            database.setAutoCommit(true);
+
+            return rowsAffected;
 
         } catch (SQLException ex) {
             Logger.getLogger(BundleMapper.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,61 +141,52 @@ public class BundleMapper {
             database.setAutoCommit(true);
             throw new IllegalArgumentException("Can't delete selected bundle from DB");
         }
-        database.setAutoCommit(true);
 
-        return rowsAffected;
     }
-    
+
     public int editBundle(Bundle bundle) {
         try {
-            //Update category in category table
-            String SQL = "UPDATE Bundles SET Bundle_Name = ?, Bundle_Description = ? WHERE Bundle_ID = ?";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setString(1, bundle.getBundleName());
-            ps.setString(2, bundle.getBundleDescription());
-            ps.setInt(3, bundle.getBundleID());
-            int result = ps.executeUpdate();
-            return result;
-
-        } catch (SQLException ex) {
-            Logger.getLogger(BundleMapper.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalArgumentException("Can't update bundle in database");
-        }
-    }
-    
-    public int editAttributeToCategories(Bundle bundle) {
-        int rowsAffected = 0;
-
-        try {
+            int rowsAffected = 0;
             database.setAutoCommit(false);
-            int bundleID = bundle.getBundleID();
-            String SQL = "DELETE FROM bundle_products WHERE bunlde_ID = ?";
-            PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setInt(1, bundleID);
-            rowsAffected += ps.executeUpdate();
+
+            String sqlUpdateBundle = "UPDATE Bundles SET Bundle_Name = ?, Bundle_Description = ? WHERE Bundle_ID = ?";
+            PreparedStatement psUpdateBundle = database.getConnection().prepareStatement(sqlUpdateBundle);
+            psUpdateBundle.setString(1, bundle.getBundleName());
+            psUpdateBundle.setString(2, bundle.getBundleDescription());
+            psUpdateBundle.setInt(3, bundle.getBundleID());
+            rowsAffected += psUpdateBundle.executeUpdate();
+
+            String sqlDeleteProductBundles = "DELETE FROM Product_Bundles WHERE bundleID = ?";
+            PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlUpdateBundle);
+            psDeleteProductBundles.setInt(1, bundle.getBundleID());
+            rowsAffected += psDeleteProductBundles.executeUpdate();
 
             if (!bundle.getBundleProducts().isEmpty()) {
-                SQL = "INSERT INTO Bundle_Products (Bundle_ID, Product_ID) VALUES ";
+                String sqlInsertProductBundles = "";
                 boolean firstline = true;
                 for (Product product : bundle.getBundleProducts()) {
                     if (firstline) {
+                        sqlInsertProductBundles += "INSERT INTO Bundle_Products (Bundle_ID, Product_ID) VALUES ";
                         firstline = false;
                     } else {
-                        SQL += ", ";
+                        sqlInsertProductBundles += ", ";
                     }
-                    SQL += "(" + bundleID + ", '" + product.getProductID() + "')";
+                    sqlInsertProductBundles += "(" + bundle.getBundleID() + ", " + product.getProductID() + ")";
                 }
-                rowsAffected += database.getConnection().prepareStatement(SQL).executeUpdate();
+                rowsAffected += database.getConnection().prepareStatement(sqlInsertProductBundles).executeUpdate();
             }
+
+            database.getConnection().commit();
+            database.setAutoCommit(true);
+
+            return rowsAffected;
+
         } catch (SQLException ex) {
             Logger.getLogger(BundleMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();
             database.setAutoCommit(true);
-            throw new IllegalArgumentException("Can't change the attributes tied to categoryID " + bundle.getBundleID());
+            throw new IllegalArgumentException("Can't update bundle in database");
         }
-
-        database.setAutoCommit(true);
-        return rowsAffected;
     }
 
 }

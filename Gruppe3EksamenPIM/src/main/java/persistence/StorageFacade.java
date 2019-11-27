@@ -152,8 +152,8 @@ public class StorageFacade {
         attributeMapper.updateProductAttributeValues(product);
     }
 
-    public Bundle addNewBundle(String bundleName, String bundleDescription) {
-        return bundleMapper.addNewBundle(bundleName, bundleDescription);
+    public Bundle addNewBundle(String bundleName, String bundleDescription, ArrayList<Product> productListForBundle) {
+        return bundleMapper.addNewBundle(bundleName, bundleDescription, productListForBundle);
     }
 
     public void deleteBundle(int bundleID) {

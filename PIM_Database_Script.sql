@@ -90,18 +90,9 @@ DROP DATABASE IF EXISTS PIM_Database;
     (4, 'Test','These are products meant for testing.');
     
     INSERT INTO Attributes (Attribute_ID, Attribute_Name) VALUES
-    (1, 'Length'),
-    (2, 'Width/Depth'),
-    (3, 'Height'),
-    (4, 'Weight'),
-    (5, 'Color'),
-    (6, 'Material'),
-    (7, 'Cable length'),
-    (8, 'Power usage'),
-    (9, 'Size'),
-    (10, 'Calories'),
-    (11, 'Ingredients'),
-    (12, 'Complete');
+    (1, 'Length'), (2, 'Width/Depth'), (3, 'Height'), (4, 'Weight'), (5, 'Color'),
+    (6, 'Material'), (7, 'Cable length'), (8, 'Power usage'), (9, 'Size'), (10, 'Calories'),
+    (11, 'Ingredients'), (12, 'Complete');
     
     INSERT INTO Distributor (Distributor_ID, Distributor_Name, Distributor_Description) VALUES 
     (1, 'Ikea', 'Ikea, the swedish retailer and manufacturer of furniture.'),
@@ -123,74 +114,23 @@ DROP DATABASE IF EXISTS PIM_Database;
     (6, 'Test Product', 'This product is for testing only', 'test.img');
     
     INSERT INTO Category_Attributes(Category_ID, Attribute_ID) VALUES
-    (1, 1),
-    (1, 2),
-    (1, 3),
-    (1, 4),
-    (1, 5),
-    (1, 6),
-    (2, 1),
-    (2, 2),
-    (2, 3),
-    (2, 4),
-    (2, 7),
-    (2, 8),
-    (3, 3),
-    (3, 4),
-    (3, 9),
-    (3, 10),
-    (3, 11),
-    (4, 12);
+    (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), 
+    (2, 1), (2, 2), (2, 3), (2, 4), (2, 7), (2, 8), 
+    (3, 3), (3, 4), (3, 9), (3, 10), (3, 11), (4, 12);
         
     INSERT INTO Product_Categories(Product_ID, Category_ID) VALUES
-    (1, 1),
-    (2, 1),
-    (2, 2),
-    (3, 2),
-    (4, 3),
-    (5, 3),
-    (6, 4);
+    (1, 1), (2, 1), (2, 2), (3, 2), (4, 3), (5, 3), (6, 4);
         
     INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES
-    (1, 1, '60 cm.'),
-    (1, 2, '40 cm.'),
-    (1, 3, '180 cm.'),
-    (1, 4, '15 kg.'),
-    (1, 5, 'Brown'),
-    (1, 6, 'Mahogany'),
-    (2, 1, '1913 mm.'),
-    (2, 2, '432 mm.'),
-    (2, 3, '1226 mm.'),
-    (2, 4, '20 kg.'),
-    (2, 7, '2 meter'),
-    (2, 8, '900 W'),
-    (3, 1, '25 cm'),
-    (3, 2, '25 cm'),
-    (3, 3, '25 cm'),
-    (3, 4, '2 kg.'),
-    (3, 7, '5 meter'),
-    (3, 8, '20 W'),
-    (4, 3, '15 cm'),
-    (4, 4, '0,5 kg'),
-    (4, 9, '0,5 liter'),
-    (4, 10, '200 cal.'),
-    (4, 11, 'Sugar'),
-    (5, 3, '15 cm'),
-    (5, 4, '0,5 kg'),
-    (5, 9, '0,5 liter'),
-    (5, 10, '0,5 cal.'),
-    (5, 11, 'Zero-sugar'),
+    (1, 1, '60 cm.'), (1, 2, '40 cm.'), (1, 3, '180 cm.'), (1, 4, '15 kg.'), (1, 5, 'Brown'), (1, 6, 'Mahogany'),
+    (2, 1, '1913 mm.'), (2, 2, '432 mm.'), (2, 3, '1226 mm.'), (2, 4, '20 kg.'), (2, 7, '2 meter'), (2, 8, '900 W'),
+    (3, 1, '25 cm'), (3, 2, '25 cm'), (3, 3, '25 cm'), (3, 4, '2 kg.'), (3, 7, '5 meter'), (3, 8, '20 W'),
+    (4, 3, '15 cm'), (4, 4, '0,5 kg'), (4, 9, '0,5 liter'), (4, 10, '200 cal.'), (4, 11, 'Sugar'),
+    (5, 3, '15 cm'), (5, 4, '0,5 kg'), (5, 9, '0,5 liter'), (5, 10, '0,5 cal.'), (5, 11, 'Zero-sugar'), 
     (6, 12, 'Not Complete');
     
 	INSERT INTO Product_Distributor(Product_ID, Distributor_ID) VALUES
-    (1, 1),
-    (2, 2),
-    (3, 1),
-    (4, 1),
-    (4, 3),
-    (5, 1),
-    (5, 3),
-    (6, 4);
+    (1, 1), (2, 2), (3, 1), (4, 1), (4, 3), (5, 1), (5, 3), (6, 4);
         
     INSERT INTO Product_Bundles(Product_ID, Bundle_ID, Product_amount) VALUES
     (1, 1, 1), (1, 2, 2), (2, 2, 1), (3, 1, 1), (3, 2, 1), (4, 3, 1), (5, 3, 1);  

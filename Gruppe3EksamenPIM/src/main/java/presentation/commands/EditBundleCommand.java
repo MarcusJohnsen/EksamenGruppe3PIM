@@ -27,7 +27,7 @@ public class EditBundleCommand extends Command{
         String bundleDescription = request.getParameter("Bundle Description");
 
         try {
-            businessFacade.editBundle(bundleID, bundleName, bundleDescription);
+            businessFacade.editBundle(bundleID, bundleName, bundleDescription, null);
         } catch (IllegalArgumentException ex) {
             nextJsp = "editBundle";
             request.setAttribute("error", ex.getMessage());

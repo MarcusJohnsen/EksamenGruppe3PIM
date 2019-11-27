@@ -23,7 +23,7 @@ public class AddBundleCommand extends Command {
         String bundleName = request.getParameter("Bundle Name");
         String bundleDescription = request.getParameter("Bundle Description");
         try {
-            businessFacade.createNewBundle(bundleName, bundleDescription);
+            businessFacade.createNewBundle(bundleName, bundleDescription, null);
         } catch (IllegalArgumentException ex) {
             nextJsp = "newBundle";
             request.setAttribute("error", ex.getMessage());
