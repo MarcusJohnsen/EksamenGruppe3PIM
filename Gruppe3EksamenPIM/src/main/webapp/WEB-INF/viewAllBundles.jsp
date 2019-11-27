@@ -12,6 +12,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View Bundles</title>
+        <link href="css/StyleSheet.css" rel="stylesheet">
+        <!--<link href="JavaScript/myScript.js" rel="myscript">-->
     </head>
     <body>
         <h1 align="center">View All Bundles</h1>
@@ -47,8 +49,8 @@
             <p align="center"><input type="submit" name="submitButton" value="Delete Bundle"/></p>
         </form>
         <%
-                String error = (String) request.getAttribute("error");
-                if (error != null) {%>
+            String error = (String) request.getAttribute("error");
+            if (error != null) {%>
         <h2 style="color: red" align="center"><%=error%></h2>
         <%}%>
         <form action="FrontController" method="POST">

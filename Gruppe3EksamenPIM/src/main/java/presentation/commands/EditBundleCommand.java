@@ -20,7 +20,7 @@ public class EditBundleCommand extends Command{
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
-        String nextJsp = "viewAllBundle";
+        String nextJsp = "viewAllBundles";
         request.setAttribute("bundleList", businessFacade.getBundleList());
         int bundleID = Integer.parseInt(request.getParameter("bundleID"));
         String bundleName = request.getParameter("Bundle Name");
