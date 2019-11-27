@@ -5,32 +5,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.commands.*;
-/* import presentation.commands.AddAttributeCommand;
-import presentation.commands.AddBundleCommand;
-import presentation.commands.AddCategoryCommand;
-import presentation.commands.AddDistributorCommand;
-import presentation.commands.EditCategoriesToProductCommand;
-import presentation.commands.AddProductCommand;
-import presentation.commands.DeleteAttributeCommand;
-import presentation.commands.DeleteBundleCommand;
-import presentation.commands.DeleteCategoryCommand;
-import presentation.commands.DeleteDistributorCommand;
-import presentation.commands.DeleteProductCommand;
-import presentation.commands.EditAttributeCommand;
-import presentation.commands.EditAttributesToCategoryCommand;
-import presentation.commands.EditCategoryCommand;
-import presentation.commands.EditDistributorCommand;
-import presentation.commands.EditProductCommand;
-import presentation.commands.SelectProductCommand;
-import presentation.commands.GoToJspCommand;
-import presentation.commands.ProductDetailsCommand;
-import presentation.commands.SelectAttributeCommand;
-import presentation.commands.SelectAttributesForCategoryCommand;
-import presentation.commands.SelectBundleCommand;
-import presentation.commands.SelectCategoriesForProductCommand;
-import presentation.commands.SelectCategoryCommand;
-import presentation.commands.SelectDistributorCommand;
-import presentation.commands.UnknownCommand; */
 
 /**
  *
@@ -73,6 +47,7 @@ public abstract class Command {
         commands.put("deleteDistributor", new DeleteDistributorCommand());
         
         commands.put("selectBundle", new SelectBundleCommand());
+        commands.put("editBundle", new EditBundleCommand());
         commands.put("deleteBundle", new DeleteBundleCommand());
     }
 

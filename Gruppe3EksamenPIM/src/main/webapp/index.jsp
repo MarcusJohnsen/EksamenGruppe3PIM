@@ -19,7 +19,7 @@
             <input type="hidden" name="goToJsp" value="newProduct" />
             <p align="center"><input type="submit" value="New Product" style="width: 150px; height: 25px"/></p>
         </form>
-        
+
         <form action="FrontController">
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="viewAllProducts" />
@@ -31,7 +31,7 @@
             <input type="hidden" name="goToJsp" value="newCategory" />
             <p align="center"><input type="submit" value="New Category" style="width: 150px; height: 25px"/></p>
         </form>
-        
+
         <form action="FrontController">
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="viewAllCategories" />
@@ -55,7 +55,7 @@
             <input type="hidden" name="goToJsp" value="newDistributor" />
             <p align="center"><input type="submit" value="New Distributor" style="width: 150px; height: 25px"/></p>
         </form>
-        
+
         <form action="FrontController">
             <input type="hidden" name="command" value="goToJsp" />    
             <input type="hidden" name="goToJsp" value="viewAllDistributors" />
@@ -67,7 +67,7 @@
             <input type="hidden" name="goToJsp" value="newBundle" />
             <p align="center"><input type="submit" value="New Bundle" style="width: 150px; height: 25px"/></p>
         </form>
-        
+
         <form action="FrontController">   
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="viewAllBundles" />

@@ -21,32 +21,49 @@ public class GoToJspCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String jspPage = request.getParameter("goToJsp");
 
+        ArrayList<Product> productList;
+        ArrayList<Attribute> attributeList;
+        ArrayList<Category> categoryList;
+        ArrayList<Distributor> distributorList;
+        ArrayList<Bundle> bundleList;
+
         switch (jspPage) {
             case "viewAllProducts":
-                ArrayList<Product> productList = businessFacade.getProductList();
+                productList = businessFacade.getProductList();
                 request.setAttribute("productList", productList);
                 break;
-            case "viewAllCategories":;
-                ArrayList<Category> categoryList = businessFacade.getCategoryList();
+            case "viewAllCategories":
+                categoryList = businessFacade.getCategoryList();
                 request.setAttribute("categoryList", categoryList);
                 break;
-            case "viewAllDistributors":;
-                ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
+            case "viewAllDistributors":
+                distributorList = businessFacade.getDistributorList();
                 request.setAttribute("distributorList", distributorList);
+                break;
             case "viewAllBundles":
-                ArrayList<Bundle> bundleList = businessFacade.getBundleList();
+                bundleList = businessFacade.getBundleList();
                 request.setAttribute("bundleList", bundleList);
                 break;
             case "viewAllAttributes":
-                ArrayList<Attribute> attributeList = businessFacade.getAttributeList();
+                attributeList = businessFacade.getAttributeList();
                 request.setAttribute("attributeList", attributeList);
+                break;
+                
+            case "newBundle":
+                productList = businessFacade.getProductList();
+                request.setAttribute("productList", productList);
+                break;
+            case "editBundle":
+                productList = businessFacade.getProductList();
+                request.setAttribute("productList", productList);
+                break;
+            case "newProduct":
+                distributorList = businessFacade.getDistributorList();
+                request.setAttribute("distributorList", distributorList);
                 break;
             default:
                 break;
-                
         }
-
         return jspPage;
     }
-
 }

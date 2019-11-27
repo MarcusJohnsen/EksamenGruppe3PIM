@@ -1,38 +1,40 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
  * @author Andreas
  */
 public class Bundle {
+
     private int bundleID;
     private String bundleName;
     private String bundleDescription;
+    private HashMap<Product, Integer> bundleProducts;
 
     private static ArrayList<Bundle> bundleList = new ArrayList();
-    ArrayList<Product> bundleProducts;
-    
-    public Bundle(int bundleID, String bundleName, String bundleDescription, ArrayList<Product> bundleProducts) {
+
+    public Bundle(int bundleID, String bundleName, String bundleDescription, HashMap<Product, Integer> bundleProducts) {
         this.bundleID = bundleID;
         this.bundleName = bundleName;
         this.bundleDescription = bundleDescription;
         if (bundleProducts != null) {
             this.bundleProducts = bundleProducts;
         } else {
-            this.bundleProducts = new ArrayList();
+            this.bundleProducts = new HashMap();
         }
     }
-    
+
     public static void setupBundleListFromDB(ArrayList<Bundle> BundleListFromDB) {
         bundleList = BundleListFromDB;
     }
-    
+
     public static void addToBundleList(Bundle newBundle) {
         bundleList.add(newBundle);
     }
-    
+
     public static Bundle findBundleOnID(int bundleID) {
         for (Bundle bundle : bundleList) {
             if (bundle.bundleID == bundleID) {
@@ -41,16 +43,17 @@ public class Bundle {
         }
         return null;
     }
-    
+
     public static boolean deleteBundle(int bundleID) {
         return bundleList.remove(findBundleOnID(bundleID));
     }
 
-    public void editBundle(String bundleName, String bundleDescription) {
+    public void editBundle(String bundleName, String bundleDescription, HashMap<Product, Integer> productListForBundle) {
         this.bundleName = bundleName;
         this.bundleDescription = bundleDescription;
+        this.bundleProducts = productListForBundle;
     }
-    
+
     public static boolean validateBundleInput(String bundleName, String bundleDescription, Integer bundleID) throws IllegalArgumentException {
         if (bundleName.isEmpty()) {
             throw new IllegalArgumentException("please fill out bundle-name field");
@@ -72,18 +75,22 @@ public class Bundle {
         }
         return true;
     }
-    
+
     public static ArrayList<Bundle> getMatchingBundlesOnIDs(ArrayList<String> bundleChoices) {
         ArrayList<Bundle> result = new ArrayList();
         for (Bundle bundle : bundleList) {
-            if(bundleChoices.contains(Integer.toString(bundle.getBundleID()))){
+            if (bundleChoices.contains(Integer.toString(bundle.getBundleID()))) {
                 result.add(bundle);
             }
         }
         return result;
     }
+    
+    public void addProductToBundle(Product product, int amount){
+       this.bundleProducts.put(product, amount);
+    }
 
-    public void setBundleProducts(ArrayList<Product> bundleProducts) {
+    public void setBundleProducts(HashMap<Product, Integer> bundleProducts) {
         this.bundleProducts = bundleProducts;
     }
 
@@ -103,7 +110,7 @@ public class Bundle {
         return bundleList;
     }
 
-    public ArrayList<Product> getBundleProducts() {
+    public HashMap<Product, Integer> getBundleProducts() {
         return bundleProducts;
     }
 }
