@@ -31,6 +31,8 @@ public class AddProductCommand extends Command {
             request.getSession().setAttribute("productID", newProduct.getProductID());
         } catch (IllegalArgumentException ex) {
             nextJsp = "newProduct";
+            ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
+            request.setAttribute("distributorList", distributorList);
             request.setAttribute("error", ex.getMessage());
         }
 
