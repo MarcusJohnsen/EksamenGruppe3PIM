@@ -26,14 +26,13 @@ public class ProductMapper {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param categoryList ArrayList of category objects
-     * @param distributorList ArrayList of distributor objects 
-     * 
-     * @return 
+     * @param distributorList ArrayList of distributor objects
+     *
+     * @return
      */
-    
     public ArrayList<Product> getProducts(ArrayList<Category> categoryList, ArrayList<Distributor> distributorList) {
         try {
             ArrayList<Product> productList = new ArrayList();
@@ -119,10 +118,10 @@ public class ProductMapper {
             rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
             database.getConnection().commit();
             database.setAutoCommit(true);
-            
+
             Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, null);
             return product;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();
@@ -195,9 +194,9 @@ public class ProductMapper {
     }
 
     public int editProduct(Product product) {
-        int rowsAffected = 0;
-
         try {
+            int rowsAffected = 0;
+            
             database.setAutoCommit(false);
             //Update product in product table
             String sqlUpdateProduct = "UPDATE Product SET Product_Name = ?, Product_Description = ? WHERE product_ID = ?";
@@ -206,34 +205,15 @@ public class ProductMapper {
             psUpdateProduct.setString(2, product.getDescription());
             psUpdateProduct.setInt(3, product.getProductID());
             rowsAffected += psUpdateProduct.executeUpdate();
-            database.getConnection().commit();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
-            database.rollBack();
-            database.setAutoCommit(true);
-            throw new IllegalArgumentException("Can't update product in database");
-        }
-
-        database.setAutoCommit(true);
-        return rowsAffected;
-    }
-
-    public int editProductDistributors(Product product) {
-        int rowsAffected = 0;
-
-        try {
-            database.setAutoCommit(false);
-
-            int productID = product.getProductID();
-            //Delete all old distributors for product in Product_distributors table
-            String sqlDeleteDistributors = "DELETE FROM Product_Distributor WHERE product_ID = ?";
-            PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteDistributors);
-            psDeleteProductDistributors.setInt(1, productID);
+            
+            //Delete old product distributor connections
+            String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE product_ID = ?";
+            PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteProductDistributors);
+            psDeleteProductDistributors.setInt(1, product.getProductID());
             rowsAffected += psDeleteProductDistributors.executeUpdate();
-
-            if (!product.getProductDistributors().isEmpty()) {
-                String sqlInsertProductDistributors = "INSERT INTO Product_Distributor (Product_ID, Distributor_ID) VALUES ";
+            
+            //Create new product distributor connections
+            String sqlInsertProductDistributors = "INSERT INTO Product_Distributor (Product_ID, Distributor_ID) VALUES ";
                 boolean firstline = true;
                 for (Distributor distributor : product.getProductDistributors()) {
                     if (firstline) {
@@ -241,20 +221,58 @@ public class ProductMapper {
                     } else {
                         sqlInsertProductDistributors += ", ";
                     }
-                    sqlInsertProductDistributors += "(" + productID + ", '" + distributor.getDistributorID() + "')";
+                    sqlInsertProductDistributors += "(" + product.getProductID() + ", '" + distributor.getDistributorID() + "')";
                 }
                 rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
-            }
+            
             database.getConnection().commit();
+            database.setAutoCommit(true);
+            
+            return rowsAffected;
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();
             database.setAutoCommit(true);
-            throw new IllegalArgumentException("Can't change the distributors tied to productID " + product.getProductID());
+            throw new IllegalArgumentException("Can't update product in database");
         }
-        database.setAutoCommit(true);
-        return rowsAffected;
     }
+
+//    public int editProductDistributors(Product product) {
+//        int rowsAffected = 0;
+//
+//        try {
+//            database.setAutoCommit(false);
+//
+//            int productID = product.getProductID();
+//            //Delete all old distributors for product in Product_distributors table
+//            String sqlDeleteDistributors = "DELETE FROM Product_Distributor WHERE product_ID = ?";
+//            PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteDistributors);
+//            psDeleteProductDistributors.setInt(1, productID);
+//            rowsAffected += psDeleteProductDistributors.executeUpdate();
+//
+//            if (!product.getProductDistributors().isEmpty()) {
+//                String sqlInsertProductDistributors = "INSERT INTO Product_Distributor (Product_ID, Distributor_ID) VALUES ";
+//                boolean firstline = true;
+//                for (Distributor distributor : product.getProductDistributors()) {
+//                    if (firstline) {
+//                        firstline = false;
+//                    } else {
+//                        sqlInsertProductDistributors += ", ";
+//                    }
+//                    sqlInsertProductDistributors += "(" + productID + ", '" + distributor.getDistributorID() + "')";
+//                }
+//                rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
+//            }
+//            database.getConnection().commit();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
+//            database.rollBack();
+//            database.setAutoCommit(true);
+//            throw new IllegalArgumentException("Can't change the distributors tied to productID " + product.getProductID());
+//        }
+//        database.setAutoCommit(true);
+//        return rowsAffected;
+//    }
 
     public int editProductCategories(Product product) {
         int rowsAffected = 0;

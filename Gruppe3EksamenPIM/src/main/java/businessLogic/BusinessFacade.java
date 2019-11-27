@@ -79,11 +79,12 @@ public class BusinessFacade {
         return Product.deleteProductOnID(productID);
     }
 
-    public void editProduct(int productID, String productName, String productDescription, ArrayList<Distributor> productDistributors, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
+    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributorIDs, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
         validateProductInput(productName, productDescription);
+        ArrayList<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDs);
         Product product = findProductOnID(productID);
         product.updateProductValues(productAttributeValues);
-        product.editProduct(productName, productDescription);
+        product.editProduct(productName, productDescription, productDistributors);
         storageFacade.editProduct(product);
         storageFacade.updateProductAttributeValues(product);
     }

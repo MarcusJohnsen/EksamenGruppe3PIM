@@ -284,7 +284,7 @@ public class ProductMapperTest {
         int result = productMapper.editProduct(product);
 
         //assert
-        int expResult = 1;
+        int expResult = 5;
         assertEquals(expResult, result);
     }
 

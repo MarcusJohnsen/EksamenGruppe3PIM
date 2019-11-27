@@ -48,7 +48,6 @@ public class GoToJspCommand extends Command {
                 attributeList = businessFacade.getAttributeList();
                 request.setAttribute("attributeList", attributeList);
                 break;
-                
             case "newBundle":
                 productList = businessFacade.getProductList();
                 request.setAttribute("productList", productList);
@@ -58,6 +57,10 @@ public class GoToJspCommand extends Command {
                 request.setAttribute("productList", productList);
                 break;
             case "newProduct":
+                distributorList = businessFacade.getDistributorList();
+                request.setAttribute("distributorList", distributorList);
+                break;
+            case "editProduct":
                 distributorList = businessFacade.getDistributorList();
                 request.setAttribute("distributorList", distributorList);
                 break;

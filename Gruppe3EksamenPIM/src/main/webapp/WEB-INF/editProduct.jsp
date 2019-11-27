@@ -4,6 +4,7 @@
     Author     : Andreas
 --%>
 
+<%@page import="businessLogic.Distributor"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="businessLogic.Attribute"%>
 <%@page import="java.util.ArrayList"%>
@@ -76,16 +77,47 @@
             <h2 align="center" style="color: red"><%=error%></h2>
             <%}%>
 
-            <p align="center">
+            <!--<p align="center">
                 Select Picture:
                 <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
-            </p>
-            <br>
-            <p align="center">
-                Save the changes:
+            </p>-->
+
+            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+                <thead>
+                    <tr bgcolor = "#FF4B4B">
+                        <td align="center">DistributorID ID</td>
+                        <td align="center">Distributor Name</td>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <%
+                        ArrayList<Distributor> distributorList = (ArrayList<Distributor>) request.getAttribute("distributorList");
+                        for (Distributor distributor : distributorList) {
+                            int distributorID = distributor.getDistributorID();
+                            String distributorName = distributor.getDistributorName();
+                            boolean alreadySelectedDistributor = product.getProductDistributors().contains(distributor);
+                    %>  
+                    <tr>
+                        <td align="center" width="5%"> <%=distributorID%> </td>
+                        <td align="center" width="20%"> <%=distributorName%> </td>
+                        <%if(alreadySelectedDistributor){%>
+                        <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>" checked></td>
+                        <%} else {%>
+                        <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
+                        <%}%>
+                        
+                    </tr>
+                </tbody>
+                <%}%>
+
                 <br>
-                <input type="hidden" name="command" value="editProduct" />
-                <input type="submit" value="Update"/></p>
+                <p align="center">
+                    Save the changes:
+                    <br>
+                    <input type="hidden" name="command" value="editProduct" />
+                    <input type="submit" value="Update"/></p>
         </form>
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="goToJsp" />

@@ -1,9 +1,9 @@
 package presentation.commands;
 
 import businessLogic.BusinessFacade;
+import businessLogic.Distributor;
 import businessLogic.Product;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -23,6 +23,8 @@ public class SelectProductCommand extends Command {
 
             if (commandType.equals("Edit Product")) {
                 nextJsp = "editProduct";
+                ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
+                request.setAttribute("distributorList", distributorList);
             } else if (commandType.equals("Delete Product")) {
                 nextJsp = "deleteProduct";
             } else if (commandType.equals("View all product details")) {

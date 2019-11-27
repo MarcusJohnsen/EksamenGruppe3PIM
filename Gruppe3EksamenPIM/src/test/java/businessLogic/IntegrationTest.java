@@ -126,11 +126,10 @@ import static org.junit.Assert.*;
         //arrange
         String productName = "Newest Product";
         String productDescription = "This is new newest product for testing";
-        Distributor distributor = new Distributor(1, "Company", "Test company");
-        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new Distributor[]{distributor}));
+        ArrayList<String> productDistributorStrings = new ArrayList(Arrays.asList(new String[]{"1"}));
         
         //act
-        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributors);
+        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributorStrings);
 
         //assert
         assertTrue(productName.equals(result.getName()));
@@ -158,9 +157,10 @@ import static org.junit.Assert.*;
     public void testEditProduct() {
         //arrange
         int productID = 1;
+        int distributorID = 1;
         String productName = "Newest Product";
         String productDescription = "This is new newest product for testing";
-        ArrayList<Distributor> productDistributors = new ArrayList();
+        ArrayList<String> productDistributors = new ArrayList(Arrays.asList(new String[]{Integer.toString(distributorID)}));
         HashMap<Integer, String> productAttributeValues = new HashMap();
 
         //act
@@ -168,8 +168,12 @@ import static org.junit.Assert.*;
         Product result = businessFacade.getProductFromID(productID);
 
         //assert
+        int expResultDistributorSize = 1;
+        Distributor expResultDistributor = Distributor.findDistributorOnID(distributorID);
         assertTrue(result.getName().equals(productName));
         assertTrue(result.getDescription().equals(productDescription));
+        assertEquals(expResultDistributorSize, result.getProductDistributors().size());
+        assertEquals(expResultDistributor, result.getProductDistributors().get(0));
     }
 
     @Test

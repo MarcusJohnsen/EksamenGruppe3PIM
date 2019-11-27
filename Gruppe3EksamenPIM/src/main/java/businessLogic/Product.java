@@ -179,9 +179,10 @@ public class Product {
      * @param name Is edited.
      * @param description Is edited.
      */
-    public void editProduct(String name, String description) {
+    public void editProduct(String name, String description, ArrayList<Distributor> productDistributors) {
         this.name = name;
         this.description = description;
+        this.productDistributors = productDistributors;
     }
 
     /**

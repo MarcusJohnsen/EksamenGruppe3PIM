@@ -14,10 +14,7 @@
         <title>PIM System</title>
     </head>
     <body>
-        
-        <%
-        ArrayList<Distributor> distributorList = (ArrayList<Distributor>) request.getAttribute("distributorList");
-        %>
+
         <h1 align="center">Create New Product</h1>
         <!-- enctype="multipart/form-data" -->
         <form action="FrontController" method="POST">
@@ -34,11 +31,11 @@
                 <textarea name="Product Description" rows="8" cols="40" required="required"></textarea>
             </p>
 
-            
-            
-            
-            
-            
+
+
+
+
+
             <!--<p align="center">
                 Product Distributors: <img onclick="newField()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/>
                 <br>
@@ -47,52 +44,51 @@
 
             <div id="myDIV" align="center"> 
             </div>
-            
+
             <%
-            String error = (String) request.getAttribute("error");
-            if(error != null){
+                String error = (String) request.getAttribute("error");
+                if (error != null) {
             %>
             <h2 align="center" style="color: red"><%=error%></h2>
             <%}%>
 
             <p align="center">
                 Add Product to Distributor(s):</p>
-            
-            <p align="center">
-                
-                <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+
+
+
+            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
                         <td align="center">DistributorID ID</td>
                         <td align="center">Distributor Name</td>
-                        
+
                     </tr>
                 </thead>
-                
+
                 <tbody>
                     <%
-                            for (Distributor distributor : distributorList) {
+                        ArrayList<Distributor> distributorList = (ArrayList<Distributor>) request.getAttribute("distributorList");
+                        for (Distributor distributor : distributorList) {
                             int distributorID = distributor.getDistributorID();
                             String distributorName = distributor.getDistributorName();
-                            //String AttributeValue = attribute.getAttributeValues();
-                            //boolean alreadyOnCategory = category.getCategoryAttributes().contains(attribute);
                     %>  
                     <tr>
-                        <td align="center" width="5%"> <%=distributorID%> </td>
+                        <td align="center" width="5%"> <%=dist%> </td>
                         <td align="center" width="20%"> <%=distributorName%> </td>
-                         <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
-                        </tr>
+                        <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
+                    </tr>
                 </tbody>
                 <%}%>
 
-                
-                
-                </table>
-              
+
+
+            </table>
+
             <br>
             <p align="center">
                 <!--Save product:-->
-                
+
                 <input type="submit" value="Save Product" />
             </p>
         </form>
