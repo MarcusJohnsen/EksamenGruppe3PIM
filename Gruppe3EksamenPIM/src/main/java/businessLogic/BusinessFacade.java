@@ -176,9 +176,9 @@ public class BusinessFacade {
         storageFacade.editAttributeToCategory(category);
     }
     
-    public Bundle createNewBundle(String bundleName, String bundleDescription, ArrayList<String> productListForBundleStrings) throws IllegalArgumentException {
+    public Bundle createNewBundle(String bundleName, String bundleDescription, HashMap<Integer, Integer> productChoices) throws IllegalArgumentException {
         Bundle.validateBundleInput(bundleName, bundleDescription, null);
-        ArrayList<Product> productListForBundle = Product.getMatchingProductsOnIDs(productListForBundleStrings);
+        HashMap<Product, Integer> productListForBundle = Product.getMatchingProductsOnIDs(productChoices);
         Bundle newBundle = storageFacade.addNewBundle(bundleName, bundleDescription, productListForBundle);
         Bundle.addToBundleList(newBundle);
         return newBundle;
@@ -203,9 +203,9 @@ public class BusinessFacade {
         return Bundle.findBundleOnID(bundleID);
     }
     
-    public void editBundle(int bundleID, String bundleName, String bundleDescription, ArrayList<String> productListForBundleStrings) throws IllegalArgumentException {
-        validateBundleInput(bundleName, bundleDescription, bundleID);
-        ArrayList<Product> productListForBundle = Product.getMatchingProductsOnIDs(productListForBundleStrings);
+    public void editBundle(int bundleID, String bundleName, String bundleDescription, HashMap<Integer, Integer> productChoices) throws IllegalArgumentException {
+        Bundle.validateBundleInput(bundleName, bundleDescription, bundleID);
+        HashMap<Product, Integer> productListForBundle = Product.getMatchingProductsOnIDs(productChoices);
         Bundle bundle = findBundleOnID(bundleID);
         bundle.editBundle(bundleName, bundleDescription, productListForBundle);
         storageFacade.editBundle(bundle);

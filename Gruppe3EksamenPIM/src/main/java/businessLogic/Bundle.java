@@ -6,6 +6,7 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -16,18 +17,18 @@ public class Bundle {
     private int bundleID;
     private String bundleName;
     private String bundleDescription;
-    private ArrayList<Product> bundleProducts;
+    private HashMap<Product, Integer> bundleProducts;
 
     private static ArrayList<Bundle> bundleList = new ArrayList();
 
-    public Bundle(int bundleID, String bundleName, String bundleDescription, ArrayList<Product> bundleProducts) {
+    public Bundle(int bundleID, String bundleName, String bundleDescription, HashMap<Product, Integer> bundleProducts) {
         this.bundleID = bundleID;
         this.bundleName = bundleName;
         this.bundleDescription = bundleDescription;
         if (bundleProducts != null) {
             this.bundleProducts = bundleProducts;
         } else {
-            this.bundleProducts = new ArrayList();
+            this.bundleProducts = new HashMap();
         }
     }
 
@@ -52,7 +53,7 @@ public class Bundle {
         return bundleList.remove(findBundleOnID(bundleID));
     }
 
-    public void editBundle(String bundleName, String bundleDescription, ArrayList<Product> productListForBundle) {
+    public void editBundle(String bundleName, String bundleDescription, HashMap<Product, Integer> productListForBundle) {
         this.bundleName = bundleName;
         this.bundleDescription = bundleDescription;
         this.bundleProducts = productListForBundle;
@@ -90,11 +91,11 @@ public class Bundle {
         return result;
     }
     
-    public void addProductToBundle(Product product){
-       this.bundleProducts.add(product);
+    public void addProductToBundle(Product product, int amount){
+       this.bundleProducts.put(product, amount);
     }
 
-    public void setBundleProducts(ArrayList<Product> bundleProducts) {
+    public void setBundleProducts(HashMap<Product, Integer> bundleProducts) {
         this.bundleProducts = bundleProducts;
     }
 
@@ -114,7 +115,7 @@ public class Bundle {
         return bundleList;
     }
 
-    public ArrayList<Product> getBundleProducts() {
+    public HashMap<Product, Integer> getBundleProducts() {
         return bundleProducts;
     }
 }

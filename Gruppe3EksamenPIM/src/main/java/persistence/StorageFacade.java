@@ -7,6 +7,7 @@ import businessLogic.Distributor;
 import businessLogic.Product;
 import factory.SystemMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import persistence.mappers.AttributeMapper;
 import persistence.mappers.BundleMapper;
 import persistence.mappers.CategoryMapper;
@@ -152,7 +153,7 @@ public class StorageFacade {
         attributeMapper.updateProductAttributeValues(product);
     }
 
-    public Bundle addNewBundle(String bundleName, String bundleDescription, ArrayList<Product> productListForBundle) {
+    public Bundle addNewBundle(String bundleName, String bundleDescription, HashMap<Product, Integer> productListForBundle) {
         return bundleMapper.addNewBundle(bundleName, bundleDescription, productListForBundle);
     }
 
