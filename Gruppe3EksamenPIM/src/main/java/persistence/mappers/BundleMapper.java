@@ -95,12 +95,12 @@ public class BundleMapper {
         try {
             database.setAutoCommit(false);
 
-            String sqlDeleteBundleProducts = "DELETE FROM bundle_products WHERE Bundle_ID = ?";
-            PreparedStatement psDeleteBundleProducts = database.getConnection().prepareStatement(sqlDeleteBundleProducts);
-            psDeleteBundleProducts.setInt(1, bundleID);
-            rowsAffected += psDeleteBundleProducts.executeUpdate();
+//            String sqlDeleteBundleProducts = "DELETE FROM bundle_products WHERE Bundle_ID = ?";
+//            PreparedStatement psDeleteBundleProducts = database.getConnection().prepareStatement(sqlDeleteBundleProducts);
+//            psDeleteBundleProducts.setInt(1, bundleID);
+//            rowsAffected += psDeleteBundleProducts.executeUpdate();
             
-            String sqlDeleteProductBundles = "DELETE FROM product_categories WHERE Bundle_ID = ?";
+            String sqlDeleteProductBundles = "DELETE FROM product_bundles WHERE Bundle_ID = ?";
             PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlDeleteProductBundles);
             psDeleteProductBundles.setInt(1, bundleID);
             rowsAffected += psDeleteProductBundles.executeUpdate();
@@ -125,7 +125,7 @@ public class BundleMapper {
     
     public int editBundle(Bundle bundle) {
         try {
-            //Update category in category table
+            //Update bundle in bundle table
             String SQL = "UPDATE Bundles SET Bundle_Name = ?, Bundle_Description = ? WHERE Bundle_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setString(1, bundle.getBundleName());
