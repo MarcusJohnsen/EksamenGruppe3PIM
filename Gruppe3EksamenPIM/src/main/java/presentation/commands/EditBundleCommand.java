@@ -20,14 +20,14 @@ public class EditBundleCommand extends Command{
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
-        String nextJsp = "viewAllBundle";
+        String nextJsp = "viewAllBundles";
         request.setAttribute("bundleList", businessFacade.getBundleList());
         int bundleID = Integer.parseInt(request.getParameter("bundleID"));
         String bundleName = request.getParameter("Bundle Name");
         String bundleDescription = request.getParameter("Bundle Description");
 
         try {
-            businessFacade.editBundle(bundleID, bundleName, bundleDescription);
+            businessFacade.editBundle(bundleID, bundleName, bundleDescription, null);
         } catch (IllegalArgumentException ex) {
             nextJsp = "editBundle";
             request.setAttribute("error", ex.getMessage());

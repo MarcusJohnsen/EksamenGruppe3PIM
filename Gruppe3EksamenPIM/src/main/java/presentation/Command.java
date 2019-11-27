@@ -15,6 +15,7 @@ import presentation.commands.DeleteCategoryCommand;
 import presentation.commands.DeleteDistributorCommand;
 import presentation.commands.DeleteProductCommand;
 import presentation.commands.EditAttributesToCategoryCommand;
+import presentation.commands.EditBundleCommand;
 import presentation.commands.EditCategoryCommand;
 import presentation.commands.EditDistributorCommand;
 import presentation.commands.EditProductCommand;
@@ -58,6 +59,7 @@ public abstract class Command {
         commands.put("editDistributor", new EditDistributorCommand());
         commands.put("deleteDistributor", new DeleteDistributorCommand());
         commands.put("selectBundle", new SelectBundleCommand());
+        commands.put("editBundle", new EditBundleCommand());
         commands.put("deleteBundle", new DeleteBundleCommand());
     }
 

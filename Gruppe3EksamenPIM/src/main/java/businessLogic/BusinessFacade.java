@@ -64,9 +64,9 @@ public class BusinessFacade {
         storageFacade.editCategory(category);
     }
 
-    public Product createNewProduct(String productName, String productDescription) {
+    public Product createNewProduct(String productName, String productDescription, ArrayList<Distributor> productDistributors) {
         validateProductInput(productName, productDescription);
-        Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName);
+        Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
         Product.addToProductList(newProduct);
         return newProduct;
     }
@@ -176,9 +176,10 @@ public class BusinessFacade {
         storageFacade.editAttributeToCategory(category);
     }
     
-    public Bundle createNewBundle(String bundleName, String bundleDescription) throws IllegalArgumentException {
+    public Bundle createNewBundle(String bundleName, String bundleDescription, ArrayList<String> productListForBundleStrings) throws IllegalArgumentException {
         Bundle.validateBundleInput(bundleName, bundleDescription, null);
-        Bundle newBundle = storageFacade.addNewBundle(bundleName, bundleDescription);
+        ArrayList<Product> productListForBundle = Product.getMatchingProductsOnIDs(productListForBundleStrings);
+        Bundle newBundle = storageFacade.addNewBundle(bundleName, bundleDescription, productListForBundle);
         Bundle.addToBundleList(newBundle);
         return newBundle;
     }
@@ -202,10 +203,11 @@ public class BusinessFacade {
         return Bundle.findBundleOnID(bundleID);
     }
     
-    public void editBundle(int bundleID, String bundleName, String bundleDescription) throws IllegalArgumentException {
+    public void editBundle(int bundleID, String bundleName, String bundleDescription, ArrayList<String> productListForBundleStrings) throws IllegalArgumentException {
         validateBundleInput(bundleName, bundleDescription, bundleID);
+        ArrayList<Product> productListForBundle = Product.getMatchingProductsOnIDs(productListForBundleStrings);
         Bundle bundle = findBundleOnID(bundleID);
-        bundle.editBundle(bundleName, bundleDescription);
+        bundle.editBundle(bundleName, bundleDescription, productListForBundle);
         storageFacade.editBundle(bundle);
     }
 }

@@ -12,20 +12,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import persistence.DB;
 
 public class AttributeMapperTest {
 
     private static Connection testConnection;
-    private final DB database = new DB(SystemMode.TEST);
+    private final static DB database = new DB(SystemMode.TEST);
     private final AttributeMapper attributeMapper = new AttributeMapper(database);
 
-    @Before
-    public void setup() {
+    //setting up common variables so I won't have to write them for every single test
+    private final int attributeID = 1;
+    private final String attributeName = "Height";
+    private final HashMap<Integer, String> attributeValues = new HashMap();
+    
+    @BeforeClass
+    public static void oneTimeSetup() {
         try {
             testConnection = database.getConnection();
-            // reset test database
             try (Statement stmt = testConnection.createStatement()) {
                 stmt.execute("drop table if exists Product_Distributor");
                 stmt.execute("drop table if exists Product_Categories");
@@ -41,15 +46,9 @@ public class AttributeMapperTest {
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
 
-                stmt.execute("create table Categories like Categories_Test");
-                stmt.execute("insert into Categories select * from Categories_Test");
-                
                 stmt.execute("create table Bundles like Bundles_Test");
                 stmt.execute("insert into Bundles select * from Bundles_Test");
 
-                stmt.execute("create table Attributes like Attributes_Test");
-                stmt.execute("insert into Attributes select * from Attributes_Test");
-                
                 stmt.execute("create table Distributor like Distributor_Test");
                 stmt.execute("insert into Distributor select * from Distributor_Test");
 
@@ -67,7 +66,31 @@ public class AttributeMapperTest {
                 stmt.execute("ALTER TABLE Product_Categories ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
                 stmt.execute("ALTER TABLE Product_Categories ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
                 stmt.execute("insert into Product_Categories select * from Product_Categories_Test");
+            }
+        } catch (SQLException ex) {
+            testConnection = null;
+            System.out.println("Could not open connection to database: " + ex.getMessage());
+        }
+    }
+    
+    @Before
+    public void setup() {
+        try {
+            testConnection = database.getConnection();
+            // reset test database
+            try (Statement stmt = testConnection.createStatement()) {
+                stmt.execute("drop table if exists Product_Categories");
+                stmt.execute("drop table if exists Product_Attributes");
+                stmt.execute("drop table if exists Category_Attributes");
+                stmt.execute("drop table if exists Categories");
+                stmt.execute("drop table if exists Attributes");
 
+                stmt.execute("create table Categories like Categories_Test");
+                stmt.execute("insert into Categories select * from Categories_Test");
+                
+                stmt.execute("create table Attributes like Attributes_Test");
+                stmt.execute("insert into Attributes select * from Attributes_Test");
+                
                 stmt.execute("create table Product_Attributes like Product_Attributes_Test");
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
                 stmt.execute("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
@@ -78,7 +101,6 @@ public class AttributeMapperTest {
                 stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
             }
-
         } catch (SQLException ex) {
             testConnection = null;
             System.out.println("Could not open connection to database: " + ex.getMessage());
@@ -101,7 +123,7 @@ public class AttributeMapperTest {
         AttributeMapper instance = new AttributeMapper(database);
 
         //act
-        Attribute result = instance.addNewAttribute(attributeName);
+        instance.addNewAttribute(attributeName);
     }
 
     /**
@@ -117,14 +139,11 @@ public class AttributeMapperTest {
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Attributes");
         }
-        ArrayList<Attribute> result = attributeMapper.getAttributes();
+        attributeMapper.getAttributes();
     }
 
     @Test
     public void testDeleteAttribute() {
-        //arrange
-        int attributeID = 1;
-
         //act
         int result = attributeMapper.deleteAttribute(attributeID);
 
@@ -146,10 +165,8 @@ public class AttributeMapperTest {
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Attributes");
         }
-        int attributeID = 1;
-
         //act
-        int result = attributeMapper.deleteAttribute(attributeID);
+        attributeMapper.deleteAttribute(attributeID);
     }
 
     /**
@@ -158,9 +175,6 @@ public class AttributeMapperTest {
     @Test
     public void testUpdateProductAttributeSelectionsAttributeValuesNull() {
         //arrange
-        int attributeID = 1;
-        String attributeName = "hej";
-        HashMap<Integer, String> attributeValues = new HashMap();
         Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
 
         int categoryID = 3;
@@ -195,7 +209,6 @@ public class AttributeMapperTest {
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Attributes");
         }
-
         int productID = 2;
         String productName = "New Product";
         String productDescription = "This is a new product";
@@ -204,12 +217,10 @@ public class AttributeMapperTest {
         ArrayList<Category> productCategories = new ArrayList();
         Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
 
-        int attributeID = 1;
-        String attributeName = null;
-        HashMap<Integer, String> attributeValues = new HashMap();
         Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
-
         product.getProductAttributes().add(attribute);
+        
+        //act
         attributeMapper.updateProductAttributeSelections(product);
         attributeMapper.updateProductAttributeValues(product);
     }

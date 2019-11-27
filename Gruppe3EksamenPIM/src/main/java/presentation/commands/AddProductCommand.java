@@ -1,6 +1,7 @@
 package presentation.commands;
 
 import businessLogic.BusinessFacade;
+import businessLogic.Distributor;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,13 +24,15 @@ public class AddProductCommand extends Command {
         // get parameters from request
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
-        ArrayList<String> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
+        ArrayList<Distributor> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
 
         try {
-            Product newProduct = businessFacade.createNewProduct(productName, productDescription);
+            Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributors);
             request.getSession().setAttribute("productID", newProduct.getProductID());
         } catch (IllegalArgumentException ex) {
             nextJsp = "newProduct";
+            ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
+            request.setAttribute("distributorList", distributorList);
             request.setAttribute("error", ex.getMessage());
         }
 
