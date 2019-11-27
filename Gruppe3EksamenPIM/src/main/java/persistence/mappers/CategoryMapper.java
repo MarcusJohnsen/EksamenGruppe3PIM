@@ -29,8 +29,8 @@ public class CategoryMapper {
      * CategoryID from the database, and returns the Category object with the
      * new ID
      *
-     * @param categoryName String with length no longer than 255 charactors
-     * @param categoryDescription String with length no longer than 2550 charactors
+     * @param categoryName String with max length of 255 characters
+     * @param categoryDescription String with max length of 2550 characters
      *
      * @return the category object with an ID given from the database.
      * @throws IllegalArgumentException stating that category object could not
@@ -60,9 +60,15 @@ public class CategoryMapper {
 
   
    /**
-    * Gets the categoryList from the Database 
-    * @param attributeList
-    * @return 
+    * Gets the attributeList in order to traverse it, and find the cross-values
+    * for attributeID and categoryID from the database. Returns a list of category 
+    * objects
+    * 
+    * @param attributeList ArrayList of Attribute objects from the database
+    * 
+    * @return a list of category objects.
+    * @throws IllegalArgumentException stating that the category list can't be 
+    * returned due to a sql error with the database.
     */
     public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
         try {
@@ -103,6 +109,19 @@ public class CategoryMapper {
         }
     }
 
+    
+    /**
+     * Deletes category object with given ID from the database, starting with foreign keys
+     * and ending with primary key.
+     * Returns the total amount of rows affected in the database.
+     * 
+     * @param categoryID int unique, not null auto_increment.
+     * 
+     * @return the integer value of executed updates in the database.
+     * @throws IllegalArgumentException stating that selected rows cant be deleted
+     * due to a sql error in the database.
+     * 
+     */
     public int deleteCategory(int categoryID) {
         int rowsAffected = 0;
         try {
@@ -135,6 +154,16 @@ public class CategoryMapper {
         return rowsAffected;
     }
 
+    
+    /**
+     * Updating the database (categories table) with the given category values.
+     * 
+     * @param category object which is used in order to update the database
+     * 
+     * @return the integer value of affected updated-rows in the database.
+     * @throws IllegalArgumentException stating that requested category-update cant be made
+     * due to a sql error in the database.
+     */
     public int editCategory(Category category) {
         try {
             //Update category in category table
@@ -152,6 +181,19 @@ public class CategoryMapper {
         }
     }
 
+    
+    
+    /**
+     * Updating the database (category_attributes table) with the given category values.
+     * Uses categoryID variable to find and delete requested row(s) in order to fill the updated values
+     * into the database.
+     * 
+     * @param category object which is used in order to update the database
+     * 
+     * @return the integer number of executed updates.
+     * @throws IllegalArgumentException stating that requested update not possible due to 
+     * error in the database 
+     */
     public int editAttributeToCategories(Category category) {
         int rowsAffected = 0;
 

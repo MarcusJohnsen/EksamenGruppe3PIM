@@ -24,18 +24,24 @@ public class AddProductCommand extends Command {
         // get parameters from request
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
-        ArrayList<Distributor> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
-
+        
+        ArrayList<String>distributorChoices;
+        
+         if(request.getParameterValues("distributorChoices") != null){
+            distributorChoices = new ArrayList(Arrays.asList(request.getParameterValues("distributorChoices")));
+        } else {
+            distributorChoices = new ArrayList();
+        }
         try {
-            Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributors);
-            request.getSession().setAttribute("productID", newProduct.getProductID());
+           Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributorChoices);
+           request.getSession().setAttribute("productID", newProduct.getProductID());
         } catch (IllegalArgumentException ex) {
             nextJsp = "newProduct";
             ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
             request.setAttribute("distributorList", distributorList);
             request.setAttribute("error", ex.getMessage());
         }
-
+                
         return nextJsp;
     }
 
