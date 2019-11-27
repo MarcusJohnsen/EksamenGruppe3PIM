@@ -5,35 +5,35 @@ DROP DATABASE IF EXISTS PIM_Database;
     CREATE TABLE Categories(
 	Category_ID int unique not null auto_increment,
 	Category_Name varchar(255) unique not null,
-	Category_Description varchar(2550) not null,
+	Category_Description TEXT not null,
 	primary key(Category_ID)
 	);
     
 	CREATE TABLE Attributes(
     Attribute_ID int unique auto_increment not null,
-	Attribute_Name varchar(255) not null,
+	Attribute_Name TEXT not null,
 	primary key(Attribute_ID)
 	);
     
     CREATE TABLE Distributor(
     Distributor_ID int unique not null auto_increment,
-    Distributor_Name varchar(255) not null,
-    Distributor_Description varchar(2550) not null,
+    Distributor_Name TEXT not null,
+    Distributor_Description TEXT not null,
     primary key(Distributor_ID)
     );
     
     CREATE TABLE Bundles(
     Bundle_ID int unique not null auto_increment,
-	Bundle_Name varchar(255) not null,
-    Bundle_Description varchar(2550) not null,
+	Bundle_Name TEXT not null,
+    Bundle_Description TEXT not null,
     primary key(Bundle_ID)
     );
     
 	CREATE TABLE Product(
     Product_ID int unique not null auto_increment,
-	Product_Name varchar(255) not null,
-    Product_Description varchar(2550) not null,
-    picturePath varchar(100),
+	Product_Name TEXT not null,
+    Product_Description TEXT not null,
+    picturePath TEXT,
     primary key(Product_ID)
     );
     
@@ -56,7 +56,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     CREATE TABLE Product_Attributes(
     Product_ID int not null,
     Attribute_ID int not null,
-    Attribute_Info varchar (2550),
+    Attribute_Info TEXT,
     foreign key(Product_ID) references Product(Product_ID),
     foreign key(Attribute_ID) references Attributes(Attribute_ID),
     primary key(Product_ID, Attribute_ID)

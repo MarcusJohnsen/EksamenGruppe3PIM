@@ -212,43 +212,6 @@ public class ProductMapperTest {
     }
 
     /**
-     * Test of addNewProduct method, of class ProductMapper.<br>
-     * Name field in DB is made to be not null, unique varchar(255). Therefore inserting exactly 255 characters does not crash it.
-     */
-    @Test
-    public void testAddNewProductNameLengthAtLimit() {
-        //arrange
-        productName = "";
-        for (int i = 0; i < 255; i++) {
-            productName += "n";
-        }
-        //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
-
-        //assert
-        int expResultID = 4;
-        assertEquals(expResultID, result.getProductID());
-        assertTrue(productName.equals(result.getName()));
-        assertTrue(productDescription.equals(result.getDescription()));
-        assertTrue(productPicturePath.equals(result.getPicturePath()));
-    }
-
-    /**
-     * Negative Test of addNewProduct method, of class ProductMapper.<br>
-     * Name field in DB is made to be not null, unique varchar(255). Names exceeding the 255 varchar limit should cause an exception to be thrown
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testNegativeAddNewProductNameLengthExceedLimit() {
-        //arrange
-        productName = "";
-        for (int i = 0; i < 256; i++) {
-            productName += "n";
-        }
-        //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
-    }
-
-    /**
      * Negative Test of addNewProduct method, of class ProductMapper.<br>
      * Description field in DB is made to be not null, unique varchar(255).<br>
      * Descriptions with null value should throw an exception.
@@ -258,82 +221,6 @@ public class ProductMapperTest {
         //arrange
         productDescription = null;
         
-        //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
-    }
-
-    /**
-     * Test of addNewProduct method, of class ProductMapper.<br>
-     * Description field in DB is made to be not null, varchar(2550). Therefore adding exactly 2550 characters should not crash the program.
-     */
-    @Test
-    public void testAddNewProductDescriptionLengthAtLimit() {
-        //arrange
-        productDescription = "";
-        for (int i = 0; i < 2550; i++) {
-            productDescription += "n";
-        }
-        //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
-
-        //assert
-        int expResultID = 4;
-        assertEquals(expResultID, result.getProductID());
-        assertTrue(productName.equals(result.getName()));
-        assertTrue(productDescription.equals(result.getDescription()));
-        assertTrue(productPicturePath.equals(result.getPicturePath()));
-    }
-
-    /**
-     * Test of addNewProduct method, of class ProductMapper.<br>
-     * Description field in DB is made to be not null, varchar(2550).<br>
-     * Descriptions exceeding the 2550 varchar limit should cause an exception to be thrown
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testNegativeAddNewProductDescriptionLengthExceedLimit() {
-        //arrange
-        productDescription = "";
-        for (int i = 0; i < 2551; i++) {
-            productDescription += "n";
-        }
-        //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
-    }
-
-    /**
-     * Test of addNewProduct method, of class ProductMapper.<br>
-     * picturePath field in DB is made to be not null, varchar(100). Therefore adding exactly 100 characters should not crash the program.
-     */
-    @Test
-    public void testAddNewProductPicturePathLengthAtLimit() {
-        //arrange
-        productPicturePath = "";
-        for (int i = 0; i < 100; i++) {
-            productPicturePath += "n";
-        }
-        //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
-
-        //assert
-        int expResultID = 4;
-        assertEquals(expResultID, result.getProductID());
-        assertTrue(productName.equals(result.getName()));
-        assertTrue(productDescription.equals(result.getDescription()));
-        assertTrue(productPicturePath.equals(result.getPicturePath()));
-    }
-
-    /**
-     * Test of addNewProduct method, of class ProductMapper.<br>
-     * picturePath field in DB is made to be not null, varchar(100).<br>
-     * picturePaths exceeding the 100 varchar limit should cause an exception to be thrown.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddNewProductPicturePathLengthExceedLimit() {
-        //arrange
-        productPicturePath = "";
-        for (int i = 0; i < 101; i++) {
-            productPicturePath += "n";
-        }
         //act
         productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
     }
@@ -354,20 +241,6 @@ public class ProductMapperTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Negative test of updatePicturePath method, of class ProductMapper. Picturepath field in DB is made to be not null, varchar(100).<br>
-     * Picturepath exceeding the 100 varchar limit should cause an exception to be thrown.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestUpdatePicturePath() {
-        //arrange
-        String picturePath = "";
-        for (int i = 0; i < 101; i++) {
-            picturePath += "n";
-        }
-        //act
-        productMapper.updatePicturePath(productID, picturePath);
-    }
 
     /**
      * Test of deleteProduct method, of class ProductMapper.
@@ -413,25 +286,6 @@ public class ProductMapperTest {
         //assert
         int expResult = 1;
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Negative test of editProduct method, of class ProductMapper.<br>
-     * Description field in DB is made to be not null, varchar(2550).<br>
-     * Description exceeding the 2550 varchar limit should cause an exception to be thrown.<br>
-     * It's also worth noting that the edit could've also crashed by exceeding the character limit in "Name", "picturePath", "Distributors" or by an ID that doesn't exist.<br>
-     * Showing every single option would've been an overkill and description was therefore chosen.
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void negativeTestEditProduct() {
-        //arrange
-        productDescription = "";
-        for (int i = 0; i < 2551; i++) {
-            productDescription += "n";
-        }
-        Product product = new Product(productID, "newTitle", productDescription, "newPic.img", new ArrayList(Arrays.asList(new String[]{"dist. nr. 1", "dist. nr. 2", "dist. nr. 3"})), categoryList);
-        //act
-        int result = productMapper.editProduct(product);
     }
 
     /**

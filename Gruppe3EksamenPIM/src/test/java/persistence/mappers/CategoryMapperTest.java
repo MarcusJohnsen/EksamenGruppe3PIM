@@ -217,43 +217,6 @@ public class CategoryMapperTest {
     }
 
     /**
-     * Test of addNewCategory method, of class CategoryMapper.<br>
-     * Description field in DB is made to be not null, varchar(2550).
-     */
-    @Test
-    public void testAddNewCategoryDesciptionLengthAtLimit() {
-        //arrange
-        categoryDescription = "";
-        for (int i = 0; i < 2550; i++) {
-            categoryDescription += "n";
-        }
-        //act
-        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription);
-
-        //assert
-        int expResultID = 4;
-        assertEquals(expResultID, result.getCategoryID());
-        assertTrue(categoryName.equals(result.getName()));
-        assertTrue(categoryDescription.equals(result.getDescription()));
-    }
-
-    /**
-     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
-     * Description field in DB is made to be not null, varchar(2550).<br>
-     * Descriptions exceeding the 2550 varchar limit should cause an exception to be thrown
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testNegativeAddNewCategoryDesciptionLengthExceedLimit() {
-        //arrange
-        categoryDescription = "";
-        for (int i = 0; i < 2551; i++) {
-            categoryDescription += "n";
-        }
-        //act
-        categoryMapper.addNewCategory(categoryName, categoryDescription);
-    }
-
-    /**
      * Test of getCategories method, of class CategoryMapper.
      */
     @Test
