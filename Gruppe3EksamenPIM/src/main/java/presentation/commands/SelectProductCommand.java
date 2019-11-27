@@ -25,6 +25,8 @@ public class SelectProductCommand extends Command {
                 nextJsp = "editProduct";
             } else if (commandType.equals("Delete Product")) {
                 nextJsp = "deleteProduct";
+            } else if (commandType.equals("View all product details")) {
+                nextJsp = "viewAllProductDetails";
             }
 
             request.setAttribute("product", product);

@@ -1,5 +1,6 @@
 package presentation.commands;
 
+import businessLogic.Attribute;
 import businessLogic.Bundle;
 import businessLogic.BusinessFacade;
 import businessLogic.Category;
@@ -35,6 +36,10 @@ public class GoToJspCommand extends Command {
             case "viewAllBundles":
                 ArrayList<Bundle> bundleList = businessFacade.getBundleList();
                 request.setAttribute("bundleList", bundleList);
+                break;
+            case "viewAllAttributes":
+                ArrayList<Attribute> attributeList = businessFacade.getAttributeList();
+                request.setAttribute("attributeList", attributeList);
                 break;
             default:
                 break;

@@ -117,6 +117,14 @@ public class StorageFacade {
     public Attribute addNewAttribute(String AttributeName) {
         return attributeMapper.addNewAttribute(AttributeName);
     }
+    
+    public void editAttribute(Attribute attribute) {
+        attributeMapper.editAttribute(attribute);
+    }
+    
+    public void deleteAttribute(int attributeID) {
+        attributeMapper.deleteAttribute(attributeID);
+    }
 
     public void editCategoriesToProduct(Product product) {
         productMapper.editProductCategories(product);

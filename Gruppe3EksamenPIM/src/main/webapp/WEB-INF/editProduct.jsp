@@ -20,7 +20,6 @@
             Product product = (Product) request.getAttribute("product");
             String ProductName = product.getName();
             String ProductDescription = product.getDescription();
-            //ArrayList<String> ProductDist = product.getDistributors();
             String picturePath = product.getPicturePath();
             int productID = product.getProductID();
         %>
@@ -60,7 +59,7 @@
                     for (Attribute attribute : attributeList) {
                         int attributeID = attribute.getAttributeID();
                         String value = attribute.getAttributeValueForID(productID);
-                        String attributeTitle = attribute.getAttributeTitle();
+                        String attributeTitle = attribute.getAttributeName();
                 %>
                 <tr>
                     <td align="left" width="20%"> <%=attributeTitle%> </td>

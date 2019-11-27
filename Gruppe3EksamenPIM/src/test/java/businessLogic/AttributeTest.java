@@ -33,7 +33,7 @@ public class AttributeTest {
         
         //assert
         assertEquals(attributeID, attribute.getAttributeID());
-        assertTrue(attributeTitle.equals(attribute.getAttributeTitle()));
+        assertTrue(attributeTitle.equals(attribute.getAttributeName()));
         assertTrue(attributeValues.equals(attribute.getAttributeValues()));
     }
     
@@ -56,8 +56,8 @@ public class AttributeTest {
         Attribute.addToAttributeList(attribute2);
         
         //assert
-        assertTrue(Attribute.findAttributeOnID(5).getAttributeTitle().equals("weight"));
-        assertTrue(Attribute.findAttributeOnID(6).getAttributeTitle().equals("height"));
+        assertTrue(Attribute.findAttributeOnID(5).getAttributeName().equals("weight"));
+        assertTrue(Attribute.findAttributeOnID(6).getAttributeName().equals("height"));
     }
     
     @Test

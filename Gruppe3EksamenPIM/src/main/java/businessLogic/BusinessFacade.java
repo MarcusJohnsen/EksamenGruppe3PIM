@@ -1,5 +1,7 @@
 package businessLogic;
 
+import static businessLogic.Attribute.findAttributeOnID;
+import static businessLogic.Attribute.validateNewAttributeTitle;
 import static businessLogic.Bundle.findBundleOnID;
 import static businessLogic.Bundle.validateBundleInput;
 import static businessLogic.Category.findCategoryOnID;
@@ -98,6 +100,20 @@ public class BusinessFacade {
         return newAttribute;
     }
     
+    public void editAttribute(int attributeID, String attributeName) {
+        validateNewAttributeTitle(attributeName);
+        Attribute attribute = findAttributeOnID(attributeID);
+        attribute.editAttribute(attributeName);
+        storageFacade.editAttribute(attribute);
+    }
+    
+    public boolean deleteAttribute(int attributeID) {
+        storageFacade.deleteAttribute(attributeID);
+        Attribute.findAttributeOnID(attributeID);
+        boolean attributeWasDeleted = Attribute.deleteAttribute(attributeID);
+        return attributeWasDeleted;
+    }
+    
      public Distributor createNewDistributor(String distributorName, String distributorDescription) {
         Distributor.validateDistributorInput(distributorName, distributorDescription);
         Distributor newDistributor = storageFacade.addNewDistributor(distributorName, distributorDescription);
@@ -107,14 +123,7 @@ public class BusinessFacade {
      
     public boolean deleteDistributor(int distributorID) {
         storageFacade.deleteDistributor(distributorID);
-        //ArrayList<Distributor> productsWithDistributor = Product.findProductsOnCategoryID(categoryID);
-        Distributor distributor = Distributor.findDistributorOnID(distributorID);
-        //Product.deleteCategoryFromProducts(category);
-        //boolean categoryWasDeleted = Category.deleteCategory(categoryID);
-        //Product.createAttributesFromCategories(productsWithCategory);
-        storageFacade.deleteDistributor(distributorID);
-                //updateProductAttributeSelections(productsWithCategory);
-        //return categoryWasDeleted;
+        Distributor.findDistributorOnID(distributorID);
         return Distributor.deleteDistributor(distributorID);
     }
 
@@ -189,8 +198,6 @@ public class BusinessFacade {
         Bundle bundle = Bundle.findBundleOnID(bundleID);
         Product.deleteBundleFromProducts(bundle);
         boolean bundleWasDeleted = Bundle.deleteBundle(bundleID);
-        //Product.createAttributesFromCategories(productsWithCategory);
-        //storageFacade.updateProductAttributeSelections(productsWithCategory);
         return bundleWasDeleted;
     }
     

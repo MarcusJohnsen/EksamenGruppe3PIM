@@ -224,9 +224,9 @@ import static org.junit.Assert.*;
         assertEquals(expIDResult2,result2.getAttributeID());
         assertEquals(expIDResult3,result3.getAttributeID());
         
-        assertTrue(attributeTitle1.equals(result1.getAttributeTitle()));
-        assertTrue(attributeTitle2.equals(result2.getAttributeTitle()));
-        assertTrue(attributeTitle3.equals(result3.getAttributeTitle()));
+        assertTrue(attributeTitle1.equals(result1.getAttributeName()));
+        assertTrue(attributeTitle2.equals(result2.getAttributeName()));
+        assertTrue(attributeTitle3.equals(result3.getAttributeName()));
     }
 
     @Test(expected = IllegalArgumentException.class)

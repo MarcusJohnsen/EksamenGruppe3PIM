@@ -125,7 +125,7 @@ public class BundleMapper {
     
     public int editBundle(Bundle bundle) {
         try {
-            //Update category in category table
+            //Update bundle in bundle table
             String SQL = "UPDATE Bundles SET Bundle_Name = ?, Bundle_Description = ? WHERE Bundle_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setString(1, bundle.getBundleName());

@@ -5,7 +5,6 @@ import businessLogic.BusinessFacade;
 import businessLogic.Distributor;
 import businessLogic.Product;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +23,6 @@ public class EditProductCommand extends Command {
         int productID = Integer.parseInt(request.getParameter("productID"));
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
-        //ArrayList<Distributor> distributors = new ArrayList(Arrays.asList(request.getParameterValues("Product Distributors")));
         
         HashMap<Integer, String> productAttributeValues = new HashMap();
         ArrayList<Distributor> distributors = new ArrayList();
