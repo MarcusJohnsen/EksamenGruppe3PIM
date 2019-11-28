@@ -106,12 +106,12 @@ DROP DATABASE IF EXISTS PIM_Database;
     (3, 'The Cola Bundle', 'This is a bundle of cola');
     
     INSERT INTO Product (Product_ID, Product_Name, Product_Description, picturePath) VALUES 
-    (1, 'ROHAN Bookshelf', 'This bookshelf is called ROHAN, and loos great in most rooms.', 'ROHAN.img'),
-    (2, 'Sony KD85ZG9', 'TV that delivers eye-popping visuals that actually match creative intent.', 'Sony.img'),
-    (3, 'RAMSELE', 'A lamp from Ikea with an interresting new design', 'lamp.img'),
-    (4, 'Coca-cola', 'This legendary product needs no introduction', 'cola.img'),
-    (5, 'Coca-cola zero', 'This legendary product needs no introduction', 'colaZ.img'),
-    (6, 'Test Product', 'This product is for testing only', 'test.img');
+    (1, 'ROHAN Bookshelf', 'This bookshelf is called ROHAN, and loos great in most rooms.', 'ROHAN.png'),
+    (2, 'Sony KD85ZG9', 'TV that delivers eye-popping visuals that actually match creative intent.', 'Sony.png'),
+    (3, 'RAMSELE', 'A lamp from Ikea with an interresting new design', 'lamp.png'),
+    (4, 'Coca-cola', 'This legendary product needs no introduction', 'cola.png'),
+    (5, 'Coca-cola zero', 'This legendary product needs no introduction', 'colaZ.png'),
+    (6, 'Test Product', 'This product is for testing only', 'no-img.png');
     
     INSERT INTO Category_Attributes(Category_ID, Attribute_ID) VALUES
     (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), 

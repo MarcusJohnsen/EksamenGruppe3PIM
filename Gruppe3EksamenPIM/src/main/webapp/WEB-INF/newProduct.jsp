@@ -74,7 +74,7 @@
                             String distributorName = distributor.getDistributorName();
                     %>  
                     <tr>
-                        <td align="center" width="5%"> <%=dist%> </td>
+                        <td align="center" width="5%"> <%=distributorID%> </td>
                         <td align="center" width="20%"> <%=distributorName%> </td>
                         <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
                     </tr>
