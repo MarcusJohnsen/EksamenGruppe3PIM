@@ -51,7 +51,7 @@
                 <thead>
                     <tr>
                         <td align="left">Attribute Name</td>
-                        <td align="center">Attribute Description</td>
+                        <td align="center">Attribute Value</td>
                     </tr>
                 </thead>
                 <br>
@@ -64,7 +64,7 @@
                 %>
                 <tr>
                     <td align="left" width="20%"> <%=attributeTitle%> </td>
-                    <td align="center" width="30%"> <input type="text" style="width: 98%" name="AttributeID<%=attributeID%>" value="<%=value%>"/> </td>
+                    <td align="center" width="30%"> <input type="text" style="width: 98%; text-align: center" name="AttributeID<%=attributeID%>" value="<%=value%>"/> </td>
                 </tr>
                 </tbody>
                 <%}%>

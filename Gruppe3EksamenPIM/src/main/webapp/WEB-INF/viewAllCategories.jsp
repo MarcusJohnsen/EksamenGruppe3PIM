@@ -45,12 +45,14 @@
             <input type="hidden" name="command" value="selectCategory" />
             <p align="center"><input type="submit" name="submitButton" value="Edit Category"/></p>
             <p align="center"><input type="submit" name="submitButton" value="Delete Category"/></p>
+            <p align="center"><input type="submit" name="submitButton" value="Bulk Edit"/></p>
         </form>
         <%
                 String error = (String) request.getAttribute("error");
                 if (error != null) {%>
         <h2 style="color: red" align="center"><%=error%></h2>
         <%}%>
+        
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="index" />
