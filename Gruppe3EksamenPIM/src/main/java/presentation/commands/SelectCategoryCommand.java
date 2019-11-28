@@ -34,6 +34,8 @@ public class SelectCategoryCommand extends Command {
                 nextJsp = "editCategory";
             } else if (commandType.equals("Delete Category")) {
                 nextJsp = "deleteCategory";
+            } else if(commandType.equals("Bulk Edit")) {
+                nextJsp = "bulkEdit";
             }
 
             request.setAttribute("category", category);
