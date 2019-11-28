@@ -121,7 +121,7 @@ public class AttributeMapper {
         database.setAutoCommit(true);
         return rowsAffected;
     }
-    
+
     public int editAttribute(Attribute attribute) {
         try {
             String SQL = "UPDATE Attributes SET Attribute_Name = ? WHERE Attribute_ID = ?";
@@ -204,6 +204,57 @@ public class AttributeMapper {
 
         database.setAutoCommit(true);
         return rowsAffacted;
+    }
+
+    /**
+     * Method to update values for multiple product Attributes tied to a specific category. Used for bulk edit function.
+     * 
+     * @param productIDs List of productIDs that match products that should have their attributes affected in the bulk edit
+     * @param newAttributeValues Each attribute changed with the new value. Key is the attributeID for each new String value.
+     * @param categoryID ID matching category these attributes should be changed on, in case of multiple categories using the same attributes
+     * @return int count of rows affected in database from sql updates.
+     */
+    public int bulkEditOnCategoryID(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
+        try {
+            int rowsAffected = 0;
+            database.setAutoCommit(false);
+            
+            if(productIDs.isEmpty()){
+                throw new IllegalArgumentException("No products selected to be updated");
+            }
+
+            String sqlUpdateCoreStatement = "UPDATE product_attributes JOIN product_categories ON product_attributes.Product_ID = product_categories.Product_ID "
+                    + "SET Attribute_Info = ? WHERE product_attributes.Attribute_ID = ? AND ";
+            String sqlProductIDCondition = "";
+            boolean firstLine = true;
+            for (Integer productID : productIDs) {
+                if(firstLine){
+                    firstLine = false;
+                    sqlProductIDCondition += "( product_attributes.Product_ID = " + productID;
+                } else {
+                    sqlProductIDCondition += " OR product_attributes.Product_ID = " + productID;
+                }
+            }
+            sqlProductIDCondition += " )";
+            String sqlFinal = sqlUpdateCoreStatement + sqlProductIDCondition;
+            
+            for (Integer attributeID : newAttributeValues.keySet()) {
+                PreparedStatement ps = database.getConnection().prepareStatement(sqlFinal);
+                ps.setString(1, newAttributeValues.get(attributeID));
+                ps.setInt(2, attributeID);
+                rowsAffected += ps.executeUpdate();
+            }
+            
+            database.getConnection().commit();
+            database.setAutoCommit(true);
+
+            return rowsAffected;
+        } catch (SQLException ex) {
+            Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
+            throw new IllegalArgumentException("Can't update the attribute values of the bulk edit into the database");
+        }
     }
 
 }

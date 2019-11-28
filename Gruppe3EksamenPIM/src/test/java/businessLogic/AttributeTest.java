@@ -115,7 +115,7 @@ public class AttributeTest {
         ArrayList<String> searchAttributeIDs = new ArrayList(Arrays.asList(new String[]{Integer.toString(attributeID1), Integer.toString(attributeID2)}));
         
         //act
-        ArrayList<Attribute> result = Attribute.getMatchingAttributesOnIDs(searchAttributeIDs);
+        ArrayList<Attribute> result = Attribute.getMatchingAttributesOnStringIDs(searchAttributeIDs);
         
         assertTrue(result.contains(attribute1));
         assertTrue(result.contains(attribute2));

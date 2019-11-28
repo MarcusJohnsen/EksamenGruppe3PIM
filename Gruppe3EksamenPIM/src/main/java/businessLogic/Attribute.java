@@ -9,6 +9,15 @@ import java.util.HashMap;
  */
 public class Attribute {
 
+    static void bulkEditProducts(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
+        ArrayList<Attribute> attributeNeedingEdit = Attribute.getMatchingAttributesOnIDs(new ArrayList(newAttributeValues.keySet()));
+        for (Attribute attribute : attributeNeedingEdit) {
+            for (Integer productID : productIDs) {
+                attribute.attributeValues.put(productID, newAttributeValues.get(attribute.attributeID));
+            }
+        }
+    }
+
     private int attributeID;
     private String attributeName;
     private HashMap<Integer, String> attributeValues;
@@ -91,10 +100,20 @@ public class Attribute {
      * @return The result-List. 
      */
     
-    public static ArrayList<Attribute> getMatchingAttributesOnIDs(ArrayList<String> attributeChoices) {
+    public static ArrayList<Attribute> getMatchingAttributesOnStringIDs(ArrayList<String> attributeChoices) {
         ArrayList<Attribute> result = new ArrayList();
         for (Attribute attribute : attributeList) {
             if (attributeChoices.contains(Integer.toString(attribute.getAttributeID()))) {
+                result.add(attribute);
+            }
+        }
+        return result;
+    }
+    
+        public static ArrayList<Attribute> getMatchingAttributesOnIDs(ArrayList<Integer> attributeChoices) {
+        ArrayList<Attribute> result = new ArrayList();
+        for (Attribute attribute : attributeList) {
+            if (attributeChoices.contains(attribute.getAttributeID())) {
                 result.add(attribute);
             }
         }

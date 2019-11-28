@@ -1,6 +1,7 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -136,7 +137,7 @@ public class Product {
         }
         return result;
     }
-
+    
     /**
      * @param productListFromDB Gets the list of product objects from the DataBase and stores them in a list.
      */
@@ -172,6 +173,15 @@ public class Product {
             }
         }
         return null;
+    }
+    
+    public static ArrayList<Product> findProductsOnIDs(ArrayList<Integer> productIDs){
+        ArrayList<Product> result = new ArrayList();
+        for (Integer productID : productIDs) {
+            result.add(findProductOnID(productID));
+        }
+        result.removeAll(Arrays.asList(new Product[]{null}));
+        return result;
     }
 
     /**

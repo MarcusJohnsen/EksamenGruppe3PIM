@@ -176,4 +176,8 @@ public class StorageFacade {
     public ArrayList<Bundle> getBundles(ArrayList<Product> productList) {
         return bundleMapper.getBundle(productList);
     }
+    
+    public int bulkEditOnCategoryID(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
+        return attributeMapper.bulkEditOnCategoryID(productIDs, newAttributeValues);
+    }
 }

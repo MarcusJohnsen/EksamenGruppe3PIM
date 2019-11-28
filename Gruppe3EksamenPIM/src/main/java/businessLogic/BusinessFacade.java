@@ -180,7 +180,7 @@ public class BusinessFacade {
     }
 
     public void editAttributesToCategory(Category category, ArrayList<String> attributeChoices) {
-        ArrayList<Attribute> attributeList = Attribute.getMatchingAttributesOnIDs(attributeChoices);
+        ArrayList<Attribute> attributeList = Attribute.getMatchingAttributesOnStringIDs(attributeChoices);
         category.setCategoryAttributes(attributeList);
         ArrayList<Product> productsUpdated = Product.updateCategoryAttributes(category.getCategoryID());
         storageFacade.updateProductAttributeSelections(productsUpdated);
@@ -219,4 +219,10 @@ public class BusinessFacade {
         bundle.editBundle(bundleName, bundleDescription, productListForBundle);
         storageFacade.editBundle(bundle);
     }
+    
+    public void BulkEdit(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues){
+        Attribute.bulkEditProducts(productIDs, newAttributeValues);
+        storageFacade.bulkEditOnCategoryID(productIDs, newAttributeValues);
+    }
+    
 }
