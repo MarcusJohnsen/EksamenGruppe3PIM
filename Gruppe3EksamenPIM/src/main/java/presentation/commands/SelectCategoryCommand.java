@@ -7,6 +7,7 @@ package presentation.commands;
 
 import businessLogic.BusinessFacade;
 import businessLogic.Category;
+import businessLogic.Product;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +36,9 @@ public class SelectCategoryCommand extends Command {
             } else if (commandType.equals("Delete Category")) {
                 nextJsp = "deleteCategory";
             } else if(commandType.equals("Bulk Edit")) {
-                nextJsp = "bulkEdit";
+                ArrayList<Product> productList = businessFacade.findProductsOnCategoryID(categoryChoice);
+                request.setAttribute("productList", productList);
+                nextJsp = "bulkSelect";
             }
 
             request.setAttribute("category", category);

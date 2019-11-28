@@ -28,11 +28,13 @@ public class BulkEditCommand extends Command {
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         Category category = businessFacade.getCategoryFromID(categoryID);
 
+        
+
         try {
+            String[] productChoices = (String[]) request.getSession().getAttribute("productChoices");
             ArrayList<Integer> productIDs = new ArrayList();
-            ArrayList<Product> productList = businessFacade.findProductsOnCategoryID(categoryID);
-            for (Product product : productList) {
-                productIDs.add(product.getProductID());
+            for (String productChoice : productChoices) {
+                productIDs.add(Integer.parseInt(productChoice));
             }
 
             HashMap<Integer, String> newAttributeValues = new HashMap();
