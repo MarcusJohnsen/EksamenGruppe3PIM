@@ -18,7 +18,7 @@
         <%
             Category category = (Category) request.getAttribute("category");
             String categoryName = category.getName();
-
+            int categoryID = category.getCategoryID();
         %>
         <h1 align="center">Bulk edit for category "<%=categoryName%>"</h1>
         <br>
@@ -46,6 +46,8 @@
                 <%}%>
             </table>
             <br>
+            <input type="hidden" name="categoryID" value="<%=categoryID%>" />
+            <input type="hidden" name="command" value="bulkEdit" />
             <p align="center"><input type="submit" value="Update All Attributes" /></p>
         </form>
         <form action="FrontController" method="POST">

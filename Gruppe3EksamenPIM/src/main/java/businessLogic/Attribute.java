@@ -10,6 +10,9 @@ import java.util.HashMap;
 public class Attribute {
 
     static void bulkEditProducts(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
+        if(newAttributeValues.isEmpty()){
+            throw new IllegalArgumentException("Nothing to edit");
+        }
         ArrayList<Attribute> attributeNeedingEdit = Attribute.getMatchingAttributesOnIDs(new ArrayList(newAttributeValues.keySet()));
         for (Attribute attribute : attributeNeedingEdit) {
             for (Integer productID : productIDs) {

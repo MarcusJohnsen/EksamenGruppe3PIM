@@ -220,9 +220,13 @@ public class BusinessFacade {
         storageFacade.editBundle(bundle);
     }
     
-    public void BulkEdit(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues){
+    public void bulkEdit(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues){
         Attribute.bulkEditProducts(productIDs, newAttributeValues);
         storageFacade.bulkEditOnCategoryID(productIDs, newAttributeValues);
+    }
+    
+    public ArrayList<Product> findProductsOnCategoryID(int categoryID){
+        return Product.findProductsOnCategoryID(categoryID);
     }
     
 }

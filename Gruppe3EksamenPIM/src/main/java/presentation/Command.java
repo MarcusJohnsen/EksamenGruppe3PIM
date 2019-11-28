@@ -32,6 +32,7 @@ public abstract class Command {
         commands.put("selectCategory", new SelectCategoryCommand());
         commands.put("editCategory", new EditCategoryCommand());
         commands.put("deleteCategory", new DeleteCategoryCommand());
+        commands.put("bulkEdit", new BulkEditCommand());
         
         commands.put("selectAttribute", new SelectAttributeCommand());
         commands.put("editAttribute", new EditAttributeCommand());
