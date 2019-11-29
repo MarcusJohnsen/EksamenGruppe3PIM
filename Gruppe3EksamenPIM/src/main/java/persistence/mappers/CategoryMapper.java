@@ -2,6 +2,7 @@ package persistence.mappers;
 
 import businessLogic.Attribute;
 import businessLogic.Category;
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,25 +37,46 @@ public class CategoryMapper {
      * @throws IllegalArgumentException stating that category object could not
      * be inserted, due to a sql error with the database.
      */
-   public Category addNewCategory(String categoryName, String categoryDescription) {
+   public Category addNewCategory(String categoryName, String categoryDescription, ArrayList<Attribute> attributeList) {
         try {
+            database.setAutoCommit(false);
             String SQL = "INSERT INTO Categories (Category_Name, Category_Description) VALUES (?, ?)";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, categoryName);
             ps.setString(2, categoryDescription);
             ps.executeUpdate();
+            
+            
 
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
             int id = rs.getInt(1);
 
-            ArrayList<Attribute> categoryAttributes = new ArrayList();
-            Category category = new Category(id, categoryName, categoryDescription, categoryAttributes);
+            if (!attributeList.isEmpty()) {
+                SQL = "INSERT INTO Category_Attributes (Category_ID, Attribute_ID) VALUES ";
+                boolean firstline = true;
+                for (Attribute attribute : attributeList) {
+                    if (firstline) {
+                        firstline = false;
+                    } else {
+                        SQL += ", ";
+                    }
+                    SQL += "(" + id + ", '" + attribute.getAttributeID() + "')";
+                }
+                database.getConnection().prepareStatement(SQL).executeUpdate();
+            }
+            database.getConnection().commit();
+            database.setAutoCommit(true);
+            
+            Category category = new Category(id, categoryName, categoryDescription, attributeList);
             return category;
 
         } catch (SQLException ex) {
             Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
+            database.rollBack();
+            database.setAutoCommit(true);
             throw new IllegalArgumentException("Category cannot be inserted in the database");
+           
         }
     }
 

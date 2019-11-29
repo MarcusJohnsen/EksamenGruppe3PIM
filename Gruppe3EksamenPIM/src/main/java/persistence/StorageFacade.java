@@ -52,8 +52,8 @@ public class StorageFacade {
      * @return new category object
      *
      */
-    public Category addNewCategory(String categoryName, String categoryDescription) {
-        return categoryMapper.addNewCategory(categoryName, categoryDescription);
+    public Category addNewCategory(String categoryName, String categoryDescription, ArrayList<Attribute> attributeList) {
+        return categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
     /**
