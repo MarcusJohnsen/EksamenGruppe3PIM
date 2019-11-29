@@ -4,6 +4,8 @@
     Author     : Andreas
 --%>
 
+<%@page import="businessLogic.Attribute"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -28,6 +30,29 @@
             </p>
 
             <input type="hidden" name="command" value="addCategory" />
+            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+                <thead>
+                    <tr bgcolor = "#FF4B4B">
+                        <td align="center">Attribute ID</td>
+                        <td align="center">Attribute Name</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <%
+                        ArrayList<Attribute> attributeList = (ArrayList<Attribute>) request.getAttribute("attributeList");
+                        for (Attribute attribute : attributeList) {
+                            int AttributeID = attribute.getAttributeID();
+                            String AttributeName = attribute.getAttributeName();
+                    %>  
+                    <tr>
+                        <td align="center" width="5%"> <%=AttributeID%> </td>
+                        <td align="center" width="20%"> <%=AttributeName%> </td>
+                        <td align="center" width="1%"><input type="checkbox" name=attributeChoice value="<%=AttributeID%>"></td>
+                    </tr>
+                </tbody>
+                <%}%>
+            </table>
             <%
             String error = (String) request.getAttribute("error");
             if(error != null){

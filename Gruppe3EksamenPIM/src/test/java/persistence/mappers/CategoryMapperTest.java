@@ -127,13 +127,14 @@ public class CategoryMapperTest {
     @Test
     public void testAddNewCategory() {
         //act
-        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription);
+        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription,attributeList);
 
         //assert
         int expResultID = 4;
         assertEquals(expResultID, result.getCategoryID());
         assertTrue(categoryName.equals(result.getName()));
         assertTrue(categoryDescription.equals(result.getDescription()));
+        assertTrue(attributeList.equals(result.getCategoryAttributes()));
     }
 
     /**
@@ -146,8 +147,8 @@ public class CategoryMapperTest {
         String categoryDescriptionNr2 = "Second new description";
 
         //act
-        categoryMapper.addNewCategory(categoryName, categoryDescription);
-        categoryMapper.addNewCategory(categoryName, categoryDescriptionNr2);
+        categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
+        categoryMapper.addNewCategory(categoryName, categoryDescriptionNr2, attributeList);
     }
 
     /**
@@ -161,7 +162,7 @@ public class CategoryMapperTest {
         categoryName = null;
 
         //act
-        categoryMapper.addNewCategory(categoryName, categoryDescription);
+        categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
     /**
@@ -176,13 +177,14 @@ public class CategoryMapperTest {
             categoryName += "n";
         }
         //act
-        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription);
+        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
 
         //assert
         int expResultID = 4;
         assertEquals(expResultID, result.getCategoryID());
         assertTrue(categoryName.equals(result.getName()));
         assertTrue(categoryDescription.equals(result.getDescription()));
+        assertTrue(attributeList.equals(result.getCategoryAttributes()));
     }
 
     /**
@@ -199,7 +201,7 @@ public class CategoryMapperTest {
         }
 
         //act
-        categoryMapper.addNewCategory(categoryName, categoryDescription);
+        categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
     /**
@@ -213,7 +215,7 @@ public class CategoryMapperTest {
         categoryDescription = null;
 
         //act
-        categoryMapper.addNewCategory(categoryName, categoryDescription);
+        categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
     /**

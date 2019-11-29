@@ -41,9 +41,10 @@ public class BusinessFacade {
         Bundle.setupBundleListFromDB(bundleList);
     }
 
-    public Category createNewCategory(String categoryName, String categoryDescription) throws IllegalArgumentException {
+    public Category createNewCategory(String categoryName, String categoryDescription, ArrayList<String> attributeIdStrings) throws IllegalArgumentException {
         Category.validateCategoryInput(categoryName, categoryDescription, null);
-        Category newCategory = storageFacade.addNewCategory(categoryName, categoryDescription);
+        ArrayList<Attribute> attributeList = Attribute.getMatchingAttributesOnStringIDs(attributeIdStrings);
+        Category newCategory = storageFacade.addNewCategory(categoryName, categoryDescription, attributeList);
         Category.addToCategoryList(newCategory);
         return newCategory;
     }

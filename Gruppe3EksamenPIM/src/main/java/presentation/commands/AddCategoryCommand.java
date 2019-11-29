@@ -1,6 +1,9 @@
 package presentation.commands;
 
+import businessLogic.Attribute;
 import businessLogic.BusinessFacade;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -17,10 +20,20 @@ public class AddCategoryCommand extends Command {
 
         String categoryName = request.getParameter("Category Name");
         String categoryDescription = request.getParameter("Category Description");
+        ArrayList<String> attributeChoices;
+        
+         if(request.getParameterValues("attributeChoice") != null){
+            attributeChoices = new ArrayList(Arrays.asList(request.getParameterValues("attributeChoice")));
+        } else {
+            attributeChoices = new ArrayList();
+        }
+        
         try {
-            businessFacade.createNewCategory(categoryName, categoryDescription);
+            businessFacade.createNewCategory(categoryName, categoryDescription, attributeChoices);
         } catch (IllegalArgumentException ex) {
             nextJsp = "newCategory";
+            ArrayList<Attribute> attributeList = businessFacade.getAttributeList();
+            request.setAttribute("attributeList", attributeList);
             request.setAttribute("error", ex.getMessage());
         }
 

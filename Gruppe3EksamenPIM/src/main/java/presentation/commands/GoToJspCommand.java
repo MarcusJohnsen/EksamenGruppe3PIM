@@ -66,6 +66,10 @@ public class GoToJspCommand extends Command {
                 distributorList = businessFacade.getDistributorList();
                 request.setAttribute("distributorList", distributorList);
                 break;
+            case "newCategory":
+                attributeList = businessFacade.getAttributeList();
+                request.setAttribute("attributeList", attributeList);
+                break;    
             default:
                 break;
         }

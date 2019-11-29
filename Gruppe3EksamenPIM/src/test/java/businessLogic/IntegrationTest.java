@@ -95,9 +95,10 @@ import static org.junit.Assert.*;
         //arrange
         String categoryName = "New Category";
         String categoryDescription = "This is a new category, for new things";
-
+        ArrayList<String> categoryAttributeStrings = new ArrayList(Arrays.asList(new String[]{"1","2"}));
+        
         //act
-        Category result = businessFacade.createNewCategory(categoryName, categoryDescription);
+        Category result = businessFacade.createNewCategory(categoryName, categoryDescription, categoryAttributeStrings);
 
         //assert
         assertTrue(categoryName.equals(result.getName()));
