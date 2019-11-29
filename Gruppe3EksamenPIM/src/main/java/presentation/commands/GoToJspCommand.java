@@ -57,6 +57,8 @@ public class GoToJspCommand extends Command {
                 request.setAttribute("productList", productList);
                 break;
             case "newProduct":
+                categoryList = businessFacade.getCategoryList();
+                request.setAttribute("categoryList", categoryList);
                 distributorList = businessFacade.getDistributorList();
                 request.setAttribute("distributorList", distributorList);
                 break;

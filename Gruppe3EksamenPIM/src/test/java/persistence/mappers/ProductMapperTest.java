@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -32,9 +33,11 @@ public class ProductMapperTest {
     private String productName = "Cykel";
     private String productDescription = "This is a new product";
     private String productPicturePath = "newProduct.img";
-    private final ArrayList<Category> categoryList = new ArrayList();
-    Distributor distributor = new Distributor(1, "Company", "Test company");
+    
+    private Distributor distributor = new Distributor(1, "Company", "Test company");
     private final ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new Distributor[]{distributor}));
+    
+    private final ArrayList<Category> categoryList = new ArrayList();
         
     @BeforeClass
     public static void oneTimeSetup() {
@@ -187,7 +190,13 @@ public class ProductMapperTest {
     @Test
     public void testAddNewProduct() {
         //act
-        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        Attribute attribute1 = new Attribute(1, "attributeTitle 1", new HashMap<Integer, String>());
+        Attribute attribute2 = new Attribute(2, "attributeTitle 2", new HashMap<Integer, String>());
+        Attribute attribute3 = new Attribute(3, "attributeTitle 3", new HashMap<Integer, String>());
+        categoryList.add(new Category(1, "Category 1", "First test category", new ArrayList(Arrays.asList(new Attribute[]{attribute1, attribute2}))));
+        categoryList.add(new Category(2, "Category 2", "Second test category", new ArrayList(Arrays.asList(new Attribute[]{attribute2, attribute3}))));
+        
+        Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors, categoryList);
 
         //assert
         int expResultID = 4;
@@ -208,7 +217,7 @@ public class ProductMapperTest {
         productName = null;
 
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors, categoryList);
     }
 
     /**
@@ -222,7 +231,7 @@ public class ProductMapperTest {
         productDescription = null;
         
         //act
-        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors);
+        productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors, categoryList);
     }
 
     /**

@@ -62,6 +62,11 @@ public class Product {
         for (Category productCategory : productCategories) {
             attributeSet.addAll(productCategory.getCategoryAttributes());
         }
+        for (Attribute attribute : attributeSet) {
+            if(attribute.getAttributeValueForID(productID) == null){
+                attribute.insertValueIntoAttribute("", productID);
+            }
+        }
         this.productAttributes = new ArrayList(attributeSet);
     }
 

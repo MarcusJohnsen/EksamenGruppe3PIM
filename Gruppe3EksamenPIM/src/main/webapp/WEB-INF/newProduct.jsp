@@ -4,6 +4,7 @@
     Author     : Andreas
 --%>
 
+<%@page import="businessLogic.Category"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="businessLogic.Distributor"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -85,6 +86,35 @@
 
             </table>
 
+            <br>
+            
+            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+                <thead>
+                    <tr bgcolor = "#FF4B4B">
+                        <td align="center">Category ID</td>
+                        <td align="center">Category Name</td>
+                        <td align="center">Category Description</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <%
+                        ArrayList<Category> categoryList = (ArrayList<Category>) request.getAttribute("categoryList");
+                        for (Category category : categoryList) {
+                            int CategoryID = category.getCategoryID();
+                            String CategoryName = category.getName();
+                            String CategoryDescription = category.getDescription();
+                    %>  
+                    <tr>
+                        <td align="center" width="5%"> <%=CategoryID%> </td>
+                        <td align="center" width="20%"> <%=CategoryName%> </td>
+                        <td align="center" width="30%"> <%=CategoryDescription%> </td>
+                        <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<%=CategoryID%>"></td>
+                    </tr>
+                </tbody>
+                <%}%>
+            </table>
+            
             <br>
             <p align="center">
                 <!--Save product:-->

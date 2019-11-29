@@ -127,9 +127,10 @@ import static org.junit.Assert.*;
         String productName = "Newest Product";
         String productDescription = "This is new newest product for testing";
         ArrayList<String> productDistributorStrings = new ArrayList(Arrays.asList(new String[]{"1"}));
+        ArrayList<String> productCategoryStrings = new ArrayList(Arrays.asList(new String[]{"1", "2"}));
         
         //act
-        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributorStrings);
+        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributorStrings, productCategoryStrings);
 
         //assert
         assertTrue(productName.equals(result.getName()));

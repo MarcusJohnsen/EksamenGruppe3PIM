@@ -16,7 +16,7 @@
             <h1 align="center">Upload picture</h1>
             <p align="center">
                 Select Picture:
-                <input type = "file" name = "file" size = "50" />
+                <input type = "file" name = "file" size = "50" accept=".jpg, .png, .gif"/>
                 <br>
                 <br>
                 Save:

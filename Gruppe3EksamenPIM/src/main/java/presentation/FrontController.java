@@ -50,6 +50,9 @@ public class FrontController extends HttpServlet {
 
 //        try {
             setup();
+            
+//            request.setAttribute("partList", request.getParts());
+            
             Command cmd = Command.from(request);
             String view = cmd.execute(request, response, businessFacade);
             if (view.equals("index")) {

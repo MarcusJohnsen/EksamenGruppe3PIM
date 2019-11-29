@@ -66,10 +66,11 @@ public class BusinessFacade {
         storageFacade.editCategory(category);
     }
 
-    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorStrings) {
+    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings, ArrayList<String> productCategoryIDStrings) {
         validateProductInput(productName, productDescription);
-        ArrayList<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorStrings);
-        Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors);
+        ArrayList<Category> productCategories = Category.getMatchingCategoriesOnIDs(productCategoryIDStrings);
+        ArrayList<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDStrings);
+        Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors, productCategories);
         Product.addToProductList(newProduct);
         return newProduct;
     }

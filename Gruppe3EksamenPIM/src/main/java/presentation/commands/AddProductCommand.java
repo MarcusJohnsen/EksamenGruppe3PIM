@@ -1,6 +1,7 @@
 package presentation.commands;
 
 import businessLogic.BusinessFacade;
+import businessLogic.Category;
 import businessLogic.Distributor;
 import businessLogic.Product;
 import java.util.ArrayList;
@@ -25,17 +26,29 @@ public class AddProductCommand extends Command {
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
 
-        ArrayList<String> distributorChoices;
+        // get parameters for choosen categories
+        ArrayList<String> categoryChoices;
+        if(request.getParameterValues("categoryChoices") != null){
+            categoryChoices = new ArrayList(Arrays.asList(request.getParameterValues("categoryChoices")));
+        } else {
+            categoryChoices = new ArrayList();
+        }
 
         try {
+            // get parameters for choosen distributors, and throw error if there is none
+            ArrayList<String> distributorChoices;
             if (request.getParameterValues("distributorChoices") != null) {
                 distributorChoices = new ArrayList(Arrays.asList(request.getParameterValues("distributorChoices")));
             } else {
                 throw new IllegalArgumentException("Need at least 1 distributor");
             }
-            Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributorChoices);
+            
+            Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributorChoices, categoryChoices);
             request.getSession().setAttribute("productID", newProduct.getProductID());
+            
         } catch (IllegalArgumentException ex) {
+            ArrayList<Category> categoryList = businessFacade.getCategoryList();
+            request.setAttribute("categoryList", categoryList);
             nextJsp = "newProduct";
             ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
             request.setAttribute("distributorList", distributorList);

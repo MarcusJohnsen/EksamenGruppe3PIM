@@ -1,5 +1,6 @@
 package persistence.mappers;
 
+import businessLogic.Attribute;
 import businessLogic.Category;
 import businessLogic.Distributor;
 import businessLogic.Product;
@@ -9,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
@@ -89,8 +92,7 @@ public class ProductMapper {
         }
     }
 
-    public Product addNewProduct(String productName, String productDescription, String productPicturePath, ArrayList<Distributor> productDistributors) {
-        int rowsAffected = 0;
+    public Product addNewProduct(String productName, String productDescription, String productPicturePath, ArrayList<Distributor> productDistributors, ArrayList<Category> productCategories) {
         try {
             database.setAutoCommit(false);
 
@@ -99,7 +101,7 @@ public class ProductMapper {
             psInsertNewProduct.setString(1, productName);
             psInsertNewProduct.setString(2, productDescription);
             psInsertNewProduct.setString(3, productPicturePath);
-            rowsAffected += psInsertNewProduct.executeUpdate();
+            psInsertNewProduct.executeUpdate();
 
             ResultSet rs = psInsertNewProduct.getGeneratedKeys();
             rs.next();
@@ -115,11 +117,47 @@ public class ProductMapper {
                 }
                 sqlInsertProductDistributors += "(" + productID + ", '" + distributor.getDistributorID() + "')";
             }
-            rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
+            database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
+            
+            if (!productCategories.isEmpty()) {
+                String sqlInsertProductCategories = "INSERT INTO Product_Categories (Product_ID, Category_ID) VALUES ";
+                firstline = true;
+                for (Category category : productCategories) {
+                    if (firstline) {
+                        firstline = false;
+                    } else {
+                        sqlInsertProductCategories += ", ";
+                    }
+                    sqlInsertProductCategories += "(" + productID + ", '" + category.getCategoryID() + "')";
+                }
+                database.getConnection().prepareStatement(sqlInsertProductCategories).executeUpdate();
+            }
+            
+            ArrayList<Attribute> productAttributes = Category.getCategoryAttributesFromList(productCategories);
+            
+            if (!productAttributes.isEmpty()) {
+                String sqlInsertProductAttributes = "INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES ";
+                firstline = true;
+                for (Attribute productAttribute : productAttributes) {
+                    if (firstline) {
+                        firstline = false;
+                    } else {
+                        sqlInsertProductAttributes += ", ";
+                    }
+                    String attributeValue = productAttribute.getAttributeValueForID(productID);
+                    if (attributeValue == null) {
+                        attributeValue = "";
+                    }
+                    sqlInsertProductAttributes += "(" + productID + ", " + productAttribute.getAttributeID() + ", '" + attributeValue + "')";
+
+                }
+                database.getConnection().prepareStatement(sqlInsertProductAttributes).executeUpdate();
+            }
+            
             database.getConnection().commit();
             database.setAutoCommit(true);
 
-            Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, null);
+            Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
             return product;
 
         } catch (SQLException ex) {
