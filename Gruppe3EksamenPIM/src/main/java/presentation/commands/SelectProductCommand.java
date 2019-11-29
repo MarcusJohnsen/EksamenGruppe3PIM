@@ -23,8 +23,6 @@ public class SelectProductCommand extends Command {
 
             if (commandType.equals("Edit Product")) {
                 nextJsp = "editProduct";
-                ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
-                request.setAttribute("distributorList", distributorList);
             } else if (commandType.equals("Delete Product")) {
                 nextJsp = "deleteProduct";
             } else if (commandType.equals("View all product details")) {

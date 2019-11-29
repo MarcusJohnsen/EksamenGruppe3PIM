@@ -93,7 +93,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Distributor> distributorList = (ArrayList<Distributor>) request.getAttribute("distributorList");
+                        ArrayList<Distributor> distributorList = product.getProductDistributors();
                         for (Distributor distributor : distributorList) {
                             int distributorID = distributor.getDistributorID();
                             String distributorName = distributor.getDistributorName();

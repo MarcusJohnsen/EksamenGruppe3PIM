@@ -31,7 +31,6 @@ public class EditCategoriesToProductCommand extends Command{
         }
         
         Product product = businessFacade.getProductFromID(Integer.parseInt(request.getParameter("productID")));
-        
         businessFacade.editCategoriesToProduct(product, categoryChoices);
         
         request.setAttribute("product", product);

@@ -62,8 +62,17 @@ public class Product {
         for (Category productCategory : productCategories) {
             attributeSet.addAll(productCategory.getCategoryAttributes());
         }
+
+        if (productAttributes != null) {
+            for (Attribute productAttribute : productAttributes) {
+                if (!attributeSet.contains(productAttribute)) {
+                    productAttribute.getAttributeValues().remove(productID);
+                }
+            }
+        }
+
         for (Attribute attribute : attributeSet) {
-            if(attribute.getAttributeValueForID(productID) == null){
+            if (attribute.getAttributeValueForID(productID) == null) {
                 attribute.insertValueIntoAttribute("", productID);
             }
         }
@@ -74,7 +83,7 @@ public class Product {
         HashMap<Product, Integer> result = new HashMap();
         if (productChoices != null) {
             for (Product product : productList) {
-                if (productChoices.get(product.getProductID()) != null){
+                if (productChoices.get(product.getProductID()) != null) {
                     result.put(product, productChoices.get(product.getProductID()));
                 }
             }
@@ -142,7 +151,7 @@ public class Product {
         }
         return result;
     }
-    
+
     /**
      * @param productListFromDB Gets the list of product objects from the DataBase and stores them in a list.
      */
@@ -179,8 +188,8 @@ public class Product {
         }
         return null;
     }
-    
-    public static ArrayList<Product> findProductsOnIDs(ArrayList<Integer> productIDs){
+
+    public static ArrayList<Product> findProductsOnIDs(ArrayList<Integer> productIDs) {
         ArrayList<Product> result = new ArrayList();
         for (Integer productID : productIDs) {
             result.add(findProductOnID(productID));
