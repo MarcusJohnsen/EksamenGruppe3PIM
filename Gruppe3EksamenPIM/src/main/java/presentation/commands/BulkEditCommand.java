@@ -28,8 +28,6 @@ public class BulkEditCommand extends Command {
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         Category category = businessFacade.getCategoryFromID(categoryID);
 
-        
-
         try {
             String[] productChoices = (String[]) request.getSession().getAttribute("productChoices");
             ArrayList<Integer> productIDs = new ArrayList();
@@ -42,8 +40,12 @@ public class BulkEditCommand extends Command {
             for (Attribute categoryAttribute : category.getCategoryAttributes()) {
                 int attributeValue = categoryAttribute.getAttributeID();
                 String newAttributeValue = request.getParameter("AttributeID" + attributeValue);
-                if (!newAttributeValue.toLowerCase().equals("*placeholder*")) {
-                    newAttributeValues.put(attributeValue, newAttributeValue);
+                if (!newAttributeValue.equals("")) {
+                    if (newAttributeValue.equals("DELETE") || newAttributeValue.equals("'DELETE'")) {
+                        newAttributeValues.put(attributeValue, "");
+                    } else {
+                        newAttributeValues.put(attributeValue, newAttributeValue);
+                    }
                 }
             }
 

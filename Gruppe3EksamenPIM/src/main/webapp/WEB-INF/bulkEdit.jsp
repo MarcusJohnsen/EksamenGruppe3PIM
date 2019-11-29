@@ -23,6 +23,19 @@
         <h1 align="center">Bulk edit for category "<%=categoryName%>"</h1>
         <br>
         <form action="FrontController">
+            
+            <%
+                String error = (String) request.getAttribute("error");
+                if (error != null) {
+            %>
+            <h2 align="center" style="color: red"><%=error%></h2>
+            <%}%>
+
+            <p align="center"><i>
+                    If an attribute value should be removed for all selected products, write the word 'DELETE' in the field. <br>
+                    If an attribute should not be changed for all selected products, leave the field empty.
+                </i></p>
+
             <table align="center" border="1" width = "20%" style="float: top">
                 <thead>
                     <tr>
@@ -40,7 +53,7 @@
                 %>
                 <tr>
                     <td align="left" width="20%"> <%=attributeTitle%> </td>
-                    <td align="center" width="30%"> <input type="text" style="width: 98%; text-align: center" name="AttributeID<%=attributeID%>" value="*Placeholder*" align="center"/> </td>
+                    <td align="center" width="30%"> <input type="text" style="width: 98%; text-align: center" name="AttributeID<%=attributeID%>" value="" align="center" placeholder="attribute value..."/> </td>
                 </tr>
                 </tbody>
                 <%}%>
