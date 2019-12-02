@@ -192,7 +192,8 @@ public class BusinessFacade {
     
     public Bundle createNewBundle(String bundleName, String bundleDescription, HashMap<Integer, Integer> productChoices) throws IllegalArgumentException {
         Bundle.validateBundleInput(bundleName, bundleDescription, null);
-        HashMap<Product, Integer> productListForBundle = Product.getMatchingProductsOnIDs(productChoices);
+        HashMap<Product, Integer> productListForBundle = 
+                Product.getMatchingProductsOnIDsWithProductAmountConnected(productChoices);
         Bundle newBundle = storageFacade.addNewBundle(bundleName, bundleDescription, productListForBundle);
         Bundle.addToBundleList(newBundle);
         return newBundle;
@@ -216,7 +217,7 @@ public class BusinessFacade {
     
     public void editBundle(int bundleID, String bundleName, String bundleDescription, HashMap<Integer, Integer> productChoices) throws IllegalArgumentException {
         Bundle.validateBundleInput(bundleName, bundleDescription, bundleID);
-        HashMap<Product, Integer> productListForBundle = Product.getMatchingProductsOnIDs(productChoices);
+        HashMap<Product, Integer> productListForBundle = Product.getMatchingProductsOnIDsWithProductAmountConnected(productChoices);
         Bundle bundle = findBundleOnID(bundleID);
         bundle.editBundle(bundleName, bundleDescription, productListForBundle);
         storageFacade.editBundle(bundle);
