@@ -29,7 +29,8 @@
         %>
         <h2  align="center" style="color: red"><%=error%></h2>
         <%}%>
-
+        
+        
         <form action="FrontController">
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
@@ -37,6 +38,9 @@
                         <td align="center">ID</td>
                         <td align="center">Name</td>
                         <td align="center">Description</td>
+                        <td><input type="button" value="Check" onclick="check()" style="width:68px;height: 17px; border: 1px solid #990033; background-color: #FF4B4B; cursor: pointer"/>
+                            <input type="button" value="Uncheck" onclick="unCheck()" style="width:68px; height: 17px; border: 1px solid #990033; background-color: #FF4B4B; cursor: pointer"/></td>
+                        
                     </tr>
                 </thead>
 
@@ -67,5 +71,25 @@
             <input type="hidden" name="goToJsp" value="index" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        <script>
+            function check() {
+                var boxes = document.getElementsByName("productChoice");
+                for (var i = 0; i < boxes.length; i++) {
+                    if (boxes[i].type === "checkbox") {
+                        boxes[i].checked = true;
+                    }
+                }
+            }
+
+            function unCheck() {
+                var boxes = document.getElementsByName("productChoice");
+                for (var i = 0; i < boxes.length; i++) {
+                    if (boxes[i].type === "checkbox") {
+                        boxes[i].checked = false;
+                    }
+                }
+            }
+        </script>
+
     </body>
 </html>
