@@ -4,6 +4,7 @@
     Author     : Marcus
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="businessLogic.Distributor"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,20 +14,16 @@
         <title>Delete Distributor</title>
     </head>
     <body>
-        <%
-            Distributor distributor = (Distributor) request.getAttribute("distributor");
-            String distributorName = distributor.getDistributorName();
-            int distributorID = distributor.getDistributorID();
-        %>
+    <c:set var="distributor" value='${requestScope["distributor"]}'/>
     <center>
         <h1>Confirm Deletion</h1>
         <br>
         <h2>Please confirm deletion of this category:</h2><br>
-        <h3>Category ID: <i><%=distributorID%></i></h3><br>
-        <h3>Category Name: <i><%=distributorName%></i></h3>
+        <h3>Category ID: <i><c:out value="${distributor.getDistributorID()}"/></i></h3><br>
+        <h3>Category Name: <i><c:out value="${distributor.getDistributorName()}"/></i></h3>
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="deleteDistributor" />
-            <input type="hidden" name="distributorID" value="<%=distributorID%>" />
+            <input type="hidden" name="distributorID" value="<c:out value="${distributor.getDistributorID()}"/>" />
             <input type="submit" value="DELETE" style="background-color: red"/>
         </form>
         <form action="FrontController" method="POST">
