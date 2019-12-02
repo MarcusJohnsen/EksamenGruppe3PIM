@@ -8,10 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
@@ -28,26 +26,19 @@ public class ProductMapper {
         this.database = database;
     }
 
-    /**
-     *
-     *
-     * @param categoryList ArrayList of category objects
-     * @param distributorList ArrayList of distributor objects
-     *
-     * @return
-     */
-    public ArrayList<Product> getProducts(ArrayList<Category> categoryList, ArrayList<Distributor> distributorList) {
+    
+    public TreeSet<Product> getProducts(TreeSet<Category> categoryList, TreeSet<Distributor> distributorList) {
         try {
-            ArrayList<Product> productList = new ArrayList();
-            HashMap<Integer, ArrayList<Category>> productCategoriesMap = new HashMap();
-            HashMap<Integer, ArrayList<Distributor>> productDistributorsMap = new HashMap();
+            TreeSet<Product> productList = new TreeSet();
+            HashMap<Integer, TreeSet<Category>> productCategoriesMap = new HashMap();
+            HashMap<Integer, TreeSet<Distributor>> productDistributorsMap = new HashMap();
 
             String SQL = "SELECT * FROM Product_Distributor";
             ResultSet rs = database.getConnection().prepareStatement(SQL).executeQuery();
             while (rs.next()) {
                 int productID = rs.getInt("Product_ID");
                 if (productDistributorsMap.get(productID) == null) {
-                    productDistributorsMap.put(productID, new ArrayList());
+                    productDistributorsMap.put(productID, new TreeSet());
                 }
                 int distributorID = rs.getInt("Distributor_ID");
                 for (Distributor distributor : distributorList) {
@@ -62,7 +53,7 @@ public class ProductMapper {
             while (rs.next()) {
                 int productID = rs.getInt("Product_ID");
                 if (productCategoriesMap.get(productID) == null) {
-                    productCategoriesMap.put(productID, new ArrayList());
+                    productCategoriesMap.put(productID, new TreeSet());
                 }
                 int categoryID = rs.getInt("Category_ID");
                 for (Category category : categoryList) {
@@ -79,8 +70,8 @@ public class ProductMapper {
                 String name = rs.getString("Product_Name");
                 String description = rs.getString("Product_Description");
                 String picturePath = rs.getString("picturePath");
-                ArrayList<Distributor> productDistributors = productDistributorsMap.get(product_ID);
-                ArrayList<Category> productCategories = productCategoriesMap.get(product_ID);
+                TreeSet<Distributor> productDistributors = productDistributorsMap.get(product_ID);
+                TreeSet<Category> productCategories = productCategoriesMap.get(product_ID);
                 Product product = new Product(product_ID, name, description, picturePath, productDistributors, productCategories);
                 productList.add(product);
             }
@@ -92,7 +83,7 @@ public class ProductMapper {
         }
     }
 
-    public Product addNewProduct(String productName, String productDescription, String productPicturePath, ArrayList<Distributor> productDistributors, ArrayList<Category> productCategories) {
+    public Product addNewProduct(String productName, String productDescription, String productPicturePath, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
         try {
             database.setAutoCommit(false);
 
@@ -133,7 +124,7 @@ public class ProductMapper {
                 database.getConnection().prepareStatement(sqlInsertProductCategories).executeUpdate();
             }
             
-            ArrayList<Attribute> productAttributes = Category.getCategoryAttributesFromList(productCategories);
+            TreeSet<Attribute> productAttributes = Category.getCategoryAttributesFromList(productCategories);
             
             if (!productAttributes.isEmpty()) {
                 String sqlInsertProductAttributes = "INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES ";

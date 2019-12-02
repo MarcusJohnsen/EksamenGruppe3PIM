@@ -1,39 +1,37 @@
 package businessLogic;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import org.w3c.dom.Attr;
+import java.util.TreeSet;
 
 /**
  *
  * @author Marcus
  */
-public class Category {
+public class Category implements Comparable<Category> {
 
     private int categoryID;
     private String name;
     private String description;
-    private ArrayList<Attribute> categoryAttributes;
+    private TreeSet<Attribute> categoryAttributes;
 
-    private static ArrayList<Category> categoryList = new ArrayList();
+    private static TreeSet<Category> categoryList = new TreeSet();
 
-    public Category(int categoryID, String name, String description, ArrayList<Attribute> categoryAttributes) {
+    public Category(int categoryID, String name, String description, TreeSet<Attribute> categoryAttributes) {
         this.categoryID = categoryID;
         this.name = name;
         this.description = description;
         if (categoryAttributes != null) {
             this.categoryAttributes = categoryAttributes;
         } else {
-            this.categoryAttributes = new ArrayList();
+            this.categoryAttributes = new TreeSet();
         }
     }
 
     /**
      *
-     * @param CategoryListFromDB Gets the list of Category-objects from the DataBase and stores them in an ArrayList.
+     * @param CategoryListFromDB Gets the list of Category-objects from the DataBase and stores them in an TreeSet.
      */
-    public static void setupCategoryListFromDB(ArrayList<Category> CategoryListFromDB) {
+    public static void setupCategoryListFromDB(TreeSet<Category> CategoryListFromDB) {
         categoryList = CategoryListFromDB;
     }
 
@@ -59,21 +57,16 @@ public class Category {
         return null;
     }
 
-    public static ArrayList<Attribute> getCategoryAttributesFromList(ArrayList<Category> categoryList) {
-        Set<Attribute> resultSet = new HashSet();
+    public static TreeSet<Attribute> getCategoryAttributesFromList(TreeSet<Category> categoryList) {
+        TreeSet<Attribute> result = new TreeSet();
         for (Category category : categoryList) {
-            resultSet.addAll(getCategoryAttributes(category));
+            result.addAll(getCategoryAttributes(category));
         }
-        ArrayList<Attribute> result = new ArrayList(resultSet);
         return result;
     }
 
-    public static ArrayList<Attribute> getCategoryAttributes(Category category) {
-        ArrayList<Attribute> result = new ArrayList();
-        for (Attribute categoryAttribute : category.categoryAttributes) {
-            result.add(categoryAttribute);
-        }
-        return result;
+    public static TreeSet<Attribute> getCategoryAttributes(Category category) {
+        return category.categoryAttributes;
     }
 
     /**
@@ -130,8 +123,8 @@ public class Category {
      * @param categoryChoices Traverses the categoryList in search of matching categoryID's. If matching occur, the category object is added to the result-List.
      * @return The result-List
      */
-    public static ArrayList<Category> getMatchingCategoriesOnIDs(ArrayList<String> categoryChoices) {
-        ArrayList<Category> result = new ArrayList();
+    public static TreeSet<Category> getMatchingCategoriesOnIDs(ArrayList<String> categoryChoices) {
+        TreeSet<Category> result = new TreeSet();
         for (Category category : categoryList) {
             if (categoryChoices.contains(Integer.toString(category.getCategoryID()))) {
                 result.add(category);
@@ -168,7 +161,7 @@ public class Category {
      *
      * @return The categoryList
      */
-    public static ArrayList<Category> getCategoryList() {
+    public static TreeSet<Category> getCategoryList() {
         return categoryList;
     }
 
@@ -176,7 +169,7 @@ public class Category {
      *
      * @return The categoryAttributes
      */
-    public ArrayList<Attribute> getCategoryAttributes() {
+    public TreeSet<Attribute> getCategoryAttributes() {
         return categoryAttributes;
     }
 
@@ -184,7 +177,16 @@ public class Category {
      *
      * @param categoryAttributes Sets the categoryAttributes
      */
-    public void setCategoryAttributes(ArrayList<Attribute> categoryAttributes) {
+    public void setCategoryAttributes(TreeSet<Attribute> categoryAttributes) {
         this.categoryAttributes = categoryAttributes;
+    }
+
+    @Override
+    public int compareTo(Category otherCategory) {
+
+        int thisID = this.categoryID;
+        int otherID = otherCategory.categoryID;
+        return thisID - otherID;
+
     }
 }

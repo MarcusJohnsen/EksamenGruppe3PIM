@@ -3,6 +3,7 @@ package businessLogic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeSet;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -115,7 +116,7 @@ public class AttributeTest {
         ArrayList<String> searchAttributeIDs = new ArrayList(Arrays.asList(new String[]{Integer.toString(attributeID1), Integer.toString(attributeID2)}));
         
         //act
-        ArrayList<Attribute> result = Attribute.getMatchingAttributesOnStringIDs(searchAttributeIDs);
+        TreeSet<Attribute> result = Attribute.getMatchingAttributesOnStringIDs(searchAttributeIDs);
         
         assertTrue(result.contains(attribute1));
         assertTrue(result.contains(attribute2));

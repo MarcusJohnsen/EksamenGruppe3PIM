@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -180,7 +181,7 @@ public class AttributeMapperTest {
         int categoryID = 3;
         String categoryName = "New Category";
         String categoryDescription = "New Description";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         categoryAttributes.add(attribute);
         Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
 
@@ -188,8 +189,8 @@ public class AttributeMapperTest {
         String productName = "New Product";
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
-        ArrayList<Distributor> productDistributors = new ArrayList();
-        ArrayList<Category> productCategories = new ArrayList();
+        TreeSet<Distributor> productDistributors = new TreeSet();
+        TreeSet<Category> productCategories = new TreeSet();
         productCategories.add(category);
         Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
 
@@ -213,8 +214,8 @@ public class AttributeMapperTest {
         String productName = "New Product";
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
-        ArrayList<Distributor> productDistributors = new ArrayList();
-        ArrayList<Category> productCategories = new ArrayList();
+        TreeSet<Distributor> productDistributors = new TreeSet();
+        TreeSet<Category> productCategories = new TreeSet();
         Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
 
         Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);

@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -35,9 +36,9 @@ public class ProductMapperTest {
     private String productPicturePath = "newProduct.img";
     
     private Distributor distributor = new Distributor(1, "Company", "Test company");
-    private final ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new Distributor[]{distributor}));
+    private final TreeSet<Distributor> productDistributors = new TreeSet(Arrays.asList(new Distributor[]{distributor}));
     
-    private final ArrayList<Category> categoryList = new ArrayList();
+    private final TreeSet<Category> categoryList = new TreeSet();
         
     @BeforeClass
     public static void oneTimeSetup() {
@@ -161,7 +162,7 @@ public class ProductMapperTest {
     @Test
     public void testGetProducts() {
         //act
-        ArrayList<Product> result = productMapper.getProducts(categoryList, productDistributors);
+        TreeSet<Product> result = productMapper.getProducts(categoryList, productDistributors);
 
         //assert
         assertEquals(numberOfProductsInDB, result.size());
@@ -193,8 +194,8 @@ public class ProductMapperTest {
         Attribute attribute1 = new Attribute(1, "attributeTitle 1", new HashMap<Integer, String>());
         Attribute attribute2 = new Attribute(2, "attributeTitle 2", new HashMap<Integer, String>());
         Attribute attribute3 = new Attribute(3, "attributeTitle 3", new HashMap<Integer, String>());
-        categoryList.add(new Category(1, "Category 1", "First test category", new ArrayList(Arrays.asList(new Attribute[]{attribute1, attribute2}))));
-        categoryList.add(new Category(2, "Category 2", "Second test category", new ArrayList(Arrays.asList(new Attribute[]{attribute2, attribute3}))));
+        categoryList.add(new Category(1, "Category 1", "First test category", new TreeSet(Arrays.asList(new Attribute[]{attribute1, attribute2}))));
+        categoryList.add(new Category(2, "Category 2", "Second test category", new TreeSet(Arrays.asList(new Attribute[]{attribute2, attribute3}))));
         
         Product result = productMapper.addNewProduct(productName, productDescription, productPicturePath, productDistributors, categoryList);
 
@@ -303,28 +304,38 @@ public class ProductMapperTest {
     @Test
     public void testEditProductCategories() {
         //arrange
-        ArrayList<Distributor> distributors = new ArrayList(Arrays.asList(new String[]{}));
+        TreeSet<Distributor> distributors = new TreeSet(Arrays.asList(new String[]{}));
         int[] categoryID = new int[]{1, 2};
-        Category category1 = new Category(categoryID[0], "Tests", "These are tests", new ArrayList<Attribute>());
-        Category category2 = new Category(categoryID[1], "Tests", "These are tests", new ArrayList<Attribute>());
+        Category category1 = new Category(categoryID[0], "Tests", "These are tests", new TreeSet<Attribute>());
+        Category category2 = new Category(categoryID[1], "Tests", "These are tests", new TreeSet<Attribute>());
         categoryList.add(category1);
         categoryList.add(category2);
-        Product product = new Product(1, "Test Product", "This product is for testing", "test.jpg", distributors, categoryList);
+        int productID = 1;
+        Product product = new Product(productID, "Test Product", "This product is for testing", "test.jpg", distributors, categoryList);
         AttributeMapper attributeMapper = new AttributeMapper(database);
         CategoryMapper categoryMapper = new CategoryMapper(database);
         DistributorMapper distributorMapper = new DistributorMapper(database);
 
         //act
         productMapper.editProductCategories(product);
+        TreeSet<Attribute> attributeListFromDB = attributeMapper.getAttributes();
+        TreeSet<Category> categoryListFromDB = categoryMapper.getCategories(attributeListFromDB);
+        TreeSet<Distributor> distributorListFromDB = distributorMapper.getDistributors();
+        TreeSet<Product> resultList = productMapper.getProducts(categoryListFromDB, distributorListFromDB);
+        Product result = null;
+        for (Product resultProduct : resultList) {
+            if(resultProduct.getProductID() == productID){
+                result = resultProduct;
+                break;
+            }
+        }
+        if(result == null){
+            fail("Did not find the product that was editted in the resultList");
+        }
 
         //assert
-        ArrayList<Attribute> attributeListFromDB = attributeMapper.getAttributes();
-        ArrayList<Category> categoryListFromDB = categoryMapper.getCategories(attributeListFromDB);
-        ArrayList<Distributor> distributorListFromDB = distributorMapper.getDistributors();
-        ArrayList<Product> productListFromDB = productMapper.getProducts(categoryListFromDB, distributorListFromDB);
-        Product productFromDB = productListFromDB.get(0);
-        assertEquals(categoryList.size(), productFromDB.getProductCategories().size());
-        assertEquals(category1.getCategoryID(), productFromDB.getProductCategories().get(0).getCategoryID());
-        assertEquals(category2.getCategoryID(), productFromDB.getProductCategories().get(1).getCategoryID());
+        assertEquals(categoryList.size(), result.getProductCategories().size());
+        assertTrue(result.getProductCategories().contains(category1));
+        assertTrue(result.getProductCategories().contains(category2));
     }
 }

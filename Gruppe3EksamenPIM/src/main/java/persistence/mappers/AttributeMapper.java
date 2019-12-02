@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
@@ -45,7 +46,7 @@ public class AttributeMapper {
         }
     }
 
-    public ArrayList<Attribute> getAttributes() {
+    public TreeSet<Attribute> getAttributes() {
         try {
             String SQL = "SELECT * FROM product_attributes";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
@@ -64,7 +65,7 @@ public class AttributeMapper {
                 }
             }
 
-            ArrayList<Attribute> attributeList = new ArrayList();
+            TreeSet<Attribute> attributeList = new TreeSet();
             SQL = "SELECT * FROM Attributes";
             ps = database.getConnection().prepareStatement(SQL);
 

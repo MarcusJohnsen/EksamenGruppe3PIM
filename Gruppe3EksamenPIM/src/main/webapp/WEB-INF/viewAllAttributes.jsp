@@ -4,8 +4,8 @@
     Author     : Ashayla
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Attribute"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Attribute> attributeList = (ArrayList<Attribute>) request.getAttribute("attributeList");
+                        TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
                         for (Attribute attribute : attributeList) {
                             int AttributeID = attribute.getAttributeID();
                             String AttributeName = attribute.getAttributeName();

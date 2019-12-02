@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.TreeSet;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -114,7 +115,7 @@ public class DistributorMapperTest {
     @Test
     public void testGetDistributors() {
         //act
-        ArrayList<Distributor> result = distributorMapper.getDistributors();
+        TreeSet<Distributor> result = distributorMapper.getDistributors();
         
         //assert
         assertEquals(AmountOfDistributorsInDB, result.size());

@@ -4,8 +4,8 @@
     Author     : Andreas
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Category"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Category> categoryList = (ArrayList<Category>) request.getAttribute("categoryList");
+                        TreeSet<Category> categoryList = (TreeSet<Category>) request.getAttribute("categoryList");
                         for (Category category : categoryList) {
                             int CategoryID = category.getCategoryID();
                             String CategoryName = category.getName();

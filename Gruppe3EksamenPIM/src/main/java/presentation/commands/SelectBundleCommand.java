@@ -8,7 +8,7 @@ package presentation.commands;
 import businessLogic.Bundle;
 import businessLogic.BusinessFacade;
 import businessLogic.Product;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -31,7 +31,7 @@ public class SelectBundleCommand extends Command {
             Bundle bundle = businessFacade.getBundleFromID(bundleChoice);
 
             if (commandType.equals("Edit Bundle")) {
-                ArrayList<Product> productList = businessFacade.getProductList();
+                TreeSet<Product> productList = businessFacade.getProductList();
                 request.setAttribute("productList", productList);
                 nextJsp = "editBundle";
             } else if (commandType.equals("Delete Bundle")) {
@@ -41,7 +41,7 @@ public class SelectBundleCommand extends Command {
             request.setAttribute("bundle", bundle);
 
         } else {
-            ArrayList<Bundle> bundleList = businessFacade.getBundleList();
+            TreeSet<Bundle> bundleList = businessFacade.getBundleList();
             request.setAttribute("bundleList", bundleList);
             nextJsp = "viewAllBundles";
 

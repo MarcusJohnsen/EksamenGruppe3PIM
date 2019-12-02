@@ -4,10 +4,10 @@
     Author     : Andreas
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Distributor"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="businessLogic.Attribute"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="businessLogic.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -56,7 +56,7 @@
                 </thead>
                 <br>
                 <%
-                    ArrayList<Attribute> attributeList = (ArrayList<Attribute>) product.getProductAttributes();
+                    TreeSet<Attribute> attributeList = product.getProductAttributes();
                     for (Attribute attribute : attributeList) {
                         int attributeID = attribute.getAttributeID();
                         String value = attribute.getAttributeValueForID(productID);
@@ -93,7 +93,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Distributor> distributorList = product.getProductDistributors();
+                        TreeSet<Distributor> distributorList = product.getProductDistributors();
                         for (Distributor distributor : distributorList) {
                             int distributorID = distributor.getDistributorID();
                             String distributorName = distributor.getDistributorName();

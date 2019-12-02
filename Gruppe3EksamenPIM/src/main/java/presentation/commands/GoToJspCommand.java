@@ -6,7 +6,7 @@ import businessLogic.BusinessFacade;
 import businessLogic.Category;
 import businessLogic.Distributor;
 import businessLogic.Product;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -21,11 +21,11 @@ public class GoToJspCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
         String jspPage = request.getParameter("goToJsp");
 
-        ArrayList<Product> productList;
-        ArrayList<Attribute> attributeList;
-        ArrayList<Category> categoryList;
-        ArrayList<Distributor> distributorList;
-        ArrayList<Bundle> bundleList;
+        TreeSet<Product> productList;
+        TreeSet<Attribute> attributeList;
+        TreeSet<Category> categoryList;
+        TreeSet<Distributor> distributorList;
+        TreeSet<Bundle> bundleList;
 
         switch (jspPage) {
             case "viewAllProducts":

@@ -6,7 +6,7 @@ import businessLogic.Distributor;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -47,10 +47,10 @@ public class AddProductCommand extends Command {
             request.getSession().setAttribute("productID", newProduct.getProductID());
             
         } catch (IllegalArgumentException ex) {
-            ArrayList<Category> categoryList = businessFacade.getCategoryList();
+            TreeSet<Category> categoryList = businessFacade.getCategoryList();
             request.setAttribute("categoryList", categoryList);
             nextJsp = "newProduct";
-            ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
+            TreeSet<Distributor> distributorList = businessFacade.getDistributorList();
             request.setAttribute("distributorList", distributorList);
             request.setAttribute("error", ex.getMessage());
         }

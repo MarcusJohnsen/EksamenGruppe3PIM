@@ -4,12 +4,12 @@
     Author     : Marcus
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Bundle"%>
 <%@page import="businessLogic.Distributor"%>
 <%@page import="businessLogic.Category"%>
 <%@page import="businessLogic.Attribute"%>
 <%@page import="businessLogic.Product"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -53,7 +53,7 @@
 
             <p align="center"> This product is part of the following categories: </p>
             <%
-                ArrayList<Category> categoryList = (ArrayList<Category>) product.getProductCategories();
+                TreeSet<Category> categoryList = product.getProductCategories();
                 for (Category category : categoryList) {
                     String categoryName = category.getName();
                     String categoryDescription = category.getDescription();
@@ -74,7 +74,7 @@
             </thead>
             <p align="center"> This product has the following attributes: </p>
             <%
-                ArrayList<Attribute> attributeList = (ArrayList<Attribute>) product.getProductAttributes();
+                TreeSet<Attribute> attributeList = product.getProductAttributes();
                 for (Attribute attribute : attributeList) {
                     String attributeName = attribute.getAttributeName();
                     String attributeValue = attribute.getAttributeValueForID(productID);
@@ -95,7 +95,7 @@
             </thead>
             <p align="center"> This product has the following distributors: </p>
             <%
-                ArrayList<Distributor> distributorList = (ArrayList<Distributor>) product.getProductDistributors();
+                TreeSet<Distributor> distributorList = product.getProductDistributors();
                 for (Distributor distributor : distributorList) {
                     String distributorName = distributor.getDistributorName();
                     String distributorDescription = distributor.getDistributorDescription();

@@ -2,7 +2,7 @@ package presentation.commands;
 
 import businessLogic.Attribute;
 import businessLogic.BusinessFacade;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -29,7 +29,7 @@ public class SelectAttributeCommand extends Command {
             request.setAttribute("attribute", attribute);
 
         } else {
-            ArrayList<Attribute> attributeList = businessFacade.getAttributeList();
+            TreeSet<Attribute> attributeList = businessFacade.getAttributeList();
             request.setAttribute("attributeList", attributeList);
             nextJsp = "viewAllAttributes";
 

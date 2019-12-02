@@ -4,8 +4,8 @@
     Author     : Michael N. Korsgaard
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Category"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="businessLogic.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
     <body>
         <%
             Product product = (Product) request.getAttribute("product");
-            ArrayList<Category> categoryList = (ArrayList<Category>) request.getAttribute("categoryList");
+            TreeSet<Category> categoryList = (TreeSet<Category>) request.getAttribute("categoryList");
             int productID = product.getProductID();
             
         %>

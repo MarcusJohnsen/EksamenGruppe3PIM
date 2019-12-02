@@ -10,6 +10,7 @@ import businessLogic.BusinessFacade;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -55,7 +56,7 @@ public class EditBundleCommand extends Command {
             nextJsp = "editBundle";
             request.setAttribute("error", ex.getMessage());
 
-            ArrayList<Product> productList = businessFacade.getProductList();
+            TreeSet<Product> productList = businessFacade.getProductList();
             request.setAttribute("productList", productList);
 
             Bundle bundle = businessFacade.getBundleFromID(bundleID);

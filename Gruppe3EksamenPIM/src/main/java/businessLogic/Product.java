@@ -3,27 +3,26 @@ package businessLogic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
  * @author Michael N. Korsgaard
  */
-public class Product {
+public class Product implements Comparable<Product> {
 
     private int productID;
     private String name;
     private String description;
     private String picturePath;
-    private ArrayList<Distributor> productDistributors;
-    private ArrayList<Category> productCategories;
-    private ArrayList<Attribute> productAttributes;
-    private ArrayList<Bundle> productBundle;
+    private TreeSet<Distributor> productDistributors;
+    private TreeSet<Category> productCategories;
+    private TreeSet<Attribute> productAttributes;
+    private TreeSet<Bundle> productBundle;
 
-    private static ArrayList<Product> productList = new ArrayList();
+    private static TreeSet<Product> productList = new TreeSet();
 
-    public Product(int productID, String name, String description, String picturePath, ArrayList<Distributor> productDistributors, ArrayList<Category> productCategories) {
+    public Product(int productID, String name, String description, String picturePath, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
         this.productID = productID;
         this.name = name;
         this.description = description;
@@ -33,8 +32,8 @@ public class Product {
             this.productCategories = productCategories;
             createAttributesFromCategories();
         } else {
-            this.productAttributes = new ArrayList();
-            this.productCategories = new ArrayList();
+            this.productAttributes = new TreeSet();
+            this.productCategories = new TreeSet();
         }
     }
 
@@ -58,7 +57,7 @@ public class Product {
      * Traverses the productCategories-List and adds all the unique categoryAttributes to new HashSet.
      */
     private void createAttributesFromCategories() {
-        Set<Attribute> attributeSet = new HashSet();
+        TreeSet<Attribute> attributeSet = new TreeSet();
         for (Category productCategory : productCategories) {
             attributeSet.addAll(productCategory.getCategoryAttributes());
         }
@@ -76,7 +75,7 @@ public class Product {
                 attribute.insertValueIntoAttribute("", productID);
             }
         }
-        this.productAttributes = new ArrayList(attributeSet);
+        this.productAttributes = attributeSet;
     }
 
     public static HashMap<Product, Integer> getMatchingProductsOnIDs(HashMap<Integer, Integer> productChoices) {
@@ -96,7 +95,7 @@ public class Product {
      * @param products Traverses the products-List and calls the createAttributesFromCategories() method in order to add the productAttributes to the product object.
      *
      */
-    public static void createAttributesFromCategories(ArrayList<Product> products) {
+    public static void createAttributesFromCategories(TreeSet<Product> products) {
         for (Product product : products) {
             product.createAttributesFromCategories();
         }
@@ -107,8 +106,8 @@ public class Product {
      * @param categoryID The returned product object from the called method findProductsOnCategoryID(categoryID) is used to call the method createAttributesFromCategories() in order to add/update the productAttributes to the product object.
      * @return the updated product object.
      */
-    public static ArrayList<Product> updateCategoryAttributes(int categoryID) {
-        ArrayList<Product> result = findProductsOnCategoryID(categoryID);
+    public static TreeSet<Product> updateCategoryAttributes(int categoryID) {
+        TreeSet<Product> result = findProductsOnCategoryID(categoryID);
         for (Product productsNeedingUpdatedAttribute : result) {
             productsNeedingUpdatedAttribute.createAttributesFromCategories();
         }
@@ -120,8 +119,8 @@ public class Product {
      * @param categoryID Traverses the productList with given categoryID parameter. If the parameter categoryId matches the categoryId for the product, the product is added to the result-List.
      * @return The result-List
      */
-    public static ArrayList<Product> findProductsOnCategoryID(int categoryID) {
-        ArrayList<Product> result = new ArrayList();
+    public static TreeSet<Product> findProductsOnCategoryID(int categoryID) {
+        TreeSet<Product> result = new TreeSet();
         for (Product product : productList) {
             for (Category productCategory : product.getProductCategories()) {
                 if (productCategory.getCategoryID() == categoryID) {
@@ -139,8 +138,8 @@ public class Product {
         }
     }
 
-    public static ArrayList<Product> findProductsOnBundleID(int bundleID) {
-        ArrayList<Product> result = new ArrayList();
+    public static TreeSet<Product> findProductsOnBundleID(int bundleID) {
+        TreeSet<Product> result = new TreeSet();
         for (Product product : productList) {
             for (Bundle productBundle : product.getProductBundle()) {
                 if (productBundle.getBundleID() == bundleID) {
@@ -155,7 +154,7 @@ public class Product {
     /**
      * @param productListFromDB Gets the list of product objects from the DataBase and stores them in a list.
      */
-    public static void setupProductListFromDB(ArrayList<Product> productListFromDB) {
+    public static void setupProductListFromDB(TreeSet<Product> productListFromDB) {
         productList = productListFromDB;
     }
 
@@ -189,8 +188,8 @@ public class Product {
         return null;
     }
 
-    public static ArrayList<Product> findProductsOnIDs(ArrayList<Integer> productIDs) {
-        ArrayList<Product> result = new ArrayList();
+    public static TreeSet<Product> findProductsOnIDs(ArrayList<Integer> productIDs) {
+        TreeSet<Product> result = new TreeSet();
         for (Integer productID : productIDs) {
             result.add(findProductOnID(productID));
         }
@@ -203,7 +202,7 @@ public class Product {
      * @param name Is edited.
      * @param description Is edited.
      */
-    public void editProduct(String name, String description, ArrayList<Distributor> productDistributors) {
+    public void editProduct(String name, String description, TreeSet<Distributor> productDistributors) {
         this.name = name;
         this.description = description;
         this.productDistributors = productDistributors;
@@ -245,12 +244,12 @@ public class Product {
     /**
      * @param productCategories Calls the createAttributesFromCategories() method in order to edit the productCategories.
      */
-    public void editProductCategories(ArrayList<Category> productCategories) {
+    public void editProductCategories(TreeSet<Category> productCategories) {
         this.productCategories = productCategories;
         createAttributesFromCategories();
     }
 
-    public void editProductDistributors(ArrayList<Distributor> productDistributors) {
+    public void editProductDistributors(TreeSet<Distributor> productDistributors) {
         this.productDistributors = productDistributors;
     }
 
@@ -270,7 +269,7 @@ public class Product {
         return picturePath;
     }
 
-    public static ArrayList<Product> getProductList() {
+    public static TreeSet<Product> getProductList() {
         return productList;
     }
 
@@ -278,19 +277,28 @@ public class Product {
         this.picturePath = picturePath;
     }
 
-    public ArrayList<Category> getProductCategories() {
+    public TreeSet<Category> getProductCategories() {
         return productCategories;
     }
 
-    public ArrayList<Attribute> getProductAttributes() {
+    public TreeSet<Attribute> getProductAttributes() {
         return productAttributes;
     }
 
-    public ArrayList<Distributor> getProductDistributors() {
+    public TreeSet<Distributor> getProductDistributors() {
         return productDistributors;
     }
 
-    public ArrayList<Bundle> getProductBundle() {
+    public TreeSet<Bundle> getProductBundle() {
         return productBundle;
+    }
+
+    @Override
+    public int compareTo(Product otherProduct) {
+
+        int thisID = this.productID;
+        int otherID = otherProduct.productID;
+        return thisID - otherID;
+
     }
 }

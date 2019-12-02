@@ -4,8 +4,8 @@
     Author     : Marcus
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Distributor"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Distributor> distributorList = (ArrayList<Distributor>) request.getAttribute("distributorList");
+                        TreeSet<Distributor> distributorList = (TreeSet<Distributor>) request.getAttribute("distributorList");
                         for (Distributor distributor : distributorList) {
                             int DistributorID = distributor.getDistributorID();
                             String DistributorName = distributor.getDistributorName();

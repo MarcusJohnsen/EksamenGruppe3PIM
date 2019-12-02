@@ -8,8 +8,8 @@ package presentation.commands;
 import businessLogic.BusinessFacade;
 import businessLogic.Product;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -52,7 +52,7 @@ public class AddBundleCommand extends Command {
 
         } catch (IllegalArgumentException ex) {
             nextJsp = "newBundle";
-            ArrayList<Product> productList = businessFacade.getProductList();
+            TreeSet<Product> productList = businessFacade.getProductList();
             request.setAttribute("productList", productList);
             request.setAttribute("error", ex.getMessage());
         }

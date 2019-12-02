@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -24,7 +25,7 @@ public class CategoryMapperTest {
     private final static DB database = new DB(SystemMode.TEST);
     private final CategoryMapper categoryMapper = new CategoryMapper(database);
     private final int numberOfCategoriesInDB = 3;
-    private final ArrayList<Attribute> attributeList = new ArrayList();
+    private final TreeSet<Attribute> attributeList = new TreeSet();
 
     //setting up common variables so I won't have to write them for every single test
     private int categoryID = 1;
@@ -224,7 +225,7 @@ public class CategoryMapperTest {
     @Test
     public void testGetCategories() {
         //act
-        ArrayList<Category> result = categoryMapper.getCategories(attributeList);
+        TreeSet<Category> result = categoryMapper.getCategories(attributeList);
 
         //assert
         assertEquals(numberOfCategoriesInDB, result.size());
@@ -244,7 +245,7 @@ public class CategoryMapperTest {
             fail("Could not make the structural change to the DB-table Categories");
         }
         //act
-        ArrayList<Category> result = categoryMapper.getCategories(attributeList);
+        TreeSet<Category> result = categoryMapper.getCategories(attributeList);
 
     }
 
@@ -296,7 +297,7 @@ public class CategoryMapperTest {
     @Test
     public void testEditCategory() {
         //arrange
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
 
         //act
@@ -315,10 +316,16 @@ public class CategoryMapperTest {
 
         //act
         categoryMapper.editAttributeToCategories(category);
-        ArrayList<Category> result = categoryMapper.getCategories(attributeList);
+        TreeSet<Category> result = categoryMapper.getCategories(attributeList);
 
         //assert
-        assertTrue(category.getCategoryAttributes().containsAll(result.get(0).getCategoryAttributes()));
+        for (Category resultCategory : result) {
+            if(resultCategory.getCategoryID() == categoryID){
+                assertTrue(category.getCategoryAttributes().containsAll(resultCategory.getCategoryAttributes()));
+                assertTrue(resultCategory.getCategoryAttributes().containsAll(category.getCategoryAttributes()));
+                break;
+            }
+        }
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -338,7 +345,7 @@ public class CategoryMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void negativeTestEditCategory() {
         categoryDescription = null;
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
 
         //act

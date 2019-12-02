@@ -2,19 +2,20 @@ package businessLogic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 /**
  *
  * @author Andreas
  */
-public class Bundle {
+public class Bundle implements Comparable<Bundle>{
 
     private int bundleID;
     private String bundleName;
     private String bundleDescription;
     private HashMap<Product, Integer> bundleProducts;
 
-    private static ArrayList<Bundle> bundleList = new ArrayList();
+    private static TreeSet<Bundle> bundleList = new TreeSet();
 
     public Bundle(int bundleID, String bundleName, String bundleDescription, HashMap<Product, Integer> bundleProducts) {
         this.bundleID = bundleID;
@@ -27,7 +28,7 @@ public class Bundle {
         }
     }
 
-    public static void setupBundleListFromDB(ArrayList<Bundle> BundleListFromDB) {
+    public static void setupBundleListFromDB(TreeSet<Bundle> BundleListFromDB) {
         bundleList = BundleListFromDB;
     }
 
@@ -76,8 +77,8 @@ public class Bundle {
         return true;
     }
 
-    public static ArrayList<Bundle> getMatchingBundlesOnIDs(ArrayList<String> bundleChoices) {
-        ArrayList<Bundle> result = new ArrayList();
+    public static TreeSet<Bundle> getMatchingBundlesOnIDs(ArrayList<String> bundleChoices) {
+        TreeSet<Bundle> result = new TreeSet();
         for (Bundle bundle : bundleList) {
             if (bundleChoices.contains(Integer.toString(bundle.getBundleID()))) {
                 result.add(bundle);
@@ -106,11 +107,20 @@ public class Bundle {
         return bundleDescription;
     }
 
-    public static ArrayList<Bundle> getBundleList() {
+    public static TreeSet<Bundle> getBundleList() {
         return bundleList;
     }
 
     public HashMap<Product, Integer> getBundleProducts() {
         return bundleProducts;
+    }
+
+    @Override
+    public int compareTo(Bundle otherBundle) {
+        
+        int thisID = this.bundleID;
+        int otherID = otherBundle.bundleID;
+        return thisID - otherID;
+        
     }
 }

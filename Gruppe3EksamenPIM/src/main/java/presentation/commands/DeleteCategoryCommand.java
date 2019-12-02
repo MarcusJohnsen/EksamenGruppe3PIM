@@ -2,7 +2,7 @@ package presentation.commands;
 
 import businessLogic.BusinessFacade;
 import businessLogic.Category;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -21,7 +21,7 @@ public class DeleteCategoryCommand extends Command {
 
         businessFacade.deleteCategory(categoryID);
 
-        ArrayList<Category> categoryList = businessFacade.getCategoryList();
+        TreeSet<Category> categoryList = businessFacade.getCategoryList();
         request.setAttribute("categoryList", categoryList);
         return jspPage;
 

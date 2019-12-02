@@ -7,7 +7,7 @@ package presentation.commands;
 
 import businessLogic.BusinessFacade;
 import businessLogic.Product;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -25,7 +25,7 @@ public class DeleteProductCommand extends Command {
 
         businessFacade.deleteProduct(productID);
 
-        ArrayList<Product> productList = businessFacade.getProductList();
+        TreeSet<Product> productList = businessFacade.getProductList();
         request.setAttribute("productList", productList);
         return jspPage;
     }

@@ -4,8 +4,8 @@
     Author     : Andreas
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Category"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="businessLogic.Distributor"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -69,7 +69,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Distributor> distributorList = (ArrayList<Distributor>) request.getAttribute("distributorList");
+                        TreeSet<Distributor> distributorList = (TreeSet<Distributor>) request.getAttribute("distributorList");
                         for (Distributor distributor : distributorList) {
                             int distributorID = distributor.getDistributorID();
                             String distributorName = distributor.getDistributorName();
@@ -99,7 +99,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Category> categoryList = (ArrayList<Category>) request.getAttribute("categoryList");
+                        TreeSet<Category> categoryList = (TreeSet<Category>) request.getAttribute("categoryList");
                         for (Category category : categoryList) {
                             int CategoryID = category.getCategoryID();
                             String CategoryName = category.getName();

@@ -2,6 +2,7 @@ package businessLogic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.TreeSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -23,7 +24,7 @@ public class CategoryTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
     
         //act
         Category result = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
@@ -43,7 +44,7 @@ public class CategoryTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
-        ArrayList<Attribute> categoryAttributes = null;
+        TreeSet<Attribute> categoryAttributes = null;
     
         //act
         Category result = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
@@ -79,7 +80,7 @@ public class CategoryTest {
         int categoryID1 = 1;
         String categoryName1 = "bold";
         String categoryDescription1 = "spark til den";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         String categoryName2 = "bold";
         String categoryDescription2 = "kast den";
         Category result = new Category (categoryID1, categoryName1, categoryDescription1, categoryAttributes);
@@ -95,7 +96,7 @@ public class CategoryTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
         Category.addToCategoryList(category);
         
@@ -118,9 +119,9 @@ public class CategoryTest {
         int categoryID2 = 2;
         int categoryID3 = 3;
         
-        Category category = new Category (categoryID1, "kæledyr", "ting til kæledyr", new ArrayList());
-        Category category2 = new Category (categoryID2, "Skildpadder", "ting til skildpadder", new ArrayList());
-        Category category3 = new Category (categoryID3, "Edderkopper", "ting til edderkopper", new ArrayList());
+        Category category = new Category (categoryID1, "kæledyr", "ting til kæledyr", new TreeSet());
+        Category category2 = new Category (categoryID2, "Skildpadder", "ting til skildpadder", new TreeSet());
+        Category category3 = new Category (categoryID3, "Edderkopper", "ting til edderkopper", new TreeSet());
         
         Category.addToCategoryList(category);
         Category.addToCategoryList(category2);
@@ -129,7 +130,7 @@ public class CategoryTest {
         ArrayList<String> categoryChoices = new ArrayList(Arrays.asList(new String[]{Integer.toString(categoryID1), Integer.toString(categoryID2)}));
         
         //act
-        ArrayList<Category> result = Category.getMatchingCategoriesOnIDs(categoryChoices);
+        TreeSet<Category> result = Category.getMatchingCategoriesOnIDs(categoryChoices);
         
         //assert
         assertTrue(result.contains(category));
@@ -142,7 +143,7 @@ public class CategoryTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
         
         String catName = "kat";
@@ -159,10 +160,10 @@ public class CategoryTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
         
-        ArrayList<Attribute> categoryAttributes2 = new ArrayList(Arrays.asList(new String[] {"hej"}));
+        TreeSet<Attribute> categoryAttributes2 = new TreeSet(Arrays.asList(new String[] {"hej"}));
         category.setCategoryAttributes(categoryAttributes2);
         
         assertEquals(categoryAttributes2, category.getCategoryAttributes());
@@ -173,14 +174,14 @@ public class CategoryTest {
         int categoryID = 1;
         String categoryName = "kæledyr";
         String categoryDescription = "ting til kæledyr";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
         Category.addToCategoryList(category);
         
         int categoryID2 = 2;
         String categoryName2 = "kæledyr2";
         String categoryDescription2 = "ting til kæledyr2";
-        ArrayList<Attribute> categoryAttributes2 = new ArrayList();
+        TreeSet<Attribute> categoryAttributes2 = new TreeSet();
         Category category2 = new Category (categoryID2, categoryName2, categoryDescription2, categoryAttributes2);
         Category.addToCategoryList(category2);
         

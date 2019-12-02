@@ -8,8 +8,7 @@ package presentation.commands;
 import businessLogic.BusinessFacade;
 import businessLogic.Category;
 import businessLogic.Product;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -34,7 +33,7 @@ public class bulkSelectCommand extends Command {
             request.getSession().setAttribute("productChoices", productChoices);
         } catch (IllegalArgumentException ex) {
             request.setAttribute("error", ex.getMessage());
-            ArrayList<Product> productList = businessFacade.findProductsOnCategoryID(categoryID);
+            TreeSet<Product> productList = businessFacade.findProductsOnCategoryID(categoryID);
             request.setAttribute("productList", productList);
             nextJsp = "bulkSelect";
         }

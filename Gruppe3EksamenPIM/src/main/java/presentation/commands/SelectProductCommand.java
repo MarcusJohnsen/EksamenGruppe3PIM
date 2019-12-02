@@ -1,9 +1,8 @@
 package presentation.commands;
 
 import businessLogic.BusinessFacade;
-import businessLogic.Distributor;
 import businessLogic.Product;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -32,7 +31,7 @@ public class SelectProductCommand extends Command {
             request.setAttribute("product", product);
 
         } else {
-            ArrayList<Product> productList = businessFacade.getProductList();
+            TreeSet<Product> productList = businessFacade.getProductList();
             request.setAttribute("productList", productList);
             nextJsp = "viewAllProducts";
 

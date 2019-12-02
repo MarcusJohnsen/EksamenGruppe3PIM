@@ -4,8 +4,8 @@
     Author     : andre
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Bundle"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Bundle> bundleList = (ArrayList<Bundle>) request.getAttribute("bundleList");
+                        TreeSet<Bundle> bundleList = (TreeSet<Bundle>) request.getAttribute("bundleList");
                         for (Bundle bundle : bundleList) {
                             int BundleID = bundle.getBundleID();
                             String BundleName = bundle.getBundleName();

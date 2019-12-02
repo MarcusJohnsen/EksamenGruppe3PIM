@@ -3,7 +3,7 @@ package presentation.commands;
 import businessLogic.BusinessFacade;
 import businessLogic.Attribute;
 import businessLogic.Category;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -21,7 +21,7 @@ public class SelectAttributesForCategoryCommand extends Command {
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         
         Category category = businessFacade.getCategoryFromID(categoryID);
-        ArrayList<Attribute> attributeList = businessFacade.getAttributeList();
+        TreeSet<Attribute> attributeList = businessFacade.getAttributeList();
         
         request.setAttribute("attributeList", attributeList);
         request.setAttribute("category", category);

@@ -6,11 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 /**
  *
@@ -66,9 +66,9 @@ public class BundleMapper {
         }
     }
 
-    public ArrayList<Bundle> getBundle(ArrayList<Product> productList) {
+    public TreeSet<Bundle> getBundle(TreeSet<Product> productList) {
         try {
-            ArrayList<Bundle> bundleList = new ArrayList();
+            TreeSet<Bundle> bundleList = new TreeSet();
             HashMap<Integer, HashMap<Product, Integer>> bundleProductMap = new HashMap();
 
             String SQL = "SELECT * FROM Product_Bundles";

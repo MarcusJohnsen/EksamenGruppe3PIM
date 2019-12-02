@@ -2,7 +2,7 @@ package presentation.commands;
 
 import businessLogic.BusinessFacade;
 import businessLogic.Distributor;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -17,7 +17,7 @@ public class DeleteDistributorCommand extends Command {
 
         businessFacade.deleteDistributor(distributorID);
 
-        ArrayList<Distributor> distributorList = businessFacade.getDistributorList();
+        TreeSet<Distributor> distributorList = businessFacade.getDistributorList();
         request.setAttribute("distributorList", distributorList);
         return jspPage;
     }

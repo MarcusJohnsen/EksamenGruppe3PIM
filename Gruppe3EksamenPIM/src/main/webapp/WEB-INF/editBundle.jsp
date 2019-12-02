@@ -4,8 +4,8 @@
     Author     : Andreas
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Product"%>
-<%@page import="java.util.ArrayList"%>
 <%@page import="businessLogic.Bundle"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -58,7 +58,7 @@
 
                 <tbody>
                     <%
-                        ArrayList<Product> productList = (ArrayList<Product>) request.getAttribute("productList");
+                        TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
                         for (Product product : productList) {
                             int ProductID = product.getProductID();
                             String ProductName = product.getName();

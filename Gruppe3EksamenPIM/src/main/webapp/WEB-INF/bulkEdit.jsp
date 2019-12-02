@@ -4,9 +4,9 @@
     Author     : Andreas
 --%>
 
+<%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Category"%>
 <%@page import="businessLogic.Attribute"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -45,7 +45,7 @@
                 </thead>
                 <%
 
-                    ArrayList<Attribute> attributeList = (ArrayList<Attribute>) category.getCategoryAttributes();
+                    TreeSet<Attribute> attributeList = (TreeSet<Attribute>) category.getCategoryAttributes();
                     for (Attribute attribute : attributeList) {
                         int attributeID = attribute.getAttributeID();
                         String value = attribute.getAttributeValueForID(attributeID);

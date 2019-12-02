@@ -1,18 +1,19 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * 
  * @author Marcus
  */
-public class Distributor {
+public class Distributor implements Comparable<Distributor>{
 
     private int distributorID;
     private String distributorName;
     private String distributorDescription;
     
-    private static ArrayList<Distributor> distributorList = new ArrayList();
+    private static TreeSet<Distributor> distributorList = new TreeSet();
 
     public Distributor (int distributorID, String distributorName, String distributorDescription) {
         this.distributorID = distributorID;
@@ -30,7 +31,7 @@ public class Distributor {
         return true;
     }
     
-    public static void setupDistributorListFromDB(ArrayList<Distributor> distributorListFromDB) {
+    public static void setupDistributorListFromDB(TreeSet<Distributor> distributorListFromDB) {
         distributorList = distributorListFromDB;
     }
 
@@ -47,8 +48,8 @@ public class Distributor {
         this.distributorDescription = description;
     }
 
-    public static ArrayList<Distributor> getMatchingDistributorsOnIDs(ArrayList<String> distributorChoices) {
-        ArrayList<Distributor> result = new ArrayList();
+    public static TreeSet<Distributor> getMatchingDistributorsOnIDs(ArrayList<String> distributorChoices) {
+        TreeSet<Distributor> result = new TreeSet();
         for (Distributor distributor : distributorList) {
             if(distributorChoices.contains(Integer.toString(distributor.getDistributorID()))){
                 result.add(distributor);
@@ -67,7 +68,7 @@ public class Distributor {
     }
     
     
-    public static ArrayList<Distributor> getDistributorList() {
+    public static TreeSet<Distributor> getDistributorList() {
         return distributorList;
     }
     
@@ -81,5 +82,14 @@ public class Distributor {
 
     public String getDistributorDescription() {
         return distributorDescription;
+    }
+
+    @Override
+    public int compareTo(Distributor otherDistributor) {
+        
+        int thisID = this.distributorID;
+        int otherID = otherDistributor.distributorID;
+        return thisID - otherID;
+        
     }
 }

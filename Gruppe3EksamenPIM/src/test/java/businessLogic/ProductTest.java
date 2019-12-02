@@ -3,6 +3,7 @@ package businessLogic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -26,8 +27,8 @@ public class ProductTest {
         String productName = "spiderman";
         String productDescription = "the hero spiderman";
         String picturePath = "testimage.png";
-        ArrayList<Distributor> productDistributors = new ArrayList();
-        ArrayList<Category> productCategories = new ArrayList();
+        TreeSet<Distributor> productDistributors = new TreeSet();
+        TreeSet<Category> productCategories = new TreeSet();
         
         Product result = new Product(productId, productName, productDescription, picturePath, productDistributors, productCategories);
         
@@ -47,8 +48,11 @@ public class ProductTest {
         String[] productName = new String[]{"spiderman", "superman", "batman"};
         String[] productDescription = new String[]{"the hero spiderman", "the hero superman", "the hero batman"};
         String[] picturePath = new String[]{"testimageSpiderman.png", "testimageSuperman.png", "testimageBatman.png"};
-        ArrayList<Distributor>[] productDistributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
-        ArrayList<Category>[] productCategories = new ArrayList[]{new ArrayList(), new ArrayList(), new ArrayList()};
+        TreeSet<Distributor>[] productDistributors = new TreeSet[]{
+            new TreeSet(Arrays.asList(new String[]{"Marvel"})), 
+            new TreeSet(Arrays.asList(new String[]{"DC Comic"})), 
+            new TreeSet(Arrays.asList(new String[]{"DC Comic"}))};
+        TreeSet<Category>[] productCategories = new TreeSet[]{new TreeSet(), new TreeSet(), new TreeSet()};
         
         Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], productDistributors[0], productCategories[0]);
         Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], productDistributors[1], productCategories[1]);
@@ -61,9 +65,9 @@ public class ProductTest {
 
         //assert
         assertEquals(Product.getProductList().size(), productID.length);
-        assertEquals(product1, Product.getProductList().get(0));
-        assertEquals(product2, Product.getProductList().get(1));
-        assertEquals(product3, Product.getProductList().get(2));
+        assertTrue(Product.getProductList().contains(product1));
+        assertTrue(Product.getProductList().contains(product2));
+        assertTrue(Product.getProductList().contains(product3));
     }
     
     @Test
@@ -73,8 +77,11 @@ public class ProductTest {
         String[] productName = new String[]{"spiderman", "superman", "batman"};
         String[] productDescription = new String[]{"the hero spiderman", "the hero superman", "the hero batman"};
         String[] picturePath = new String[]{"testimageSpiderman.png", "testimageSuperman.png", "testimageBatman.png"};
-        ArrayList<Distributor>[] productDistributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
-        ArrayList<Category>[] productCategories = new ArrayList[]{new ArrayList(), new ArrayList(), new ArrayList()};
+        TreeSet<Distributor>[] productDistributors = new TreeSet[]{
+            new TreeSet(Arrays.asList(new String[]{"Marvel"})), 
+            new TreeSet(Arrays.asList(new String[]{"DC Comic"})), 
+            new TreeSet(Arrays.asList(new String[]{"DC Comic"}))};
+        TreeSet<Category>[] productCategories = new TreeSet[]{new TreeSet(), new TreeSet(), new TreeSet()};
         Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], productDistributors[0], productCategories[0]);
         Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], productDistributors[1], productCategories[1]);
         Product product3 = new Product(productID[2], productName[2], productDescription[2], picturePath[2], productDistributors[2], productCategories[2]);
@@ -89,7 +96,7 @@ public class ProductTest {
 
         //assert
         assertEquals(Product.getProductList().size(), 1);
-        assertEquals(product1, Product.getProductList().get(0));
+        assertTrue(Product.getProductList().contains(product1));
     }
     
     @Test
@@ -100,8 +107,11 @@ public class ProductTest {
         String[] productName = new String[]{"spiderman", "superman", "batman"};
         String[] productDescription = new String[]{"the hero spiderman", "the hero superman", "the hero batman"};
         String[] picturePath = new String[]{"testimageSpiderman.png", "testimageSuperman.png", "testimageBatman.png"};
-        ArrayList<Distributor>[] productDistributors = new ArrayList[]{new ArrayList(Arrays.asList(new String[]{"Marvel"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"})), new ArrayList(Arrays.asList(new String[]{"DC Comic"}))};
-        ArrayList<Category>[] productCategories = new ArrayList[]{new ArrayList(), new ArrayList(), new ArrayList()};
+        TreeSet<Distributor>[] productDistributors = new TreeSet[]{
+            new TreeSet(Arrays.asList(new String[]{"Marvel"})), 
+            new TreeSet(Arrays.asList(new String[]{"DC Comic"})), 
+            new TreeSet(Arrays.asList(new String[]{"DC Comic"}))};
+        TreeSet<Category>[] productCategories = new TreeSet[]{new TreeSet(), new TreeSet(), new TreeSet()};
         Product product1 = new Product(productID[0], productName[0], productDescription[0], picturePath[0], productDistributors[0], productCategories[0]);
         Product product2 = new Product(productID[1], productName[1], productDescription[1], picturePath[1], productDistributors[1], productCategories[1]);
         Product product3 = new Product(productID[2], productName[2], productDescription[2], picturePath[2], productDistributors[2], productCategories[2]);
@@ -126,8 +136,8 @@ public class ProductTest {
         String productName = "joker";
         String productDescription = "the insane clown";
         String picturePath = "testimageJoker.png";
-        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new String[]{"marvel"}));
-        ArrayList<Category> productCategories = new ArrayList();
+        TreeSet<Distributor> productDistributors = new TreeSet(Arrays.asList(new String[]{"marvel"}));
+        TreeSet<Category> productCategories = new TreeSet();
         
         Product product = new Product(productID, productName, productDescription, picturePath, productDistributors, productCategories);
         Product.addToProductList(product);
@@ -221,7 +231,7 @@ public class ProductTest {
         int categoryID1 = 100;
         String categoryName1 = "newsletters";
         String categoryDescription1 = "papermade";
-        ArrayList<Attribute> categoryAttributes1 = new ArrayList();
+        TreeSet<Attribute> categoryAttributes1 = new TreeSet();
         
         Category category1 = new Category(categoryID1, categoryName1, categoryDescription1, categoryAttributes1);
         
@@ -229,28 +239,25 @@ public class ProductTest {
         String productName1 = "burner";
         String description1 = "fire";
         String picPath1 = "thisIsAnImagePath1.png";
-        ArrayList<Distributor> distributors1 = new ArrayList(Arrays.asList(new String[]{"marvel1", "dc comic1"}));
-        ArrayList<Category> productCategories1 = new ArrayList();
+        TreeSet<Distributor> distributors1 = new TreeSet(Arrays.asList(new String[]{"marvel1", "dc comic1"}));
+        TreeSet<Category> productCategories1 = new TreeSet();
         productCategories1.add(category1);
-        //ArrayList<Attribute> productAttributes1 = new ArrayList(Arrays.asList(new String[]{"size1","volume1","weight1"}));
 
         int productId2 = 2;
         String productName2 = "freezer";
         String description2 = "ice";
         String picPath2 = "thisIsAnImagePath2.png";
-        ArrayList<Distributor> distributors2 = new ArrayList(Arrays.asList(new String[]{"marvel2", "dc comic2"}));
-        ArrayList<Category> productCategories2 = new ArrayList();
+        TreeSet<Distributor> distributors2 = new TreeSet(Arrays.asList(new String[]{"marvel2", "dc comic2"}));
+        TreeSet<Category> productCategories2 = new TreeSet();
         productCategories2.add(category1);
-        //ArrayList<Attribute> productAttributes2 = new ArrayList(Arrays.asList(new String[]{"size2","volume2","weight2"}));
 
         int productId3 = 3;
         String productName3 = "vaporizer";
         String description3 = "water";
         String picPath3 = "thisIsAnImagePath3.png";
-        ArrayList<Distributor> distributors3 = new ArrayList(Arrays.asList(new String[]{"marvel3", "dc comic3"}));
-        ArrayList<Category> productCategories3 = new ArrayList();
+        TreeSet<Distributor> distributors3 = new TreeSet(Arrays.asList(new String[]{"marvel3", "dc comic3"}));
+        TreeSet<Category> productCategories3 = new TreeSet();
         productCategories3.add(category1);
-        //ArrayList<Attribute> productAttributes3 = new ArrayList(Arrays.asList(new String[]{"size3","volume3","weight3"}));
 
         Product product1 = new Product(productId1, productName1, description1, picPath1, distributors1, productCategories1);
         Product product2 = new Product(productId2, productName2, description2, picPath2, distributors2, productCategories2);
@@ -261,7 +268,7 @@ public class ProductTest {
         Product.addToProductList(product3);
 
         // act
-        ArrayList<Product> result = new ArrayList();
+        TreeSet<Product> result = new TreeSet();
         result = Product.findProductsOnCategoryID(100);
 
         // assert
@@ -277,30 +284,30 @@ public class ProductTest {
         Attribute attribute = new Attribute(attributeID, "Alternative Name", new HashMap<Integer, String>());
         
         int categoryID = 1;
-        Category category = new Category(categoryID, "Tests", "Category for tests", new ArrayList<Attribute>(Arrays.asList(new Attribute[]{attribute})));
+        Category category = new Category(categoryID, "Tests", "Category for tests", new TreeSet<Attribute>(Arrays.asList(new Attribute[]{attribute})));
         
         int productId1 = 1;
         String productName1 = "burner";
         String description1 = "fire";
         String picPath1 = "thisIsAnImagePath1.png";
-        ArrayList<Distributor> distributors1 = new ArrayList(Arrays.asList(new String[]{"marvel1", "dc comic1"}));
-        ArrayList<Category> productCategories1 = new ArrayList();
+        TreeSet<Distributor> distributors1 = new TreeSet(Arrays.asList(new String[]{"marvel1", "dc comic1"}));
+        TreeSet<Category> productCategories1 = new TreeSet();
         productCategories1.add(category);
         
         int productId2 = 2;
         String productName2 = "freezer";
         String description2 = "ice";
         String picPath2 = "thisIsAnImagePath2.png";
-        ArrayList<Distributor> distributors2 = new ArrayList(Arrays.asList(new String[]{"marvel2", "dc comic2"}));
-        ArrayList<Category> productCategories2 = new ArrayList();
+        TreeSet<Distributor> distributors2 = new TreeSet(Arrays.asList(new String[]{"marvel2", "dc comic2"}));
+        TreeSet<Category> productCategories2 = new TreeSet();
         productCategories2.add(category);
         
         int productId3 = 3;
         String productName3 = "vaporizer";
         String description3 = "water";
         String picPath3 = "thisIsAnImagePath3.png";
-        ArrayList<Distributor> distributors3 = new ArrayList(Arrays.asList(new String[]{"marvel3", "dc comic3"}));
-        ArrayList<Category> productCategories3 = new ArrayList();
+        TreeSet<Distributor> distributors3 = new TreeSet(Arrays.asList(new String[]{"marvel3", "dc comic3"}));
+        TreeSet<Category> productCategories3 = new TreeSet();
         
         Product product1 = new Product(productId1, productName1, description1, picPath1, distributors1, productCategories1);
         Product product2 = new Product(productId2, productName2, description2, picPath2, distributors2, productCategories2);
@@ -310,7 +317,7 @@ public class ProductTest {
         Product.addToProductList(product2);
         Product.addToProductList(product3);
         
-        ArrayList<Product> result = Product.updateCategoryAttributes(categoryID);
+        TreeSet<Product> result = Product.updateCategoryAttributes(categoryID);
 
         //assert
         assertTrue(result.contains(product1));
@@ -328,13 +335,12 @@ public class ProductTest {
         String name = "burner";        
         String description = "fire";        
         String picturePath = "this is an imageTest.png";        
-        ArrayList<Distributor> distributors = new ArrayList(Arrays.asList(new String[]{"firestarter", "firecharger"}));
+        TreeSet<Distributor> distributors = new TreeSet(Arrays.asList(new String[]{"firestarter", "firecharger"}));
 
-        // ArrayList<Attribute> productAttributes = new ArrayList();
         Product result = new Product(productID, name, description, picturePath, distributors, null);
         
-        assertTrue(result.getProductCategories() instanceof ArrayList);
-        assertTrue(result.getProductAttributes() instanceof ArrayList);
+        assertTrue(result.getProductCategories() instanceof TreeSet);
+        assertTrue(result.getProductAttributes() instanceof TreeSet);
         assertTrue(result.getProductCategories().isEmpty());
         assertTrue(result.getProductAttributes().isEmpty());
     }
@@ -352,11 +358,10 @@ public class ProductTest {
         Attribute attribute = new Attribute(attributeID, attributeTitle, attributeValues);
         
         
-        //Category:int categoryID, String name, String description, ArrayList<Attribute> categoryAttributes
         int categoryID = 100;
         String name = "burner";
         String description = "fire";
-        ArrayList<Attribute>categoryAttributes = new ArrayList(Arrays.asList(new String[]{"firestarter", "firecharger"}));
+        TreeSet<Attribute>categoryAttributes = new TreeSet(Arrays.asList(new String[]{"firestarter", "firecharger"}));
         Category category = new Category(categoryID, name, description, categoryAttributes);
         
     }

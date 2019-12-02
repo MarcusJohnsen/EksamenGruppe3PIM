@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.TreeSet;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -115,7 +116,7 @@ import static org.junit.Assert.*;
         boolean result = businessFacade.deleteCategory(categoryID);
 
         //assert
-        ArrayList<Category> categoryList = businessFacade.getCategoryList();
+        TreeSet<Category> categoryList = businessFacade.getCategoryList();
         assertTrue(result);
         for (Category category : categoryList) {
             assertNotEquals(categoryID, category.getCategoryID());
@@ -148,7 +149,7 @@ import static org.junit.Assert.*;
         boolean result = businessFacade.deleteProduct(productID);
 
         //assert
-        ArrayList<Product> productList = businessFacade.getProductList();
+        TreeSet<Product> productList = businessFacade.getProductList();
         assertTrue(result);
         for (Product product : productList) {
             assertNotEquals(productID, product.getProductID());
@@ -175,7 +176,7 @@ import static org.junit.Assert.*;
         assertTrue(result.getName().equals(productName));
         assertTrue(result.getDescription().equals(productDescription));
         assertEquals(expResultDistributorSize, result.getProductDistributors().size());
-        assertEquals(expResultDistributor, result.getProductDistributors().get(0));
+        assertTrue(result.getProductDistributors().contains(expResultDistributor));
     }
 
     @Test
@@ -198,7 +199,7 @@ import static org.junit.Assert.*;
         int categoryID = 5;
         String categoryName = "Landscaping";
         String categoryDist = "For landscaping in garden";
-        ArrayList<Attribute> categoryAttributes = new ArrayList();
+        TreeSet<Attribute> categoryAttributes = new TreeSet();
         Category category = new Category(categoryID, categoryName, categoryDist, categoryAttributes);
         Category.addToCategoryList(category);
 

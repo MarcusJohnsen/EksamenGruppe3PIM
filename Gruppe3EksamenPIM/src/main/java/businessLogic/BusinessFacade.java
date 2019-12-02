@@ -13,6 +13,7 @@ import static businessLogic.Distributor.validateDistributorInput;
 import factory.SystemMode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 import persistence.StorageFacade;
 
 /**
@@ -29,11 +30,11 @@ public class BusinessFacade {
     }
 
     public void setupListsFromDB() {
-        ArrayList<Attribute> attributeList = storageFacade.getAttributes();
-        ArrayList<Category> categoryList = storageFacade.getCategories(attributeList);
-        ArrayList<Distributor> distributorList = storageFacade.getDistributors();
-        ArrayList<Product> productList = storageFacade.getProducts(categoryList, distributorList);
-        ArrayList<Bundle> bundleList = storageFacade.getBundles(productList);
+        TreeSet<Attribute> attributeList = storageFacade.getAttributes();
+        TreeSet<Category> categoryList = storageFacade.getCategories(attributeList);
+        TreeSet<Distributor> distributorList = storageFacade.getDistributors();
+        TreeSet<Product> productList = storageFacade.getProducts(categoryList, distributorList);
+        TreeSet<Bundle> bundleList = storageFacade.getBundles(productList);
         Attribute.setupAttributeListFromDB(attributeList);
         Distributor.setupDistributorListFromDB(distributorList);
         Category.setupCategoryListFromDB(categoryList);
@@ -43,7 +44,7 @@ public class BusinessFacade {
 
     public Category createNewCategory(String categoryName, String categoryDescription, ArrayList<String> attributeIdStrings) throws IllegalArgumentException {
         Category.validateCategoryInput(categoryName, categoryDescription, null);
-        ArrayList<Attribute> attributeList = Attribute.getMatchingAttributesOnStringIDs(attributeIdStrings);
+        TreeSet<Attribute> attributeList = Attribute.getMatchingAttributesOnStringIDs(attributeIdStrings);
         Category newCategory = storageFacade.addNewCategory(categoryName, categoryDescription, attributeList);
         Category.addToCategoryList(newCategory);
         return newCategory;
@@ -51,7 +52,7 @@ public class BusinessFacade {
 
     public boolean deleteCategory(int categoryID) {
         storageFacade.deleteCategory(categoryID);
-        ArrayList<Product> productsWithCategory = Product.findProductsOnCategoryID(categoryID);
+        TreeSet<Product> productsWithCategory = Product.findProductsOnCategoryID(categoryID);
         Category category = Category.findCategoryOnID(categoryID);
         Product.deleteCategoryFromProducts(category);
         boolean categoryWasDeleted = Category.deleteCategory(categoryID);
@@ -69,8 +70,8 @@ public class BusinessFacade {
 
     public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings, ArrayList<String> productCategoryIDStrings) {
         validateProductInput(productName, productDescription);
-        ArrayList<Category> productCategories = Category.getMatchingCategoriesOnIDs(productCategoryIDStrings);
-        ArrayList<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDStrings);
+        TreeSet<Category> productCategories = Category.getMatchingCategoriesOnIDs(productCategoryIDStrings);
+        TreeSet<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDStrings);
         Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors, productCategories);
         Product.addToProductList(newProduct);
         return newProduct;
@@ -83,7 +84,7 @@ public class BusinessFacade {
 
     public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributorIDs, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
         validateProductInput(productName, productDescription);
-        ArrayList<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDs);
+        TreeSet<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDs);
         Product product = findProductOnID(productID);
         product.updateProductValues(productAttributeValues);
         product.editProduct(productName, productDescription, productDistributors);
@@ -142,7 +143,7 @@ public class BusinessFacade {
         return storageFacade;
     }
 
-    public ArrayList<Category> getCategoryList() {
+    public TreeSet<Category> getCategoryList() {
         return Category.getCategoryList();
     }
 
@@ -150,7 +151,7 @@ public class BusinessFacade {
         return Category.findCategoryOnID(categoryID);
     }
 
-    public ArrayList<Product> getProductList() {
+    public TreeSet<Product> getProductList() {
         return Product.getProductList();
     }
 
@@ -158,7 +159,7 @@ public class BusinessFacade {
         return Product.findProductOnID(productID);
     }
 
-    public ArrayList<Attribute> getAttributeList() {
+    public TreeSet<Attribute> getAttributeList() {
         return Attribute.getAttributeList();
     }
 
@@ -166,7 +167,7 @@ public class BusinessFacade {
         return Attribute.findAttributeOnID(attributeID);
     }
     
-    public ArrayList<Distributor> getDistributorList() {
+    public TreeSet<Distributor> getDistributorList() {
         return Distributor.getDistributorList();
     }
     
@@ -175,16 +176,16 @@ public class BusinessFacade {
     }
 
     public void editCategoriesToProduct(Product product, ArrayList<String> categoryChoices) {
-        ArrayList<Category> categoryList = Category.getMatchingCategoriesOnIDs(categoryChoices);
+        TreeSet<Category> categoryList = Category.getMatchingCategoriesOnIDs(categoryChoices);
         product.editProductCategories(categoryList);
         storageFacade.editCategoriesToProduct(product);
         storageFacade.updateProductAttributeSelections(product);
     }
 
     public void editAttributesToCategory(Category category, ArrayList<String> attributeChoices) {
-        ArrayList<Attribute> attributeList = Attribute.getMatchingAttributesOnStringIDs(attributeChoices);
+        TreeSet<Attribute> attributeList = Attribute.getMatchingAttributesOnStringIDs(attributeChoices);
         category.setCategoryAttributes(attributeList);
-        ArrayList<Product> productsUpdated = Product.updateCategoryAttributes(category.getCategoryID());
+        TreeSet<Product> productsUpdated = Product.updateCategoryAttributes(category.getCategoryID());
         storageFacade.updateProductAttributeSelections(productsUpdated);
         storageFacade.editAttributeToCategory(category);
     }
@@ -199,14 +200,13 @@ public class BusinessFacade {
     
     public boolean deleteBundle(int bundleID) {
         storageFacade.deleteBundle(bundleID);
-        ArrayList<Product> productsWithBundle = Product.findProductsOnCategoryID(bundleID);
         Bundle bundle = Bundle.findBundleOnID(bundleID);
         Product.deleteBundleFromProducts(bundle);
         boolean bundleWasDeleted = Bundle.deleteBundle(bundleID);
         return bundleWasDeleted;
     }
     
-    public ArrayList<Bundle> getBundleList() {
+    public TreeSet<Bundle> getBundleList() {
         return Bundle.getBundleList();
     }
     
@@ -227,7 +227,7 @@ public class BusinessFacade {
         storageFacade.bulkEditOnCategoryID(productIDs, newAttributeValues);
     }
     
-    public ArrayList<Product> findProductsOnCategoryID(int categoryID){
+    public TreeSet<Product> findProductsOnCategoryID(int categoryID){
         return Product.findProductsOnCategoryID(categoryID);
     }
     

@@ -8,7 +8,7 @@ package presentation.commands;
 import businessLogic.BusinessFacade;
 import businessLogic.Category;
 import businessLogic.Product;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -36,14 +36,14 @@ public class SelectCategoryCommand extends Command {
             } else if (commandType.equals("Delete Category")) {
                 nextJsp = "deleteCategory";
             } else if(commandType.equals("Bulk Edit")) {
-                ArrayList<Product> productList = businessFacade.findProductsOnCategoryID(categoryChoice);
+                TreeSet<Product> productList = businessFacade.findProductsOnCategoryID(categoryChoice);
                 request.setAttribute("productList", productList);
                 nextJsp = "bulkSelect";
             }
 
             request.setAttribute("category", category);
         } else {
-            ArrayList<Category> categoryList = businessFacade.getCategoryList();
+            TreeSet<Category> categoryList = businessFacade.getCategoryList();
             request.setAttribute("categoryList", categoryList);
             nextJsp = "viewAllCategories";
             

@@ -2,13 +2,12 @@ package persistence.mappers;
 
 import businessLogic.Attribute;
 import businessLogic.Category;
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
@@ -37,7 +36,7 @@ public class CategoryMapper {
      * @throws IllegalArgumentException stating that category object could not
      * be inserted, due to a sql error with the database.
      */
-   public Category addNewCategory(String categoryName, String categoryDescription, ArrayList<Attribute> attributeList) {
+   public Category addNewCategory(String categoryName, String categoryDescription, TreeSet<Attribute> attributeList) {
         try {
             database.setAutoCommit(false);
             String SQL = "INSERT INTO Categories (Category_Name, Category_Description) VALUES (?, ?)";
@@ -86,23 +85,23 @@ public class CategoryMapper {
     * for attributeID and categoryID from the database. Returns a list of category 
     * objects
     * 
-    * @param attributeList ArrayList of Attribute objects from the database
+    * @param attributeList ???
     * 
     * @return a list of category objects.
     * @throws IllegalArgumentException stating that the category list can't be 
     * returned due to a sql error with the database.
     */
-    public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
+    public TreeSet<Category> getCategories(TreeSet<Attribute> attributeList) {
         try {
-            ArrayList<Category> categoryList = new ArrayList();
-            HashMap<Integer, ArrayList<Attribute>> categoryAttributesMap = new HashMap();
+            TreeSet<Category> categoryList = new TreeSet();
+            HashMap<Integer, TreeSet<Attribute>> categoryAttributesMap = new HashMap();
 
             String SQL = "SELECT * FROM category_attributes";
             ResultSet rs = database.getConnection().prepareStatement(SQL).executeQuery();
             while (rs.next()) {
                 int categoryID = rs.getInt("Category_ID");
                 if (categoryAttributesMap.get(categoryID) == null) {
-                    categoryAttributesMap.put(categoryID, new ArrayList());
+                    categoryAttributesMap.put(categoryID, new TreeSet());
                 }
                 int attributeID = rs.getInt("Attribute_ID");
                 for (Attribute attribute : attributeList) {
@@ -119,7 +118,7 @@ public class CategoryMapper {
                 String category_Name = rs.getString("Category_Name");
                 String category_Description = rs.getString("Category_Description");
 
-                ArrayList<Attribute> categoryAttributes = categoryAttributesMap.get(category_ID);
+                TreeSet<Attribute> categoryAttributes = categoryAttributesMap.get(category_ID);
                 Category category = new Category(category_ID, category_Name, category_Description, categoryAttributes);
                 categoryList.add(category);
             }

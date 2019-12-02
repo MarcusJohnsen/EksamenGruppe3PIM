@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.DB;
@@ -43,9 +43,9 @@ public class DistributorMapper {
         }
     }
     
-    public ArrayList<Distributor> getDistributors() {
+    public TreeSet<Distributor> getDistributors() {
         try {
-            ArrayList<Distributor> distributorList = new ArrayList();
+            TreeSet<Distributor> distributorList = new TreeSet();
             String SQL = "SELECT * FROM Distributor";
             ResultSet rs = database.getConnection().prepareStatement(SQL).executeQuery();
             while (rs.next()) {

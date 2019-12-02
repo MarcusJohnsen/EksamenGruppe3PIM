@@ -8,6 +8,7 @@ import businessLogic.Product;
 import factory.SystemMode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 import persistence.mappers.AttributeMapper;
 import persistence.mappers.BundleMapper;
 import persistence.mappers.CategoryMapper;
@@ -40,7 +41,7 @@ public class StorageFacade {
         return database;
     }
 
-    public ArrayList<Product> getProducts(ArrayList<Category> categoryList, ArrayList<Distributor> distributorList) {
+    public TreeSet<Product> getProducts(TreeSet<Category> categoryList, TreeSet<Distributor> distributorList) {
         return productMapper.getProducts(categoryList, distributorList);
     }
 
@@ -52,7 +53,7 @@ public class StorageFacade {
      * @return new category object
      *
      */
-    public Category addNewCategory(String categoryName, String categoryDescription, ArrayList<Attribute> attributeList) {
+    public Category addNewCategory(String categoryName, String categoryDescription, TreeSet<Attribute> attributeList) {
         return categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
@@ -61,7 +62,7 @@ public class StorageFacade {
      * @param attributeList
      * @return attributeList
      */
-    public ArrayList<Category> getCategories(ArrayList<Attribute> attributeList) {
+    public TreeSet<Category> getCategories(TreeSet<Attribute> attributeList) {
         return categoryMapper.getCategories(attributeList);
     }
 
@@ -69,11 +70,11 @@ public class StorageFacade {
      *
      * @return attribute objects
      */
-    public ArrayList<Attribute> getAttributes() {
+    public TreeSet<Attribute> getAttributes() {
         return attributeMapper.getAttributes();
     }
 
-    public ArrayList<Distributor> getDistributors() {
+    public TreeSet<Distributor> getDistributors() {
         return distributorMapper.getDistributors();
     }
 
@@ -99,7 +100,7 @@ public class StorageFacade {
      * @param noImageFileName
      * @return
      */
-    public Product addNewProduct(String productName, String productDescription, String noImageFileName, ArrayList<Distributor> productDistributors, ArrayList<Category> productCategories) {
+    public Product addNewProduct(String productName, String productDescription, String noImageFileName, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
         return productMapper.addNewProduct(productName, productDescription, noImageFileName, productDistributors, productCategories);
     }
 
@@ -151,7 +152,7 @@ public class StorageFacade {
         attributeMapper.updateProductAttributeSelections(product);
     }
 
-    public void updateProductAttributeSelections(ArrayList<Product> productsUpdated) {
+    public void updateProductAttributeSelections(TreeSet<Product> productsUpdated) {
         for (Product product : productsUpdated) {
             attributeMapper.updateProductAttributeSelections(product);
         }
@@ -173,7 +174,7 @@ public class StorageFacade {
         bundleMapper.editBundle(bundle);
     }
 
-    public ArrayList<Bundle> getBundles(ArrayList<Product> productList) {
+    public TreeSet<Bundle> getBundles(TreeSet<Product> productList) {
         return bundleMapper.getBundle(productList);
     }
     
