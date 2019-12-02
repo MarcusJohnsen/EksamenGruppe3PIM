@@ -22,6 +22,18 @@ public class Product implements Comparable<Product> {
 
     private static TreeSet<Product> productList = new TreeSet();
 
+    
+    /**
+     * Constructor
+     * 
+     * @param productID  int unique, not null auto_increment
+     * @param name String, not null
+     * @param description String, not null
+     * @param picturePath String
+     * @param productDistributors TreeSet of distributor-Objects
+     * @param productCategories  TreeSet of category Objects
+     */
+    
     public Product(int productID, String name, String description, String picturePath, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
         this.productID = productID;
         this.name = name;
@@ -37,16 +49,39 @@ public class Product implements Comparable<Product> {
         }
     }
 
-    /**
+     /**
+     * Creates new category object and stores it in the database. Get's the
+     * CategoryID from the database, and returns the Category object with the
+     * new ID
      *
-     * @param category Traverses through the productList in order to find certain category object, which is deleted once it is found.
+     * @param categoryName String with max length of 255 characters
+     * @param categoryDescription String with max length of 2550 characters
+     *
+     * @return the category object with an ID given from the database.
+     * @throws IllegalArgumentException stating that category object could not
+     * be inserted, due to a sql error with the database.
+     */
+    
+    /**
+     * Traverses through the productList in order to find certain category object, 
+     * which is deleted once it is found.
+     
+     * @param category category-Object stored in a TreeSet
      */
     public static void deleteCategoryFromProducts(Category category) {
         for (Product product : productList) {
             product.productCategories.remove(category);
         }
     }
-
+    
+    
+    /**
+     * Traverses through the productList in order to find certain distributor object,
+     * which is deleted once it is found
+     * 
+     * @param distributor distributor-object stored in a TreeSet
+     */
+    
     public static void deleteDistributorFromProducts(Distributor distributor) {
         for (Product product : productList) {
             product.productDistributors.remove(distributor);
@@ -54,7 +89,7 @@ public class Product implements Comparable<Product> {
     }
 
     /**
-     * Traverses the productCategories-List and adds all the unique categoryAttributes to new HashSet.
+     * Traverses the productCategories-List and adds all the unique categoryAttributes to new TreeSet.
      */
     private void createAttributesFromCategories() {
         TreeSet<Attribute> attributeSet = new TreeSet();
@@ -78,7 +113,16 @@ public class Product implements Comparable<Product> {
         this.productAttributes = attributeSet;
     }
 
-    public static HashMap<Product, Integer> getMatchingProductsOnIDs(HashMap<Integer, Integer> productChoices) {
+    
+    /**
+     * Takes a HashMap of productChoices with key integer and 
+     * 
+     * @param productChoices
+     * 
+     * @return 
+     */
+    
+    public static HashMap<Product, Integer> getMatchingProductsOnIDsWithProductAmountConnected(HashMap<Integer, Integer> productChoices) {
         HashMap<Product, Integer> result = new HashMap();
         if (productChoices != null) {
             for (Product product : productList) {
