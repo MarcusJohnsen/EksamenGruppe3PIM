@@ -114,6 +114,10 @@ public class Bundle implements Comparable<Bundle>{
     public HashMap<Product, Integer> getBundleProducts() {
         return bundleProducts;
     }
+    
+    public static int getTotalBundleCount(){
+        return bundleList.size();
+    }
 
     @Override
     public int compareTo(Bundle otherBundle) {

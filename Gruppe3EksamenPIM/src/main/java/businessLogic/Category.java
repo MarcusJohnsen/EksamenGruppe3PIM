@@ -2,6 +2,7 @@ package businessLogic;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
+import javafx.util.Pair;
 
 /**
  *
@@ -185,6 +186,24 @@ public class Category implements Comparable<Category> {
      */
     public void setCategoryAttributes(TreeSet<Attribute> categoryAttributes) {
         this.categoryAttributes = categoryAttributes;
+    }
+    
+    public static int getTotalCategoryCount(){
+        return categoryList.size();
+    }
+    
+    /**
+     * !! WORKING PROGRESS !!
+     * 
+     * @author Michael
+     * @return 
+     */
+    public static ArrayList<Pair<Category, Integer>> topTenCategories(){
+        ArrayList<Pair<Category, Integer>> result = new ArrayList();
+        
+        
+        
+        return result;
     }
 
     @Override

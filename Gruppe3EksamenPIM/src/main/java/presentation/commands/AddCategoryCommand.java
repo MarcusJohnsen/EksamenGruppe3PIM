@@ -1,7 +1,7 @@
 package presentation.commands;
 
 import businessLogic.Attribute;
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
@@ -16,7 +16,7 @@ import presentation.Command;
 public class AddCategoryCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "index";
 
         String categoryName = request.getParameter("Category Name");
@@ -30,10 +30,10 @@ public class AddCategoryCommand extends Command {
         }
         
         try {
-            businessFacade.createNewCategory(categoryName, categoryDescription, attributeChoices);
+            businessController.createNewCategory(categoryName, categoryDescription, attributeChoices);
         } catch (IllegalArgumentException ex) {
             nextJsp = "newCategory";
-            TreeSet<Attribute> attributeList = businessFacade.getAttributeList();
+            TreeSet<Attribute> attributeList = businessController.getAttributeList();
             request.setAttribute("attributeList", attributeList);
             request.setAttribute("error", ex.getMessage());
         }

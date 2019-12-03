@@ -1,6 +1,6 @@
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Distributor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,20 +13,20 @@ import presentation.Command;
 public class EditDistributorCommand extends Command {
     
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "viewAllDistributors";
-        request.setAttribute("distributorList", businessFacade.getDistributorList());
+        request.setAttribute("distributorList", businessController.getDistributorList());
         int distributorID = Integer.parseInt(request.getParameter("distributorID"));
         String distributorName = request.getParameter("Distributor Name");
         String distributorDescription = request.getParameter("Distributor Description");
 
         try {
-            businessFacade.editDistributor(distributorID, distributorName, distributorDescription);
+            businessController.editDistributor(distributorID, distributorName, distributorDescription);
         } catch (IllegalArgumentException ex) {
             nextJsp = "editDistributor";
             request.setAttribute("error", ex.getMessage());
             
-            Distributor distributor = businessFacade.getDistributorFromID(distributorID);
+            Distributor distributor = businessController.getDistributorFromID(distributorID);
             request.setAttribute("distributor", distributor);
         }
         return nextJsp;

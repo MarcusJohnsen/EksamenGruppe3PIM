@@ -6,7 +6,7 @@
 package presentation.commands;
 
 import businessLogic.Attribute;
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Category;
 import businessLogic.Product;
 import java.util.ArrayList;
@@ -22,11 +22,11 @@ import presentation.Command;
 public class BulkEditCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "index";
 
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-        Category category = businessFacade.getCategoryFromID(categoryID);
+        Category category = businessController.getCategoryFromID(categoryID);
 
         try {
             String[] productChoices = (String[]) request.getSession().getAttribute("productChoices");
@@ -49,7 +49,7 @@ public class BulkEditCommand extends Command {
                 }
             }
 
-            businessFacade.bulkEdit(productIDs, newAttributeValues);
+            businessController.bulkEdit(productIDs, newAttributeValues);
 
         } catch (IllegalArgumentException ex) {
             nextJsp = "bulkEdit";
