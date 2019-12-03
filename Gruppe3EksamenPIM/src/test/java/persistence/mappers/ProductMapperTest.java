@@ -16,7 +16,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import persistence.DB;
+import persistence.SQLDatabase;
 
 /**
  *
@@ -24,7 +24,7 @@ import persistence.DB;
  */
 public class ProductMapperTest {
 
-    private final static DB database = new DB(SystemMode.TEST);
+    private final static SQLDatabase database = new SQLDatabase(SystemMode.TEST);
     private final ProductMapper productMapper = new ProductMapper(database);
     private static Connection testConnection;
 

@@ -19,7 +19,7 @@ public class DBTest {
     @Test
     public void testConstructorForTests() {
         //act
-        DB result = new DB(systemMode);
+        SQLDatabase result = new SQLDatabase(systemMode);
         Connection testConnection = result.getConnection();
 
         //assert
@@ -33,7 +33,7 @@ public class DBTest {
         SystemMode systemModeProduction = SystemMode.PRODUCTION;
 
         //act
-        DB result = new DB(systemModeProduction);
+        SQLDatabase result = new SQLDatabase(systemModeProduction);
         Connection testConnection = result.getConnection();
 
         //assert
@@ -45,7 +45,7 @@ public class DBTest {
     public void testNegativeCreateConnectionNoDBFile() {
 
         //arrange
-        DB database = new DB(systemMode);
+        SQLDatabase database = new SQLDatabase(systemMode);
         String badPropertiesPathNoFile = "";
 
         //act
@@ -56,7 +56,7 @@ public class DBTest {
     public void testNegativeCreateConnectionEmptyDBFile() {
 
         //arrange
-        DB database = new DB(systemMode);
+        SQLDatabase database = new SQLDatabase(systemMode);
         String badPropertiesPathEmptyFile = "/testEmptyDB.properties";
 
         //act
@@ -67,7 +67,7 @@ public class DBTest {
     public void testNegativeCreateConnectionBadInfoDBFile() {
 
         //arrange
-        DB database = new DB(systemMode);
+        SQLDatabase database = new SQLDatabase(systemMode);
         String badPropertiesPathBadInfo = "/testBadInfoDB.properties";
 
         //act
@@ -77,7 +77,7 @@ public class DBTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeCreateConnectionNoSuitableDriver() {
         //arrange
-        DB database = new DB(systemMode);
+        SQLDatabase database = new SQLDatabase(systemMode);
         String badDriver = "NoClassLikeThis";
 
         //act
@@ -87,7 +87,7 @@ public class DBTest {
     @Test
     public void testGetConnectionNoConnection() {
         //arrange
-        DB database = new DB(systemMode);
+        SQLDatabase database = new SQLDatabase(systemMode);
         database.setConnection(null);
 
         //act
@@ -100,7 +100,7 @@ public class DBTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeSetAutoCommit() {
         //arrange
-        DB database = new DB(systemMode);
+        SQLDatabase database = new SQLDatabase(systemMode);
         try {
             database.getConnection().close();
         } catch (SQLException ex) {
@@ -114,7 +114,7 @@ public class DBTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeRollBack() {
         //arrange
-        DB database = new DB(systemMode);
+        SQLDatabase database = new SQLDatabase(systemMode);
         try {
             database.getConnection().close();
         } catch (SQLException ex) {

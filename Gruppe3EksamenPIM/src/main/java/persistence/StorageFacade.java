@@ -8,11 +8,14 @@ import businessLogic.Product;
 import factory.SystemMode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
+import javax.servlet.http.Part;
 import persistence.mappers.AttributeMapper;
 import persistence.mappers.BundleMapper;
 import persistence.mappers.CategoryMapper;
 import persistence.mappers.DistributorMapper;
+import persistence.mappers.PictureMapper;
 import persistence.mappers.ProductMapper;
 
 /**
@@ -21,24 +24,28 @@ import persistence.mappers.ProductMapper;
  */
 public class StorageFacade {
 
+    private SQLDatabase sqlDatabase;
+    private CloudinaryDatabase cloudinaryDatabase;
     private CategoryMapper categoryMapper;
     private ProductMapper productMapper;
     private AttributeMapper attributeMapper;
     private DistributorMapper distributorMapper;
     private BundleMapper bundleMapper;
-    private DB database;
+    private PictureMapper pictureMapper;
 
     public StorageFacade(SystemMode systemMode) {
-        this.database = new DB(systemMode);
-        this.categoryMapper = new CategoryMapper(database);
-        this.productMapper = new ProductMapper(database);
-        this.attributeMapper = new AttributeMapper(database);
-        this.distributorMapper = new DistributorMapper(database);
-        this.bundleMapper = new BundleMapper(database);
+        this.sqlDatabase = new SQLDatabase(systemMode);
+        this.cloudinaryDatabase = new CloudinaryDatabase(systemMode);
+        this.categoryMapper = new CategoryMapper(sqlDatabase);
+        this.productMapper = new ProductMapper(sqlDatabase);
+        this.attributeMapper = new AttributeMapper(sqlDatabase);
+        this.distributorMapper = new DistributorMapper(sqlDatabase);
+        this.bundleMapper = new BundleMapper(sqlDatabase);
+        this.pictureMapper = new PictureMapper(cloudinaryDatabase);
     }
 
-    public DB getDatabase() {
-        return database;
+    public SQLDatabase getSqlDatabase() {
+        return sqlDatabase;
     }
 
     public TreeSet<Product> getProducts(TreeSet<Category> categoryList, TreeSet<Distributor> distributorList) {
@@ -48,8 +55,7 @@ public class StorageFacade {
     /**
      *
      * @param categoryName
-     * @param categoryDescription Adds new category object and stores it in the
-     * Database.
+     * @param categoryDescription Adds new category object and stores it in the Database.
      * @return new category object
      *
      */
@@ -119,11 +125,11 @@ public class StorageFacade {
     public Attribute addNewAttribute(String AttributeName) {
         return attributeMapper.addNewAttribute(AttributeName);
     }
-    
+
     public void editAttribute(Attribute attribute) {
         attributeMapper.editAttribute(attribute);
     }
-    
+
     public void deleteAttribute(int attributeID) {
         attributeMapper.deleteAttribute(attributeID);
     }
@@ -177,8 +183,13 @@ public class StorageFacade {
     public TreeSet<Bundle> getBundles(TreeSet<Product> productList) {
         return bundleMapper.getBundle(productList);
     }
-    
+
     public int bulkEditOnCategoryID(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
         return attributeMapper.bulkEditOnCategoryID(productIDs, newAttributeValues);
     }
+    
+    public String uploadPicture(List<Part> requestParts){
+        return pictureMapper.uploadProductPicture(requestParts);
+    }
+    
 }

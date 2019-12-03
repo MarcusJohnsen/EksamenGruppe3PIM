@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import persistence.DB;
+import persistence.SQLDatabase;
 import java.util.HashMap;
 import java.util.TreeSet;
 
@@ -18,9 +18,9 @@ import java.util.TreeSet;
  */
 public class BundleMapper {
 
-    private DB database;
+    private SQLDatabase database;
 
-    public BundleMapper(DB database) {
+    public BundleMapper(SQLDatabase database) {
         this.database = database;
     }
 

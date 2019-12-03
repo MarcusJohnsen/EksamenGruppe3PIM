@@ -9,6 +9,7 @@ import businessLogic.BusinessFacade;
 import factory.SystemMode;
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author Michael N. Korsgaard
  */
 @WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
+@MultipartConfig(fileSizeThreshold = 500000, // this equals around 0,5 MB
+        maxFileSize = 1048576L, // this equals 1 MB
+        maxRequestSize = 5242880 // this equals 5 MB
+)
 public class FrontController extends HttpServlet {
 
     private static final SystemMode systemMode = SystemMode.PRODUCTION;
@@ -51,9 +56,10 @@ public class FrontController extends HttpServlet {
 //        try {
             setup();
             
-//            request.setAttribute("partList", request.getParts());
-            
             Command cmd = Command.from(request);
+            if(Command.doCommandNeedParts(cmd)){
+                request.setAttribute("partList", request.getParts());
+            }
             String view = cmd.execute(request, response, businessFacade);
             if (view.equals("index")) {
                 request.getRequestDispatcher(view + ".jsp").forward(request, response);

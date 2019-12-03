@@ -64,6 +64,12 @@ public class Category implements Comparable<Category> {
         }
         return result;
     }
+    
+    public static void deleteAttributeOnCategories(Attribute attribute) {
+        for (Category category : categoryList) {
+            category.categoryAttributes.remove(attribute);
+        }
+    }
 
     public static TreeSet<Attribute> getCategoryAttributes(Category category) {
         return category.categoryAttributes;

@@ -13,7 +13,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import persistence.DB;
+import persistence.SQLDatabase;
 
 /**
  *
@@ -22,7 +22,7 @@ import persistence.DB;
 public class CategoryMapperTest {
 
     private static Connection testConnection;
-    private final static DB database = new DB(SystemMode.TEST);
+    private final static SQLDatabase database = new SQLDatabase(SystemMode.TEST);
     private final CategoryMapper categoryMapper = new CategoryMapper(database);
     private final int numberOfCategoriesInDB = 3;
     private final TreeSet<Attribute> attributeList = new TreeSet();

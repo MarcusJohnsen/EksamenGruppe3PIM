@@ -7,7 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
+import javax.servlet.http.Part;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -23,7 +25,7 @@ import static org.junit.Assert.*;
     @Before
     public void setup() {
         try {
-            testConnection = businessFacade.getStorageFacade().getDatabase().getConnection();
+            testConnection = businessFacade.getStorageFacade().getSqlDatabase().getConnection();
             // reset test database
             try (Statement stmt = testConnection.createStatement()) {
                 stmt.execute("drop table if exists Product_Distributor");
@@ -130,9 +132,10 @@ import static org.junit.Assert.*;
         String productDescription = "This is new newest product for testing";
         ArrayList<String> productDistributorStrings = new ArrayList(Arrays.asList(new String[]{"1"}));
         ArrayList<String> productCategoryStrings = new ArrayList(Arrays.asList(new String[]{"1", "2"}));
+        List<Part> requestParts = new ArrayList();
         
         //act
-        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributorStrings, productCategoryStrings);
+        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributorStrings, productCategoryStrings, requestParts);
 
         //assert
         assertTrue(productName.equals(result.getName()));
@@ -177,20 +180,6 @@ import static org.junit.Assert.*;
         assertTrue(result.getDescription().equals(productDescription));
         assertEquals(expResultDistributorSize, result.getProductDistributors().size());
         assertTrue(result.getProductDistributors().contains(expResultDistributor));
-    }
-
-    @Test
-    public void testUpdatePicturePath() {
-        //arrange
-        int productID = 1;
-        String picturePath = "newPic.img";
-
-        //act
-        businessFacade.updatePicturePath(productID, picturePath);
-        Product result = businessFacade.getProductFromID(productID);
-
-        //assert
-        assertTrue(picturePath.equals(result.getPicturePath()));
     }
 
     @Test

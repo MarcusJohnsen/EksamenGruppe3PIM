@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import persistence.DB;
+import persistence.SQLDatabase;
 
 /**
  *
@@ -18,9 +18,9 @@ import persistence.DB;
  */
 public class CategoryMapper {
 
-    private DB database;
+    private SQLDatabase database;
 
-    public CategoryMapper(DB database) {
+    public CategoryMapper(SQLDatabase database) {
         this.database = database;
     }
 

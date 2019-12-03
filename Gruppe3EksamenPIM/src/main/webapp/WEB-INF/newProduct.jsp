@@ -18,7 +18,7 @@
 
         <h1 align="center">Create New Product</h1>
         <!-- enctype="multipart/form-data" -->
-        <form action="FrontController" method="POST">
+        <form action="FrontController" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="command" value="addProduct" />
             <p align="center">
                 Product Name:
@@ -32,10 +32,10 @@
                 <textarea name="Product Description" rows="8" cols="40" required="required"></textarea>
             </p>
 
-
-
-
-
+            <p align="center">
+                Select Picture:
+                <input type = "file" name = "file" size = "50" accept=".jpg, .png"/>
+            </p>
 
             <!--<p align="center">
                 Product Distributors: <img onclick="newField()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/>
@@ -87,7 +87,7 @@
             </table>
 
             <br>
-            
+
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
@@ -114,7 +114,7 @@
                 </tbody>
                 <%}%>
             </table>
-            
+
             <br>
             <p align="center">
                 <!--Save product:-->

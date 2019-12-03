@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /*
  @author Gruppe 3
  */
-public class DB {
+public class SQLDatabase {
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String PROPERTIESFILEPATH = "/db.properties";
@@ -23,7 +23,7 @@ public class DB {
     private SystemMode systemMode;
     private Connection conn = null;
 
-    public DB(SystemMode systemMode) {
+    public SQLDatabase(SystemMode systemMode) {
         this.systemMode = systemMode;
         createConnection(PROPERTIESFILEPATH, DRIVER);
     }
@@ -37,10 +37,10 @@ public class DB {
 
     void createConnection(String propertiesFilePath, String driver) throws IllegalArgumentException {
         try {
-            InputStream f = DB.class.getResourceAsStream(propertiesFilePath);
+            InputStream input = SQLDatabase.class.getResourceAsStream(propertiesFilePath);
             Properties pros = new Properties();
             
-            pros.load(f);
+            pros.load(input);
             
             switch (systemMode) {
                 case PRODUCTION:
@@ -63,13 +63,13 @@ public class DB {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             
         } catch (IOException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLDatabase.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Cannot connect to properties file");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLDatabase.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Cannot find driver class for the database");
         } catch (SQLException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLDatabase.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Could not establish connection to the database");
         }
     }
@@ -82,7 +82,7 @@ public class DB {
         try {
             conn.setAutoCommit(autoCommitSetting);
         } catch (SQLException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLDatabase.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("An error occurred when change connection autoCommit status");
         }
     }
@@ -91,7 +91,7 @@ public class DB {
         try {
             conn.rollback();
         } catch (SQLException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SQLDatabase.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("An error occurred when trying to roll back commits for the database connection");
         }
     }

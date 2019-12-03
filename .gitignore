@@ -72,6 +72,7 @@ $RECYCLE.BIN/
 
 # Local configuration file (sdk path, etc)
 db.properties
+cloudinary.properties
 
 # End of https://www.gitignore.io/api/macos,maven,windows,netbeans
 /Gruppe3EksamenPIM/nbproject/

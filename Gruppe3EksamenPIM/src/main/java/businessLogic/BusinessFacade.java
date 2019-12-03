@@ -13,7 +13,9 @@ import static businessLogic.Distributor.validateDistributorInput;
 import factory.SystemMode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
+import javax.servlet.http.Part;
 import persistence.StorageFacade;
 
 /**
@@ -68,12 +70,15 @@ public class BusinessFacade {
         storageFacade.editCategory(category);
     }
 
-    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings, ArrayList<String> productCategoryIDStrings) {
+    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings, ArrayList<String> productCategoryIDStrings, List<Part> parts) {
         validateProductInput(productName, productDescription);
         TreeSet<Category> productCategories = Category.getMatchingCategoriesOnIDs(productCategoryIDStrings);
         TreeSet<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDStrings);
         Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors, productCategories);
         Product.addToProductList(newProduct);
+        String picturePath = storageFacade.uploadPicture(parts);
+        newProduct.setPicturePath(picturePath);
+        storageFacade.updatePicturePath(newProduct.getProductID(), picturePath);
         return newProduct;
     }
 
@@ -92,12 +97,6 @@ public class BusinessFacade {
         storageFacade.updateProductAttributeValues(product);
     }
 
-    public void updatePicturePath(int productID, String picturePath) {
-        Product product = Product.findProductOnID(productID);
-        product.setPicturePath(picturePath);
-        storageFacade.updatePicturePath(productID, picturePath);
-    }
-
     public Attribute createNewAttribute(String attributeTitle) throws IllegalArgumentException {
         Attribute.validateNewAttributeTitle(attributeTitle);
         Attribute newAttribute = storageFacade.addNewAttribute(attributeTitle);
@@ -114,7 +113,9 @@ public class BusinessFacade {
     
     public boolean deleteAttribute(int attributeID) {
         storageFacade.deleteAttribute(attributeID);
-        Attribute.findAttributeOnID(attributeID);
+        Attribute attribute = findAttributeOnID(attributeID);
+        Category.deleteAttributeOnCategories(attribute);
+        Product.deleteAttributeOnProducts(attribute);
         boolean attributeWasDeleted = Attribute.deleteAttribute(attributeID);
         return attributeWasDeleted;
     }
@@ -128,7 +129,8 @@ public class BusinessFacade {
      
     public boolean deleteDistributor(int distributorID) {
         storageFacade.deleteDistributor(distributorID);
-        Distributor.findDistributorOnID(distributorID);
+        Distributor distributor = Distributor.findDistributorOnID(distributorID);
+        Product.deleteDistributorFromProducts(distributor);
         return Distributor.deleteDistributor(distributorID);
     }
 

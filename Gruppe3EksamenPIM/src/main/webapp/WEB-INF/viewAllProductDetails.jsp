@@ -39,7 +39,7 @@
         <p align="center">
             Product picture: 
             <br>
-            <img src="/Gruppe3EksamenPIM/thumbs/<%=picturePath%>" style="max-width: 350px; width: 100%; max-height: 500px; height: auto;"/>
+            <img src="<%=picturePath%>" style="max-width: 350px; width: 100%; max-height: 500px; height: auto;"/>
 
         </p>
 

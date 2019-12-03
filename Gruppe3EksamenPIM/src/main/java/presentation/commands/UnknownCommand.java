@@ -19,7 +19,7 @@ public class UnknownCommand extends Command{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
-        String msg = "Unknown command. Contact IT";
+        String msg = "Unknown command. Contact IT. Command was: " + request.getParameter("cmd");
         throw new IllegalArgumentException(msg);
     }
     

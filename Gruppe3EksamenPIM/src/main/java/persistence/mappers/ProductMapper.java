@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import persistence.DB;
+import persistence.SQLDatabase;
 
 /**
  *
@@ -20,9 +20,9 @@ import persistence.DB;
  */
 public class ProductMapper {
 
-    private DB database;
+    private SQLDatabase database;
 
-    public ProductMapper(DB database) {
+    public ProductMapper(SQLDatabase database) {
         this.database = database;
     }
 

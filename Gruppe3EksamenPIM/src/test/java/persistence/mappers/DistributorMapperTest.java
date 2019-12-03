@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import persistence.DB;
+import persistence.SQLDatabase;
 
 /**
  * 
@@ -19,7 +19,7 @@ import persistence.DB;
  */
 public class DistributorMapperTest {
 
-    private final static DB database = new DB(SystemMode.TEST);
+    private final static SQLDatabase database = new SQLDatabase(SystemMode.TEST);
     private final DistributorMapper distributorMapper = new DistributorMapper(database);
     private static Connection testConnection;
     private final int AmountOfDistributorsInDB = 3;

@@ -17,7 +17,7 @@ import presentation.Command;
  *
  * @author Andreas
  */
-public class bulkSelectCommand extends Command {
+public class BulkSelectCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {

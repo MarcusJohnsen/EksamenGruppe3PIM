@@ -77,6 +77,12 @@ public class Product implements Comparable<Product> {
         }
         this.productAttributes = attributeSet;
     }
+    
+    public static void deleteAttributeOnProducts(Attribute attribute) {
+        for (Product product : productList) {
+            product.productAttributes.remove(attribute);
+        }
+    }
 
     public static HashMap<Product, Integer> getMatchingProductsOnIDs(HashMap<Integer, Integer> productChoices) {
         HashMap<Product, Integer> result = new HashMap();

@@ -15,12 +15,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import persistence.DB;
+import persistence.SQLDatabase;
 
 public class AttributeMapperTest {
 
     private static Connection testConnection;
-    private final static DB database = new DB(SystemMode.TEST);
+    private final static SQLDatabase database = new SQLDatabase(SystemMode.TEST);
     private final AttributeMapper attributeMapper = new AttributeMapper(database);
 
     //setting up common variables so I won't have to write them for every single test

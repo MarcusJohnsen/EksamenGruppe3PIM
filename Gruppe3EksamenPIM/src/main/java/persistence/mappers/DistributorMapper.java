@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import persistence.DB;
+import persistence.SQLDatabase;
 
 /**
  * 
@@ -16,9 +16,9 @@ import persistence.DB;
  */
 public class DistributorMapper {
     
-    private DB database;
+    private SQLDatabase database;
 
-    public DistributorMapper(DB database) {
+    public DistributorMapper(SQLDatabase database) {
         this.database = database;
     }
     
