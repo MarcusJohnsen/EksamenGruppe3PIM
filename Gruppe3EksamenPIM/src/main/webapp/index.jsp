@@ -15,6 +15,10 @@
         <h1 align="center">Products</h1>
         <br>
         <form action="FrontController">
+            <input type="hidden" name="command" value="simpleSearch" />
+            <p align="center"><input type="text" name="search" value="" placeholder="Search..."/> <input type="submit" value="Search" /></p>
+        </form>
+        <form action="FrontController">
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="newProduct" />
             <p align="center"><input type="submit" value="New Product" style="width: 150px; height: 25px"/></p>

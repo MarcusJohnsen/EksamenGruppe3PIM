@@ -234,4 +234,9 @@ public class BusinessFacade {
         return Product.findProductsOnCategoryID(categoryID);
     }
     
+    public TreeSet<Product> searchProduct(String searchString) {
+        TreeSet<Product> fullList = Product.getProductList();
+        return SearchEngine.simpleSearch(searchString, fullList);
+    }
+    
 }
