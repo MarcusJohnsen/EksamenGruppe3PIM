@@ -249,4 +249,9 @@ public class BusinessController {
         return statistics;
     }
 
+    public TreeSet<Product> searchProduct(String searchString) {
+        TreeSet<Product> fullList = Product.getProductList();
+        return SearchEngine.simpleSearch(searchString, fullList);
+    }
+
 }
