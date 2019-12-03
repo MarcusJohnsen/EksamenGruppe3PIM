@@ -1,6 +1,6 @@
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
@@ -12,13 +12,13 @@ import presentation.Command;
 public class AddDistributorCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "index";
         
         String distributorName = request.getParameter("Distributor Name");
         String distributorDescription = request.getParameter("Distributor Description");
         try {
-            businessFacade.createNewDistributor(distributorName, distributorDescription);
+            businessController.createNewDistributor(distributorName, distributorDescription);
         } catch (IllegalArgumentException ex) {
             nextJsp = "newDistributor";
             request.setAttribute("error", ex.getMessage());

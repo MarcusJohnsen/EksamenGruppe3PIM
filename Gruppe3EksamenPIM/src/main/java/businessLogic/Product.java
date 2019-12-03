@@ -342,6 +342,10 @@ public class Product implements Comparable<Product> {
     public TreeSet<Bundle> getProductBundle() {
         return productBundle;
     }
+    
+    public static int getTotalProductCount(){
+        return productList.size();
+    }
 
     @Override
     public int compareTo(Product otherProduct) {

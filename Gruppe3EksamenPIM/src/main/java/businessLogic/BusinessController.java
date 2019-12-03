@@ -1,20 +1,16 @@
 package businessLogic;
 
-import static businessLogic.Attribute.findAttributeOnID;
-import static businessLogic.Attribute.validateNewAttributeTitle;
-import static businessLogic.Bundle.findBundleOnID;
-import static businessLogic.Bundle.validateBundleInput;
-import static businessLogic.Category.findCategoryOnID;
-import static businessLogic.Category.validateCategoryInput;
-import static businessLogic.Product.findProductOnID;
-import static businessLogic.Product.validateProductInput;
-import static businessLogic.Distributor.findDistributorOnID;
-import static businessLogic.Distributor.validateDistributorInput;
+import static businessLogic.Category.*;
+import static businessLogic.Attribute.*;
+import static businessLogic.Product.*;
+import static businessLogic.Bundle.*;
+import static businessLogic.Distributor.*;
 import factory.SystemMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
+import javafx.util.Pair;
 import javax.servlet.http.Part;
 import persistence.StorageFacade;
 
@@ -22,12 +18,13 @@ import persistence.StorageFacade;
  *
  * @author Michael N. Korsgaard
  */
-public class BusinessFacade {
+public class BusinessController {
 
+    private final String noImageFileName = "https://res.cloudinary.com/dousnil0k/image/upload/v1575366570/no-img_vlrttr.png";
     private StorageFacade storageFacade;
-    private final String noImageFileName = "no-img.png";
+    private int productCountStatistic;
 
-    public BusinessFacade(SystemMode systemMode) {
+    public BusinessController(SystemMode systemMode) {
         storageFacade = new StorageFacade(systemMode);
     }
 
@@ -77,8 +74,10 @@ public class BusinessFacade {
         Product newProduct = storageFacade.addNewProduct(productName, productDescription, noImageFileName, productDistributors, productCategories);
         Product.addToProductList(newProduct);
         String picturePath = storageFacade.uploadPicture(parts);
-        newProduct.setPicturePath(picturePath);
-        storageFacade.updatePicturePath(newProduct.getProductID(), picturePath);
+        if (picturePath != null) {
+            newProduct.setPicturePath(picturePath);
+            storageFacade.updatePicturePath(newProduct.getProductID(), picturePath);
+        }
         return newProduct;
     }
 
@@ -103,14 +102,14 @@ public class BusinessFacade {
         Attribute.addToAttributeList(newAttribute);
         return newAttribute;
     }
-    
+
     public void editAttribute(int attributeID, String attributeName) {
         validateNewAttributeTitle(attributeName);
         Attribute attribute = findAttributeOnID(attributeID);
         attribute.editAttribute(attributeName);
         storageFacade.editAttribute(attribute);
     }
-    
+
     public boolean deleteAttribute(int attributeID) {
         storageFacade.deleteAttribute(attributeID);
         Attribute attribute = findAttributeOnID(attributeID);
@@ -119,14 +118,14 @@ public class BusinessFacade {
         boolean attributeWasDeleted = Attribute.deleteAttribute(attributeID);
         return attributeWasDeleted;
     }
-    
-     public Distributor createNewDistributor(String distributorName, String distributorDescription) {
+
+    public Distributor createNewDistributor(String distributorName, String distributorDescription) {
         Distributor.validateDistributorInput(distributorName, distributorDescription);
         Distributor newDistributor = storageFacade.addNewDistributor(distributorName, distributorDescription);
         Distributor.addToDistributorList(newDistributor);
         return newDistributor;
     }
-     
+
     public boolean deleteDistributor(int distributorID) {
         storageFacade.deleteDistributor(distributorID);
         Distributor distributor = Distributor.findDistributorOnID(distributorID);
@@ -168,11 +167,11 @@ public class BusinessFacade {
     public Attribute getAttributeFromID(int attributeID) {
         return Attribute.findAttributeOnID(attributeID);
     }
-    
+
     public TreeSet<Distributor> getDistributorList() {
         return Distributor.getDistributorList();
     }
-    
+
     public Distributor getDistributorFromID(int distributorID) {
         return Distributor.findDistributorOnID(distributorID);
     }
@@ -191,16 +190,16 @@ public class BusinessFacade {
         storageFacade.updateProductAttributeSelections(productsUpdated);
         storageFacade.editAttributeToCategory(category);
     }
-    
+
     public Bundle createNewBundle(String bundleName, String bundleDescription, HashMap<Integer, Integer> productChoices) throws IllegalArgumentException {
         Bundle.validateBundleInput(bundleName, bundleDescription, null);
-        HashMap<Product, Integer> productListForBundle = 
-                Product.getMatchingProductsOnIDsWithProductAmountConnected(productChoices);
+        HashMap<Product, Integer> productListForBundle
+                = Product.getMatchingProductsOnIDsWithProductAmountConnected(productChoices);
         Bundle newBundle = storageFacade.addNewBundle(bundleName, bundleDescription, productListForBundle);
         Bundle.addToBundleList(newBundle);
         return newBundle;
     }
-    
+
     public boolean deleteBundle(int bundleID) {
         storageFacade.deleteBundle(bundleID);
         Bundle bundle = Bundle.findBundleOnID(bundleID);
@@ -208,15 +207,15 @@ public class BusinessFacade {
         boolean bundleWasDeleted = Bundle.deleteBundle(bundleID);
         return bundleWasDeleted;
     }
-    
+
     public TreeSet<Bundle> getBundleList() {
         return Bundle.getBundleList();
     }
-    
+
     public Bundle getBundleFromID(int bundleID) {
         return Bundle.findBundleOnID(bundleID);
     }
-    
+
     public void editBundle(int bundleID, String bundleName, String bundleDescription, HashMap<Integer, Integer> productChoices) throws IllegalArgumentException {
         Bundle.validateBundleInput(bundleName, bundleDescription, bundleID);
         HashMap<Product, Integer> productListForBundle = Product.getMatchingProductsOnIDsWithProductAmountConnected(productChoices);
@@ -224,19 +223,35 @@ public class BusinessFacade {
         bundle.editBundle(bundleName, bundleDescription, productListForBundle);
         storageFacade.editBundle(bundle);
     }
-    
-    public void bulkEdit(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues){
+
+    public void bulkEdit(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
         Attribute.bulkEditProducts(productIDs, newAttributeValues);
         storageFacade.bulkEditOnCategoryID(productIDs, newAttributeValues);
     }
-    
-    public TreeSet<Product> findProductsOnCategoryID(int categoryID){
+
+    public TreeSet<Product> findProductsOnCategoryID(int categoryID) {
         return Product.findProductsOnCategoryID(categoryID);
     }
-    
+
+    /**
+     * !! WORKING PROGRESS !!
+     *
+     * @author Michael
+     * @return
+     */
+    public HashMap<String, Object> getSystemStatistics() {
+        HashMap<String, Object> statistics = new HashMap();
+        statistics.put("productCount", Product.getTotalProductCount());
+        statistics.put("categoryCount", Category.getTotalCategoryCount());
+        statistics.put("distributorCount", Distributor.getTotalDistributorCount());
+        statistics.put("bundleCount", Bundle.getTotalBundleCount());
+        ArrayList<Pair<Category, Integer>> topTenCategories = new ArrayList();
+        return statistics;
+    }
+
     public TreeSet<Product> searchProduct(String searchString) {
         TreeSet<Product> fullList = Product.getProductList();
         return SearchEngine.simpleSearch(searchString, fullList);
     }
-    
+
 }

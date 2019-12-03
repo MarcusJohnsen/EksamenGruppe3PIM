@@ -1,6 +1,6 @@
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Distributor;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,14 +10,14 @@ import presentation.Command;
 public class DeleteDistributorCommand extends Command {
     
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
 
         String jspPage = "viewAllDistributors";
         int distributorID = Integer.parseInt(request.getParameter("distributorID"));
 
-        businessFacade.deleteDistributor(distributorID);
+        businessController.deleteDistributor(distributorID);
 
-        TreeSet<Distributor> distributorList = businessFacade.getDistributorList();
+        TreeSet<Distributor> distributorList = businessController.getDistributorList();
         request.setAttribute("distributorList", distributorList);
         return jspPage;
     }

@@ -6,7 +6,7 @@
 package presentation.commands;
 
 import businessLogic.Bundle;
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Product;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import presentation.Command;
 public class SelectBundleCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
 
         String nextJsp = null;
         String commandType = request.getParameter("submitButton");
@@ -28,10 +28,10 @@ public class SelectBundleCommand extends Command {
         if (bundleChoiceString != null) {
 
             int bundleChoice = Integer.parseInt(bundleChoiceString);
-            Bundle bundle = businessFacade.getBundleFromID(bundleChoice);
+            Bundle bundle = businessController.getBundleFromID(bundleChoice);
 
             if (commandType.equals("Edit Bundle")) {
-                TreeSet<Product> productList = businessFacade.getProductList();
+                TreeSet<Product> productList = businessController.getProductList();
                 request.setAttribute("productList", productList);
                 nextJsp = "editBundle";
             } else if (commandType.equals("Delete Bundle")) {
@@ -41,7 +41,7 @@ public class SelectBundleCommand extends Command {
             request.setAttribute("bundle", bundle);
 
         } else {
-            TreeSet<Bundle> bundleList = businessFacade.getBundleList();
+            TreeSet<Bundle> bundleList = businessController.getBundleList();
             request.setAttribute("bundleList", bundleList);
             nextJsp = "viewAllBundles";
 

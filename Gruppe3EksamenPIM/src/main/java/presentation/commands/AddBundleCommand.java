@@ -5,7 +5,7 @@
  */
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import presentation.Command;
 public class AddBundleCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "index";
 
         String bundleName = request.getParameter("Bundle Name");
@@ -48,11 +48,11 @@ public class AddBundleCommand extends Command {
                 productChoices = null;
             }
 
-            businessFacade.createNewBundle(bundleName, bundleDescription, productChoices);
+            businessController.createNewBundle(bundleName, bundleDescription, productChoices);
 
         } catch (IllegalArgumentException ex) {
             nextJsp = "newBundle";
-            TreeSet<Product> productList = businessFacade.getProductList();
+            TreeSet<Product> productList = businessController.getProductList();
             request.setAttribute("productList", productList);
             request.setAttribute("error", ex.getMessage());
         }

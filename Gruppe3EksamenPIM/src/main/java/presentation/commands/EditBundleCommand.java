@@ -6,7 +6,7 @@
 package presentation.commands;
 
 import businessLogic.Bundle;
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +22,9 @@ import presentation.Command;
 public class EditBundleCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "viewAllBundles";
-        request.setAttribute("bundleList", businessFacade.getBundleList());
+        request.setAttribute("bundleList", businessController.getBundleList());
         int bundleID = Integer.parseInt(request.getParameter("bundleID"));
         String bundleName = request.getParameter("Bundle Name");
         String bundleDescription = request.getParameter("Bundle Description");
@@ -50,16 +50,16 @@ public class EditBundleCommand extends Command {
                 productChoices = null;
             }
 
-            businessFacade.editBundle(bundleID, bundleName, bundleDescription, productChoices);
+            businessController.editBundle(bundleID, bundleName, bundleDescription, productChoices);
 
         } catch (IllegalArgumentException ex) {
             nextJsp = "editBundle";
             request.setAttribute("error", ex.getMessage());
 
-            TreeSet<Product> productList = businessFacade.getProductList();
+            TreeSet<Product> productList = businessController.getProductList();
             request.setAttribute("productList", productList);
 
-            Bundle bundle = businessFacade.getBundleFromID(bundleID);
+            Bundle bundle = businessController.getBundleFromID(bundleID);
             request.setAttribute("bundle", bundle);
         }
         return nextJsp;

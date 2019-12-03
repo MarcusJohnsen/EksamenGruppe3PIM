@@ -5,7 +5,7 @@
  */
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Product;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import presentation.Command;
 public class SimpleSearchCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessFacade) {
 
         String nextJsp = "viewAllProducts";
 //        String commandType = request.getParameter("submitButton");

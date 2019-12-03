@@ -1,6 +1,6 @@
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Category;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import presentation.Command;
 public class EditAttributesToCategoryCommand extends Command {
     
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "editCategory";
         ArrayList<String> attributeChoices;
         
@@ -24,9 +24,9 @@ public class EditAttributesToCategoryCommand extends Command {
         } else {
             attributeChoices = new ArrayList();
         }
-        Category category = businessFacade.getCategoryFromID(Integer.parseInt(request.getParameter("categoryID")));
+        Category category = businessController.getCategoryFromID(Integer.parseInt(request.getParameter("categoryID")));
         
-        businessFacade.editAttributesToCategory(category, attributeChoices);
+        businessController.editAttributesToCategory(category, attributeChoices);
         
         request.setAttribute("category", category);
         

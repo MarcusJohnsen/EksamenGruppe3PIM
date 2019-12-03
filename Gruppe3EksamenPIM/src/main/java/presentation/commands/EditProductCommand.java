@@ -1,7 +1,7 @@
 package presentation.commands;
 
 import businessLogic.Attribute;
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Distributor;
 import businessLogic.Product;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import presentation.Command;
 public class EditProductCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "viewAllProducts";
 
         int productID = Integer.parseInt(request.getParameter("productID"));
@@ -27,7 +27,7 @@ public class EditProductCommand extends Command {
         String productDescription = request.getParameter("Product Description");
 
         HashMap<Integer, String> productAttributeValues = new HashMap();
-        Product product = businessFacade.getProductFromID(productID);
+        Product product = businessController.getProductFromID(productID);
         for (Attribute productAttribute : product.getProductAttributes()) {
             int attributeValue = productAttribute.getAttributeID();
             productAttributeValues.put(attributeValue, request.getParameter("AttributeID" + attributeValue));
@@ -40,11 +40,11 @@ public class EditProductCommand extends Command {
             } else {
                 throw new IllegalArgumentException("Need at least 1 distributor");
             }
-            businessFacade.editProduct(productID, productName, productDescription, distributorChoices, productAttributeValues);
-            request.setAttribute("productList", businessFacade.getProductList());
+            businessController.editProduct(productID, productName, productDescription, distributorChoices, productAttributeValues);
+            request.setAttribute("productList", businessController.getProductList());
         } catch (IllegalArgumentException ex) {
             nextJsp = "editProduct";
-            TreeSet<Distributor> distributorList = businessFacade.getDistributorList();
+            TreeSet<Distributor> distributorList = businessController.getDistributorList();
             request.setAttribute("distributorList", distributorList);
             request.setAttribute("error", ex.getMessage());
             request.setAttribute("product", product);

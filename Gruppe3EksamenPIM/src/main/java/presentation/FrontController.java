@@ -5,7 +5,7 @@
  */
 package presentation;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import factory.SystemMode;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -27,19 +27,19 @@ import javax.servlet.http.HttpServletResponse;
 public class FrontController extends HttpServlet {
 
     private static final SystemMode systemMode = SystemMode.PRODUCTION;
-    private static BusinessFacade businessFacade;
+    private static BusinessController businessController;
     private static boolean needSetup = true;
 
     public static void setup() {
         if (needSetup) {
-            businessFacade = new BusinessFacade(systemMode);
-            businessFacade.setupListsFromDB();
+            businessController = new BusinessController(systemMode);
+            businessController.setupListsFromDB();
             needSetup = false;
         }
     }
 
-    public static BusinessFacade getBusinessFacade() {
-        return businessFacade;
+    public static BusinessController getBusinessController() {
+        return businessController;
     }
     
     /**
@@ -60,7 +60,7 @@ public class FrontController extends HttpServlet {
             if(Command.doCommandNeedParts(cmd)){
                 request.setAttribute("partList", request.getParts());
             }
-            String view = cmd.execute(request, response, businessFacade);
+            String view = cmd.execute(request, response, businessController);
             if (view.equals("index")) {
                 request.getRequestDispatcher(view + ".jsp").forward(request, response);
             } else {
