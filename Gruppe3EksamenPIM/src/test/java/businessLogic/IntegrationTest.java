@@ -20,12 +20,12 @@ import static org.junit.Assert.*;
  */
  public class IntegrationTest {
     private static Connection testConnection;
-    private final BusinessFacade businessFacade = new BusinessFacade(SystemMode.TEST);
+    private final BusinessController businessController = new BusinessController(SystemMode.TEST);
 
     @Before
     public void setup() {
         try {
-            testConnection = businessFacade.getStorageFacade().getSqlDatabase().getConnection();
+            testConnection = businessController.getStorageFacade().getSqlDatabase().getConnection();
             // reset test database
             try (Statement stmt = testConnection.createStatement()) {
                 stmt.execute("drop table if exists Product_Distributor");
@@ -78,7 +78,7 @@ import static org.junit.Assert.*;
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
                 stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
-                businessFacade.setupListsFromDB();
+                businessController.setupListsFromDB();
             }
 
         } catch (SQLException ex) {
@@ -101,12 +101,12 @@ import static org.junit.Assert.*;
         ArrayList<String> categoryAttributeStrings = new ArrayList(Arrays.asList(new String[]{"1","2"}));
         
         //act
-        Category result = businessFacade.createNewCategory(categoryName, categoryDescription, categoryAttributeStrings);
+        Category result = businessController.createNewCategory(categoryName, categoryDescription, categoryAttributeStrings);
 
         //assert
         assertTrue(categoryName.equals(result.getName()));
         assertTrue(categoryDescription.equals(result.getDescription()));
-        assertTrue(businessFacade.getCategoryList().contains(result));
+        assertTrue(businessController.getCategoryList().contains(result));
     }
 
     @Test
@@ -115,10 +115,10 @@ import static org.junit.Assert.*;
         int categoryID = 1;
 
         //act
-        boolean result = businessFacade.deleteCategory(categoryID);
+        boolean result = businessController.deleteCategory(categoryID);
 
         //assert
-        TreeSet<Category> categoryList = businessFacade.getCategoryList();
+        TreeSet<Category> categoryList = businessController.getCategoryList();
         assertTrue(result);
         for (Category category : categoryList) {
             assertNotEquals(categoryID, category.getCategoryID());
@@ -135,12 +135,12 @@ import static org.junit.Assert.*;
         List<Part> requestParts = new ArrayList();
         
         //act
-        Product result = businessFacade.createNewProduct(productName, productDescription, productDistributorStrings, productCategoryStrings, requestParts);
+        Product result = businessController.createNewProduct(productName, productDescription, productDistributorStrings, productCategoryStrings, requestParts);
 
         //assert
         assertTrue(productName.equals(result.getName()));
         assertTrue(productDescription.equals(result.getDescription()));
-        assertTrue(businessFacade.getProductList().contains(result));
+        assertTrue(businessController.getProductList().contains(result));
     }
 
     @Test
@@ -149,10 +149,10 @@ import static org.junit.Assert.*;
         int productID = 1;
 
         //act
-        boolean result = businessFacade.deleteProduct(productID);
+        boolean result = businessController.deleteProduct(productID);
 
         //assert
-        TreeSet<Product> productList = businessFacade.getProductList();
+        TreeSet<Product> productList = businessController.getProductList();
         assertTrue(result);
         for (Product product : productList) {
             assertNotEquals(productID, product.getProductID());
@@ -170,8 +170,8 @@ import static org.junit.Assert.*;
         HashMap<Integer, String> productAttributeValues = new HashMap();
 
         //act
-        businessFacade.editProduct(productID, productName, productDescription, productDistributors, productAttributeValues);
-        Product result = businessFacade.getProductFromID(productID);
+        businessController.editProduct(productID, productName, productDescription, productDistributors, productAttributeValues);
+        Product result = businessController.getProductFromID(productID);
 
         //assert
         int expResultDistributorSize = 1;
@@ -193,7 +193,7 @@ import static org.junit.Assert.*;
         Category.addToCategoryList(category);
 
         //act
-        Category result = businessFacade.getCategoryFromID(categoryID);
+        Category result = businessController.getCategoryFromID(categoryID);
 
         //assert
         assertTrue(categoryName.equals(result.getName()));
@@ -211,9 +211,9 @@ import static org.junit.Assert.*;
         int expIDResult3 = expIDResult2 + 1;
         
         //act
-        Attribute result1 = businessFacade.createNewAttribute(attributeTitle1);
-        Attribute result2 = businessFacade.createNewAttribute(attributeTitle2);
-        Attribute result3 = businessFacade.createNewAttribute(attributeTitle3);
+        Attribute result1 = businessController.createNewAttribute(attributeTitle1);
+        Attribute result2 = businessController.createNewAttribute(attributeTitle2);
+        Attribute result3 = businessController.createNewAttribute(attributeTitle3);
 
         //assert
         assertEquals(expIDResult1,result1.getAttributeID());
@@ -231,6 +231,6 @@ import static org.junit.Assert.*;
         String attributeTitle1 = "";
         
         //act
-        businessFacade.createNewAttribute(attributeTitle1);
+        businessController.createNewAttribute(attributeTitle1);
     }
 }

@@ -1,6 +1,6 @@
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Distributor;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +10,7 @@ import presentation.Command;
 public class SelectDistributorCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
 
         String nextJsp = null;
         String commandType = request.getParameter("submitButton");
@@ -19,7 +19,7 @@ public class SelectDistributorCommand extends Command {
         if (distributorChoiceString != null) {
 
             int distributorChoice = Integer.parseInt(distributorChoiceString);
-            Distributor distributor = businessFacade.getDistributorFromID(distributorChoice);
+            Distributor distributor = businessController.getDistributorFromID(distributorChoice);
 
             if (commandType.equals("Edit Distributor")) {
                 nextJsp = "editDistributor";
@@ -29,7 +29,7 @@ public class SelectDistributorCommand extends Command {
 
             request.setAttribute("distributor", distributor);
         } else {
-            TreeSet<Distributor> distributorList = businessFacade.getDistributorList();
+            TreeSet<Distributor> distributorList = businessController.getDistributorList();
             request.setAttribute("distributorList", distributorList);
             nextJsp = "viewAllDistributors";
             

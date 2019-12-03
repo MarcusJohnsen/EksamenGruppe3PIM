@@ -5,7 +5,7 @@
  */
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Category;
 import businessLogic.Product;
 import java.util.TreeSet;
@@ -20,10 +20,10 @@ import presentation.Command;
 public class BulkSelectCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "bulkEdit";
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-        Category category = businessFacade.getCategoryFromID(categoryID);
+        Category category = businessController.getCategoryFromID(categoryID);
 
         try {
             String[] productChoices = request.getParameterValues("productChoice");
@@ -33,7 +33,7 @@ public class BulkSelectCommand extends Command {
             request.getSession().setAttribute("productChoices", productChoices);
         } catch (IllegalArgumentException ex) {
             request.setAttribute("error", ex.getMessage());
-            TreeSet<Product> productList = businessFacade.findProductsOnCategoryID(categoryID);
+            TreeSet<Product> productList = businessController.findProductsOnCategoryID(categoryID);
             request.setAttribute("productList", productList);
             nextJsp = "bulkSelect";
         }

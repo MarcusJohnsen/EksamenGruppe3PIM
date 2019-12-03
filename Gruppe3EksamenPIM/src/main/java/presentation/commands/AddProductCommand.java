@@ -1,6 +1,6 @@
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Category;
 import businessLogic.Distributor;
 import businessLogic.Product;
@@ -24,7 +24,7 @@ import presentation.Command;
 public class AddProductCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
 
         String nextJsp = "viewAllProductDetails";
 
@@ -51,14 +51,14 @@ public class AddProductCommand extends Command {
                 throw new IllegalArgumentException("Need at least 1 distributor");
             }
             
-            Product newProduct = businessFacade.createNewProduct(productName, productDescription, distributorChoices, categoryChoices, parts);
+            Product newProduct = businessController.createNewProduct(productName, productDescription, distributorChoices, categoryChoices, parts);
             request.setAttribute("product", newProduct);
             
         } catch (IllegalArgumentException ex) {
-            TreeSet<Category> categoryList = businessFacade.getCategoryList();
+            TreeSet<Category> categoryList = businessController.getCategoryList();
             request.setAttribute("categoryList", categoryList);
             nextJsp = "newProduct";
-            TreeSet<Distributor> distributorList = businessFacade.getDistributorList();
+            TreeSet<Distributor> distributorList = businessController.getDistributorList();
             request.setAttribute("distributorList", distributorList);
             request.setAttribute("error", ex.getMessage());
         } catch (IOException ex) {

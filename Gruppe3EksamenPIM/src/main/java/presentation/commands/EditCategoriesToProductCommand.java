@@ -5,7 +5,7 @@
  */
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ import presentation.Command;
 public class EditCategoriesToProductCommand extends Command{
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "editProduct";
         ArrayList<String> categoryChoices;
         
@@ -30,8 +30,8 @@ public class EditCategoriesToProductCommand extends Command{
             categoryChoices = new ArrayList();
         }
         
-        Product product = businessFacade.getProductFromID(Integer.parseInt(request.getParameter("productID")));
-        businessFacade.editCategoriesToProduct(product, categoryChoices);
+        Product product = businessController.getProductFromID(Integer.parseInt(request.getParameter("productID")));
+        businessController.editCategoriesToProduct(product, categoryChoices);
         
         request.setAttribute("product", product);
         return nextJsp;

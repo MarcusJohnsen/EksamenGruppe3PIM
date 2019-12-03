@@ -2,7 +2,7 @@ package presentation.commands;
 
 import businessLogic.Attribute;
 import businessLogic.Bundle;
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Category;
 import businessLogic.Distributor;
 import businessLogic.Product;
@@ -18,7 +18,7 @@ import presentation.Command;
 public class GoToJspCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String jspPage = request.getParameter("goToJsp");
 
         TreeSet<Product> productList;
@@ -29,45 +29,45 @@ public class GoToJspCommand extends Command {
 
         switch (jspPage) {
             case "viewAllProducts":
-                productList = businessFacade.getProductList();
+                productList = businessController.getProductList();
                 request.setAttribute("productList", productList);
                 break;
             case "viewAllCategories":
-                categoryList = businessFacade.getCategoryList();
+                categoryList = businessController.getCategoryList();
                 request.setAttribute("categoryList", categoryList);
                 break;
             case "viewAllDistributors":
-                distributorList = businessFacade.getDistributorList();
+                distributorList = businessController.getDistributorList();
                 request.setAttribute("distributorList", distributorList);
                 break;
             case "viewAllBundles":
-                bundleList = businessFacade.getBundleList();
+                bundleList = businessController.getBundleList();
                 request.setAttribute("bundleList", bundleList);
                 break;
             case "viewAllAttributes":
-                attributeList = businessFacade.getAttributeList();
+                attributeList = businessController.getAttributeList();
                 request.setAttribute("attributeList", attributeList);
                 break;
             case "newBundle":
-                productList = businessFacade.getProductList();
+                productList = businessController.getProductList();
                 request.setAttribute("productList", productList);
                 break;
             case "editBundle":
-                productList = businessFacade.getProductList();
+                productList = businessController.getProductList();
                 request.setAttribute("productList", productList);
                 break;
             case "newProduct":
-                categoryList = businessFacade.getCategoryList();
+                categoryList = businessController.getCategoryList();
                 request.setAttribute("categoryList", categoryList);
-                distributorList = businessFacade.getDistributorList();
+                distributorList = businessController.getDistributorList();
                 request.setAttribute("distributorList", distributorList);
                 break;
             case "editProduct":
-                distributorList = businessFacade.getDistributorList();
+                distributorList = businessController.getDistributorList();
                 request.setAttribute("distributorList", distributorList);
                 break;
             case "newCategory":
-                attributeList = businessFacade.getAttributeList();
+                attributeList = businessController.getAttributeList();
                 request.setAttribute("attributeList", attributeList);
                 break;    
             default:

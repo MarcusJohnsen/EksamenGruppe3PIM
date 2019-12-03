@@ -1,6 +1,6 @@
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Category;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,14 +14,14 @@ import presentation.Command;
 public class DeleteCategoryCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
 
         String jspPage = "viewAllCategories";
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
 
-        businessFacade.deleteCategory(categoryID);
+        businessController.deleteCategory(categoryID);
 
-        TreeSet<Category> categoryList = businessFacade.getCategoryList();
+        TreeSet<Category> categoryList = businessController.getCategoryList();
         request.setAttribute("categoryList", categoryList);
         return jspPage;
 

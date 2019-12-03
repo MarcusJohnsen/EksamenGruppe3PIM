@@ -1,6 +1,6 @@
 package presentation.commands;
 
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import businessLogic.Category;
 import businessLogic.Product;
 import java.util.TreeSet;
@@ -15,13 +15,13 @@ import presentation.Command;
 public class SelectCategoriesForProductCommand extends Command {
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
 
         String nextJsp = "editCategoriesForProduct";
         int productID = Integer.parseInt(request.getParameter("productID"));
 
-        Product product = businessFacade.getProductFromID(productID);
-        TreeSet<Category> categoryList = businessFacade.getCategoryList();
+        Product product = businessController.getProductFromID(productID);
+        TreeSet<Category> categoryList = businessController.getCategoryList();
         
         request.setAttribute("categoryList",categoryList);
         request.setAttribute("product", product);

@@ -32,6 +32,7 @@
 
                 <tbody>
                     <%
+                        
                         TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
                         for (Product product : productList) {
                             int ProductID = product.getProductID();

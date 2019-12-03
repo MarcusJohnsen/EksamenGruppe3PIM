@@ -6,7 +6,7 @@
 package presentation.commands;
 
 import businessLogic.Bundle;
-import businessLogic.BusinessFacade;
+import businessLogic.BusinessController;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,14 +19,14 @@ import presentation.Command;
 public class DeleteBundleCommand extends Command{
     
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessFacade businessFacade) {
+    public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
 
         String jspPage = "viewAllBundles";
         int bundleID = Integer.parseInt(request.getParameter("bundleID"));
 
-        businessFacade.deleteBundle(bundleID);
+        businessController.deleteBundle(bundleID);
 
-        TreeSet<Bundle> bundleList = businessFacade.getBundleList();
+        TreeSet<Bundle> bundleList = businessController.getBundleList();
         request.setAttribute("bundleList", bundleList);
         return jspPage;
 

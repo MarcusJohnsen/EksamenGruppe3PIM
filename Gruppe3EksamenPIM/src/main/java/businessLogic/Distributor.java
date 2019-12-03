@@ -83,6 +83,10 @@ public class Distributor implements Comparable<Distributor>{
     public String getDistributorDescription() {
         return distributorDescription;
     }
+    
+    public static int getTotalDistributorCount(){
+        return distributorList.size();
+    }
 
     @Override
     public int compareTo(Distributor otherDistributor) {
