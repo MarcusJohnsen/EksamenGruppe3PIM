@@ -2,6 +2,7 @@ package businessLogic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.TreeSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -186,5 +187,23 @@ public class CategoryTest {
         Category.addToCategoryList(category2);
         
         Category.validateCategoryInput(categoryName, categoryDescription2, categoryID2);
+    }
+    
+    @Test
+    public void testDeleteAttributeOnCategories() {
+        int categoryID = 1;
+        String categoryName = "kæledyr";
+        String categoryDescription = "ting til kæledyr";
+        Attribute attribute1 = new Attribute(2, "Att. 2", new HashMap());
+        Attribute attribute2 = new Attribute(3, "Att. 3", new HashMap());
+        TreeSet<Attribute> categoryAttributes = new TreeSet(Arrays.asList(new Attribute[] {attribute1, attribute2}));
+        Category category = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
+        Category.addToCategoryList(category);
+        
+        Category.deleteAttributeOnCategories(attribute1);
+        
+        assertTrue(category.getCategoryAttributes().contains(attribute2));
+        assertFalse(category.getCategoryAttributes().contains(attribute1));
+        
     }
 }
