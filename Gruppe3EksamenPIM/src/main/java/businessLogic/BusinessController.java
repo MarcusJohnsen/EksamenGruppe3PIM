@@ -245,7 +245,9 @@ public class BusinessController {
         statistics.put("categoryCount", Category.getTotalCategoryCount());
         statistics.put("distributorCount", Distributor.getTotalDistributorCount());
         statistics.put("bundleCount", Bundle.getTotalBundleCount());
-        ArrayList<Pair<Category, Integer>> topTenCategories = new ArrayList();
+        statistics.put("topTenCategories", Category.topTenCategories());
+        statistics.put("topTenDistributors", Distributor.topTenDistributors());
+        statistics.put("topTenBundles", Bundle.topTenBundles());
         return statistics;
     }
 
