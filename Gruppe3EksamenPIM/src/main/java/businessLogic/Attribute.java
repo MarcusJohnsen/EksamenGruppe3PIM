@@ -135,6 +135,10 @@ public class Attribute implements Comparable<Attribute> {
         boolean hadPreviousValue = previousValue != null;
         return hadPreviousValue;
     }
+    
+    public void removeValueFromAttribute(int productID){
+        this.attributeValues.remove(productID);
+    }
 
     /**
      *

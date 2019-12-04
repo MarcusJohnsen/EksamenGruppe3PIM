@@ -22,18 +22,16 @@ public class Product implements Comparable<Product> {
 
     private static TreeSet<Product> productList = new TreeSet();
 
-    
     /**
      * Constructor
-     * 
-     * @param productID  int unique, not null auto_increment
+     *
+     * @param productID int unique, not null auto_increment
      * @param name String, not null
      * @param description String, not null
      * @param picturePath String
      * @param productDistributors TreeSet of distributor-Objects
-     * @param productCategories  TreeSet of category Objects
+     * @param productCategories TreeSet of category Objects
      */
-    
     public Product(int productID, String name, String description, String picturePath, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
         this.productID = productID;
         this.name = name;
@@ -47,25 +45,22 @@ public class Product implements Comparable<Product> {
             this.productAttributes = new TreeSet();
             this.productCategories = new TreeSet();
         }
+        addProductRelationToCategoriesAndDistributors();
     }
-
-     /**
-     * Creates new category object and stores it in the database. Get's the
-     * CategoryID from the database, and returns the Category object with the
-     * new ID
-     *
-     * @param categoryName String with max length of 255 characters
-     * @param categoryDescription String with max length of 2550 characters
-     *
-     * @return the category object with an ID given from the database.
-     * @throws IllegalArgumentException stating that category object could not
-     * be inserted, due to a sql error with the database.
-     */
+    
+    public void addProductRelationToCategoriesAndDistributors(){
+        for (Distributor distributor : productDistributors) {
+            distributor.addProductToDistributor(this);
+        }
+        
+        for (Category category : productCategories) {
+            category.addProductToCategory(this);
+        }
+    }
     
     /**
-     * Traverses through the productList in order to find certain category object, 
-     * which is deleted once it is found.
-     
+     * Traverses through the productList in order to find certain category object, which is deleted once it is found.
+     *
      * @param category category-Object stored in a TreeSet
      */
     public static void deleteCategoryFromProducts(Category category) {
@@ -73,15 +68,12 @@ public class Product implements Comparable<Product> {
             product.productCategories.remove(category);
         }
     }
-    
-    
+
     /**
-     * Traverses through the productList in order to find certain distributor object,
-     * which is deleted once it is found
-     * 
+     * Traverses through the productList in order to find certain distributor object, which is deleted once it is found
+     *
      * @param distributor distributor-object stored in a TreeSet
      */
-    
     public static void deleteDistributorFromProducts(Distributor distributor) {
         for (Product product : productList) {
             product.productDistributors.remove(distributor);
@@ -112,22 +104,20 @@ public class Product implements Comparable<Product> {
         }
         this.productAttributes = attributeSet;
     }
-    
+
     public static void deleteAttributeOnProducts(Attribute attribute) {
         for (Product product : productList) {
             product.productAttributes.remove(attribute);
         }
     }
 
-    
     /**
-     * Takes a HashMap of productChoices with key integer and 
-     * 
+     * Takes a HashMap of productChoices with key integer and
+     *
      * @param productChoices
-     * 
-     * @return 
+     *
+     * @return
      */
-    
     public static HashMap<Product, Integer> getMatchingProductsOnIDsWithProductAmountConnected(HashMap<Integer, Integer> productChoices) {
         HashMap<Product, Integer> result = new HashMap();
         if (productChoices != null) {
@@ -221,7 +211,20 @@ public class Product implements Comparable<Product> {
      * @return The new productList.
      */
     public static boolean deleteProductOnID(int productID) {
-        return productList.remove(findProductOnID(productID));
+        Product product = findProductOnID(productID);
+        for (Distributor distributor : product.productDistributors) {
+            distributor.removeProductFromDistributor(product);
+        }
+        for (Category category : product.productCategories) {
+            category.removeProductFromCategory(product);
+        }
+        for (Attribute attribute : product.productAttributes) {
+            attribute.removeValueFromAttribute(productID);
+        }
+        for (Bundle bundle : product.productBundle) {
+            bundle.removeProductFromBundle(product);
+        }
+        return productList.remove(product);
     }
 
     /**
@@ -343,7 +346,15 @@ public class Product implements Comparable<Product> {
         return productBundle;
     }
     
-    public static int getTotalProductCount(){
+    public boolean addBundleToProduct(Bundle bundle){
+        return productBundle.add(bundle);
+    }
+    
+    public void removeBundleFromProduct(Bundle bundle){
+        this.productBundle.remove(bundle);
+    }
+
+    public static int getTotalProductCount() {
         return productList.size();
     }
 
@@ -355,5 +366,5 @@ public class Product implements Comparable<Product> {
         return thisID - otherID;
 
     }
-    
+
 }

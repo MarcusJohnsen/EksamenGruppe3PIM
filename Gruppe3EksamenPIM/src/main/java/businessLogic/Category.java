@@ -1,6 +1,9 @@
 package businessLogic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.TreeSet;
 import javafx.util.Pair;
 
@@ -14,6 +17,7 @@ public class Category implements Comparable<Category> {
     private String name;
     private String description;
     private TreeSet<Attribute> categoryAttributes;
+    private TreeSet<Product> categoryProducts;
 
     private static TreeSet<Category> categoryList = new TreeSet();
 
@@ -26,6 +30,7 @@ public class Category implements Comparable<Category> {
         } else {
             this.categoryAttributes = new TreeSet();
         }
+        this.categoryProducts = new TreeSet();
     }
 
     /**
@@ -65,7 +70,7 @@ public class Category implements Comparable<Category> {
         }
         return result;
     }
-    
+
     public static void deleteAttributeOnCategories(Attribute attribute) {
         for (Category category : categoryList) {
             category.categoryAttributes.remove(attribute);
@@ -140,69 +145,77 @@ public class Category implements Comparable<Category> {
         return result;
     }
 
-    /**
-     *
-     * @return The categoryID
-     */
+    public boolean addProductToCategory(Product product) {
+        return categoryProducts.add(product);
+    }
+
+    public boolean removeProductFromCategory(Product product) {
+        return categoryProducts.remove(product);
+    }
+
     public int getCategoryID() {
         return categoryID;
     }
 
-    /**
-     *
-     * @return The name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @return The description
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     *
-     * @return The categoryList
-     */
     public static TreeSet<Category> getCategoryList() {
         return categoryList;
     }
 
-    /**
-     *
-     * @return The categoryAttributes
-     */
     public TreeSet<Attribute> getCategoryAttributes() {
         return categoryAttributes;
     }
 
-    /**
-     *
-     * @param categoryAttributes Sets the categoryAttributes
-     */
     public void setCategoryAttributes(TreeSet<Attribute> categoryAttributes) {
         this.categoryAttributes = categoryAttributes;
     }
-    
-    public static int getTotalCategoryCount(){
+
+    public static int getTotalCategoryCount() {
         return categoryList.size();
     }
-    
+
+    public TreeSet<Product> getCategoryProducts() {
+        return categoryProducts;
+    }
+
     /**
      * !! WORKING PROGRESS !!
-     * 
+     *
      * @author Michael
-     * @return 
+     * @return
      */
-    public static ArrayList<Pair<Category, Integer>> topTenCategories(){
-        ArrayList<Pair<Category, Integer>> result = new ArrayList();
+    public static List<Pair<Category, Integer>> topTenCategories() {
+        List<Pair<Category, Integer>> categoryProductCounts = new ArrayList();
+        for (Category category : categoryList) {
+            categoryProductCounts.add(new Pair(category, category.categoryProducts.size()));
+        }
+
+        Collections.sort(categoryProductCounts, new Comparator<Pair<Category, Integer>>() {
+            @Override
+            public int compare(final Pair<Category, Integer> o1, final Pair<Category, Integer> o2) {
+                if (o1.getValue() > o2.getValue()) {
+                    return -1;
+                } else if (o1.getValue() < o2.getValue()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
         
-        
-        
+        int subListEnd = 10;
+        if (categoryProductCounts.size() < 10) {
+            subListEnd = categoryProductCounts.size();
+        }
+
+        List<Pair<Category, Integer>> result = categoryProductCounts.subList(0, subListEnd);
         return result;
     }
 
