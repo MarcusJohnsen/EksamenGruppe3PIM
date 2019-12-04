@@ -12,6 +12,8 @@
         <title>New Attribute</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <div class="main">
         <h1 align="center">New Attribute</h1>
         <br>
         <form action="FrontController">
@@ -27,5 +29,6 @@
             <input type="hidden" name="goToJsp" value="index" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        </div>
     </body>
 </html>

@@ -28,80 +28,82 @@ ${frontController.setup()}
         <title>PIM System</title>
     </head>
     <body>
-        Top 10 Categories:<br>
-        <c:forEach items='${topTenCategories}' var="topTenCategory">
-            <c:out value="${topTenCategory.getKey().getName()}"/> has <c:out value="${topTenCategory.getValue()}"/> products<br>
-        </c:forEach>
-        <br>
-        Product Count: <c:out value="${productCount}"/>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
 
-        <h1 align="center">Products</h1>
-        <br>
-        <form action="FrontController">
-            <input type="hidden" name="command" value="simpleSearch" />
-            <p align="center"><input type="text" name="search" value="" placeholder="Search..."/> <input type="submit" value="Search" /></p>
-        </form>
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="newProduct" />
-            <p align="center"><input type="submit" value="New Product" style="width: 150px; height: 25px"/></p>
-        </form>
-
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="viewAllProducts" />
-            <p align="center"><input type="submit" value="View Products" style="width: 150px; height: 25px"/></p>
-        </form>
-        <br>
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="newCategory" />
-            <p align="center"><input type="submit" value="New Category" style="width: 150px; height: 25px"/></p>
-        </form>
-
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="viewAllCategories" />
-            <p align="center"><input type="submit" value="View Categories" style="width: 150px; height: 25px"/></p>
-        </form>
-        <br>
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="newAttribute" />
-            <p align="center"><input type="submit" value="New Attribute" style="width: 150px; height: 25px"/></p>
-        </form>
-
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />    
-            <input type="hidden" name="goToJsp" value="viewAllAttributes" />
-            <p align="center"><input type="submit" value="View Attributes" style="width: 150px; height: 25px"/></p>
-        </form> 
-        <br>
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="newDistributor" />
-            <p align="center"><input type="submit" value="New Distributor" style="width: 150px; height: 25px"/></p>
-        </form>
-
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />    
-            <input type="hidden" name="goToJsp" value="viewAllDistributors" />
-            <p align="center"><input type="submit" value="View Distributors" style="width: 150px; height: 25px"/></p>
-        </form>   
-        <br>
-        <form action="FrontController">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="newBundle" />
-            <p align="center"><input type="submit" value="New Bundle" style="width: 150px; height: 25px"/></p>
-        </form>
-
-        <form action="FrontController">   
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="viewAllBundles" />
-            <p align="center"><input type="submit" value="View Bundles" style="width: 150px; height: 25px"/></p>
-        </form>
-
-
-
+        <div class="main">
+            <h1 align="center">PIM System</h1>
+            <h3 align="center">Product Count: <c:out value="${productCount}"/></h3>
+            <br>
+            <div>
+                <div style="float: left; width:28%; margin: auto 1.5em;">
+                    <div align="center">Bundle Count: <c:out value="${bundleCount}"/><br></div>
+                    <table border = "1" width = "100%" bgcolor="#ededed">
+                        <thead>
+                            <tr bgcolor = "#ff7a7a">
+                                <th>Top</th>
+                                <th>Bundles</th>
+                                <th>Qty.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%int test1 = 1;%>
+                            <c:forEach items='${topTenBundles}' var="topTenBundle">
+                                <tr>
+                                    <td><%=test1++%></td>
+                                    <td><c:out value="${topTenBundle.getKey().getBundleName()}"/></td>
+                                    <td><c:out value="${topTenBundle.getValue()}"/></td>
+                                </c:forEach>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="float: left; width:28%; margin: auto 1.5em;">
+                    <div align="center">Category Count: <c:out value="${categoryCount}"/><br></div>
+                    <table border = "1" width = "100%"  bgcolor="#ededed">
+                        <thead>
+                            <tr bgcolor = "#ff7a7a">
+                                <th>Top</th>
+                                <th>Category</th>
+                                <th>Qty.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%int test2 = 1;%>
+                            <c:forEach items='${topTenCategories}' var="topTenCategory">
+                                <tr>
+                                    <td><%=test2++%></td>
+                                    <td><c:out value="${topTenCategory.getKey().getName()}"/></td>
+                                    <td><c:out value="${topTenCategory.getValue()}"/></td>
+                                </c:forEach>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="float: left; width:28%; margin: auto 1.5em;">
+                    <div align="center">
+                    Distributor Count: <c:out value="${distributorCount}"/><br></div>
+                    <table border = "1" width = "100%" bgcolor="#ededed">
+                        <thead>
+                            <tr bgcolor = "#ff7a7a">
+                                <th>Top</th>
+                                <th>Distributors</th>
+                                <th>Qty.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%int test3 = 1;%>
+                            <c:forEach items='${topTenDistributors}' var="topTenDistributor">
+                                <tr>
+                                    <td><%=test3++%></td>
+                                    <td><c:out value="${topTenDistributor.getKey().getDistributorName()}"/></td>
+                                    <td><c:out value="${topTenDistributor.getValue()}"/></td>
+                                </c:forEach>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>    
+            </div>
+            <br>
+        </div>
     </body>
 </html>

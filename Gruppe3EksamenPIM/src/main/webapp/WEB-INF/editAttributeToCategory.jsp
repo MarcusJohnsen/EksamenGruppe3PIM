@@ -15,11 +15,13 @@
         <title>Connect attributes</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Category category = (Category) request.getAttribute("category");
             TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
             int categoryID = category.getCategoryID();
         %>
+        <div class="main">
         <h1 align="center">Add attribute to category</h1>
         <h3 align="center"><%=category.getName()%>, product ID: <%=categoryID%></h3>
         <form action="FrontController">
@@ -61,5 +63,6 @@
             <input type="hidden" name="goToJsp" value="viewAllCategories" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        </div>
     </body>
 </html>

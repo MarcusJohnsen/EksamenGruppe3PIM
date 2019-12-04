@@ -13,11 +13,13 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Product product = (Product) request.getAttribute("product");
             String productName = product.getName();
             int productID = product.getProductID();
         %>
+    <div class="main">
     <center>
         <h1>Confirm Deletion</h1>
         <br>
@@ -35,5 +37,6 @@
             <input type="submit" value="Go Back" />
         </form>
     </center>
+    </div>        
 </body>
 </html>

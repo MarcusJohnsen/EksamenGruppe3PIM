@@ -15,7 +15,8 @@
         <title>PIM System</title>
     </head>
     <body>
-
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <div class="main">
         <h1 align="center">Create New Product</h1>
         <!-- enctype="multipart/form-data" -->
         <form action="FrontController" method="POST" enctype="multipart/form-data">
@@ -127,7 +128,7 @@
             <input type="hidden" name="goToJsp" value="index" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
-
+        </div>     
         <!--<script>
             function newField() {
                 var x = document.createElement("INPUT");

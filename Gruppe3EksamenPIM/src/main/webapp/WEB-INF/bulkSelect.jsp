@@ -1,7 +1,7 @@
 <%-- 
     Document   : bulkSelect
     Created on : 28-11-2019, 12:40:28
-    Author     : andre
+    Author     : Andreas
 --%>
 
 <%@page import="java.util.TreeSet"%>
@@ -34,77 +34,82 @@
         int categoryID = category.getCategoryID();
     %>
     <body>
-        <h1 align="center">Bulk edit for "<%=categoryName%> ID:<%=categoryID%>"</h1>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
 
-        <%
-            String error = (String) request.getAttribute("error");
-            if (error != null) {
-        %>
-        <h2  align="center" style="color: red"><%=error%></h2>
-        <%}%>
-        
-        
-        <form action="FrontController">
-            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
-                <thead>
-                    <tr bgcolor = "#FF4B4B">
-                        <td align="center">ID</td>
-                        <td align="center">Name</td>
-                        <td align="center">Description</td>
-                        <td align="center">
-                            <input type="button" value="Check" onclick="check()" class="buttonTable"/>
-                            <input type="button" value="Uncheck" onclick="unCheck()" class="buttonTable"/>
-                        </td>
-                        
-                    </tr>
-                </thead>
+        <div class="main">
+            <h1 align="center">Bulk edit for "<%=categoryName%> ID:<%=categoryID%>"</h1>
 
-                <tbody>
-                    <%
-                        TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
-                        for (Product product : productList) {
-                            int ProductID = product.getProductID();
-                            String ProductName = product.getName();
-                            String ProductDescription = product.getDescription();
-                    %>  
-                    <tr>
-                        <td align="center" width="3%"> <%=ProductID%> </td>
-                        <td align="center" width="20%"> <%=ProductName%> </td>
-                        <td align="center" width="30%"> <%=ProductDescription%> </td>
-                        <td align="center" width="1%"><input type="checkbox" name=productChoice value="<%=ProductID%>" checked></td>
-                    </tr>
-                </tbody>
-                <%}%>
-            </table>
-            <br>
-            <input type="hidden" name="command" value="bulkSelect" />
-            <input type="hidden" name="categoryID" value="<%=categoryID%>" />
-            <p align="center"><input type="submit" value="Select" /></p>
-        </form>
-        <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="index" />
-            <p align="center"><input type="submit" value="Go Back" /></p>
-        </form>
-        <script>
-            function check() {
-                var boxes = document.getElementsByName("productChoice");
-                for (var i = 0; i < boxes.length; i++) {
-                    if (boxes[i].type === "checkbox") {
-                        boxes[i].checked = true;
+            <%
+                String error = (String) request.getAttribute("error");
+                if (error != null) {
+            %>
+            <h2  align="center" style="color: red"><%=error%></h2>
+            <%}%>
+
+
+            <form action="FrontController">
+                <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+                    <thead>
+                        <tr bgcolor = "#FF4B4B">
+                            <td align="center">ID</td>
+                            <td align="center">Name</td>
+                            <td align="center">Description</td>
+                            <td align="center">
+                                <input type="button" value="Check" onclick="check()" class="buttonTable"/>
+                                <input type="button" value="Uncheck" onclick="unCheck()" class="buttonTable"/>
+                            </td>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <%
+                            TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
+                            for (Product product : productList) {
+                                int ProductID = product.getProductID();
+                                String ProductName = product.getName();
+                                String ProductDescription = product.getDescription();
+                        %>  
+                        <tr>
+                            <td align="center" width="3%"> <%=ProductID%> </td>
+                            <td align="center" width="20%"> <%=ProductName%> </td>
+                            <td align="center" width="30%"> <%=ProductDescription%> </td>
+                            <td align="center" width="1%"><input type="checkbox" name=productChoice value="<%=ProductID%>" checked></td>
+                        </tr>
+                    </tbody>
+                    <%}%>
+                </table>
+                <br>
+                <input type="hidden" name="command" value="bulkSelect" />
+                <input type="hidden" name="categoryID" value="<%=categoryID%>" />
+                <p align="center"><input type="submit" value="Select" /></p>
+            </form>
+            <form action="FrontController" method="POST">
+                <input type="hidden" name="command" value="goToJsp" />
+                <input type="hidden" name="goToJsp" value="index" />
+                <p align="center"><input type="submit" value="Go Back" /></p>
+            </form>
+        </div>    
+        
+            <script>
+                function check() {
+                    var boxes = document.getElementsByName("productChoice");
+                    for (var i = 0; i < boxes.length; i++) {
+                        if (boxes[i].type === "checkbox") {
+                            boxes[i].checked = true;
+                        }
                     }
                 }
-            }
 
-            function unCheck() {
-                var boxes = document.getElementsByName("productChoice");
-                for (var i = 0; i < boxes.length; i++) {
-                    if (boxes[i].type === "checkbox") {
-                        boxes[i].checked = false;
+                function unCheck() {
+                    var boxes = document.getElementsByName("productChoice");
+                    for (var i = 0; i < boxes.length; i++) {
+                        if (boxes[i].type === "checkbox") {
+                            boxes[i].checked = false;
+                        }
                     }
                 }
-            }
-        </script>
+            </script>
 
     </body>
 </html>

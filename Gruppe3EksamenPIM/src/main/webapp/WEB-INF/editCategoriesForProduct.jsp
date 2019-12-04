@@ -15,12 +15,14 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Product product = (Product) request.getAttribute("product");
             TreeSet<Category> categoryList = (TreeSet<Category>) request.getAttribute("categoryList");
             int productID = product.getProductID();
             
         %>
+        <div class="main">
         <h1 align="center">Edit Categories for product</h1>
         <h3 align="center"><%=product.getName()%>, product ID: <%=productID%></h3>
         <br>
@@ -65,5 +67,6 @@
             <input type="hidden" name="goToJsp" value="viewAllProducts" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        </div>
     </body>
 </html>

@@ -15,6 +15,8 @@
         <title>Create Bundle</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <div class="main">
         <h1 align="center">Create Bundle</h1>
         <form action="FrontController" method="POST">
             <p align="center">
@@ -74,5 +76,6 @@
             <input type="hidden" name="goToJsp" value="index" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        </div>    
     </body>
 </html>

@@ -14,12 +14,14 @@
         <title>Edit Distributors</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
                 Distributor distributor = (Distributor) request.getAttribute("distributor");
                 int DistributorID = distributor.getDistributorID();
                 String DistributorName = distributor.getDistributorName();
                 String DistributorDescription = distributor.getDistributorDescription();
         %>
+        <div class="main">
         <h1 align="center">Edit Distributor Info</h1>
         <form action="FrontController" method="POST">
             <input type="hidden" name="distributorID" value="<%=DistributorID%>"/>
@@ -46,5 +48,6 @@
             <input type="hidden" name="goToJsp" value="viewAllDistributors" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>    
+            </div>
     </body>
 </html>

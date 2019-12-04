@@ -13,11 +13,13 @@
         <title>Edit attribute</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Attribute attribute = (Attribute) request.getAttribute("attribute");
             int AttributeID = attribute.getAttributeID();
             String AttributeName = attribute.getAttributeName();
         %>
+        <div class="main">
         <h1 align="center">Edit Attribute Info</h1>
         <form action="FrontController">
             <input type="hidden" name="attributeID" value="<%=AttributeID%>"/>
@@ -37,6 +39,7 @@
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="viewAllAttributes" />
             <p align="center"><input type="submit" value="Go Back" /></p>
-        </form>    
+        </form>
+        </div>    
     </body>
 </html>

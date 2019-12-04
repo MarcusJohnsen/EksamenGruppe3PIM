@@ -18,6 +18,8 @@
         <title>View all products</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <div class="main">
         <%
             Product product = (Product) request.getAttribute("product");
             int productID = product.getProductID();
@@ -119,5 +121,6 @@
             <input type="hidden" name="goToJsp" value="viewAllProducts" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        </div>
     </body>
 </html>

@@ -15,59 +15,62 @@
         <title>New Category</title>
     </head>
     <body>
-        <h1 align="center">Create New Category</h1>
-        <br>
-        <form action="FrontController">
-            <p align="center">
-                Category Name:
-                <br>
-                <input type="text" name="Category Name" value="" required="required" />
-            </p>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <div class="main">
+            <h1 align="center">Create New Category</h1>
+            <br>
+            <form action="FrontController">
+                <p align="center">
+                    Category Name:
+                    <br>
+                    <input type="text" name="Category Name" value="" required="required" />
+                </p>
 
-            <p align="center">
-                Category Description:
-                <br>
-                <textarea name="Category Description" rows="8" cols="40" required="required" ></textarea>
-            </p>
+                <p align="center">
+                    Category Description:
+                    <br>
+                    <textarea name="Category Description" rows="8" cols="40" required="required" ></textarea>
+                </p>
 
-            <input type="hidden" name="command" value="addCategory" />
-            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
-                <thead>
-                    <tr bgcolor = "#FF4B4B">
-                        <td align="center">Attribute ID</td>
-                        <td align="center">Attribute Name</td>
-                    </tr>
-                </thead>
+                <input type="hidden" name="command" value="addCategory" />
+                <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+                    <thead>
+                        <tr bgcolor = "#FF4B4B">
+                            <td align="center">Attribute ID</td>
+                            <td align="center">Attribute Name</td>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <%
-                        TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
-                        for (Attribute attribute : attributeList) {
-                            int AttributeID = attribute.getAttributeID();
-                            String AttributeName = attribute.getAttributeName();
-                    %>  
-                    <tr>
-                        <td align="center" width="5%"> <%=AttributeID%> </td>
-                        <td align="center" width="20%"> <%=AttributeName%> </td>
-                        <td align="center" width="1%"><input type="checkbox" name=attributeChoice value="<%=AttributeID%>"></td>
-                    </tr>
-                </tbody>
+                    <tbody>
+                        <%
+                            TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
+                            for (Attribute attribute : attributeList) {
+                                int AttributeID = attribute.getAttributeID();
+                                String AttributeName = attribute.getAttributeName();
+                        %>  
+                        <tr>
+                            <td align="center" width="5%"> <%=AttributeID%> </td>
+                            <td align="center" width="20%"> <%=AttributeName%> </td>
+                            <td align="center" width="1%"><input type="checkbox" name=attributeChoice value="<%=AttributeID%>"></td>
+                        </tr>
+                    </tbody>
+                    <%}%>
+                </table>
+                <%
+                    String error = (String) request.getAttribute("error");
+                    if (error != null) {
+                %>
+                <h2  align="center" style="color: red"><%=error%></h2>
                 <%}%>
-            </table>
-            <%
-            String error = (String) request.getAttribute("error");
-            if(error != null){
-            %>
-            <h2  align="center" style="color: red"><%=error%></h2>
-            <%}%>
-            <p align="center">
-                <input type="submit" value="Save" />
-            </p>
-        </form>
-        <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="index" />
-            <p align="center"><input type="submit" value="Go Back" /></p>
-        </form>
+                <p align="center">
+                    <input type="submit" value="Save" />
+                </p>
+            </form>
+            <form action="FrontController" method="POST">
+                <input type="hidden" name="command" value="goToJsp" />
+                <input type="hidden" name="goToJsp" value="index" />
+                <p align="center"><input type="submit" value="Go Back" /></p>
+            </form>
+        </div>    
     </body>
 </html>

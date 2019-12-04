@@ -13,12 +13,14 @@
         <title>Edit Category</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Category category = (Category) request.getAttribute("category");
             String CategoryName = category.getName();
             String CategoryDescription = category.getDescription();
             int CategoryID = category.getCategoryID();
         %>
+        <div class="main">
         <h1 align="center">Edit Category Info</h1>
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="selectAttributesForCategory" />
@@ -50,5 +52,6 @@
             <input type="hidden" name="goToJsp" value="viewAllCategories" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>    
+            </div>    
     </body>
 </html>
