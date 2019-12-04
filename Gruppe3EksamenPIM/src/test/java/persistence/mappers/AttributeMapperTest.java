@@ -284,7 +284,7 @@ public class AttributeMapperTest {
         attributeMapper.updateProductAttributeSelections(product);
     }
     
-    @Test 
+    /* @Test 
     public void bulkEditOnProductIDs() {
         //arrange
         HashMap<Integer, String> attributeValues2 = new HashMap();
@@ -318,8 +318,8 @@ public class AttributeMapperTest {
         attributeMapper.bulkEditOnProductIDs(productIDs, attributeValues2);
         
         //assert
-        assertTrue(
-    }
+        assertTrue();
+    } */
     
     @Test (expected = IllegalArgumentException.class)
     public void negativeBulkEditOnProductIDsNoProductIDs () {
