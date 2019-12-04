@@ -46,6 +46,9 @@ public class AttributeMapperTest {
 
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
+                
+                stmt.execute("create table Categories like Categories_Test");
+                stmt.execute("insert into Categories select * from Categories_Test");
 
                 stmt.execute("create table Bundles like Bundles_Test");
                 stmt.execute("insert into Bundles select * from Bundles_Test");
@@ -279,6 +282,69 @@ public class AttributeMapperTest {
         
         //act
         attributeMapper.updateProductAttributeSelections(product);
-        //attributeMapper.updateProductAttributeValues(product);
+    }
+    
+    @Test 
+    public void bulkEditOnProductIDs() {
+        //arrange
+        HashMap<Integer, String> attributeValues2 = new HashMap();
+        attributeValues2.put(4, "hejhej");
+        //Attribute attribute = new Attribute(attributeID, attributeName, attributeValues2);
+        
+        int productID = 1;
+        String productName = "New Product";
+        String productDescription = "This is a new product";
+        String productPicturePath = "newProduct.img";
+        TreeSet<Distributor> productDistributors = new TreeSet();
+        TreeSet<Category> productCategories = new TreeSet();
+        Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
+        
+        int productID1 = 2;
+        String productName1 = "New Product";
+        String productDescription1 = "This is a new product";
+        String productPicturePath1 = "newProduct.img";
+        TreeSet<Distributor> productDistributors1 = new TreeSet();
+        TreeSet<Category> productCategories1 = new TreeSet();
+        Product product2 = new Product(productID1, productName1, productDescription1, productPicturePath1, productDistributors1, productCategories1);
+        
+        Product.getProductList().add(product);
+        Product.getProductList().add(product2);
+        
+        ArrayList<Integer> productIDs = new ArrayList();
+        productIDs.add(1);
+        productIDs.add(2);
+        
+        //act
+        attributeMapper.bulkEditOnProductIDs(productIDs, attributeValues2);
+        
+        //assert
+        assertTrue(
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeBulkEditOnProductIDsNoProductIDs () {
+        //arrange
+        ArrayList<Integer> productIDs = new ArrayList();
+        
+        //act
+        attributeMapper.bulkEditOnProductIDs(productIDs, attributeValues);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeBulkEditOnProductIDsNoAttributeValues () {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists product_attributes");
+            database.getConnection().createStatement().execute("drop table if exists category_attributes");
+            database.getConnection().createStatement().execute("drop table if exists Attributes");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Attributes");
+        }
+        ArrayList<Integer> productIDs = new ArrayList();
+        HashMap<Integer, String> attributeValues2 = new HashMap();
+        attributeValues2.put(4, "hejhej");
+        
+        //act
+        attributeMapper.bulkEditOnProductIDs(productIDs, attributeValues2);
     }
 }

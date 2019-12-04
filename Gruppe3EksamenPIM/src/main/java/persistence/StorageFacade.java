@@ -185,7 +185,7 @@ public class StorageFacade {
     }
 
     public int bulkEditOnCategoryID(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
-        return attributeMapper.bulkEditOnCategoryID(productIDs, newAttributeValues);
+        return attributeMapper.bulkEditOnProductIDs(productIDs, newAttributeValues);
     }
     
     public String uploadPicture(List<Part> requestParts){
