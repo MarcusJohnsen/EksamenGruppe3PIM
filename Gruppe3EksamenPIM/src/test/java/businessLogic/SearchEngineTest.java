@@ -19,6 +19,7 @@ public class SearchEngineTest {
         Product product2 = new Product(2, "Coca Cola Max", "", "", new TreeSet(), new TreeSet());
         Product product3 = new Product(3, "Porsche", "", "", new TreeSet(), new TreeSet());
         TreeSet<Product> fullList = new TreeSet();
+        search.setProductList(fullList);
         fullList.add(product1);
         fullList.add(product2);
         fullList.add(product3);
@@ -36,6 +37,7 @@ public class SearchEngineTest {
         Product product2 = new Product(2, "Coca Cola Max", "", "", new TreeSet(), new TreeSet());
         Product product3 = new Product(3, "Porsche", "", "", new TreeSet(), new TreeSet());
         TreeSet<Product> fullList = new TreeSet();
+        search.setProductList(fullList);
         fullList.add(product1);
         fullList.add(product2);
         fullList.add(product3);
@@ -53,6 +55,7 @@ public class SearchEngineTest {
         Product product2 = new Product(2, "Coca Cola Max", "", "", new TreeSet(), new TreeSet());
         Product product3 = new Product(3, "Porsche", "", "", new TreeSet(), new TreeSet());
         TreeSet<Product> fullList = new TreeSet();
+        search.setProductList(fullList);
         fullList.add(product1);
         fullList.add(product2);
         fullList.add(product3);

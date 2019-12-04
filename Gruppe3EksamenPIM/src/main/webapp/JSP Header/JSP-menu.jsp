@@ -84,7 +84,7 @@
                 <input type="hidden" name="goToJsp" value="viewAllDistributors" />
                 <a href="#" onclick="document.getElementById('viewDist').submit()">View All Distributores</a>
             </form>
-            <a href="#">Edit Distributores</a>
+            <a href="#">Edit Distributors</a>
         </div>
         <button class="dropdown-btn">Bundles 
             <i class="fa fa-caret-down"></i>
@@ -102,7 +102,11 @@
             </form>
         </div>
         
-        <a href="#">Advanced Search</a>
+        <form action="FrontController" method="POST" id="advancedSearch">
+            <input type="hidden" name="command" value="goToJsp" />
+            <input type="hidden" name="goToJsp" value="advancedSearch" />
+            <a href="#" onclick="document.getElementById('advancedSearch').submit()">Advanced Search</a>
+        </form>
     </div>
     <script>
         var dropdown = document.getElementsByClassName("dropdown-btn");
