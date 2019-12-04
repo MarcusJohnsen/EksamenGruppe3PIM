@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
 import static org.junit.Assert.*;
@@ -183,13 +184,13 @@ public class AttributeMapperTest {
     @Test
     public void testEditAttribute() {
         //arrange
-        HashMap<Integer, String> values = new HashMap();
-        Attribute attribute = new Attribute(attributeID, attributeName, values);
+        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
         
         //act
         int result = attributeMapper.editAttribute(attribute);
         
         //assert
+        //Expected result equals the amount of SQL lines that are affected (edited) by the database call, which, in this case, is 1.
         int expectedResult = 1;
         assertEquals(expectedResult, result);
     }
@@ -197,14 +198,12 @@ public class AttributeMapperTest {
     @Test (expected = IllegalArgumentException.class)
     public void negativeTestEditAttribute() {
         //arrange
-        HashMap<Integer, String> values = new HashMap();
-        String attributeName = null;
-        Attribute attribute = new Attribute(attributeID, attributeName, values);
+        attributeName = null;
+        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
         
         //act
-        int result = attributeMapper.editAttribute(attribute);
+        attributeMapper.editAttribute(attribute);
     }
-    
 
     /**
      * this test creates an attribute and puts it in a category, and then creates a category and puts it in a product the value of the attribute is cleared and the method is run. The result shows that if the value is empty then the method creates an empty String.
@@ -217,8 +216,7 @@ public class AttributeMapperTest {
         int categoryID = 3;
         String categoryName = "New Category";
         String categoryDescription = "New Description";
-        TreeSet<Attribute> categoryAttributes = new TreeSet();
-        categoryAttributes.add(attribute);
+        TreeSet<Attribute> categoryAttributes = new TreeSet(Arrays.asList(new Attribute[] {attribute}));
         Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
 
         int productID = 2;
@@ -226,8 +224,7 @@ public class AttributeMapperTest {
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
         TreeSet<Distributor> productDistributors = new TreeSet();
-        TreeSet<Category> productCategories = new TreeSet();
-        productCategories.add(category);
+        TreeSet<Category> productCategories = new TreeSet(Arrays.asList(new Category[] {category}));
         Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
 
         //act
@@ -251,17 +248,15 @@ public class AttributeMapperTest {
         int categoryID = 3;
         String categoryName = "New Category";
         String categoryDescription = "New Description";
-        TreeSet<Attribute> categoryAttributes = new TreeSet();
-        categoryAttributes.add(attribute);
+        TreeSet<Attribute> categoryAttributes = new TreeSet(Arrays.asList(new Attribute[] {attribute}));
         Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
 
-        int productID = 0;
+        int productID = 1;
         String productName = "New Product";
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
         TreeSet<Distributor> productDistributors = new TreeSet();
-        TreeSet<Category> productCategories = new TreeSet();
-        productCategories.add(category);
+        TreeSet<Category> productCategories = new TreeSet(Arrays.asList(new Category[] {category}));
         Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
 
         //act
@@ -349,7 +344,7 @@ public class AttributeMapperTest {
         }
         ArrayList<Integer> productIDs = new ArrayList();
         HashMap<Integer, String> attributeValues2 = new HashMap();
-        attributeValues2.put(4, "hejhej");
+        attributeValues2.put(4, "hej");
         
         //act
         attributeMapper.bulkEditOnProductIDs(productIDs, attributeValues2);
