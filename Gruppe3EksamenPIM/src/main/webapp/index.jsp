@@ -21,14 +21,7 @@ ${frontController.setup()}
 <c:set var="topTenCategories" value="${statistics['topTenCategories']}"/> <!-- These is a List of Pairs, use a for each loop, and use .getKey() to get category, and .getValue() to get amount. List should be sorted with largest / nr. 1 first -->
 <c:set var="topTenDistributors" value="${statistics['topTenDistributors']}"/>
 <c:set var="topTenBundles" value="${statistics['topTenBundles']}"/>
-<%
-    HashMap<String, Object> statistics = FrontController.getBusinessController().getSystemStatistics();
-    int productCount = (int) statistics.get("productCount");
-    int categoryCount = (int) statistics.get("categoryCount");
-    int distributorCount = (int) statistics.get("distributorCount");
-    int bundleCount = (int) statistics.get("bundleCount");
-    request.setAttribute("topTenCategories", statistics.get("topTenCategories"));
-%>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,8 +29,8 @@ ${frontController.setup()}
     </head>
     <body>
         Top 10 Categories:<br>
-        <c:forEach items='${requestScope["topTenCategories"]}' var="topTenCategories">
-            <c:out value="${topTenCategories.getKey().getName()}"/> has <c:out value="${topTenCategories.getValue()}"/> products<br>
+        <c:forEach items='${topTenCategories}' var="topTenCategory">
+            <c:out value="${topTenCategory.getKey().getName()}"/> has <c:out value="${topTenCategory.getValue()}"/> products<br>
         </c:forEach>
         <br>
         Product Count: <c:out value="${productCount}"/>

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
-import javafx.util.Pair;
 import javax.servlet.http.Part;
 import persistence.StorageFacade;
 
@@ -21,8 +20,7 @@ import persistence.StorageFacade;
 public class BusinessController {
 
     private final String noImageFileName = "https://res.cloudinary.com/dousnil0k/image/upload/v1575366570/no-img_vlrttr.png";
-    private StorageFacade storageFacade;
-    private int productCountStatistic;
+    private final StorageFacade storageFacade;
 
     public BusinessController(SystemMode systemMode) {
         storageFacade = new StorageFacade(systemMode);
