@@ -37,7 +37,12 @@ public class Product implements Comparable<Product> {
         this.name = name;
         this.description = description;
         this.picturePath = picturePath;
-        this.productDistributors = productDistributors;
+        if (productDistributors != null) {
+            this.productDistributors = productDistributors;
+        } else {
+            this.productDistributors = new TreeSet();
+        }
+
         if (productCategories != null) {
             this.productCategories = productCategories;
             createAttributesFromCategories();
@@ -45,19 +50,22 @@ public class Product implements Comparable<Product> {
             this.productAttributes = new TreeSet();
             this.productCategories = new TreeSet();
         }
+
+        this.productBundle = new TreeSet();
         addProductRelationToCategoriesAndDistributors();
     }
-    
-    public void addProductRelationToCategoriesAndDistributors(){
+
+    public void addProductRelationToCategoriesAndDistributors() {
+
         for (Distributor distributor : productDistributors) {
             distributor.addProductToDistributor(this);
         }
-        
+
         for (Category category : productCategories) {
             category.addProductToCategory(this);
         }
     }
-    
+
     /**
      * Traverses through the productList in order to find certain category object, which is deleted once it is found.
      *
@@ -345,12 +353,12 @@ public class Product implements Comparable<Product> {
     public TreeSet<Bundle> getProductBundle() {
         return productBundle;
     }
-    
-    public boolean addBundleToProduct(Bundle bundle){
+
+    public boolean addBundleToProduct(Bundle bundle) {
         return productBundle.add(bundle);
     }
-    
-    public void removeBundleFromProduct(Bundle bundle){
+
+    public void removeBundleFromProduct(Bundle bundle) {
         this.productBundle.remove(bundle);
     }
 
