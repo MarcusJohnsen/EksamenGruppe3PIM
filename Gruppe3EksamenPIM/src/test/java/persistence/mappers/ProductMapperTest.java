@@ -36,7 +36,8 @@ public class ProductMapperTest {
     private String productPicturePath = "newProduct.img";
     
     private Distributor distributor = new Distributor(1, "Company", "Test company");
-    private final TreeSet<Distributor> productDistributors = new TreeSet(Arrays.asList(new Distributor[]{distributor}));
+    private Distributor distributor2 = new Distributor(2, "FakeCompany", "It's a fake company");
+    private final TreeSet<Distributor> productDistributors = new TreeSet(Arrays.asList(new Distributor[]{distributor, distributor2}));
     
     private final TreeSet<Category> categoryList = new TreeSet();
         
@@ -250,6 +251,21 @@ public class ProductMapperTest {
         int expResult = 1;
         assertEquals(expResult, result);
     }
+    
+    @Test   (expected = IllegalArgumentException.class)
+    public void testNegativUpdatePicturePath() {
+        //arrange
+        String picturePath = "";
+        try {
+            database.getConnection().createStatement().execute("alter table Product drop picturePath");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Product");
+        }
+
+        //act
+        int result = productMapper.updatePicturePath(productID, picturePath);
+
+    }
 
 
     /**
@@ -294,7 +310,7 @@ public class ProductMapperTest {
         int result = productMapper.editProduct(product);
 
         //assert
-        int expResult = 5;
+        int expResult = 6;
         assertEquals(expResult, result);
     }
 
@@ -337,5 +353,36 @@ public class ProductMapperTest {
         assertEquals(categoryList.size(), result.getProductCategories().size());
         assertTrue(result.getProductCategories().contains(category1));
         assertTrue(result.getProductCategories().contains(category2));
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testNegativeEditProduct() {
+        //arrange
+        Product product = new Product(productID,productName, productDescription, productPicturePath, productDistributors, categoryList);
+        
+        try {
+            database.getConnection().createStatement().execute("alter table Product drop Product_Name");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Product");
+        }
+        
+        //act
+        productMapper.editProduct(product);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void testNegativeEditProductCategories() {
+        //arrange
+        Product product = new Product(productID,productName, productDescription, productPicturePath, productDistributors, categoryList);
+        
+        try {
+            database.getConnection().createStatement().execute("drop table if exists Product_Categories");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Product");
+        }
+        
+        productMapper.editProductCategories(product);
+        
+
     }
 }
