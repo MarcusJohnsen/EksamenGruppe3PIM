@@ -311,6 +311,7 @@ public class CategoryMapperTest {
     @Test
     public void testEditAttributesToCategory() {
         //arrange
+        attributeList.add(new Attribute(4, "olk", new HashMap<Integer, String>()));
         attributeList.add(new Attribute(3, "ejh", new HashMap<Integer, String>()));
         Category category = new Category(categoryID, categoryName, categoryDescription, attributeList);
 
