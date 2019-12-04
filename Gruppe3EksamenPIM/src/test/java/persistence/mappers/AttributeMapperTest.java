@@ -25,9 +25,12 @@ public class AttributeMapperTest {
 
     //setting up common variables so I won't have to write them for every single test
     private final int attributeID = 1;
-    private final String attributeName = "Height";
+    private String attributeName = "Height";
     private final HashMap<Integer, String> attributeValues = new HashMap();
     
+    /**
+     * running this setup just once before the test class is run to make sure the database is entirely cleared and functioning
+     */
     @BeforeClass
     public static void oneTimeSetup() {
         try {
@@ -77,6 +80,9 @@ public class AttributeMapperTest {
         }
     }
     
+    /**
+     * Running these statements before each test to make sure we have cleared and functioning tables to avoid duplicate entries.
+     */
     @Before
     public void setup() {
         try {
@@ -113,17 +119,17 @@ public class AttributeMapperTest {
 
     @Test
     public void testSetUpOK() {
-        // Just check that we have a connection.
+        // Just checking that we have a connection.
         assertNotNull(testConnection);
     }
 
     /**
-     * Trying to insert a null name value into the database, and thus expecting a crash
+     * Trying to insert a null name value into the database, and thus expecting a crash as name cannot be null
      */
     @Test(expected = IllegalArgumentException.class)
     public void negativeTestAddNewAttribute() {
         //arrange
-        String attributeName = null;
+        attributeName = null;
         AttributeMapper instance = new AttributeMapper(database);
 
         //act
@@ -152,6 +158,7 @@ public class AttributeMapperTest {
         int result = attributeMapper.deleteAttribute(attributeID);
 
         //assert
+        //Expected result equals the amount of SQL lines that are affected (deleted) by the database call, which, in this case, is 5.
         int expResult = 5;
         assertEquals(expResult, result);
     }
