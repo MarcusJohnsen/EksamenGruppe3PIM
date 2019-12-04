@@ -17,6 +17,7 @@
         <title>Edit Product</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Product product = (Product) request.getAttribute("product");
             String ProductName = product.getName();
@@ -24,6 +25,7 @@
             String picturePath = product.getPicturePath();
             int productID = product.getProductID();
         %>
+        <div class="main">
         <h1 align="center">Edit Product Information for product number <%=productID%></h1>
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="selectCategoriesForProduct" />
@@ -37,6 +39,7 @@
                 <br>
                 <input type="text" name="Product Name" value="<%=ProductName%>" required="required"/>
             </p>
+        </form>    
 
             <p align="center">
                 Product Description:
@@ -111,7 +114,7 @@
                     </tr>
                 </tbody>
                 <%}%>
-
+            </table>
                 <br>
                 <p align="center">
                     Save the changes:
@@ -124,6 +127,7 @@
             <input type="hidden" name="goToJsp" value="viewAllProducts" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        </div>        
         <script>
             function newField() {
                 var x = document.createElement("INPUT");

@@ -14,6 +14,8 @@
         <title>Category View</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <div class="main">
         <h1 align="center">Category list</h1>
         <form action="FrontController">
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
@@ -58,5 +60,6 @@
             <input type="hidden" name="goToJsp" value="index" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        </div>
     </body>
 </html>

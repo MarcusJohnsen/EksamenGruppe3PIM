@@ -13,11 +13,13 @@
         <title>Delete Attribute</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Attribute attribute = (Attribute) request.getAttribute("attribute");
             String attributeName = attribute.getAttributeName();
             int attributeID = attribute.getAttributeID();
         %>
+    <div class="main">
     <center>
         <h1>Confirm Deletion</h1>
         <br>
@@ -35,5 +37,6 @@
             <input type="submit" value="Go Back" />
         </form>
     </center>
+    </div>
     </body>
 </html>

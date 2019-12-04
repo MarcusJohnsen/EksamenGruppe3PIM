@@ -14,23 +14,26 @@
         <title>Delete Distributor</title>
     </head>
     <body>
-    <c:set var="distributor" value='${requestScope["distributor"]}'/>
-    <center>
-        <h1>Confirm Deletion</h1>
-        <br>
-        <h2>Please confirm deletion of this category:</h2><br>
-        <h3>Category ID: <i><c:out value="${distributor.getDistributorID()}"/></i></h3><br>
-        <h3>Category Name: <i><c:out value="${distributor.getDistributorName()}"/></i></h3>
-        <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="deleteDistributor" />
-            <input type="hidden" name="distributorID" value="<c:out value="${distributor.getDistributorID()}"/>" />
-            <input type="submit" value="DELETE" style="background-color: red"/>
-        </form>
-        <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="viewAllDistributors" />
-            <input type="submit" value="Go Back" />
-        </form>
-    </center>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <c:set var="distributor" value='${requestScope["distributor"]}'/>
+        <div class="main">
+            <center>
+                <h1>Confirm Deletion</h1>
+                <br>
+                <h2>Please confirm deletion of this category:</h2><br>
+                <h3>Category ID: <i><c:out value="${distributor.getDistributorID()}"/></i></h3><br>
+                <h3>Category Name: <i><c:out value="${distributor.getDistributorName()}"/></i></h3>
+                <form action="FrontController" method="POST">
+                    <input type="hidden" name="command" value="deleteDistributor" />
+                    <input type="hidden" name="distributorID" value="<c:out value="${distributor.getDistributorID()}"/>" />
+                    <input type="submit" value="DELETE" style="background-color: red"/>
+                </form>
+                <form action="FrontController" method="POST">
+                    <input type="hidden" name="command" value="goToJsp" />
+                    <input type="hidden" name="goToJsp" value="viewAllDistributors" />
+                    <input type="submit" value="Go Back" />
+                </form>
+            </center>
+        </div>        
     </body>
 </html>

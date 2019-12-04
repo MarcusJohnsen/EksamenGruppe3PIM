@@ -14,7 +14,8 @@
         <title>Products view</title>
     </head>
     <body>
-
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <div class="main">
         <h2 align="center">Products list</h2>
 
         <br><br>
@@ -65,5 +66,6 @@
             <input type="hidden" name="goToJsp" value="index" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>
+        </div>
     </body>
 </html>

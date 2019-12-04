@@ -15,12 +15,14 @@
         <title>Edit Bundle</title>
     </head>
     <body>
+        <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Bundle bundle = (Bundle) request.getAttribute("bundle");
             String bundleName = bundle.getBundleName();
             String bundleDist = bundle.getBundleDescription();
             int bundleID = bundle.getBundleID();
         %>
+        <div class="main">
         <h1 align="center">Edit Bundle Info</h1>
         <form action="FrontController" method="POST">
             <input type="hidden" name="bundleID" value="<%=bundleID%>" />
@@ -93,5 +95,6 @@
             <input type="hidden" name="goToJsp" value="viewAllBundles" />
             <p align="center"><input type="submit" value="Go Back" /></p>
         </form>    
+        </div>    
     </body>
 </html>
