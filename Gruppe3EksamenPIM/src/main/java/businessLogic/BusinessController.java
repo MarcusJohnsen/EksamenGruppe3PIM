@@ -253,6 +253,6 @@ public class BusinessController {
         SearchEngine searchEngine = new SearchEngine();
         TreeSet<Product> fullList = Product.getProductList();
         searchEngine.setProductList(fullList);
-        return searchEngine.simpleSearch(searchString);
+        return searchEngine.simpleProductSearch(searchString);
     }
 }

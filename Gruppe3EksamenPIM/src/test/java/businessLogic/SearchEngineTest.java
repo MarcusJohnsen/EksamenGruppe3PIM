@@ -24,7 +24,7 @@ public class SearchEngineTest {
         fullList.add(product2);
         fullList.add(product3);
         
-        TreeSet<Product> result = search.simpleSearch(searchString);
+        TreeSet<Product> result = search.simpleProductSearch(searchString);
         assertTrue(result.contains(product1));
         assertTrue(result.contains(product2));
         assertFalse(result.contains(product3));
@@ -42,7 +42,7 @@ public class SearchEngineTest {
         fullList.add(product2);
         fullList.add(product3);
         
-        TreeSet<Product> result = search.simpleSearch(searchString);
+        TreeSet<Product> result = search.simpleProductSearch(searchString);
         assertTrue(result.contains(product1));
         assertTrue(result.contains(product2));
         assertTrue(result.contains(product3));
@@ -60,7 +60,7 @@ public class SearchEngineTest {
         fullList.add(product2);
         fullList.add(product3);
         
-        TreeSet<Product> result = search.simpleSearch(searchString);
+        TreeSet<Product> result = search.simpleProductSearch(searchString);
         assertFalse(result.contains(product1));
         assertTrue(result.contains(product2));
         assertFalse(result.contains(product3));
