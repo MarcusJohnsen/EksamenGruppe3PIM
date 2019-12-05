@@ -255,4 +255,11 @@ public class BusinessController {
         searchEngine.setProductList(fullList);
         return searchEngine.simpleProductSearch(searchString);
     }
+    
+    public TreeSet<Product> advancedSearchProduct(String searchString) {
+        SearchEngine searchEngine = new SearchEngine();
+        TreeSet<Product> fullList = Product.getProductList();
+        searchEngine.setProductList(fullList);
+        return searchEngine.advancedSearch(searchString, searchString, filterValues);
+    }
 }

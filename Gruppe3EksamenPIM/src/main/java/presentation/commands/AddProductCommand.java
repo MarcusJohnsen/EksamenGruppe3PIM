@@ -41,7 +41,7 @@ public class AddProductCommand extends Command {
 
         try {
             List<Part> parts = (List<Part>) request.getParts();
-            // get parameters for choosen distributors, and throw error if there is none
+            // get parameters for choosen distributors, and throw error if th+ere is none
             ArrayList<String> distributorChoices;
             if (request.getParameterValues("distributorChoices") != null) {
                 distributorChoices = new ArrayList(Arrays.asList(request.getParameterValues("distributorChoices")));
