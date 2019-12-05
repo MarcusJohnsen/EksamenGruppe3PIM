@@ -13,6 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Create Bundle</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -42,13 +43,14 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">ID</td>
-                        <td align="center">Name</td>
-                        <td align="center">Description</td>
+                        <th align="center">ID</th>
+                        <th align="center">Name</th>
+                        <th align="center">Description</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                         TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
                         for (Product product : productList) {
@@ -63,7 +65,6 @@
                         <td align="center" width="1%"><input type="checkbox" name="productChoice" value="<%=ProductID%>"></td>
                         <td align="center" width="3%"><input type="text" name="ProductIDAmount<%=ProductID%>" value="1" size="1" style="text-align: center;"/></td>
                     </tr>
-                </tbody>
                 <%}%>
             </table>
             

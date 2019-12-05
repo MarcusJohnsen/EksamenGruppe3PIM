@@ -12,6 +12,7 @@
 </head>
 <body>
     <div class="sidenav" >
+        <p align="center"><img src="decorations/PimLogo.png" style="width: 120px; height: 120px;"/></p>
         <form action="FrontController">
             <input type="hidden" name="command" value="simpleSearch" />
             <p align="center"><input type="text" name="search" value="" placeholder="Search..."/> <input type="submit" value="Search" /></p> 
@@ -36,7 +37,6 @@
                 <input type="hidden" name="goToJsp" value="viewAllProducts" />
                 <a href="#" onclick="document.getElementById('viewProd').submit()">View All products</a>
             </form>
-            <a href="#">Edit Product</a>
         </div>
         <button class="dropdown-btn">Attributes 
             <i class="fa fa-caret-down"></i>
@@ -52,7 +52,6 @@
                 <input type="hidden" name="goToJsp" value="viewAllAttributes" />
                 <a href="#" onclick="document.getElementById('viewAtt').submit()">View All Attributes</a>
             </form>
-            <a href="#">Edit Attribute</a>
         </div>
         <button class="dropdown-btn">Categories 
             <i class="fa fa-caret-down"></i>
@@ -68,7 +67,6 @@
                 <input type="hidden" name="goToJsp" value="viewAllCategories" />
                 <a href="#" onclick="document.getElementById('viewCat').submit()">View All Categories</a>
             </form>    
-            <a href="#">Edit Category</a>
         </div>
         <button class="dropdown-btn">Distributors 
             <i class="fa fa-caret-down"></i>
@@ -84,7 +82,6 @@
                 <input type="hidden" name="goToJsp" value="viewAllDistributors" />
                 <a href="#" onclick="document.getElementById('viewDist').submit()">View All Distributores</a>
             </form>
-            <a href="#">Edit Distributors</a>
         </div>
         <button class="dropdown-btn">Bundles 
             <i class="fa fa-caret-down"></i>
@@ -101,12 +98,7 @@
                 <a href="#" onclick="document.getElementById('viewBundle').submit()">View All Bundles</a>
             </form>
         </div>
-        
-        <form action="FrontController" method="POST" id="advancedSearch">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="advancedSearch" />
-            <a href="#" onclick="document.getElementById('advancedSearch').submit()">Advanced Search</a>
-        </form>
+
     </div>
     <script>
         var dropdown = document.getElementsByClassName("dropdown-btn");

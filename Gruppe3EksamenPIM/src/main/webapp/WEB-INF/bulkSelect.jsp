@@ -14,16 +14,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Select</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
         <style>
             .buttonTable{
                 width:68px;
                 height: 17px; 
-                border: 1px solid #990033; 
-                background-color: #FF4B4B; 
+                border: 1px solid #000000; 
+                background-color: #94e2ff; 
                 cursor: pointer
             }
             .buttonTable:hover{
-                background-color: #ff9999;
+                background-color: #ffffff;
                 box-shadow: 1px 1px 10px 0px #000000;
             }
         </style>
@@ -48,21 +49,20 @@
 
 
             <form action="FrontController">
-                <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+                <table align="center" border = "1" width = "60%" style="float: top" bgcolor="fffef2">
                     <thead>
                         <tr bgcolor = "#FF4B4B">
-                            <td align="center">ID</td>
-                            <td align="center">Name</td>
-                            <td align="center">Description</td>
-                            <td align="center">
+                            <th align="center">ID</th>
+                            <th align="center">Name</th>
+                            <th align="center">Description</th>
+                            <th align="center">
                                 <input type="button" value="Check" onclick="check()" class="buttonTable"/>
                                 <input type="button" value="Uncheck" onclick="unCheck()" class="buttonTable"/>
-                            </td>
+                            </th>
 
                         </tr>
                     </thead>
 
-                    <tbody>
                         <%
                             TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
                             for (Product product : productList) {
@@ -76,7 +76,6 @@
                             <td align="center" width="30%"> <%=ProductDescription%> </td>
                             <td align="center" width="1%"><input type="checkbox" name=productChoice value="<%=ProductID%>" checked></td>
                         </tr>
-                    </tbody>
                     <%}%>
                 </table>
                 <br>

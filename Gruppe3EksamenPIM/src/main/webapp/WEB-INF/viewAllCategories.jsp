@@ -12,6 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Category View</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -21,13 +22,13 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">Category ID</td>
-                        <td align="center">Category Name</td>
-                        <td align="center">Category Description</td>
+                        <th align="center">Category ID</th>
+                        <th align="center">Category Name</th>
+                        <th align="center">Category Description</th>
+                        <th></th>
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                         TreeSet<Category> categoryList = (TreeSet<Category>) request.getAttribute("categoryList");
                         for (Category category : categoryList) {
@@ -41,7 +42,6 @@
                         <td align="center" width="30%"> <%=CategoryDescription%> </td>
                         <td align="center" width="1%"><input type="radio" name=categoryChoice value="<%=CategoryID%>"></td>
                     </tr>
-                </tbody>
                 <%}%>
             </table>
             <input type="hidden" name="command" value="selectCategory" />

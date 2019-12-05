@@ -11,7 +11,6 @@ body {
   font-family: "Lato", sans-serif;
 }
 
-/* Fixed sidenav, full height */
 .sidenav {
   height: 100%;
   width: 250px;
@@ -20,11 +19,10 @@ body {
   top: 0;
   left: 0;
   background-color: #5591BE;
-  overflow-x: hidden;
+  overflow: auto;
   padding-top: 20px;
 }
 
-/* Style the sidenav links and the dropdown button */
 .sidenav a, .dropdown-btn {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
@@ -39,32 +37,28 @@ body {
   outline: none;
 }
 
-/* On mouse-over */
 .sidenav a:hover, .dropdown-btn:hover {
   color: #f1f1f1;
 }
 
-/* Main content */
 .main {
-  margin-left: 250px; /* Same as the width of the sidenav */
-  font-size: 20px; /* Increased text to enable scrolling */
+  margin-left: 250px; 
+  font-size: 20px;
   padding: 0px 10px;
 }
 
-/* Add an active class to the active dropdown button */
 .active {
   background-color: #FF4B4B;
   color: white;
 }
 
-/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
   display: none;
   background-color: #bebebe;
   padding-left: 8px;
 }
 
-/* Optional: Style the caret down icon */
+/* dropdown icon from library */
 .fa-caret-down {
   float: right;
   padding-right: 10px;
