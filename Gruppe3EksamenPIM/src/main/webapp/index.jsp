@@ -18,7 +18,7 @@ ${frontController.setup()}
 <c:set var="categoryCount" value="${statistics['categoryCount']}"/>
 <c:set var="distributorCount" value="${statistics['distributorCount']}"/>
 <c:set var="bundleCount" value="${statistics['bundleCount']}"/>
-<c:set var="topTenCategories" value="${statistics['topTenCategories']}"/> <!-- These is a List of Pairs, use a for each loop, and use .getKey() to get category, and .getValue() to get amount. List should be sorted with largest / nr. 1 first -->
+<c:set var="topTenCategories" value="${statistics['topTenCategories']}"/> <!-- These are Lists that should be sorted with largest / nr. 1 first -->
 <c:set var="topTenDistributors" value="${statistics['topTenDistributors']}"/>
 <c:set var="topTenBundles" value="${statistics['topTenBundles']}"/>
 
@@ -50,8 +50,8 @@ ${frontController.setup()}
                             <c:forEach items='${topTenBundles}' var="topTenBundle">
                                 <tr>
                                     <td><%=count1++%></td>
-                                    <td><c:out value="${topTenBundle.getKey().getBundleName()}"/></td>
-                                    <td><c:out value="${topTenBundle.getValue()}"/></td>
+                                    <td><c:out value="${topTenBundle.getBundleName()}"/></td>
+                                    <td><c:out value="${topTenBundle.getBundleProducts().size()}"/></td>
                                 </c:forEach>
                             </tr>
                         </tbody>
@@ -72,8 +72,8 @@ ${frontController.setup()}
                             <c:forEach items='${topTenCategories}' var="topTenCategory">
                                 <tr>
                                     <td><%=count2++%></td>
-                                    <td><c:out value="${topTenCategory.getKey().getName()}"/></td>
-                                    <td><c:out value="${topTenCategory.getValue()}"/></td>
+                                    <td><c:out value="${topTenCategory.getName()}"/></td>
+                                    <td><c:out value="${topTenCategory.getCategoryProducts().size()}"/></td>
                                 </c:forEach>
                             </tr>
                         </tbody>
@@ -95,8 +95,8 @@ ${frontController.setup()}
                             <c:forEach items='${topTenDistributors}' var="topTenDistributor">
                                 <tr>
                                     <td><%=count3++%></td>
-                                    <td><c:out value="${topTenDistributor.getKey().getDistributorName()}"/></td>
-                                    <td><c:out value="${topTenDistributor.getValue()}"/></td>
+                                    <td><c:out value="${topTenDistributor.getDistributorName()}"/></td>
+                                    <td><c:out value="${topTenDistributor.getDistributorProducts().size()}"/></td>
                                 </c:forEach>
                             </tr>
                         </tbody>

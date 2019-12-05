@@ -73,19 +73,17 @@ public class Distributor implements Comparable<Distributor> {
         return null;
     }
 
-    public static List<Pair<Distributor, Integer>> topTenDistributors() {
-        List<Pair<Distributor, Integer>> distributorProductCounts = new ArrayList();
+    public static List<Distributor> topTenDistributors() {
+        List<Distributor> distributorProductCounts = new ArrayList(distributorList);
 
-        for (Distributor distributor : distributorList) {
-            distributorProductCounts.add(new Pair(distributor, distributor.distributorProducts.size()));
-        }
-
-        Collections.sort(distributorProductCounts, new Comparator<Pair<Distributor, Integer>>() {
+        Collections.sort(distributorProductCounts, new Comparator<Distributor>() {
             @Override
-            public int compare(final Pair<Distributor, Integer> o1, final Pair<Distributor, Integer> o2) {
-                if (o1.getValue() > o2.getValue()) {
+            public int compare(final Distributor o1, final Distributor o2) {
+                int o1Size = o1.getDistributorProducts().size();
+                int o2Size = o2.getDistributorProducts().size();
+                if (o1Size > o2Size) {
                     return -1;
-                } else if (o1.getValue() < o2.getValue()) {
+                } else if (o1Size < o2Size) {
                     return 1;
                 } else {
                     return 0;
@@ -98,7 +96,7 @@ public class Distributor implements Comparable<Distributor> {
             subListEnd = distributorProductCounts.size();
         }
 
-        List<Pair<Distributor, Integer>> result = distributorProductCounts.subList(0, subListEnd);
+        List<Distributor> result = distributorProductCounts.subList(0, subListEnd);
         return result;
     }
 
