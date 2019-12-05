@@ -256,10 +256,11 @@ public class BusinessController {
         return searchEngine.simpleProductSearch(searchString);
     }
     
-    public TreeSet<Product> advancedSearchProduct(String searchString) {
+    public TreeSet<Object> advancedSearch(String searchString) {
         SearchEngine searchEngine = new SearchEngine();
         TreeSet<Product> fullList = Product.getProductList();
         searchEngine.setProductList(fullList);
+        HashMap<String, String> filterValues = new HashMap();
         return searchEngine.advancedSearch(searchString, searchString, filterValues);
     }
 }

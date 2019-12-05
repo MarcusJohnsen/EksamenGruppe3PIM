@@ -18,14 +18,12 @@ public class SearchEngine {
     private TreeSet<Category> categoryList;
     private TreeSet<Distributor> distributorList;
     private TreeSet<Bundle> bundleList;
-    private TreeSet<Attribute> attributeList;
 
     public SearchEngine() {
         this.productList = new TreeSet();
         this.categoryList = new TreeSet();
         this.distributorList = new TreeSet();
         this.bundleList = new TreeSet();
-        this.attributeList = new TreeSet();
     }
 
     public void setupSearchEngine(TreeSet<Product> productList, TreeSet<Category> categoryList, TreeSet<Distributor> distributorList, TreeSet<Bundle> bundleList, TreeSet<Attribute> attributeList) {
@@ -33,7 +31,6 @@ public class SearchEngine {
         this.categoryList = categoryList;
         this.distributorList = distributorList;
         this.bundleList = bundleList;
-        this.attributeList = attributeList;
     }
 
     private TreeSet<Bundle> bundleSearch(String searchString, TreeSet<Bundle> bundleList, boolean singleResultFromList) {
@@ -167,7 +164,6 @@ public class SearchEngine {
                 }
             }
         }
-
         return result;
     }
 
@@ -190,7 +186,6 @@ public class SearchEngine {
                 }
             }
         }
-
         return result;
     }
 
@@ -213,7 +208,6 @@ public class SearchEngine {
                 }
             }
         }
-
         return result;
     }
 
@@ -236,7 +230,6 @@ public class SearchEngine {
                 }
             }
         }
-
         return result;
     }
 
@@ -264,9 +257,5 @@ public class SearchEngine {
 
     public void setBundleList(TreeSet<Bundle> bundleList) {
         this.bundleList = bundleList;
-    }
-
-    public void setAttributeList(TreeSet<Attribute> attributeList) {
-        this.attributeList = attributeList;
     }
 }

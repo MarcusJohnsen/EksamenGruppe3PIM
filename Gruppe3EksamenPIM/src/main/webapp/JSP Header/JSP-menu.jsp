@@ -32,8 +32,8 @@
                 <a href="#" onclick="document.getElementById('viewProd').submit()">Product List</a>
             </form>
             <form action="FrontController" id="searchProd">
-                <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="productSearch" />
+                <input type="hidden" name="command" value="searchSelection" />
+                <input type="hidden" name="BusinessObjectType" value="Product" />
                 <a href="#" onclick="document.getElementById('searchProd').submit()">Search Product</a>
             </form>
             <form action="FrontController" id="newProd">
@@ -52,8 +52,8 @@
                 <a href="#" onclick="document.getElementById('viewCat').submit()">Category List</a>
             </form>
             <form action="FrontController" id="searchCat">
-                <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="categorySearch" />
+                <input type="hidden" name="command" value="searchSelection" />
+                <input type="hidden" name="BusinessObjectType" value="Category" />
                 <a href="#" onclick="document.getElementById('searchCat').submit()">Search Category</a>
             </form>
             <form action="FrontController" id="newCat">
@@ -87,8 +87,8 @@
                 <a href="#" onclick="document.getElementById('viewDist').submit()">Distributor List</a>
             </form>
             <form action="FrontController" id="searchDist">
-                <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="distributorSearch" />
+                <input type="hidden" name="command" value="searchSelection" />
+                <input type="hidden" name="BusinessObjectType" value="Distributor" />
                 <a href="#" onclick="document.getElementById('searchDist').submit()">Search Distributor</a>
             </form>
             <form action="FrontController" id="newDist">
@@ -107,8 +107,8 @@
                 <a href="#" onclick="document.getElementById('viewBundle').submit()">Bundle List</a>
             </form>
             <form action="FrontController" id="searchBundle">
-                <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="bundleSearch" />
+                <input type="hidden" name="command" value="searchSelection" />
+                <input type="hidden" name="BusinessObjectType" value="Bundle" />
                 <a href="#" onclick="document.getElementById('searchBundle').submit()">Search Bundle</a>
             </form>
             <form action="FrontController" id="newBundle">
@@ -117,11 +117,6 @@
                 <a href="#" onclick="document.getElementById('newBundle').submit()">New Bundle</a>
             </form>
         </div>
-        <form action="FrontController" method="POST" id="advancedSearch">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="advancedSearch" />
-            <a href="#" onclick="document.getElementById('advancedSearch').submit()">Advanced Search</a>
-        </form>
     </div>
     <script>
         var dropdown = document.getElementsByClassName("dropdown-btn");
