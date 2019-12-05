@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View Bundles</title>
         <link href="css/StyleSheet.css" rel="stylesheet">
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
         <!--<link href="JavaScript/myScript.js" rel="myscript">-->
     </head>
     <body>
@@ -23,13 +24,13 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">Bundle ID</td>
-                        <td align="center">Bundle Name</td>
-                        <td align="center">Bundle Description</td>
+                        <th align="center">Bundle ID</th>
+                        <th align="center">Bundle Name</th>
+                        <th align="center">Bundle Description</th>
+                        <th></th>
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                         TreeSet<Bundle> bundleList = (TreeSet<Bundle>) request.getAttribute("bundleList");
                         for (Bundle bundle : bundleList) {
@@ -43,7 +44,6 @@
                         <td align="center" width="30%"> <%=BundleDescription%> </td>
                         <td align="center" width="1%"><input type="radio" name=bundleChoice value="<%=BundleID%>"></td>
                     </tr>
-                </tbody>
                 <%}%>
             </table>
             <input type="hidden" name="command" value="selectBundle" />

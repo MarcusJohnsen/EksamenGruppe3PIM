@@ -13,6 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -30,13 +31,12 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">Category ID</td>
-                        <td align="center">Category Name</td>
-                        <td align="center">Category Description</td>
+                        <th align="center">Category ID</th>
+                        <th align="center">Category Name</th>
+                        <th align="center">Category Description</th>
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                         for (Category category : categoryList) {
                             int CategoryID = category.getCategoryID();
@@ -54,7 +54,6 @@
                         <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<%=CategoryID%>"></td>
                             <%}%>
                     </tr>
-                </tbody>
                 <%}%>
             </table>
             <br>

@@ -15,6 +15,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Product</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -53,8 +54,8 @@
             <table align="center" border="1" width = "20%" style="float: top">
                 <thead>
                     <tr>
-                        <td align="left">Attribute Name</td>
-                        <td align="center">Attribute Value</td>
+                        <th align="left">Attribute Name</th>
+                        <th align="center">Attribute Value</th>
                     </tr>
                 </thead>
                 <br>
@@ -67,9 +68,8 @@
                 %>
                 <tr>
                     <td align="left" width="20%"> <%=attributeTitle%> </td>
-                    <td align="center" width="30%"> <input type="text" style="width: 98%; text-align: center" name="AttributeID<%=attributeID%>" value="<%=value%>"/> </td>
+                    <td align="center" width="30%"> <input type="text" style="width: 96%; text-align: center" name="AttributeID<%=attributeID%>" value="<%=value%>"/> </td>
                 </tr>
-                </tbody>
                 <%}%>
             </table>
 
@@ -79,7 +79,7 @@
             %>
             <h2 align="center" style="color: red"><%=error%></h2>
             <%}%>
-
+            <br>
             <!--<p align="center">
                 Select Picture:
                 <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
@@ -88,13 +88,12 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">DistributorID ID</td>
-                        <td align="center">Distributor Name</td>
+                        <th align="center">DistributorID ID</th>
+                        <th align="center">Distributor Name</th>
+                        <th></th>
 
                     </tr>
                 </thead>
-
-                <tbody>
                     <%
                         TreeSet<Distributor> distributorList = product.getProductDistributors();
                         for (Distributor distributor : distributorList) {
@@ -112,7 +111,6 @@
                         <%}%>
                         
                     </tr>
-                </tbody>
                 <%}%>
             </table>
                 <br>

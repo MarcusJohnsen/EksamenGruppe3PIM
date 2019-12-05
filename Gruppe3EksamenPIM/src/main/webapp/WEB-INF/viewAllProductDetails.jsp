@@ -16,9 +16,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View all products</title>
+        <link href="css/StyleTable.css" rel="stylesheet">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
         <div class="main">
         <%
             Product product = (Product) request.getAttribute("product");
@@ -45,11 +47,11 @@
 
         </p>
 
-        <table align="center" border="1" width = "20%" style="float: top">
+        <table align="center" border="1" width = "50%" style="float: top">
             <thead>
                 <tr>
-                    <td align="left">Category Name</td>
-                    <td align="center">Category Description</td>
+                    <th align="left">Category Name</th>
+                    <th align="center">Category Description</th>
                 </tr>
             </thead>
 
@@ -67,11 +69,11 @@
             <%}%>
         </table>
 
-        <table align="center" border="1" width = "20%" style="float: top">
+        <table align="center" border="1" width = "50%" style="float: top">
             <thead>
                 <tr>
-                    <td align="left">Attribute Name</td>
-                    <td align="center">Attribute Value</td>
+                    <th align="left">Attribute Name</th>
+                    <th align="center">Attribute Value</th>
                 </tr>
             </thead>
             <p align="center"> This product has the following attributes: </p>
@@ -88,11 +90,11 @@
             <%}%>
         </table>
 
-        <table align="center" border="1" width = "20%" style="float: top">
+        <table align="center" border="1" width = "50%" style="float: top">
             <thead>
                 <tr>
-                    <td align="left">Distributor Name</td>
-                    <td align="center">Distributor Description</td>
+                    <th align="left">Distributor Name</th>
+                    <th align="center">Distributor Description</th>
                 </tr>
             </thead>
             <p align="center"> This product has the following distributors: </p>

@@ -13,6 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Bulk Edit</title>
+        <link href="css/StyleTable.css" rel="stylesheet">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -38,11 +39,11 @@
                         If an attribute should not be changed for all selected products, leave the field empty.
                     </i></p>
 
-                <table align="center" border="1" width = "20%" style="float: top">
+                <table align="center" border="1" width = "20%">
                     <thead>
                         <tr>
-                            <td align="left">Attribute Name</td>
-                            <td align="center">Attribute Value</td>
+                            <th align="left">Attribute Name</th>
+                            <th align="center">Attribute Value</th>
                         </tr>
                     </thead>
                     <%
@@ -55,9 +56,8 @@
                     %>
                     <tr>
                         <td align="left" width="20%"> <%=attributeTitle%> </td>
-                        <td align="center" width="30%"> <input type="text" style="width: 98%; text-align: center" name="AttributeID<%=attributeID%>" value="" align="center" placeholder="attribute value..."/> </td>
+                        <td align="center" width="30%"> <input type="text" style="width: 96%; text-align: center" name="AttributeID<%=attributeID%>" value="" align="center" placeholder="attribute value..."/> </td>
                     </tr>
-                    </tbody>
                     <%}%>
                 </table>
                 <br>
