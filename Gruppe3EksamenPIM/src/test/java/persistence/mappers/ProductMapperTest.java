@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -94,7 +95,7 @@ public class ProductMapperTest {
                 
                 stmt.execute("create table Category_Attributes like Category_Attributes_Test");
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
-                stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
+                stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
             }
         } catch (SQLException ex) {
@@ -141,11 +142,12 @@ public class ProductMapperTest {
                 
                 stmt.execute("create table Category_Attributes like Category_Attributes_Test");
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
-                stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
+                stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
             }
             categoryList.clear();
         } catch (SQLException ex) {
+            
             testConnection = null;
             System.out.println("Could not open connection to database: " + ex.getMessage());
         }

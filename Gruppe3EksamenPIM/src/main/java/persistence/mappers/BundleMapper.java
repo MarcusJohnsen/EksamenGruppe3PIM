@@ -111,7 +111,7 @@ public class BundleMapper {
         try {
             database.setAutoCommit(false);
 
-            String sqlDeleteProductBundles = "DELETE FROM product_bundles WHERE Bundle_ID = ?";
+            String sqlDeleteProductBundles = "DELETE FROM Product_Bundles WHERE Bundle_ID = ?";
             PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlDeleteProductBundles);
             psDeleteProductBundles.setInt(1, bundleID);
             rowsAffected += psDeleteProductBundles.executeUpdate();
@@ -147,7 +147,7 @@ public class BundleMapper {
             psUpdateBundle.setInt(3, bundle.getBundleID());
             rowsAffected += psUpdateBundle.executeUpdate();
 
-            String sqlDeleteProductBundles = "DELETE FROM Product_Bundles WHERE bundle_ID = ?";
+            String sqlDeleteProductBundles = "DELETE FROM Product_Bundles WHERE Bundle_ID = ?";
             PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlDeleteProductBundles);
             psDeleteProductBundles.setInt(1, bundle.getBundleID());
             rowsAffected += psDeleteProductBundles.executeUpdate();

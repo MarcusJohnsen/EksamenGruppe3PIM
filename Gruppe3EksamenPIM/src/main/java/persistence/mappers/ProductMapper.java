@@ -162,7 +162,7 @@ public class ProductMapper {
 
     public int updatePicturePath(int productID, String picturePath) {
         try {
-            String SQL = "UPDATE Product SET picturePath = ? WHERE product_ID = ?";
+            String SQL = "UPDATE Product SET picturePath = ? WHERE Product_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setString(1, picturePath);
             ps.setInt(2, productID);
@@ -180,31 +180,31 @@ public class ProductMapper {
         try {
             database.setAutoCommit(false);
             //Delete all distributers for product in Product_Distributers table
-            String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE product_ID = ?";
+            String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE Product_ID = ?";
             PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteProductDistributors);
             psDeleteProductDistributors.setInt(1, productID);
             rowsAffected += psDeleteProductDistributors.executeUpdate();
 
             //Delete all connections for the product and it's attributes in Product_Attributes table
-            String sqlDeleteProductAttributes = "DELETE FROM Product_Attributes WHERE product_ID = ?";
+            String sqlDeleteProductAttributes = "DELETE FROM Product_Attributes WHERE Product_ID = ?";
             PreparedStatement psDeleteProductAttributes = database.getConnection().prepareStatement(sqlDeleteProductAttributes);
             psDeleteProductAttributes.setInt(1, productID);
             rowsAffected += psDeleteProductAttributes.executeUpdate();
 
             //DELETE all connections for the product and it's categories in Product_Categories table
-            String sqlDeleteProductCategories = "DELETE FROM product_categories WHERE product_ID = ?";
+            String sqlDeleteProductCategories = "DELETE FROM Product_Categories WHERE Product_ID = ?";
             PreparedStatement psDeleteProductCategories = database.getConnection().prepareStatement(sqlDeleteProductCategories);
             psDeleteProductCategories.setInt(1, productID);
             rowsAffected += psDeleteProductCategories.executeUpdate();
 
             //DELETE all connections for the product and it's categories in Product_Categories table
-            String sqlDeleteProductBundles = "DELETE FROM product_bundles WHERE product_ID = ?";
+            String sqlDeleteProductBundles = "DELETE FROM Product_Bundles WHERE Product_ID = ?";
             PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlDeleteProductBundles);
             psDeleteProductBundles.setInt(1, productID);
             rowsAffected += psDeleteProductBundles.executeUpdate();
 
             //DELETE all products from Product table, after having removed all connections to other tables
-            String sqlDeleteProduct = "DELETE FROM Product WHERE product_ID = ?";
+            String sqlDeleteProduct = "DELETE FROM Product WHERE Product_ID = ?";
             PreparedStatement psDeleteProduct = database.getConnection().prepareStatement(sqlDeleteProduct);
             psDeleteProduct.setInt(1, productID);
             rowsAffected += psDeleteProduct.executeUpdate();
@@ -236,7 +236,7 @@ public class ProductMapper {
             rowsAffected += psUpdateProduct.executeUpdate();
             
             //Delete old product distributor connections
-            String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE product_ID = ?";
+            String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE Product_ID = ?";
             PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteProductDistributors);
             psDeleteProductDistributors.setInt(1, product.getProductID());
             rowsAffected += psDeleteProductDistributors.executeUpdate();
@@ -266,43 +266,6 @@ public class ProductMapper {
         }
     }
 
-//    public int editProductDistributors(Product product) {
-//        int rowsAffected = 0;
-//
-//        try {
-//            database.setAutoCommit(false);
-//
-//            int productID = product.getProductID();
-//            //Delete all old distributors for product in Product_distributors table
-//            String sqlDeleteDistributors = "DELETE FROM Product_Distributor WHERE product_ID = ?";
-//            PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteDistributors);
-//            psDeleteProductDistributors.setInt(1, productID);
-//            rowsAffected += psDeleteProductDistributors.executeUpdate();
-//
-//            if (!product.getProductDistributors().isEmpty()) {
-//                String sqlInsertProductDistributors = "INSERT INTO Product_Distributor (Product_ID, Distributor_ID) VALUES ";
-//                boolean firstline = true;
-//                for (Distributor distributor : product.getProductDistributors()) {
-//                    if (firstline) {
-//                        firstline = false;
-//                    } else {
-//                        sqlInsertProductDistributors += ", ";
-//                    }
-//                    sqlInsertProductDistributors += "(" + productID + ", '" + distributor.getDistributorID() + "')";
-//                }
-//                rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
-//            }
-//            database.getConnection().commit();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);
-//            database.rollBack();
-//            database.setAutoCommit(true);
-//            throw new IllegalArgumentException("Can't change the distributors tied to productID " + product.getProductID());
-//        }
-//        database.setAutoCommit(true);
-//        return rowsAffected;
-//    }
-
     public int editProductCategories(Product product) {
         int rowsAffected = 0;
 
@@ -310,7 +273,7 @@ public class ProductMapper {
             database.setAutoCommit(false);
 
             int productID = product.getProductID();
-            String sqlDeleteProductCategories = "DELETE FROM Product_Categories WHERE product_ID = ?";
+            String sqlDeleteProductCategories = "DELETE FROM Product_Categories WHERE Product_ID = ?";
             PreparedStatement psDeleteProductCategories = database.getConnection().prepareStatement(sqlDeleteProductCategories);
             psDeleteProductCategories.setInt(1, productID);
             psDeleteProductCategories.executeUpdate();
