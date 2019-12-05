@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
 import static org.junit.Assert.*;
@@ -25,9 +26,12 @@ public class AttributeMapperTest {
 
     //setting up common variables so I won't have to write them for every single test
     private final int attributeID = 1;
-    private final String attributeName = "Height";
+    private String attributeName = "Height";
     private final HashMap<Integer, String> attributeValues = new HashMap();
     
+    /**
+     * running this setup just once before the test class is run to make sure the database is entirely cleared and functioning
+     */
     @BeforeClass
     public static void oneTimeSetup() {
         try {
@@ -46,6 +50,9 @@ public class AttributeMapperTest {
 
                 stmt.execute("create table Product like Product_Test");
                 stmt.execute("insert into Product select * from Product_Test");
+                
+                stmt.execute("create table Categories like Categories_Test");
+                stmt.execute("insert into Categories select * from Categories_Test");
 
                 stmt.execute("create table Bundles like Bundles_Test");
                 stmt.execute("insert into Bundles select * from Bundles_Test");
@@ -74,6 +81,9 @@ public class AttributeMapperTest {
         }
     }
     
+    /**
+     * Running these statements before each test to make sure we have cleared and functioning tables to avoid duplicate entries.
+     */
     @Before
     public void setup() {
         try {
@@ -110,17 +120,17 @@ public class AttributeMapperTest {
 
     @Test
     public void testSetUpOK() {
-        // Just check that we have a connection.
+        // Just checking that we have a connection.
         assertNotNull(testConnection);
     }
 
     /**
-     * Trying to insert a null name value into the database, and thus expecting a crash
+     * Trying to insert a null name value into the database, and thus expecting a crash as name cannot be null
      */
     @Test(expected = IllegalArgumentException.class)
     public void negativeTestAddNewAttribute() {
         //arrange
-        String attributeName = null;
+        attributeName = null;
         AttributeMapper instance = new AttributeMapper(database);
 
         //act
@@ -149,6 +159,7 @@ public class AttributeMapperTest {
         int result = attributeMapper.deleteAttribute(attributeID);
 
         //assert
+        //Expected result equals the amount of SQL lines that are affected (deleted) by the database call, which, in this case, is 5.
         int expResult = 5;
         assertEquals(expResult, result);
     }
@@ -169,6 +180,30 @@ public class AttributeMapperTest {
         //act
         attributeMapper.deleteAttribute(attributeID);
     }
+    
+    @Test
+    public void testEditAttribute() {
+        //arrange
+        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
+        
+        //act
+        int result = attributeMapper.editAttribute(attribute);
+        
+        //assert
+        //Expected result equals the amount of SQL lines that are affected (edited) by the database call, which, in this case, is 1.
+        int expectedResult = 1;
+        assertEquals(expectedResult, result);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestEditAttribute() {
+        //arrange
+        attributeName = null;
+        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
+        
+        //act
+        attributeMapper.editAttribute(attribute);
+    }
 
     /**
      * this test creates an attribute and puts it in a category, and then creates a category and puts it in a product the value of the attribute is cleared and the method is run. The result shows that if the value is empty then the method creates an empty String.
@@ -181,8 +216,7 @@ public class AttributeMapperTest {
         int categoryID = 3;
         String categoryName = "New Category";
         String categoryDescription = "New Description";
-        TreeSet<Attribute> categoryAttributes = new TreeSet();
-        categoryAttributes.add(attribute);
+        TreeSet<Attribute> categoryAttributes = new TreeSet(Arrays.asList(new Attribute[] {attribute}));
         Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
 
         int productID = 2;
@@ -190,8 +224,7 @@ public class AttributeMapperTest {
         String productDescription = "This is a new product";
         String productPicturePath = "newProduct.img";
         TreeSet<Distributor> productDistributors = new TreeSet();
-        TreeSet<Category> productCategories = new TreeSet();
-        productCategories.add(category);
+        TreeSet<Category> productCategories = new TreeSet(Arrays.asList(new Category[] {category}));
         Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
 
         //act
@@ -200,6 +233,34 @@ public class AttributeMapperTest {
 
         //assert
         assertNotNull(attribute.getAttributeValues());
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeTestUpdateProductAttributionValues() {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists product_attributes");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Attributes");
+        }
+        Attribute attribute = new Attribute(attributeID, attributeName, attributeValues);
+
+        int categoryID = 3;
+        String categoryName = "New Category";
+        String categoryDescription = "New Description";
+        TreeSet<Attribute> categoryAttributes = new TreeSet(Arrays.asList(new Attribute[] {attribute}));
+        Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
+
+        int productID = 1;
+        String productName = "New Product";
+        String productDescription = "This is a new product";
+        String productPicturePath = "newProduct.img";
+        TreeSet<Distributor> productDistributors = new TreeSet();
+        TreeSet<Category> productCategories = new TreeSet(Arrays.asList(new Category[] {category}));
+        Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
+
+        //act
+        attributeMapper.updateProductAttributeValues(product);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -223,6 +284,69 @@ public class AttributeMapperTest {
         
         //act
         attributeMapper.updateProductAttributeSelections(product);
-        attributeMapper.updateProductAttributeValues(product);
+    }
+    
+    /* @Test 
+    public void bulkEditOnProductIDs() {
+        //arrange
+        HashMap<Integer, String> attributeValues2 = new HashMap();
+        attributeValues2.put(4, "hejhej");
+        //Attribute attribute = new Attribute(attributeID, attributeName, attributeValues2);
+        
+        int productID = 1;
+        String productName = "New Product";
+        String productDescription = "This is a new product";
+        String productPicturePath = "newProduct.img";
+        TreeSet<Distributor> productDistributors = new TreeSet();
+        TreeSet<Category> productCategories = new TreeSet();
+        Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, productCategories);
+        
+        int productID1 = 2;
+        String productName1 = "New Product";
+        String productDescription1 = "This is a new product";
+        String productPicturePath1 = "newProduct.img";
+        TreeSet<Distributor> productDistributors1 = new TreeSet();
+        TreeSet<Category> productCategories1 = new TreeSet();
+        Product product2 = new Product(productID1, productName1, productDescription1, productPicturePath1, productDistributors1, productCategories1);
+        
+        Product.getProductList().add(product);
+        Product.getProductList().add(product2);
+        
+        ArrayList<Integer> productIDs = new ArrayList();
+        productIDs.add(1);
+        productIDs.add(2);
+        
+        //act
+        attributeMapper.bulkEditOnProductIDs(productIDs, attributeValues2);
+        
+        //assert
+        assertTrue();
+    } */
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeBulkEditOnProductIDsNoProductIDs () {
+        //arrange
+        ArrayList<Integer> productIDs = new ArrayList();
+        
+        //act
+        attributeMapper.bulkEditOnProductIDs(productIDs, attributeValues);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void negativeBulkEditOnProductIDsNoAttributeValues () {
+        //arrange
+        try {
+            database.getConnection().createStatement().execute("drop table if exists product_attributes");
+            database.getConnection().createStatement().execute("drop table if exists category_attributes");
+            database.getConnection().createStatement().execute("drop table if exists Attributes");
+        } catch (SQLException ex) {
+            fail("Could not make the structural change to the DB-table Attributes");
+        }
+        ArrayList<Integer> productIDs = new ArrayList();
+        HashMap<Integer, String> attributeValues2 = new HashMap();
+        attributeValues2.put(4, "hej");
+        
+        //act
+        attributeMapper.bulkEditOnProductIDs(productIDs, attributeValues2);
     }
 }

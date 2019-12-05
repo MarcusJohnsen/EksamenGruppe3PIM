@@ -215,7 +215,7 @@ public class AttributeMapper {
      * @param categoryID ID matching category these attributes should be changed on, in case of multiple categories using the same attributes
      * @return int count of rows affected in database from sql updates.
      */
-    public int bulkEditOnCategoryID(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
+    public int bulkEditOnProductIDs(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
         try {
             int rowsAffected = 0;
             database.setAutoCommit(false);

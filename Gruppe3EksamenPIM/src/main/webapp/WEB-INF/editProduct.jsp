@@ -40,8 +40,7 @@
                 <br>
                 <input type="text" name="Product Name" value="<%=ProductName%>" required="required"/>
             </p>
-        </form>    
-
+            
             <p align="center">
                 Product Description:
                 <br>
@@ -88,10 +87,9 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <th align="center">DistributorID ID</th>
+                        <th align="center">Distributor ID</th>
                         <th align="center">Distributor Name</th>
                         <th></th>
-
                     </tr>
                 </thead>
                     <%
@@ -109,17 +107,17 @@
                         <%} else {%>
                         <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
                         <%}%>
-                        
                     </tr>
                 <%}%>
             </table>
+            
                 <br>
                 <p align="center">
                     Save the changes:
                     <br>
                     <input type="hidden" name="command" value="editProduct" />
                     <input type="submit" value="Update"/></p>
-        </form>
+                
         <form action="FrontController" method="POST">
             <input type="hidden" name="command" value="goToJsp" />
             <input type="hidden" name="goToJsp" value="viewAllProducts" />

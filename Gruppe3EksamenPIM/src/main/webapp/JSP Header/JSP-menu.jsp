@@ -98,8 +98,7 @@
                 <a href="#" onclick="document.getElementById('viewBundle').submit()">View All Bundles</a>
             </form>
         </div>
-        <a href="#">Advanced Search</a>
-        <a></a>
+
     </div>
     <script>
         var dropdown = document.getElementsByClassName("dropdown-btn");

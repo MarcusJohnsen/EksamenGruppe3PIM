@@ -250,8 +250,9 @@ public class BusinessController {
     }
 
     public TreeSet<Product> searchProduct(String searchString) {
+        SearchEngine searchEngine = new SearchEngine();
         TreeSet<Product> fullList = Product.getProductList();
-        return SearchEngine.simpleSearch(searchString, fullList);
+        searchEngine.setProductList(fullList);
+        return searchEngine.simpleProductSearch(searchString);
     }
-
 }

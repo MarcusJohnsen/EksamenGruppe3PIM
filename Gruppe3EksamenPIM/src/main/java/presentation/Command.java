@@ -25,6 +25,7 @@ public abstract class Command {
 
         commands.put("goToJsp", new GoToJspCommand());
         commands.put("simpleSearch", new SimpleSearchCommand());
+        commands.put("advancedSearch", new AdvancedSearchCommand());
 
         commands.put("selectProduct", new SelectProductCommand());
         commands.put("editProduct", new EditProductCommand());

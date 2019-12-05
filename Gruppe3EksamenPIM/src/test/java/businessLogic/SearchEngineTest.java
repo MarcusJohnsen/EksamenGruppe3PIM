@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businessLogic;
 
 import java.util.TreeSet;
@@ -15,23 +10,24 @@ import org.junit.Test;
  */
 public class SearchEngineTest {
     
+    SearchEngine search = new SearchEngine();
+    
     @Test
     public void testSearchCorrect(){
-        SearchEngine search = new SearchEngine(); //Is not "used", only for test cover
         String searchString = "Co";
         Product product1 = new Product(1, "Coca Cola Light", "", "", new TreeSet(), new TreeSet());
         Product product2 = new Product(2, "Coca Cola Max", "", "", new TreeSet(), new TreeSet());
         Product product3 = new Product(3, "Porsche", "", "", new TreeSet(), new TreeSet());
         TreeSet<Product> fullList = new TreeSet();
+        search.setProductList(fullList);
         fullList.add(product1);
         fullList.add(product2);
         fullList.add(product3);
         
-        TreeSet<Product> result = SearchEngine.simpleSearch(searchString, fullList);
+        TreeSet<Product> result = search.simpleProductSearch(searchString);
         assertTrue(result.contains(product1));
         assertTrue(result.contains(product2));
         assertFalse(result.contains(product3));
-        
     }
     
     @Test
@@ -41,15 +37,15 @@ public class SearchEngineTest {
         Product product2 = new Product(2, "Coca Cola Max", "", "", new TreeSet(), new TreeSet());
         Product product3 = new Product(3, "Porsche", "", "", new TreeSet(), new TreeSet());
         TreeSet<Product> fullList = new TreeSet();
+        search.setProductList(fullList);
         fullList.add(product1);
         fullList.add(product2);
         fullList.add(product3);
         
-        TreeSet<Product> result = SearchEngine.simpleSearch(searchString, fullList);
+        TreeSet<Product> result = search.simpleProductSearch(searchString);
         assertTrue(result.contains(product1));
         assertTrue(result.contains(product2));
         assertTrue(result.contains(product3));
-        
     }
     
     @Test
@@ -59,15 +55,14 @@ public class SearchEngineTest {
         Product product2 = new Product(2, "Coca Cola Max", "", "", new TreeSet(), new TreeSet());
         Product product3 = new Product(3, "Porsche", "", "", new TreeSet(), new TreeSet());
         TreeSet<Product> fullList = new TreeSet();
+        search.setProductList(fullList);
         fullList.add(product1);
         fullList.add(product2);
         fullList.add(product3);
         
-        TreeSet<Product> result = SearchEngine.simpleSearch(searchString, fullList);
+        TreeSet<Product> result = search.simpleProductSearch(searchString);
         assertFalse(result.contains(product1));
         assertTrue(result.contains(product2));
         assertFalse(result.contains(product3));
-        
-    }
-    
+    }   
 }

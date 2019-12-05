@@ -25,7 +25,6 @@ public class AddProductCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
-
         String nextJsp = "viewAllProductDetails";
 
         // get parameters from request
@@ -42,7 +41,6 @@ public class AddProductCommand extends Command {
 
         try {
             List<Part> parts = (List<Part>) request.getParts();
-            
             // get parameters for choosen distributors, and throw error if there is none
             ArrayList<String> distributorChoices;
             if (request.getParameterValues("distributorChoices") != null) {
@@ -50,10 +48,8 @@ public class AddProductCommand extends Command {
             } else {
                 throw new IllegalArgumentException("Need at least 1 distributor");
             }
-            
             Product newProduct = businessController.createNewProduct(productName, productDescription, distributorChoices, categoryChoices, parts);
             request.setAttribute("product", newProduct);
-            
         } catch (IllegalArgumentException ex) {
             TreeSet<Category> categoryList = businessController.getCategoryList();
             request.setAttribute("categoryList", categoryList);
@@ -66,8 +62,6 @@ public class AddProductCommand extends Command {
         } catch (ServletException ex) {
             Logger.getLogger(AddProductCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return nextJsp;
     }
-
 }
