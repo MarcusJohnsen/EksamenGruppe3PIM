@@ -30,6 +30,7 @@ public class Bundle implements Comparable<Bundle> {
         } else {
             this.bundleProducts = new HashMap();
         }
+        addBundleRelationToProducts();
     }
 
     public void addBundleRelationToProducts() {
