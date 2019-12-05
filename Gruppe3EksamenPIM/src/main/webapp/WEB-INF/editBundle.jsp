@@ -13,6 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Bundle</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -49,16 +50,17 @@
                 <textarea name="Bundle Description" rows="8" cols="40" required="required"><%=bundleDist%></textarea>
             </p>
 
-            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+            <table align="center" border = "1" width = "60%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">ID</td>
-                        <td align="center">Name</td>
-                        <td align="center">Description</td>
+                        <th align="center">ID</th>
+                        <th align="center">Name</th>
+                        <th align="center">Description</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                         TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
                         for (Product product : productList) {
@@ -80,7 +82,6 @@
                             <%}%>
 
                     </tr>
-                </tbody>
                 <%}%>
             </table>
 

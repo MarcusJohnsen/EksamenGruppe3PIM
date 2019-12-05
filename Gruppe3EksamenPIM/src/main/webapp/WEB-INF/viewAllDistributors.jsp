@@ -12,6 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
         <title>JSP Page</title>
     </head>
     <body>
@@ -22,9 +23,10 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">Distributor ID</td>
-                        <td align="center">Distributor Name</td>
-                        <td align="center">Distributor Description</td>
+                        <th align="center">Distributor ID</th>
+                        <th align="center">Distributor Name</th>
+                        <th align="center">Distributor Description</th>
+                        <th></th>
                     </tr>
                 </thead>
 
