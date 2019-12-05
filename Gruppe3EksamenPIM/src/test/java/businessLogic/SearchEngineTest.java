@@ -64,5 +64,5 @@ public class SearchEngineTest {
         assertFalse(result.contains(product1));
         assertTrue(result.contains(product2));
         assertFalse(result.contains(product3));
-    }
+    }   
 }

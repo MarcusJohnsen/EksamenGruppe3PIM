@@ -36,13 +36,7 @@ public class SearchEngine {
         this.attributeList = attributeList;
     }
 
-    public TreeSet<Product> simpleProductSearch(String searchString) {
-        searchString = searchString.toLowerCase();
-        boolean singleResultFromList = false;
-        return productSearch(searchString, productList, singleResultFromList);
-    }
-
-    public TreeSet<Bundle> bundleSearch(String searchString, TreeSet<Bundle> bundleList, boolean singleResultFromList) {
+    private TreeSet<Bundle> bundleSearch(String searchString, TreeSet<Bundle> bundleList, boolean singleResultFromList) {
         TreeSet<Bundle> result = new TreeSet();
 
         for (Bundle bundle : bundleList) {
@@ -58,7 +52,7 @@ public class SearchEngine {
         return result;
     }
 
-    public TreeSet<Category> categorySearch(String searchString, TreeSet<Category> categoryList, boolean singleResultFromList) {
+    private TreeSet<Category> categorySearch(String searchString, TreeSet<Category> categoryList, boolean singleResultFromList) {
         TreeSet<Category> result = new TreeSet();
 
         for (Category category : categoryList) {
@@ -74,7 +68,7 @@ public class SearchEngine {
         return result;
     }
 
-    public TreeSet<Distributor> distributorSearch(String searchString, TreeSet<Distributor> distributorList, boolean singleResultFromList) {
+    private TreeSet<Distributor> distributorSearch(String searchString, TreeSet<Distributor> distributorList, boolean singleResultFromList) {
         TreeSet<Distributor> result = new TreeSet();
 
         for (Distributor distributor : distributorList) {
@@ -90,7 +84,7 @@ public class SearchEngine {
         return result;
     }
 
-    public TreeSet<Product> productSearch(String searchString, TreeSet<Product> productList, boolean singleResultFromList) {
+    private TreeSet<Product> productSearch(String searchString, TreeSet<Product> productList, boolean singleResultFromList) {
         TreeSet<Product> result = new TreeSet();
 
         for (Product product : productList) {
@@ -104,6 +98,12 @@ public class SearchEngine {
             }
         }
         return result;
+    }
+
+    public TreeSet<Product> simpleProductSearch(String searchString) {
+        searchString = searchString.toLowerCase();
+        boolean singleResultFromList = false;
+        return productSearch(searchString, productList, singleResultFromList);
     }
 
     public TreeSet<Object> advancedSearch(String searchKey, String searchOnObject, HashMap<String, String> filterValues) {
@@ -193,7 +193,7 @@ public class SearchEngine {
 
         return result;
     }
-    
+
     private TreeSet<Object> advancedDistributorSearch(String searchKey, HashMap<String, String> filterValues) {
         String productFilter = checkedFilter(filterValues, PRODUCT_FILTER_KEY);
 
@@ -216,7 +216,7 @@ public class SearchEngine {
 
         return result;
     }
-    
+
     private TreeSet<Object> advancedBundleSearch(String searchKey, HashMap<String, String> filterValues) {
         String productFilter = checkedFilter(filterValues, PRODUCT_FILTER_KEY);
 
