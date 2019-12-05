@@ -13,6 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Connect attributes</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -28,13 +29,12 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">Attribute ID</td>
-                        <td align="center">Attribute Name</td>
-                        <td align="center">Attribute Value</td>
+                        <th align="center">Attribute ID</th>
+                        <th align="center">Attribute Name</th>
+                        <th align="center">Attribute Value</th>
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                             for (Attribute attribute : attributeList) {
                             int AttributeID = attribute.getAttributeID();
@@ -50,7 +50,6 @@
                         <td align="center" width="1%"><input type="checkbox" name=attributeChoices value="<%=AttributeID%>"></td>
                             <%}%>
                     </tr>
-                </tbody>
                 <%}%>
             </table>
             <br>

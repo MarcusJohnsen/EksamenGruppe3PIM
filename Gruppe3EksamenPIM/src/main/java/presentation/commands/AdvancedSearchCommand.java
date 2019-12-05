@@ -12,6 +12,8 @@ public class AdvancedSearchCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessFacade) {
         String nextJsp = "";
         
+        
+        
         TreeSet<Object> searchedProductsList = businessFacade.advancedSearch(nextJsp);
     
         

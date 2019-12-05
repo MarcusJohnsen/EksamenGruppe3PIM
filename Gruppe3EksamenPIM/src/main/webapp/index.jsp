@@ -26,30 +26,30 @@ ${frontController.setup()}
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>PIM System</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
-
         <div class="main">
-            <h1 align="center">PIM System</h1>
+            <h1 align="center" style="font-size: 80px">PIM System</h1>
             <h3 align="center">Product Count: <c:out value="${productCount}"/></h3>
             <br>
             <div>
                 <div style="float: left; width:28%; margin: auto 1.5em;">
                     <div align="center">Bundle Count: <c:out value="${bundleCount}"/><br></div>
-                    <table border = "1" width = "100%" bgcolor="#ededed">
+                    <table style="width:100%;">
                         <thead>
-                            <tr bgcolor = "#ff7a7a">
+                            <tr>
                                 <th>Top</th>
                                 <th>Bundles</th>
                                 <th>Qty.</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <%int test1 = 1;%>
+                            <%int count1 = 1;%>
                             <c:forEach items='${topTenBundles}' var="topTenBundle">
                                 <tr>
-                                    <td><%=test1++%></td>
+                                    <td><%=count1++%></td>
                                     <td><c:out value="${topTenBundle.getKey().getBundleName()}"/></td>
                                     <td><c:out value="${topTenBundle.getValue()}"/></td>
                                 </c:forEach>
@@ -59,19 +59,19 @@ ${frontController.setup()}
                 </div>
                 <div style="float: left; width:28%; margin: auto 1.5em;">
                     <div align="center">Category Count: <c:out value="${categoryCount}"/><br></div>
-                    <table border = "1" width = "100%"  bgcolor="#ededed">
+                    <table style="width:100%;">
                         <thead>
-                            <tr bgcolor = "#ff7a7a">
+                            <tr>
                                 <th>Top</th>
                                 <th>Category</th>
                                 <th>Qty.</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <%int test2 = 1;%>
+                            <%int count2 = 1;%>
                             <c:forEach items='${topTenCategories}' var="topTenCategory">
                                 <tr>
-                                    <td><%=test2++%></td>
+                                    <td><%=count2++%></td>
                                     <td><c:out value="${topTenCategory.getKey().getName()}"/></td>
                                     <td><c:out value="${topTenCategory.getValue()}"/></td>
                                 </c:forEach>
@@ -81,20 +81,20 @@ ${frontController.setup()}
                 </div>
                 <div style="float: left; width:28%; margin: auto 1.5em;">
                     <div align="center">
-                    Distributor Count: <c:out value="${distributorCount}"/><br></div>
-                    <table border = "1" width = "100%" bgcolor="#ededed">
+                        Distributor Count: <c:out value="${distributorCount}"/><br></div>
+                    <table style="width:100%;">
                         <thead>
-                            <tr bgcolor = "#ff7a7a">
+                            <tr>
                                 <th>Top</th>
                                 <th>Distributors</th>
                                 <th>Qty.</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <%int test3 = 1;%>
+                            <%int count3 = 1;%>
                             <c:forEach items='${topTenDistributors}' var="topTenDistributor">
                                 <tr>
-                                    <td><%=test3++%></td>
+                                    <td><%=count3++%></td>
                                     <td><c:out value="${topTenDistributor.getKey().getDistributorName()}"/></td>
                                     <td><c:out value="${topTenDistributor.getValue()}"/></td>
                                 </c:forEach>

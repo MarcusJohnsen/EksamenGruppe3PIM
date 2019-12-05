@@ -12,21 +12,22 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View Attributes</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <div class="main">
         <h1 align="center">Attributes list</h1>
         <form action="FrontController">
-            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+            <table align="center" border = "1" width = "50%">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">Attribute ID</td>
-                        <td align="center">Attribute Name</td>
+                        <th align="center">Attribute ID</th>
+                        <th align="center">Attribute Name</th>
+                        <th></th>
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                         TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
                         for (Attribute attribute : attributeList) {
@@ -34,11 +35,10 @@
                             String AttributeName = attribute.getAttributeName();
                     %>  
                     <tr>
-                        <td align="center" width="5%"> <%=AttributeID%> </td>
+                        <td align="center" width="2%"> <%=AttributeID%> </td>
                         <td align="center" width="20%"> <%=AttributeName%> </td>
                         <td align="center" width="1%"><input type="radio" name=attributeChoice value="<%=AttributeID%>"></td>
                     </tr>
-                </tbody>
                 <%}%>
             </table>
             <input type="hidden" name="command" value="selectAttribute" />

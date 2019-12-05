@@ -13,6 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>PIM System</title>
+        <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -62,13 +63,13 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">DistributorID ID</td>
-                        <td align="center">Distributor Name</td>
+                        <th align="center">DistributorID ID</th>
+                        <th align="center">Distributor Name</th>
+                        <th></th>
 
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                         TreeSet<Distributor> distributorList = (TreeSet<Distributor>) request.getAttribute("distributorList");
                         for (Distributor distributor : distributorList) {
@@ -80,7 +81,6 @@
                         <td align="center" width="20%"> <%=distributorName%> </td>
                         <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
                     </tr>
-                </tbody>
                 <%}%>
 
 
@@ -92,13 +92,13 @@
             <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                 <thead>
                     <tr bgcolor = "#FF4B4B">
-                        <td align="center">Category ID</td>
-                        <td align="center">Category Name</td>
-                        <td align="center">Category Description</td>
+                        <th align="center">Category ID</th>
+                        <th align="center">Category Name</th>
+                        <th align="center">Category Description</th>
+                        <th align="center">Select</th>
                     </tr>
                 </thead>
 
-                <tbody>
                     <%
                         TreeSet<Category> categoryList = (TreeSet<Category>) request.getAttribute("categoryList");
                         for (Category category : categoryList) {
@@ -112,7 +112,6 @@
                         <td align="center" width="30%"> <%=CategoryDescription%> </td>
                         <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<%=CategoryID%>"></td>
                     </tr>
-                </tbody>
                 <%}%>
             </table>
 

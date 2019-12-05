@@ -12,6 +12,7 @@
 </head>
 <body>
     <div class="sidenav" >
+        <p align="center"><img src="decorations/PimLogo.png" style="width: 120px; height: 120px;"/></p>
         <form action="FrontController">
             <input type="hidden" name="command" value="simpleSearch" />
             <p align="center"><input type="text" name="search" value="" placeholder="Search..."/> <input type="submit" value="Search" /></p> 
