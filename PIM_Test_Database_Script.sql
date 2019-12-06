@@ -54,7 +54,7 @@ DROP DATABASE IF EXISTS Fake_PIM_Database;
     (2,3),
     (3,1);
     
-    CREATE TABLE Fake_PIM_Database.Category_Attributes_Test like PIM_Database.Category_attributes;
+    CREATE TABLE Fake_PIM_Database.Category_Attributes_Test like PIM_Database.Category_Attributes;
     ALTER TABLE Category_Attributes_Test ADD FOREIGN KEY(Category_ID) REFERENCES Categories_Test(Category_ID);
     ALTER TABLE Category_Attributes_Test ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes_Test(Attribute_ID);
     INSERT INTO Category_Attributes_Test (Category_ID, Attribute_ID) VALUES

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation.commands;
 
 import businessLogic.BusinessController;
@@ -20,9 +15,8 @@ public class SimpleSearchCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessFacade) {
-
         String nextJsp = "viewAllProducts";
-//        String commandType = request.getParameter("submitButton");
+        
         String searchString = request.getParameter("search");
 
         TreeSet<Product> searchedProductsList = businessFacade.searchProduct(searchString);
@@ -31,5 +25,4 @@ public class SimpleSearchCommand extends Command {
 
         return nextJsp;
     }
-
 }

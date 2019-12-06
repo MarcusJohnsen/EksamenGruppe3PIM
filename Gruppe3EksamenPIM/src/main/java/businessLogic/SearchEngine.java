@@ -166,7 +166,6 @@ public class SearchEngine {
                 }
             }
         }
-
         return result;
     }
 
@@ -189,7 +188,6 @@ public class SearchEngine {
                 }
             }
         }
-
         return result;
     }
 
@@ -212,7 +210,6 @@ public class SearchEngine {
                 }
             }
         }
-
         return result;
     }
 
@@ -235,7 +232,6 @@ public class SearchEngine {
                 }
             }
         }
-
         return result;
     }
 

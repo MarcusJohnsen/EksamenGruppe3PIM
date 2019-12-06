@@ -69,12 +69,12 @@ public class DistributorMapper {
         try {
             database.setAutoCommit(false);
 
-            String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE distributor_ID = ?";
+            String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE Distributor_ID = ?";
             PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteProductDistributors);
             psDeleteProductDistributors.setInt(1, distributorID);
             rowsAffected += psDeleteProductDistributors.executeUpdate();
 
-            String sqlDeleteDistributor = "DELETE FROM Distributor WHERE distributor_ID = ?";
+            String sqlDeleteDistributor = "DELETE FROM Distributor WHERE Distributor_ID = ?";
             PreparedStatement psDeleteDistributor = database.getConnection().prepareStatement(sqlDeleteDistributor);
             psDeleteDistributor.setInt(1, distributorID);
             rowsAffected += psDeleteDistributor.executeUpdate();

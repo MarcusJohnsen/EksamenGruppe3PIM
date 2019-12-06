@@ -96,7 +96,7 @@ public class CategoryMapper {
             TreeSet<Category> categoryList = new TreeSet();
             HashMap<Integer, TreeSet<Attribute>> categoryAttributesMap = new HashMap();
 
-            String SQL = "SELECT * FROM category_attributes";
+            String SQL = "SELECT * FROM Category_Attributes";
             ResultSet rs = database.getConnection().prepareStatement(SQL).executeQuery();
             while (rs.next()) {
                 int categoryID = rs.getInt("Category_ID");
@@ -148,12 +148,12 @@ public class CategoryMapper {
         try {
             database.setAutoCommit(false);
 
-            String sqlDeleteCategoryAttributes = "DELETE FROM category_attributes WHERE Category_ID = ?";
+            String sqlDeleteCategoryAttributes = "DELETE FROM Category_Attributes WHERE Category_ID = ?";
             PreparedStatement psDeleteCategoryAttributes = database.getConnection().prepareStatement(sqlDeleteCategoryAttributes);
             psDeleteCategoryAttributes.setInt(1, categoryID);
             rowsAffected += psDeleteCategoryAttributes.executeUpdate();
 
-            String sqlDeleteProductCategories = "DELETE FROM product_categories WHERE Category_ID = ?";
+            String sqlDeleteProductCategories = "DELETE FROM Product_Categories WHERE Category_ID = ?";
             PreparedStatement psDeleteProductCategories = database.getConnection().prepareStatement(sqlDeleteProductCategories);
             psDeleteProductCategories.setInt(1, categoryID);
             rowsAffected += psDeleteProductCategories.executeUpdate();
@@ -221,7 +221,7 @@ public class CategoryMapper {
         try {
             database.setAutoCommit(false);
             int categoryID = category.getCategoryID();
-            String SQL = "DELETE FROM category_attributes WHERE category_ID = ?";
+            String SQL = "DELETE FROM Category_Attributes WHERE category_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, categoryID);
             rowsAffected += ps.executeUpdate();

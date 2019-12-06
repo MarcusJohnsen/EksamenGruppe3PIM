@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import javafx.util.Pair;
 
@@ -191,31 +192,29 @@ public class Category implements Comparable<Category> {
      * @author Michael
      * @return
      */
-    public static List<Pair<Category, Integer>> topTenCategories() {
-        List<Pair<Category, Integer>> categoryProductCounts = new ArrayList();
-        for (Category category : categoryList) {
-            categoryProductCounts.add(new Pair(category, category.categoryProducts.size()));
-        }
+    public static List<Category> topTenCategories() {
+        List<Category> categoryProductCounts = new ArrayList(categoryList);
 
-        Collections.sort(categoryProductCounts, new Comparator<Pair<Category, Integer>>() {
+        Collections.sort(categoryProductCounts, new Comparator<Category>() {
             @Override
-            public int compare(final Pair<Category, Integer> o1, final Pair<Category, Integer> o2) {
-                if (o1.getValue() > o2.getValue()) {
+            public int compare(final Category o1, final Category o2) {
+                int o1Size = o1.getCategoryProducts().size();
+                int o2Size = o2.getCategoryProducts().size();
+                if (o1Size > o2Size) {
                     return -1;
-                } else if (o1.getValue() < o2.getValue()) {
+                } else if (o1Size < o2Size) {
                     return 1;
                 } else {
                     return 0;
                 }
             }
         });
-        
+
         int subListEnd = 10;
         if (categoryProductCounts.size() < 10) {
             subListEnd = categoryProductCounts.size();
         }
-
-        List<Pair<Category, Integer>> result = categoryProductCounts.subList(0, subListEnd);
+        List<Category> result = new ArrayList(categoryProductCounts.subList(0, subListEnd));
         return result;
     }
 

@@ -109,7 +109,7 @@ public class AttributeMapperTest {
                 
                 stmt.execute("create table Category_Attributes like Category_Attributes_Test");
                 stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
-                stmt.execute("ALTER TABLE category_attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
+                stmt.execute("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.execute("insert into Category_Attributes select * from Category_Attributes_Test");
             }
         } catch (SQLException ex) {
@@ -239,7 +239,7 @@ public class AttributeMapperTest {
     public void negativeTestUpdateProductAttributionValues() {
         //arrange
         try {
-            database.getConnection().createStatement().execute("drop table if exists product_attributes");
+            database.getConnection().createStatement().execute("drop table if exists Product_Attributes");
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Attributes");
         }
@@ -267,7 +267,7 @@ public class AttributeMapperTest {
     public void negativeTestUpdateProductAttributeSelections() {
         //arrange
         try {
-            database.getConnection().createStatement().execute("drop table if exists product_attributes");
+            database.getConnection().createStatement().execute("drop table if exists Product_Attributes");
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Attributes");
         }
@@ -336,8 +336,8 @@ public class AttributeMapperTest {
     public void negativeBulkEditOnProductIDsNoAttributeValues () {
         //arrange
         try {
-            database.getConnection().createStatement().execute("drop table if exists product_attributes");
-            database.getConnection().createStatement().execute("drop table if exists category_attributes");
+            database.getConnection().createStatement().execute("drop table if exists Product_Attributes");
+            database.getConnection().createStatement().execute("drop table if exists Category_Attributes");
             database.getConnection().createStatement().execute("drop table if exists Attributes");
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Attributes");

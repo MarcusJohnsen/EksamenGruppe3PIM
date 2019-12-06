@@ -106,19 +106,17 @@ public class Bundle implements Comparable<Bundle> {
         return result;
     }
 
-    public static List<Pair<Bundle, Integer>> topTenBundles() {
-        List<Pair<Bundle, Integer>> bundleProductCounts = new ArrayList();
+    public static List<Bundle> topTenBundles() {
+        List<Bundle> bundleProductCounts = new ArrayList(bundleList);
 
-        for (Bundle bundle : bundleList) {
-            bundleProductCounts.add(new Pair(bundle, bundle.bundleProducts.size()));
-        }
-
-        Collections.sort(bundleProductCounts, new Comparator<Pair<Bundle, Integer>>() {
+        Collections.sort(bundleProductCounts, new Comparator<Bundle>() {
             @Override
-            public int compare(final Pair<Bundle, Integer> o1, final Pair<Bundle, Integer> o2) {
-                if (o1.getValue() > o2.getValue()) {
+            public int compare(final Bundle o1, final Bundle o2) {
+                int o1Size = o1.getBundleProducts().size();
+                int o2Size = o2.getBundleProducts().size();
+                if (o1Size > o2Size) {
                     return -1;
-                } else if (o1.getValue() < o2.getValue()) {
+                } else if (o1Size < o2Size) {
                     return 1;
                 } else {
                     return 0;
@@ -131,7 +129,7 @@ public class Bundle implements Comparable<Bundle> {
             subListEnd = bundleProductCounts.size();
         }
 
-        List<Pair<Bundle, Integer>> result = bundleProductCounts.subList(0, subListEnd);
+        List<Bundle> result = bundleProductCounts.subList(0, subListEnd);
         return result;
     }
 

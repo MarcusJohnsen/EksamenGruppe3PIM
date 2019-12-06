@@ -48,7 +48,7 @@ public class AttributeMapper {
 
     public TreeSet<Attribute> getAttributes() {
         try {
-            String SQL = "SELECT * FROM product_attributes";
+            String SQL = "SELECT * FROM Product_Attributes";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
             HashMap<Integer, HashMap<Integer, String>> productAttributeValues = new HashMap();
@@ -95,12 +95,12 @@ public class AttributeMapper {
         try {
             database.setAutoCommit(false);
 
-            String sqlDeleteCategoryAttributes = "DELETE FROM category_attributes WHERE Attribute_ID = ?";
+            String sqlDeleteCategoryAttributes = "DELETE FROM Category_Attributes WHERE Attribute_ID = ?";
             PreparedStatement psDeleteCategoryAttributes = database.getConnection().prepareStatement(sqlDeleteCategoryAttributes);
             psDeleteCategoryAttributes.setInt(1, attributeID);
             rowsAffected += psDeleteCategoryAttributes.executeUpdate();
 
-            String sqlDeleteProductAttributes = "DELETE FROM product_attributes WHERE Attribute_ID = ?";
+            String sqlDeleteProductAttributes = "DELETE FROM Product_Attributes WHERE Attribute_ID = ?";
             PreparedStatement psDeleteProductAttributes = database.getConnection().prepareStatement(sqlDeleteProductAttributes);
             psDeleteProductAttributes.setInt(1, attributeID);
             rowsAffected += psDeleteProductAttributes.executeUpdate();
@@ -143,7 +143,7 @@ public class AttributeMapper {
         try {
             database.setAutoCommit(false);
             int productID = product.getProductID();
-            String sqlDeleteProductAttributes = "DELETE FROM Product_Attributes WHERE product_ID = ?";
+            String sqlDeleteProductAttributes = "DELETE FROM Product_Attributes WHERE Product_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(sqlDeleteProductAttributes);
             ps.setInt(1, productID);
             rowsAffected += ps.executeUpdate();
@@ -187,7 +187,7 @@ public class AttributeMapper {
             database.setAutoCommit(false);
             int productID = product.getProductID();
             for (Attribute productAttribute : product.getProductAttributes()) {
-                String SQL = "UPDATE product_attributes SET Attribute_Info = ? WHERE Product_ID = ? AND Attribute_ID = ?";
+                String SQL = "UPDATE Product_Attributes SET Attribute_Info = ? WHERE Product_ID = ? AND Attribute_ID = ?";
                 PreparedStatement ps = database.getConnection().prepareStatement(SQL);
                 ps.setString(1, productAttribute.getAttributeValueForID(productID));
                 ps.setInt(2, productID);
@@ -224,16 +224,16 @@ public class AttributeMapper {
                 throw new IllegalArgumentException("No products selected to be updated");
             }
 
-            String sqlUpdateCoreStatement = "UPDATE product_attributes JOIN product_categories ON product_attributes.Product_ID = product_categories.Product_ID "
-                    + "SET Attribute_Info = ? WHERE product_attributes.Attribute_ID = ? AND ";
+            String sqlUpdateCoreStatement = "UPDATE Product_Attributes JOIN Product_Categories ON Product_Attributes.Product_ID = Product_Categories.Product_ID "
+                    + "SET Attribute_Info = ? WHERE Product_Attributes.Attribute_ID = ? AND ";
             String sqlProductIDCondition = "";
             boolean firstLine = true;
             for (Integer productID : productIDs) {
                 if(firstLine){
                     firstLine = false;
-                    sqlProductIDCondition += "( product_attributes.Product_ID = " + productID;
+                    sqlProductIDCondition += "( Product_Attributes.Product_ID = " + productID;
                 } else {
-                    sqlProductIDCondition += " OR product_attributes.Product_ID = " + productID;
+                    sqlProductIDCondition += " OR Product_Attributes.Product_ID = " + productID;
                 }
             }
             sqlProductIDCondition += " )";
