@@ -20,8 +20,8 @@
         <br>
         
         <form action="FrontController">
-            <input type="hidden" name="command" value="advancedSearch" />
-            <p align="center"><input type="text" name="advancedSearch" value="" placeholder="Search for: "/> <input type="submit" value="Search"/></p>
+        <input type="hidden" name="command" value="advancedSearch" />
+            <p align="center"><input type="text" name="searchComplete" value="" placeholder="Search for: "/> <input type="submit" value="Search"/></p>
             
             <c:forEach items='${requestScope["filterList"]}' var="filter">
                 <p align="center" width="1%"> <c:out value="${filter}"/>: <input type="text" name="<c:out value="${filter}"/>Choice"></p>
