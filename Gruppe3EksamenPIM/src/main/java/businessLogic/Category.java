@@ -1,5 +1,6 @@
 package businessLogic;
 
+import persistence.Json.Exclude;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,7 +18,9 @@ public class Category implements Comparable<Category> {
     private int categoryID;
     private String name;
     private String description;
+    @Exclude
     private TreeSet<Attribute> categoryAttributes;
+    @Exclude
     private TreeSet<Product> categoryProducts;
 
     private static TreeSet<Category> categoryList = new TreeSet();

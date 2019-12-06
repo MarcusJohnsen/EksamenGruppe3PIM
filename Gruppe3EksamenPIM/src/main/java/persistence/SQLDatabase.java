@@ -39,11 +39,12 @@ public class SQLDatabase {
         try {
             InputStream input = SQLDatabase.class.getResourceAsStream(propertiesFilePath);
             Properties pros = new Properties();
-            
+
             pros.load(input);
-            
+
             switch (systemMode) {
                 case PRODUCTION:
+                case DEVELOPMENT:
                     URL = pros.getProperty("url");
                     break;
                 case TEST:
@@ -61,7 +62,7 @@ public class SQLDatabase {
             Class.forName(driver);
 
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(SQLDatabase.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Cannot connect to properties file");
@@ -77,17 +78,22 @@ public class SQLDatabase {
     public void setConnection(Connection conn) {
         this.conn = conn;
     }
-    
-    public void setAutoCommit(boolean autoCommitSetting){
+
+    public void setAutoCommit(boolean autoCommitSetting) {
         try {
-            conn.setAutoCommit(autoCommitSetting);
-        } catch (SQLException ex) {
+            if (conn.isClosed()) {
+                createConnection(PROPERTIESFILEPATH, DRIVER);
+            } else {
+                conn.setAutoCommit(autoCommitSetting);
+            }
+
+        } catch (SQLException | NullPointerException ex) {
             Logger.getLogger(SQLDatabase.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("An error occurred when change connection autoCommit status");
         }
     }
-    
-    public void rollBack(){
+
+    public void rollBack() {
         try {
             conn.rollback();
         } catch (SQLException ex) {

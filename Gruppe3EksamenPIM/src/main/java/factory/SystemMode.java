@@ -1,5 +1,5 @@
 package factory;
 
 public enum SystemMode {
-    PRODUCTION, TEST
+    PRODUCTION, DEVELOPMENT, TEST
 }

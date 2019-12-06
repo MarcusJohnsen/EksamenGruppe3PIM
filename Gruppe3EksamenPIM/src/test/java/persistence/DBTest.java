@@ -101,11 +101,8 @@ public class DBTest {
     public void testNegativeSetAutoCommit() {
         //arrange
         SQLDatabase database = new SQLDatabase(systemMode);
-        try {
-            database.getConnection().close();
-        } catch (SQLException ex) {
-            fail("Could not close the database connection");
-        }
+
+        database.setConnection(null);
 
         //act
         database.setAutoCommit(true);

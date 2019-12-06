@@ -6,11 +6,13 @@ import businessLogic.Category;
 import businessLogic.Distributor;
 import businessLogic.Product;
 import factory.SystemMode;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
 import javax.servlet.http.Part;
+import persistence.Json.JsonHandler;
 import persistence.mappers.AttributeMapper;
 import persistence.mappers.BundleMapper;
 import persistence.mappers.CategoryMapper;
@@ -32,6 +34,7 @@ public class StorageFacade {
     private DistributorMapper distributorMapper;
     private BundleMapper bundleMapper;
     private PictureMapper pictureMapper;
+    private JsonHandler jsonHandler;
 
     public StorageFacade(SystemMode systemMode) {
         this.sqlDatabase = new SQLDatabase(systemMode);
@@ -42,6 +45,7 @@ public class StorageFacade {
         this.distributorMapper = new DistributorMapper(sqlDatabase);
         this.bundleMapper = new BundleMapper(sqlDatabase);
         this.pictureMapper = new PictureMapper(cloudinaryDatabase);
+        this.jsonHandler = new JsonHandler();
     }
 
     public SQLDatabase getSqlDatabase() {
@@ -192,4 +196,7 @@ public class StorageFacade {
         return pictureMapper.uploadProductPicture(requestParts);
     }
     
+    public File getJsonFile(TreeSet<Product> productList){
+        return jsonHandler.createJsonFileFromProductList(productList);
+    }
 }

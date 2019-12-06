@@ -104,6 +104,10 @@ ${frontController.setup()}
                 </div>    
             </div>
             <br>
+            <br>
+            <form action="DownloadJson" method="GET" target="_blank">
+                <p align="center"><input type="submit" style="width: 200px; height: 50px" name="btn_submit" value="Download Json for products"></p>
+            </form>
         </div>
     </body>
 </html>
