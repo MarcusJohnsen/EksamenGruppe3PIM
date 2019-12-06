@@ -34,8 +34,8 @@ ${frontController.setup()}
             <h1 align="center" style="font-size: 80px">PIM System</h1>
             <h3 align="center">Product Count: <c:out value="${productCount}"/></h3>
             <br>
-            <div>
-                <div style="float: left; width:28%; margin: auto 1.5em;">
+            <div align="center">
+                <div style="display: inline-table; width:28%;">
                     <div align="center">Bundle Count: <c:out value="${bundleCount}"/><br></div>
                     <table style="width:100%;">
                         <thead>
@@ -57,7 +57,7 @@ ${frontController.setup()}
                         </tbody>
                     </table>
                 </div>
-                <div style="float: left; width:28%; margin: auto 1.5em;">
+                <div style="display: inline-table; width:28%; margin-left: 10px; margin-right: 10px">
                     <div align="center">Category Count: <c:out value="${categoryCount}"/><br></div>
                     <table style="width:100%;">
                         <thead>
@@ -79,7 +79,7 @@ ${frontController.setup()}
                         </tbody>
                     </table>
                 </div>
-                <div style="float: left; width:28%; margin: auto 1.5em;">
+                <div style="display: inline-table; width:28%;">
                     <div align="center">
                         Distributor Count: <c:out value="${distributorCount}"/><br></div>
                     <table style="width:100%;">
@@ -104,6 +104,10 @@ ${frontController.setup()}
                 </div>    
             </div>
             <br>
+            <br>
+            <form action="DownloadJson" method="GET" target="_blank">
+                <p align="center"><input type="submit" style="width: 200px; height: 50px" name="btn_submit" value="Download Json for products"></p>
+            </form>
         </div>
     </body>
 </html>

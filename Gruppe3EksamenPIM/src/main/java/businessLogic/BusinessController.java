@@ -6,6 +6,7 @@ import static businessLogic.Product.*;
 import static businessLogic.Bundle.*;
 import static businessLogic.Distributor.*;
 import factory.SystemMode;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -255,7 +256,7 @@ public class BusinessController {
         searchEngine.setProductList(fullList);
         return searchEngine.simpleProductSearch(searchString);
     }
-    
+
     public TreeSet<Object> advancedSearch(String searchString) {
         SearchEngine searchEngine = new SearchEngine();
         TreeSet<Product> fullList = Product.getProductList();
@@ -263,4 +264,10 @@ public class BusinessController {
         HashMap<String, String> filterValues = new HashMap();
         return searchEngine.advancedSearch(searchString, searchString, filterValues);
     }
+
+    public File getJsonFileAllProducts() {
+        TreeSet<Product> productList = Product.getProductList();
+        return storageFacade.getJsonFile(productList);
+    }
+
 }

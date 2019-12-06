@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 import javafx.util.Pair;
+import persistence.Json.Exclude;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Distributor implements Comparable<Distributor> {
     private int distributorID;
     private String distributorName;
     private String distributorDescription;
+    @Exclude
     private TreeSet<Product> distributorProducts;
 
     private static TreeSet<Distributor> distributorList = new TreeSet();

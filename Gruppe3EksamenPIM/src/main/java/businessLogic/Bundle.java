@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
-import javafx.util.Pair;
+import persistence.Json.Exclude;
 
 /**
  *
@@ -17,6 +17,7 @@ public class Bundle implements Comparable<Bundle> {
     private int bundleID;
     private String bundleName;
     private String bundleDescription;
+    @Exclude
     private HashMap<Product, Integer> bundleProducts;
 
     private static TreeSet<Bundle> bundleList = new TreeSet();
