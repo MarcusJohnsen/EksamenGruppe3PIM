@@ -12,7 +12,7 @@ import presentation.Command;
 
 /**
  *
- * @author andre
+ * @author andreas
  */
 public class UnknownCommand extends Command{
     

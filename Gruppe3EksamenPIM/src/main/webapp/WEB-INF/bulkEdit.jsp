@@ -3,7 +3,7 @@
     Created on : 28-11-2019, 10:08:51
     Author     : Andreas
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Category"%>
 <%@page import="businessLogic.Attribute"%>
@@ -11,6 +11,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Bulk Edit</title>
         <link href="css/StyleTable.css" rel="stylesheet">
@@ -19,8 +20,8 @@
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Category category = (Category) request.getAttribute("category");
-            String categoryName = category.getName();
-            int categoryID = category.getCategoryID();
+            String categoryName = category.getObjectTitle();
+            int categoryID = category.getObjectID();
         %>
         <div class="main">
             <h1 align="center">Bulk edit for category "<%=categoryName%>"</h1>
@@ -50,9 +51,9 @@
 
                         TreeSet<Attribute> attributeList = (TreeSet<Attribute>) category.getCategoryAttributes();
                         for (Attribute attribute : attributeList) {
-                            int attributeID = attribute.getAttributeID();
+                            int attributeID = attribute.getObjectID();
                             String value = attribute.getAttributeValueForID(attributeID);
-                            String attributeTitle = attribute.getAttributeName();
+                            String attributeTitle = attribute.getObjectTitle();
                     %>
                     <tr>
                         <td align="left" width="20%"> <%=attributeTitle%> </td>

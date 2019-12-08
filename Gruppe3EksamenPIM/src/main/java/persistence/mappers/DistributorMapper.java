@@ -94,9 +94,9 @@ public class DistributorMapper {
         try {
             String SQL = "UPDATE Distributor SET Distributor_Name = ?, Distributor_Description = ? WHERE Distributor_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setString(1, distributor.getDistributorName());
-            ps.setString(2, distributor.getDistributorDescription());
-            ps.setInt(3, distributor.getDistributorID());
+            ps.setString(1, distributor.getObjectTitle());
+            ps.setString(2, distributor.getObjectDescription());
+            ps.setInt(3, distributor.getObjectID());
             int result = ps.executeUpdate();
             return result;
             

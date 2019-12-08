@@ -12,20 +12,15 @@ import persistence.Json.Exclude;
  *
  * @author Andreas
  */
-public class Bundle implements Comparable<Bundle> {
+public class Bundle extends PIMObject {
 
-    private int bundleID;
-    private String bundleName;
-    private String bundleDescription;
     @Exclude
     private HashMap<Product, Integer> bundleProducts;
 
     private static TreeSet<Bundle> bundleList = new TreeSet();
 
     public Bundle(int bundleID, String bundleName, String bundleDescription, HashMap<Product, Integer> bundleProducts) {
-        this.bundleID = bundleID;
-        this.bundleName = bundleName;
-        this.bundleDescription = bundleDescription;
+        super(bundleID, bundleName, bundleDescription);
         if (bundleProducts != null) {
             this.bundleProducts = bundleProducts;
         } else {
@@ -52,26 +47,26 @@ public class Bundle implements Comparable<Bundle> {
         bundleList.add(newBundle);
     }
 
-    public static Bundle findBundleOnID(int bundleID) {
+    public static Bundle findBundleOnID(int objectID) {
         for (Bundle bundle : bundleList) {
-            if (bundle.bundleID == bundleID) {
+            if (bundle.objectID == objectID) {
                 return bundle;
             }
         }
         return null;
     }
 
-    public static boolean deleteBundle(int bundleID) {
-        Bundle bundle = findBundleOnID(bundleID);
+    public static boolean deleteBundle(int objectID) {
+        Bundle bundle = findBundleOnID(objectID);
         for (Product product : bundle.bundleProducts.keySet()) {
             product.removeBundleFromProduct(bundle);
         }
         return bundleList.remove(bundle);
     }
 
-    public void editBundle(String bundleName, String bundleDescription, HashMap<Product, Integer> productListForBundle) {
-        this.bundleName = bundleName;
-        this.bundleDescription = bundleDescription;
+    public void editBundle(String bundleTitle, String bundleDescription, HashMap<Product, Integer> productListForBundle) {
+        this.objectTitle = bundleTitle;
+        this.objectDescription = bundleDescription;
         this.bundleProducts = productListForBundle;
     }
 
@@ -84,9 +79,9 @@ public class Bundle implements Comparable<Bundle> {
         }
 
         for (Bundle bundlesInList : bundleList) {
-            if (bundleName.equals(bundlesInList.bundleName)) {
+            if (bundleName.equals(bundlesInList.objectTitle)) {
                 if (bundleID != null) {
-                    if (bundleID != bundlesInList.getBundleID()) {
+                    if (bundleID != bundlesInList.objectID) {
                         throw new IllegalArgumentException("name already in use");
                     }
                 } else {
@@ -100,7 +95,7 @@ public class Bundle implements Comparable<Bundle> {
     public static TreeSet<Bundle> getMatchingBundlesOnIDs(ArrayList<String> bundleChoices) {
         TreeSet<Bundle> result = new TreeSet();
         for (Bundle bundle : bundleList) {
-            if (bundleChoices.contains(Integer.toString(bundle.getBundleID()))) {
+            if (bundleChoices.contains(Integer.toString(bundle.objectID))) {
                 result.add(bundle);
             }
         }
@@ -142,18 +137,6 @@ public class Bundle implements Comparable<Bundle> {
         this.bundleProducts = bundleProducts;
     }
 
-    public int getBundleID() {
-        return bundleID;
-    }
-
-    public String getBundleName() {
-        return bundleName;
-    }
-
-    public String getBundleDescription() {
-        return bundleDescription;
-    }
-
     public static TreeSet<Bundle> getBundleList() {
         return bundleList;
     }
@@ -166,12 +149,4 @@ public class Bundle implements Comparable<Bundle> {
         return bundleList.size();
     }
 
-    @Override
-    public int compareTo(Bundle otherBundle) {
-
-        int thisID = this.bundleID;
-        int otherID = otherBundle.bundleID;
-        return thisID - otherID;
-
-    }
 }

@@ -31,9 +31,9 @@ public class CategoryTest {
         Category result = new Category (categoryID, categoryName, categoryDescription, categoryAttributes);
     
         //assert
-        assertEquals(categoryID, result.getCategoryID());
-        assertTrue(categoryName.equals(result.getName()));
-        assertTrue(categoryDescription.equals(result.getDescription()));
+        assertEquals(categoryID, result.objectID);
+        assertTrue(categoryName.equals(result.objectTitle));
+        assertTrue(categoryDescription.equals(result.objectDescription));
     }
     
     /**
@@ -152,8 +152,8 @@ public class CategoryTest {
         
         category.editCategory(catName, catDesc);
         
-        assertTrue(catName.equals(category.getName()));
-        assertTrue(catDesc.equals(category.getDescription()));
+        assertTrue(catName.equals(category.objectTitle));
+        assertTrue(catDesc.equals(category.objectDescription));
     }
     
     @Test

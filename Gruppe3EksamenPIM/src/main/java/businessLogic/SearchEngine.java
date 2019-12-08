@@ -41,8 +41,8 @@ public class SearchEngine {
         TreeSet<Bundle> result = new TreeSet();
 
         for (Bundle bundle : bundleList) {
-            String productName = bundle.getBundleName().toLowerCase();
-            String productID = Integer.toString(bundle.getBundleID());
+            String productName = bundle.objectTitle.toLowerCase();
+            String productID = Integer.toString(bundle.objectID);
             if (productName.contains(searchString) || productID.contains(searchString)) {
                 result.add(bundle);
                 if (singleResultFromList) {
@@ -57,8 +57,8 @@ public class SearchEngine {
         TreeSet<Category> result = new TreeSet();
 
         for (Category category : categoryList) {
-            String productName = category.getName().toLowerCase();
-            String productID = Integer.toString(category.getCategoryID());
+            String productName = category.objectTitle.toLowerCase();
+            String productID = Integer.toString(category.objectID);
             if (productName.contains(searchString) || productID.contains(searchString)) {
                 result.add(category);
                 if (singleResultFromList) {
@@ -73,8 +73,8 @@ public class SearchEngine {
         TreeSet<Distributor> result = new TreeSet();
 
         for (Distributor distributor : distributorList) {
-            String productName = distributor.getDistributorName().toLowerCase();
-            String productID = Integer.toString(distributor.getDistributorID());
+            String productName = distributor.objectTitle.toLowerCase();
+            String productID = Integer.toString(distributor.objectID);
             if (productName.contains(searchString) || productID.contains(searchString)) {
                 result.add(distributor);
                 if (singleResultFromList) {
@@ -89,8 +89,8 @@ public class SearchEngine {
         TreeSet<Product> result = new TreeSet();
 
         for (Product product : productList) {
-            String productName = product.getName().toLowerCase();
-            String productID = Integer.toString(product.getProductID());
+            String productName = product.objectTitle.toLowerCase();
+            String productID = Integer.toString(product.objectID);
             if (productName.contains(searchString) || productID.contains(searchString)) {
                 result.add(product);
                 if (singleResultFromList) {

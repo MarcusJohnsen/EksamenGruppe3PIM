@@ -4,6 +4,7 @@
     Author     : Andreas
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,21 +15,21 @@
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <div class="main">
-        <h1 align="center">New Attribute</h1>
-        <br>
-        <form action="FrontController">
-            <p align="center">
-                Attribute name:
-                <br>
-                <input type="hidden" name="command" value="addAttribute" />
-            <input type="text" name="attributeName" value="" required="required" /></p>
-            <p align="center"><input type="submit" value="Save" /></p>
-        </form>
-        <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="index" />
-            <p align="center"><input type="submit" value="Go Back" /></p>
-        </form>
+            <h1 align="center">New Attribute</h1>
+            <br>
+            <form action="FrontController">
+                <p align="center">
+                    Attribute name:
+                    <br>
+                    <input type="hidden" name="command" value="addAttribute" />
+                    <input type="text" name="attributeName" value="" required="required" /></p>
+                <p align="center"><input type="submit" value="Save" /></p>
+            </form>
+            <form action="FrontController" method="POST">
+                <input type="hidden" name="command" value="goToJsp" />
+                <input type="hidden" name="goToJsp" value="index" />
+                <p align="center"><input type="submit" value="Go Back" /></p>
+            </form>
         </div>
     </body>
 </html>

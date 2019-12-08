@@ -1,6 +1,7 @@
 package presentation.commands;
 
 import businessLogic.BusinessController;
+import businessLogic.PIMObject;
 import businessLogic.Product;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +16,14 @@ public class SimpleSearchCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessFacade) {
-        String nextJsp = "viewAllProducts";
-        
+        String nextJsp = "viewPIMObjectList";
+        String pimObjectType = "Product";
         String searchString = request.getParameter("search");
 
-        TreeSet<Product> searchedProductsList = businessFacade.searchProduct(searchString);
+        TreeSet<PIMObject> searchedProductsList = new TreeSet(businessFacade.searchProduct(searchString));
         
-        request.setAttribute("productList", searchedProductsList);
+        request.setAttribute("PIMObjectList", searchedProductsList);
+        request.setAttribute("PIMObjectType", pimObjectType);
 
         return nextJsp;
     }

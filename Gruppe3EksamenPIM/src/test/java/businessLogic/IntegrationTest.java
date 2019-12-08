@@ -106,8 +106,8 @@ import static org.junit.Assert.*;
         Category result = businessController.createNewCategory(categoryName, categoryDescription, categoryAttributeStrings);
 
         //assert
-        assertTrue(categoryName.equals(result.getName()));
-        assertTrue(categoryDescription.equals(result.getDescription()));
+        assertTrue(categoryName.equals(result.objectTitle));
+        assertTrue(categoryDescription.equals(result.objectDescription));
         assertTrue(businessController.getCategoryList().contains(result));
     }
 
@@ -123,7 +123,7 @@ import static org.junit.Assert.*;
         TreeSet<Category> categoryList = businessController.getCategoryList();
         assertTrue(result);
         for (Category category : categoryList) {
-            assertNotEquals(categoryID, category.getCategoryID());
+            assertNotEquals(categoryID, category.objectID);
         }
     }
 
@@ -140,8 +140,8 @@ import static org.junit.Assert.*;
         Product result = businessController.createNewProduct(productName, productDescription, productDistributorStrings, productCategoryStrings, requestParts);
 
         //assert
-        assertTrue(productName.equals(result.getName()));
-        assertTrue(productDescription.equals(result.getDescription()));
+        assertTrue(productName.equals(result.objectTitle));
+        assertTrue(productDescription.equals(result.objectDescription));
         assertTrue(businessController.getProductList().contains(result));
     }
 
@@ -157,7 +157,7 @@ import static org.junit.Assert.*;
         TreeSet<Product> productList = businessController.getProductList();
         assertTrue(result);
         for (Product product : productList) {
-            assertNotEquals(productID, product.getProductID());
+            assertNotEquals(productID, product.objectID);
         }
     }
 
@@ -178,8 +178,8 @@ import static org.junit.Assert.*;
         //assert
         int expResultDistributorSize = 1;
         Distributor expResultDistributor = Distributor.findDistributorOnID(distributorID);
-        assertTrue(result.getName().equals(productName));
-        assertTrue(result.getDescription().equals(productDescription));
+        assertTrue(result.objectTitle.equals(productName));
+        assertTrue(result.objectDescription.equals(productDescription));
         assertEquals(expResultDistributorSize, result.getProductDistributors().size());
         assertTrue(result.getProductDistributors().contains(expResultDistributor));
     }
@@ -189,17 +189,17 @@ import static org.junit.Assert.*;
         //arrange
         int categoryID = 5;
         String categoryName = "Landscaping";
-        String categoryDist = "For landscaping in garden";
+        String categoryDescription = "For landscaping in garden";
         TreeSet<Attribute> categoryAttributes = new TreeSet();
-        Category category = new Category(categoryID, categoryName, categoryDist, categoryAttributes);
+        Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
         Category.addToCategoryList(category);
 
         //act
         Category result = businessController.getCategoryFromID(categoryID);
 
         //assert
-        assertTrue(categoryName.equals(result.getName()));
-        assertTrue(categoryDist.equals(result.getDescription()));
+        assertTrue(categoryName.equals(result.objectTitle));
+        assertTrue(categoryDescription.equals(result.objectDescription));
     }
 
     @Test
@@ -218,13 +218,13 @@ import static org.junit.Assert.*;
         Attribute result3 = businessController.createNewAttribute(attributeTitle3);
 
         //assert
-        assertEquals(expIDResult1,result1.getAttributeID());
-        assertEquals(expIDResult2,result2.getAttributeID());
-        assertEquals(expIDResult3,result3.getAttributeID());
+        assertEquals(expIDResult1,result1.objectID);
+        assertEquals(expIDResult2,result2.objectID);
+        assertEquals(expIDResult3,result3.objectID);
         
-        assertTrue(attributeTitle1.equals(result1.getAttributeName()));
-        assertTrue(attributeTitle2.equals(result2.getAttributeName()));
-        assertTrue(attributeTitle3.equals(result3.getAttributeName()));
+        assertTrue(attributeTitle1.equals(result1.objectTitle));
+        assertTrue(attributeTitle2.equals(result2.objectTitle));
+        assertTrue(attributeTitle3.equals(result3.objectTitle));
     }
 
     @Test(expected = IllegalArgumentException.class)

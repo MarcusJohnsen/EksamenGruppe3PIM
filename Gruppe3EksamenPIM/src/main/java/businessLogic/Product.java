@@ -1,6 +1,5 @@
 package businessLogic;
 
-import persistence.Json.Exclude;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,11 +9,8 @@ import java.util.TreeSet;
  *
  * @author Michael N. Korsgaard
  */
-public class Product implements Comparable<Product> {
+public class Product extends PIMObject {
 
-    private int productID;
-    private String name;
-    private String description;
     private String picturePath;
     private TreeSet<Distributor> productDistributors;
     private TreeSet<Category> productCategories;
@@ -27,16 +23,14 @@ public class Product implements Comparable<Product> {
      * Constructor
      *
      * @param productID int unique, not null auto_increment
-     * @param name String, not null
-     * @param description String, not null
+     * @param productTitle String, not null
+     * @param productDescription String, not null
      * @param picturePath String
      * @param productDistributors TreeSet of distributor-Objects
      * @param productCategories TreeSet of category Objects
      */
-    public Product(int productID, String name, String description, String picturePath, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
-        this.productID = productID;
-        this.name = name;
-        this.description = description;
+    public Product(int productID, String productTitle, String productDescription, String picturePath, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
+        super(productID, productTitle, productDescription);
         this.picturePath = picturePath;
         if (productDistributors != null) {
             this.productDistributors = productDistributors;
@@ -101,14 +95,14 @@ public class Product implements Comparable<Product> {
         if (productAttributes != null) {
             for (Attribute productAttribute : productAttributes) {
                 if (!attributeSet.contains(productAttribute)) {
-                    productAttribute.getAttributeValues().remove(productID);
+                    productAttribute.getAttributeValues().remove(this.objectID);
                 }
             }
         }
 
         for (Attribute attribute : attributeSet) {
-            if (attribute.getAttributeValueForID(productID) == null) {
-                attribute.insertValueIntoAttribute("", productID);
+            if (attribute.getAttributeValueForID(this.objectID) == null) {
+                attribute.insertValueIntoAttribute("", this.objectID);
             }
         }
         this.productAttributes = attributeSet;
@@ -131,8 +125,8 @@ public class Product implements Comparable<Product> {
         HashMap<Product, Integer> result = new HashMap();
         if (productChoices != null) {
             for (Product product : productList) {
-                if (productChoices.get(product.getProductID()) != null) {
-                    result.put(product, productChoices.get(product.getProductID()));
+                if (productChoices.get(product.objectID) != null) {
+                    result.put(product, productChoices.get(product.objectID));
                 }
             }
         }
@@ -172,7 +166,7 @@ public class Product implements Comparable<Product> {
         TreeSet<Product> result = new TreeSet();
         for (Product product : productList) {
             for (Category productCategory : product.getProductCategories()) {
-                if (productCategory.getCategoryID() == categoryID) {
+                if (productCategory.objectID == categoryID) {
                     result.add(product);
                     break;
                 }
@@ -191,7 +185,7 @@ public class Product implements Comparable<Product> {
         TreeSet<Product> result = new TreeSet();
         for (Product product : productList) {
             for (Bundle productBundle : product.getProductBundle()) {
-                if (productBundle.getBundleID() == bundleID) {
+                if (productBundle.getObjectID() == bundleID) {
                     result.add(product);
                     break;
                 }
@@ -243,7 +237,7 @@ public class Product implements Comparable<Product> {
      */
     public static Product findProductOnID(int productID) {
         for (Product product : productList) {
-            if (product.productID == productID) {
+            if (product.objectID == productID) {
                 return product;
             }
         }
@@ -261,12 +255,12 @@ public class Product implements Comparable<Product> {
 
     /**
      *
-     * @param name Is edited.
-     * @param description Is edited.
+     * @param productTitle Is edited.
+     * @param productDescription Is edited.
      */
-    public void editProduct(String name, String description, TreeSet<Distributor> productDistributors) {
-        this.name = name;
-        this.description = description;
+    public void editProduct(String productTitle, String productDescription, TreeSet<Distributor> productDistributors) {
+        this.objectTitle = productTitle;
+        this.objectDescription = productDescription;
         this.productDistributors = productDistributors;
     }
 
@@ -276,9 +270,9 @@ public class Product implements Comparable<Product> {
      */
     public void updateProductValues(HashMap<Integer, String> productAttributeValues) {
         for (Attribute productAttribute : this.productAttributes) {
-            int attributeID = productAttribute.getAttributeID();
+            int attributeID = productAttribute.objectID;
             String newValue = productAttributeValues.get(attributeID);
-            productAttribute.insertValueIntoAttribute(newValue, this.productID);
+            productAttribute.insertValueIntoAttribute(newValue, this.objectID);
         }
     }
 
@@ -313,18 +307,6 @@ public class Product implements Comparable<Product> {
 
     public void editProductDistributors(TreeSet<Distributor> productDistributors) {
         this.productDistributors = productDistributors;
-    }
-
-    public int getProductID() {
-        return productID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public String getPicturePath() {
@@ -365,15 +347,6 @@ public class Product implements Comparable<Product> {
 
     public static int getTotalProductCount() {
         return productList.size();
-    }
-
-    @Override
-    public int compareTo(Product otherProduct) {
-
-        int thisID = this.productID;
-        int otherID = otherProduct.productID;
-        return thisID - otherID;
-
     }
 
 }

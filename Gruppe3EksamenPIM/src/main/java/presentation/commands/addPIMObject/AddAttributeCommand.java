@@ -1,4 +1,4 @@
-package presentation.commands;
+package presentation.commands.addPIMObject;
 
 import businessLogic.BusinessController;
 import javax.servlet.http.HttpServletRequest;
@@ -6,23 +6,23 @@ import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
 /**
- * 
- * @author Marcus
+ *
+ * @author Michael
  */
-public class AddDistributorCommand extends Command {
+public class AddAttributeCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "index";
-        
-        String distributorName = request.getParameter("Distributor Name");
-        String distributorDescription = request.getParameter("Distributor Description");
+
+        String attributeTitle = request.getParameter("attributeName");
         try {
-            businessController.createNewDistributor(distributorName, distributorDescription);
+            businessController.createNewAttribute(attributeTitle);
         } catch (IllegalArgumentException ex) {
-            nextJsp = "newDistributor";
+            nextJsp = "newAttribute";
             request.setAttribute("error", ex.getMessage());
         }
+
         return nextJsp;
     }
 }

@@ -5,30 +5,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.TreeMap;
 import java.util.TreeSet;
-import javafx.util.Pair;
 
 /**
  *
  * @author Marcus
  */
-public class Category implements Comparable<Category> {
+public class Category extends PIMObject {
+    
+    private static TreeSet<Category> categoryList = new TreeSet();
 
-    private int categoryID;
-    private String name;
-    private String description;
     @Exclude
     private TreeSet<Attribute> categoryAttributes;
     @Exclude
     private TreeSet<Product> categoryProducts;
 
-    private static TreeSet<Category> categoryList = new TreeSet();
-
-    public Category(int categoryID, String name, String description, TreeSet<Attribute> categoryAttributes) {
-        this.categoryID = categoryID;
-        this.name = name;
-        this.description = description;
+    public Category(int categoryID, String categoryTitle, String categoryDescription, TreeSet<Attribute> categoryAttributes) {
+        super(categoryID, categoryTitle, categoryDescription);
         if (categoryAttributes != null) {
             this.categoryAttributes = categoryAttributes;
         } else {
@@ -60,7 +53,7 @@ public class Category implements Comparable<Category> {
      */
     public static Category findCategoryOnID(int categoryID) {
         for (Category category : categoryList) {
-            if (category.categoryID == categoryID) {
+            if (category.objectID == categoryID) {
                 return category;
             }
         }
@@ -96,24 +89,24 @@ public class Category implements Comparable<Category> {
 
     /**
      *
-     * @param name
-     * @param description Edits the variables (name and description) by giving them new values.
+     * @param categoryTitle
+     * @param categoryDescription Edits the variables (name and description) by giving them new values.
      */
-    public void editCategory(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public void editCategory(String categoryTitle, String categoryDescription) {
+        this.objectTitle = categoryTitle;
+        this.objectDescription = categoryDescription;
     }
 
     /**
      *
-     * @param categoryName Validating the categoryInput. The categoryName must not be empty or already existing.
+     * @param categoryTitle Validating the categoryInput. The categoryName must not be empty or already existing.
      * @param categoryDescription The categoryDescription must not be empty.
      * @param categoryID The categoryID must not be null or already existing.
      * @return Boolean true if name, description and ID fullfills the above-mentioned prerequisites.
      * @throws IllegalArgumentException if Boolean is not true.
      */
-    public static boolean validateCategoryInput(String categoryName, String categoryDescription, Integer categoryID) throws IllegalArgumentException {
-        if (categoryName.isEmpty()) {
+    public static boolean validateCategoryInput(String categoryTitle, String categoryDescription, Integer categoryID) throws IllegalArgumentException {
+        if (categoryTitle.isEmpty()) {
             throw new IllegalArgumentException("please fill out category-name field");
         }
         if (categoryDescription.isEmpty()) {
@@ -121,9 +114,9 @@ public class Category implements Comparable<Category> {
         }
 
         for (Category categoryInList : categoryList) {
-            if (categoryName.equals(categoryInList.name)) {
+            if (categoryTitle.equals(categoryInList.objectTitle)) {
                 if (categoryID != null) {
-                    if (categoryID != categoryInList.getCategoryID()) {
+                    if (categoryID != categoryInList.objectID) {
                         throw new IllegalArgumentException("name already in use");
                     }
                 } else {
@@ -142,7 +135,7 @@ public class Category implements Comparable<Category> {
     public static TreeSet<Category> getMatchingCategoriesOnIDs(ArrayList<String> categoryChoices) {
         TreeSet<Category> result = new TreeSet();
         for (Category category : categoryList) {
-            if (categoryChoices.contains(Integer.toString(category.getCategoryID()))) {
+            if (categoryChoices.contains(Integer.toString(category.objectID))) {
                 result.add(category);
             }
         }
@@ -155,18 +148,6 @@ public class Category implements Comparable<Category> {
 
     public boolean removeProductFromCategory(Product product) {
         return categoryProducts.remove(product);
-    }
-
-    public int getCategoryID() {
-        return categoryID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public static TreeSet<Category> getCategoryList() {
@@ -219,14 +200,5 @@ public class Category implements Comparable<Category> {
         }
         List<Category> result = new ArrayList(categoryProductCounts.subList(0, subListEnd));
         return result;
-    }
-
-    @Override
-    public int compareTo(Category otherCategory) {
-
-        int thisID = this.categoryID;
-        int otherID = otherCategory.categoryID;
-        return thisID - otherID;
-
     }
 }

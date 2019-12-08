@@ -10,28 +10,25 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Delete Distributor</title>
+        <title>Delete <c:out value="${pimObjectType}"/></title>
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
-        <c:set var="distributor" value='${requestScope["distributor"]}'/>
+        <c:set var="pimObject" value='${requestScope["pimObject"]}'/>
         <div class="main">
             <center>
                 <h1>Confirm Deletion</h1>
                 <br>
-                <h2>Please confirm deletion of this category:</h2><br>
-                <h3>Category ID: <i><c:out value="${distributor.getDistributorID()}"/></i></h3><br>
-                <h3>Category Name: <i><c:out value="${distributor.getDistributorName()}"/></i></h3>
+                <h2>Please confirm deletion of this <c:out value="${pimObjectType.toLowerCase()}"/>:</h2><br>
+                <h3><c:out value="${pimObjectType}"/> ID: <i><c:out value="${pimObject.getObjectID()}"/></i></h3><br>
+                <h3><c:out value="${pimObjectType}"/> Name: <i><c:out value="${pimObject.getObjectTitle()}"/></i></h3>
                 <form action="FrontController" method="POST">
                     <input type="hidden" name="command" value="deleteDistributor" />
-                    <input type="hidden" name="distributorID" value="<c:out value="${distributor.getDistributorID()}"/>" />
+                    <input type="hidden" name="PIMObjectID" value="<c:out value="${pimObject.getObjectID()}"/>" />
+                    <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
                     <input type="submit" value="DELETE" style="background-color: red"/>
-                </form>
-                <form action="FrontController" method="POST">
-                    <input type="hidden" name="command" value="goToJsp" />
-                    <input type="hidden" name="goToJsp" value="viewAllDistributors" />
-                    <input type="submit" value="Go Back" />
                 </form>
             </center>
         </div>        

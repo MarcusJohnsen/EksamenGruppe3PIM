@@ -208,9 +208,9 @@ public class ProductMapperTest {
 
         //assert
         int expResultID = 4;
-        assertEquals(expResultID, result.getProductID());
-        assertTrue(productName.equals(result.getName()));
-        assertTrue(productDescription.equals(result.getDescription()));
+        assertEquals(expResultID, result.getObjectID());
+        assertTrue(productName.equals(result.getObjectTitle()));
+        assertTrue(productDescription.equals(result.getObjectDescription()));
         assertTrue(productPicturePath.equals(result.getPicturePath()));
     }
 
@@ -346,7 +346,7 @@ public class ProductMapperTest {
         TreeSet<Product> resultList = productMapper.getProducts(categoryListFromDB, distributorListFromDB);
         Product result = null;
         for (Product resultProduct : resultList) {
-            if(resultProduct.getProductID() == productID){
+            if(resultProduct.getObjectID() == productID){
                 result = resultProduct;
                 break;
             }

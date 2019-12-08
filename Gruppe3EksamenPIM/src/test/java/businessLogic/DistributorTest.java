@@ -31,9 +31,9 @@ public class DistributorTest {
      Distributor.addToDistributorList(result);
      
      //assert
-     assertTrue(distributorName.equals(result.getDistributorName()));
-     assertTrue(distributorDescription.equals(result.getDistributorDescription()));
-     assertEquals(distributorID,result.getDistributorID());
+     assertTrue(distributorName.equals(result.objectTitle));
+     assertTrue(distributorDescription.equals(result.objectDescription));
+     assertEquals(distributorID,result.objectID);
      assertTrue(Distributor.getDistributorList().contains(result));   
     
     }
@@ -97,8 +97,8 @@ public class DistributorTest {
      result.editDistributor(name, description);
      
      //assert
-     assertTrue(result.getDistributorName().equals(name));
-     assertTrue(result.getDistributorDescription().equals(description));
+     assertTrue(result.objectTitle.equals(name));
+     assertTrue(result.objectDescription.equals(description));
      
     }
     

@@ -5,6 +5,7 @@ import businessLogic.Bundle;
 import businessLogic.BusinessController;
 import businessLogic.Category;
 import businessLogic.Distributor;
+import businessLogic.PIMObject;
 import businessLogic.Product;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,25 +29,8 @@ public class GoToJspCommand extends Command {
         TreeSet<Bundle> bundleList;
 
         switch (jspPage) {
-            case "viewAllProducts":
-                productList = businessController.getProductList();
-                request.setAttribute("productList", productList);
-                break;
-            case "viewAllCategories":
-                categoryList = businessController.getCategoryList();
-                request.setAttribute("categoryList", categoryList);
-                break;
-            case "viewAllDistributors":
-                distributorList = businessController.getDistributorList();
-                request.setAttribute("distributorList", distributorList);
-                break;
-            case "viewAllBundles":
-                bundleList = businessController.getBundleList();
-                request.setAttribute("bundleList", bundleList);
-                break;
-            case "viewAllAttributes":
-                attributeList = businessController.getAttributeList();
-                request.setAttribute("attributeList", attributeList);
+            case "viewPIMObjectList":
+                setupPIMObjectList(request, businessController);
                 break;
             case "newBundle":
                 productList = businessController.getProductList();
@@ -69,10 +53,40 @@ public class GoToJspCommand extends Command {
             case "newCategory":
                 attributeList = businessController.getAttributeList();
                 request.setAttribute("attributeList", attributeList);
-                break;    
+                break;
             default:
                 break;
         }
         return jspPage;
     }
+
+    private void setupPIMObjectList(HttpServletRequest request, BusinessController businessController) {
+
+        String pimObjectType = request.getParameter("PIMObjectType");
+        TreeSet<PIMObject> pimObjectList = new TreeSet();
+
+        switch (pimObjectType) {
+            case "Product":
+                pimObjectList.addAll(businessController.getProductList());
+                break;
+            case "Category":
+                pimObjectList.addAll(businessController.getCategoryList());
+                break;
+            case "Distributor":
+                pimObjectList.addAll(businessController.getDistributorList());
+                break;
+            case "Bundle":
+                pimObjectList.addAll(businessController.getBundleList());
+                break;
+            case "Attribute":
+                pimObjectList.addAll(businessController.getAttributeList());
+                break;
+            default:
+                throw new IllegalArgumentException("PIM object type is not recognised");
+        }
+
+        request.setAttribute("PIMObjectList", pimObjectList);
+        request.setAttribute("PIMObjectType", pimObjectType);
+    }
+
 }

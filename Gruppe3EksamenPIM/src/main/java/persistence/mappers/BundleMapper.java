@@ -47,7 +47,7 @@ public class BundleMapper {
                     } else {
                         SQL += ", ";
                     }
-                    SQL += "(" + bundleID + ", " + product.getProductID() + ", " + productAmount + ")";
+                    SQL += "(" + bundleID + ", " + product.getObjectID() + ", " + productAmount + ")";
                 }
                 database.getConnection().prepareStatement(SQL).executeUpdate();
             }
@@ -81,7 +81,7 @@ public class BundleMapper {
                 int productID = rs.getInt("Product_ID");
                 int productAmount = rs.getInt("Product_amount");
                 for (Product product : productList) {
-                    if (product.getProductID() == productID) {
+                    if (product.getObjectID() == productID) {
                         bundleProductMap.get(bundleID).put(product, productAmount);
                     }
                 }
@@ -142,14 +142,14 @@ public class BundleMapper {
 
             String sqlUpdateBundle = "UPDATE Bundles SET Bundle_Name = ?, Bundle_Description = ? WHERE Bundle_ID = ?";
             PreparedStatement psUpdateBundle = database.getConnection().prepareStatement(sqlUpdateBundle);
-            psUpdateBundle.setString(1, bundle.getBundleName());
-            psUpdateBundle.setString(2, bundle.getBundleDescription());
-            psUpdateBundle.setInt(3, bundle.getBundleID());
+            psUpdateBundle.setString(1, bundle.getObjectTitle());
+            psUpdateBundle.setString(2, bundle.getObjectDescription());
+            psUpdateBundle.setInt(3, bundle.getObjectID());
             rowsAffected += psUpdateBundle.executeUpdate();
 
             String sqlDeleteProductBundles = "DELETE FROM Product_Bundles WHERE Bundle_ID = ?";
             PreparedStatement psDeleteProductBundles = database.getConnection().prepareStatement(sqlDeleteProductBundles);
-            psDeleteProductBundles.setInt(1, bundle.getBundleID());
+            psDeleteProductBundles.setInt(1, bundle.getObjectID());
             rowsAffected += psDeleteProductBundles.executeUpdate();
 
             if (!bundle.getBundleProducts().isEmpty()) {
@@ -163,7 +163,7 @@ public class BundleMapper {
                     } else {
                         sqlInsertProductBundles += ", ";
                     }
-                    sqlInsertProductBundles += "(" + bundle.getBundleID() + ", " + product.getProductID() + ", " + productAmount + ")";
+                    sqlInsertProductBundles += "(" + bundle.getObjectID() + ", " + product.getObjectID() + ", " + productAmount + ")";
                 }
                 rowsAffected += database.getConnection().prepareStatement(sqlInsertProductBundles).executeUpdate();
             }

@@ -9,16 +9,13 @@ import java.util.TreeSet;
  *
  * @author Michael N. Korsgaard
  */
-public class Attribute implements Comparable<Attribute> {
+public class Attribute extends PIMObject{
 
-    private int attributeID;
-    private String attributeName;
     private HashMap<Integer, String> attributeValues;
     private static TreeSet<Attribute> attributeList = new TreeSet();
 
     public Attribute(int attributeID, String attributeTitle, HashMap<Integer, String> attributeValues) {
-        this.attributeID = attributeID;
-        this.attributeName = attributeTitle;
+        super(attributeID, attributeTitle, null);
         this.attributeValues = attributeValues;
     }
 
@@ -37,7 +34,7 @@ public class Attribute implements Comparable<Attribute> {
      */
     public static Attribute findAttributeOnID(int attributeID) {
         for (Attribute attribute : attributeList) {
-            if (attribute.getAttributeID() == attributeID) {
+            if (attribute.objectID == attributeID) {
                 return attribute;
             }
         }
@@ -51,7 +48,7 @@ public class Attribute implements Comparable<Attribute> {
         TreeSet<Attribute> attributeNeedingEdit = Attribute.getMatchingAttributesOnIDs(newAttributeValues.keySet());
         for (Attribute attribute : attributeNeedingEdit) {
             for (Integer productID : productIDs) {
-                attribute.attributeValues.put(productID, newAttributeValues.get(attribute.attributeID));
+                attribute.attributeValues.put(productID, newAttributeValues.get(attribute.objectID));
             }
         }
     }
@@ -67,7 +64,7 @@ public class Attribute implements Comparable<Attribute> {
             throw new IllegalArgumentException("New Attribute need a title");
         }
         for (Attribute attribute : attributeList) {
-            if (attribute.getAttributeName().equals(attributeTitle)) {
+            if (attribute.objectTitle.equals(attributeTitle)) {
                 throw new IllegalArgumentException("Dublicate attribute already exist");
             }
         }
@@ -83,8 +80,8 @@ public class Attribute implements Comparable<Attribute> {
         return attributeList.add(attribute);
     }
 
-    void editAttribute(String attributeName) {
-        this.attributeName = attributeName;
+    void editAttribute(String attributeTitle) {
+        this.objectTitle = attributeTitle;
     }
 
     public static boolean deleteAttribute(int attributeID) {
@@ -99,7 +96,7 @@ public class Attribute implements Comparable<Attribute> {
     public static TreeSet<Attribute> getMatchingAttributesOnStringIDs(ArrayList<String> attributeChoices) {
         TreeSet<Attribute> result = new TreeSet();
         for (Attribute attribute : attributeList) {
-            if (attributeChoices.contains(Integer.toString(attribute.getAttributeID()))) {
+            if (attributeChoices.contains(Integer.toString(attribute.objectID))) {
                 result.add(attribute);
             }
         }
@@ -109,7 +106,7 @@ public class Attribute implements Comparable<Attribute> {
     public static TreeSet<Attribute> getMatchingAttributesOnIDs(Set<Integer> attributeChoices) {
         TreeSet<Attribute> result = new TreeSet();
         for (Attribute attribute : attributeList) {
-            if (attributeChoices.contains(attribute.getAttributeID())) {
+            if (attributeChoices.contains(attribute.objectID)) {
                 result.add(attribute);
             }
         }
@@ -149,36 +146,7 @@ public class Attribute implements Comparable<Attribute> {
         return attributeValues.get(productID);
     }
 
-    /**
-     *
-     * @return attributeID
-     */
-    public int getAttributeID() {
-        return attributeID;
-    }
-
-    /**
-     *
-     * @return attributeName
-     */
-    public String getAttributeName() {
-        return attributeName;
-    }
-
-    /**
-     *
-     * @return HashMap of attributeValues
-     */
     public HashMap<Integer, String> getAttributeValues() {
         return attributeValues;
-    }
-
-    @Override
-    public int compareTo(Attribute otherAttribute) {
-
-        int thisID = this.attributeID;
-        int otherID = otherAttribute.attributeID;
-        return thisID - otherID;
-
     }
 }

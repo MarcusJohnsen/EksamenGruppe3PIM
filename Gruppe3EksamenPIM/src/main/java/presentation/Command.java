@@ -1,5 +1,19 @@
 package presentation;
 
+import presentation.commands.bulkEditPIMObject.BulkSelectCommand;
+import presentation.commands.bulkEditPIMObject.BulkEditCommand;
+import presentation.commands.editPIMObject.EditCategoriesToProductCommand;
+import presentation.commands.editPIMObject.EditDistributorCommand;
+import presentation.commands.editPIMObject.EditAttributesToCategoryCommand;
+import presentation.commands.editPIMObject.EditCategoryCommand;
+import presentation.commands.editPIMObject.EditProductCommand;
+import presentation.commands.editPIMObject.EditAttributeCommand;
+import presentation.commands.editPIMObject.EditBundleCommand;
+import presentation.commands.addPIMObject.AddAttributeCommand;
+import presentation.commands.addPIMObject.AddBundleCommand;
+import presentation.commands.addPIMObject.AddCategoryCommand;
+import presentation.commands.addPIMObject.AddProductCommand;
+import presentation.commands.addPIMObject.AddDistributorCommand;
 import businessLogic.BusinessController;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
@@ -17,43 +31,36 @@ public abstract class Command {
     private static void initCommands() {
 
         commands = new HashMap<>();
+
+        commands.put("goToJsp", new GoToJspCommand());
+
+        commands.put("simpleSearch", new SimpleSearchCommand());
+        commands.put("searchSelection", new SearchSelectionCommand());
+        commands.put("advancedSearch", new AdvancedSearchCommand());
+
         commands.put("addProduct", new AddProductCommand());
         commands.put("addCategory", new AddCategoryCommand());
         commands.put("addAttribute", new AddAttributeCommand());
         commands.put("addDistributor", new AddDistributorCommand());
         commands.put("addBundle", new AddBundleCommand());
 
-        commands.put("goToJsp", new GoToJspCommand());
-        commands.put("simpleSearch", new SimpleSearchCommand());
-        commands.put("advancedSearch", new AdvancedSearchCommand());
-        commands.put("searchSelection", new SearchSelectionCommand());
-
-        commands.put("selectProduct", new SelectProductCommand());
-        commands.put("editProduct", new EditProductCommand());
-        commands.put("deleteProduct", new DeleteProductCommand());
-
-        commands.put("selectCategory", new SelectCategoryCommand());
-        commands.put("editCategory", new EditCategoryCommand());
-        commands.put("deleteCategory", new DeleteCategoryCommand());
-        commands.put("bulkSelect", new BulkSelectCommand());
-        commands.put("bulkEdit", new BulkEditCommand());
-
-        commands.put("selectAttribute", new SelectAttributeCommand());
         commands.put("editAttribute", new EditAttributeCommand());
-        commands.put("deleteAttribute", new DeleteAttributeCommand());
+        commands.put("editBundle", new EditBundleCommand());
+        commands.put("editCategory", new EditCategoryCommand());
+        commands.put("editDistributor", new EditDistributorCommand());
+        commands.put("editProduct", new EditProductCommand());
 
-        commands.put("selectCategoriesForProduct", new SelectCategoriesForProductCommand());
+        commands.put("deletePIMObject", new DeletePIMObjectCommand());
+        commands.put("selectPIMObject", new SelectPIMObjectCommand());
+
         commands.put("selectAttributesForCategory", new SelectAttributesForCategoryCommand());
+        commands.put("selectCategoriesForProduct", new SelectCategoriesForProductCommand());
         commands.put("editCategoriesToProduct", new EditCategoriesToProductCommand());
         commands.put("editAttributesToCategory", new EditAttributesToCategoryCommand());
 
-        commands.put("selectDistributor", new SelectDistributorCommand());
-        commands.put("editDistributor", new EditDistributorCommand());
-        commands.put("deleteDistributor", new DeleteDistributorCommand());
+        commands.put("bulkSelect", new BulkSelectCommand());
+        commands.put("bulkEdit", new BulkEditCommand());
 
-        commands.put("selectBundle", new SelectBundleCommand());
-        commands.put("editBundle", new EditBundleCommand());
-        commands.put("deleteBundle", new DeleteBundleCommand());
     }
 
     public static Command from(HttpServletRequest request) {

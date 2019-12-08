@@ -3,7 +3,7 @@
     Created on : 28-11-2019, 12:40:28
     Author     : Andreas
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Product"%>
 <%@page import="businessLogic.Category"%>
@@ -12,6 +12,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Select</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
@@ -30,9 +31,9 @@
         </style>
     </head>
     <%
-        Category category = (Category) request.getAttribute("category");
-        String categoryName = category.getName();
-        int categoryID = category.getCategoryID();
+        Category category = (Category) request.getAttribute("pimObject");
+        String categoryName = category.getObjectTitle();
+        int categoryID = category.getObjectID();
     %>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
@@ -63,19 +64,19 @@
                         </tr>
                     </thead>
 
-                        <%
-                            TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
-                            for (Product product : productList) {
-                                int ProductID = product.getProductID();
-                                String ProductName = product.getName();
-                                String ProductDescription = product.getDescription();
-                        %>  
-                        <tr>
-                            <td align="center" width="3%"> <%=ProductID%> </td>
-                            <td align="center" width="20%"> <%=ProductName%> </td>
-                            <td align="center" width="30%"> <%=ProductDescription%> </td>
-                            <td align="center" width="1%"><input type="checkbox" name=productChoice value="<%=ProductID%>" checked></td>
-                        </tr>
+                    <%
+                        TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("PIMObjectList");
+                        for (Product product : productList) {
+                            int ProductID = product.getObjectID();
+                            String ProductName = product.getObjectTitle();
+                            String ProductDescription = product.getObjectDescription();
+                    %>  
+                    <tr>
+                        <td align="center" width="3%"> <%=ProductID%> </td>
+                        <td align="center" width="20%"> <%=ProductName%> </td>
+                        <td align="center" width="30%"> <%=ProductDescription%> </td>
+                        <td align="center" width="1%"><input type="checkbox" name=productChoice value="<%=ProductID%>" checked></td>
+                    </tr>
                     <%}%>
                 </table>
                 <br>
@@ -89,26 +90,26 @@
                 <p align="center"><input type="submit" value="Go Back" /></p>
             </form>
         </div>    
-        
-            <script>
-                function check() {
-                    var boxes = document.getElementsByName("productChoice");
-                    for (var i = 0; i < boxes.length; i++) {
-                        if (boxes[i].type === "checkbox") {
-                            boxes[i].checked = true;
-                        }
-                    }
-                }
 
-                function unCheck() {
-                    var boxes = document.getElementsByName("productChoice");
-                    for (var i = 0; i < boxes.length; i++) {
-                        if (boxes[i].type === "checkbox") {
-                            boxes[i].checked = false;
-                        }
+        <script>
+            function check() {
+                var boxes = document.getElementsByName("productChoice");
+                for (var i = 0; i < boxes.length; i++) {
+                    if (boxes[i].type === "checkbox") {
+                        boxes[i].checked = true;
                     }
                 }
-            </script>
+            }
+
+            function unCheck() {
+                var boxes = document.getElementsByName("productChoice");
+                for (var i = 0; i < boxes.length; i++) {
+                    if (boxes[i].type === "checkbox") {
+                        boxes[i].checked = false;
+                    }
+                }
+            }
+        </script>
 
     </body>
 </html>

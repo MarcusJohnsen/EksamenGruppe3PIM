@@ -4,6 +4,7 @@
     Author     : Andreas
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Distributor"%>
 <%@page import="java.util.HashMap"%>
@@ -13,6 +14,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Product</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
@@ -20,109 +22,107 @@
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
-            Product product = (Product) request.getAttribute("product");
-            String ProductName = product.getName();
-            String ProductDescription = product.getDescription();
+            Product product = (Product) request.getAttribute("pimObject");
+            String ProductName = product.getObjectTitle();
+            String ProductDescription = product.getObjectDescription();
             String picturePath = product.getPicturePath();
-            int productID = product.getProductID();
+            int productID = product.getObjectID();
         %>
         <div class="main">
-        <h1 align="center">Edit Product Information for product number <%=productID%></h1>
-        <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="selectCategoriesForProduct" />
-            <input type="hidden" name="productID" value="<%=productID%>" />
-            <p align="center"><input type="submit" value="Add Categories to Product" /></p>
-        </form>
-        <form action="FrontController">
-            <input type="hidden" name="productID" value="<%=productID%>" />
-            <p align="center">
-                Product Name:
-                <br>
-                <input type="text" name="Product Name" value="<%=ProductName%>" required="required"/>
-            </p>
-            
-            <p align="center">
-                Product Description:
-                <br>
-                <textarea name="Product Description" rows="8" cols="40" required="required"><%=ProductDescription%> </textarea>
-            </p>
+            <h1 align="center">Edit Product Information for product number <%=productID%></h1>
+            <form action="FrontController" method="POST">
+                <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
+                <input type="hidden" name="command" value="selectCategoriesForProduct" />
+                <input type="hidden" name="productID" value="<%=productID%>" />
+                <p align="center"><input type="submit" value="Add Categories to Product" /></p>
+            </form>
+            <form action="FrontController" method="POST">
+                <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
+                <input type="hidden" name="productID" value="<%=productID%>" />
+                <p align="center">
+                    Product Name:
+                    <br>
+                    <input type="text" name="Product Name" value="<%=ProductName%>" required="required"/>
+                </p>
 
-            <div id="myDIV" align="center"> 
-            </div>
+                <p align="center">
+                    Product Description:
+                    <br>
+                    <textarea name="Product Description" rows="8" cols="40" required="required"><%=ProductDescription%> </textarea>
+                </p>
 
-            <table align="center" border="1" width = "20%" style="float: top">
-                <thead>
+                <div id="myDIV" align="center"> 
+                </div>
+
+                <table align="center" border="1" width = "20%" style="float: top">
+                    <thead>
+                        <tr>
+                            <th align="left">Attribute Name</th>
+                            <th align="center">Attribute Value</th>
+                        </tr>
+                    </thead>
+                    <br>
+                    <%
+                        TreeSet<Attribute> attributeList = product.getProductAttributes();
+                        for (Attribute attribute : attributeList) {
+                            int attributeID = attribute.getObjectID();
+                            String value = attribute.getAttributeValueForID(productID);
+                            String attributeTitle = attribute.getObjectTitle();
+                    %>
                     <tr>
-                        <th align="left">Attribute Name</th>
-                        <th align="center">Attribute Value</th>
+                        <td align="left" width="20%"> <%=attributeTitle%> </td>
+                        <td align="center" width="30%"> <input type="text" style="width: 96%; text-align: center" name="AttributeID<%=attributeID%>" value="<%=value%>"/> </td>
                     </tr>
-                </thead>
-                <br>
+                    <%}%>
+                </table>
+
                 <%
-                    TreeSet<Attribute> attributeList = product.getProductAttributes();
-                    for (Attribute attribute : attributeList) {
-                        int attributeID = attribute.getAttributeID();
-                        String value = attribute.getAttributeValueForID(productID);
-                        String attributeTitle = attribute.getAttributeName();
+                    String error = (String) request.getAttribute("error");
+                    if (error != null) {
                 %>
-                <tr>
-                    <td align="left" width="20%"> <%=attributeTitle%> </td>
-                    <td align="center" width="30%"> <input type="text" style="width: 96%; text-align: center" name="AttributeID<%=attributeID%>" value="<%=value%>"/> </td>
-                </tr>
+                <h2 align="center" style="color: red"><%=error%></h2>
                 <%}%>
-            </table>
+                <br>
+                <!--<p align="center">
+                    Select Picture:
+                    <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
+                </p>-->
 
-            <%
-                String error = (String) request.getAttribute("error");
-                if (error != null) {
-            %>
-            <h2 align="center" style="color: red"><%=error%></h2>
-            <%}%>
-            <br>
-            <!--<p align="center">
-                Select Picture:
-                <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
-            </p>-->
-
-            <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
-                <thead>
-                    <tr bgcolor = "#FF4B4B">
-                        <th align="center">Distributor ID</th>
-                        <th align="center">Distributor Name</th>
-                        <th></th>
-                    </tr>
-                </thead>
+                <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
+                    <thead>
+                        <tr bgcolor = "#FF4B4B">
+                            <th align="center">Distributor ID</th>
+                            <th align="center">Distributor Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
                     <%
                         TreeSet<Distributor> distributorList = product.getProductDistributors();
                         for (Distributor distributor : distributorList) {
-                            int distributorID = distributor.getDistributorID();
-                            String distributorName = distributor.getDistributorName();
+                            int distributorID = distributor.getObjectID();
+                            String distributorName = distributor.getObjectTitle();
                             boolean alreadySelectedDistributor = product.getProductDistributors().contains(distributor);
                     %>  
                     <tr>
                         <td align="center" width="5%"> <%=distributorID%> </td>
                         <td align="center" width="20%"> <%=distributorName%> </td>
-                        <%if(alreadySelectedDistributor){%>
+                        <%if (alreadySelectedDistributor) {%>
                         <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>" checked></td>
-                        <%} else {%>
+                            <%} else {%>
                         <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
-                        <%}%>
+                            <%}%>
                     </tr>
-                <%}%>
-            </table>
-            
+                    <%}%>
+                </table>
+
                 <br>
                 <p align="center">
                     Save the changes:
                     <br>
                     <input type="hidden" name="command" value="editProduct" />
-                    <input type="submit" value="Update"/></p>
-                
-        <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="viewAllProducts" />
-            <p align="center"><input type="submit" value="Go Back" /></p>
-        </form>
+                    <input type="submit" value="Update"/>
+                </p>
+            </form>
         </div>        
         <script>
             function newField() {

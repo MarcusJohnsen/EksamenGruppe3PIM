@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package presentation.commands;
+package presentation.commands.addPIMObject;
 
-import businessLogic.Bundle;
 import businessLogic.BusinessController;
 import businessLogic.Product;
 import java.util.ArrayList;
@@ -19,13 +18,12 @@ import presentation.Command;
  *
  * @author Andreas
  */
-public class EditBundleCommand extends Command {
+public class AddBundleCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
-        String nextJsp = "viewAllBundles";
-        request.setAttribute("bundleList", businessController.getBundleList());
-        int bundleID = Integer.parseInt(request.getParameter("bundleID"));
+        String nextJsp = "index";
+
         String bundleName = request.getParameter("Bundle Name");
         String bundleDescription = request.getParameter("Bundle Description");
 
@@ -50,18 +48,15 @@ public class EditBundleCommand extends Command {
                 productChoices = null;
             }
 
-            businessController.editBundle(bundleID, bundleName, bundleDescription, productChoices);
+            businessController.createNewBundle(bundleName, bundleDescription, productChoices);
 
         } catch (IllegalArgumentException ex) {
-            nextJsp = "editBundle";
-            request.setAttribute("error", ex.getMessage());
-
+            nextJsp = "newBundle";
             TreeSet<Product> productList = businessController.getProductList();
             request.setAttribute("productList", productList);
-
-            Bundle bundle = businessController.getBundleFromID(bundleID);
-            request.setAttribute("bundle", bundle);
+            request.setAttribute("error", ex.getMessage());
         }
+
         return nextJsp;
     }
 }

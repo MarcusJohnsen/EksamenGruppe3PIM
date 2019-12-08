@@ -1,4 +1,4 @@
-package presentation.commands;
+package presentation.commands.editPIMObject;
 
 import businessLogic.BusinessController;
 import businessLogic.Category;
@@ -13,11 +13,14 @@ import presentation.Command;
 public class EditCategoryCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
-        String nextJsp = "viewAllCategories";
-        request.setAttribute("categoryList", businessController.getCategoryList());
+        String nextJsp = "viewPIMObjectList";
+        request.setAttribute("PIMObjectList", businessController.getCategoryList());
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         String categoryName = request.getParameter("Category Name");
         String categoryDescription = request.getParameter("Category Description");
+        
+        String pimObjectType = request.getParameter("PIMObjectType");
+        request.setAttribute("PIMObjectType", pimObjectType);
 
         try {
             businessController.editCategory(categoryID, categoryName, categoryDescription);
@@ -26,7 +29,7 @@ public class EditCategoryCommand extends Command {
             request.setAttribute("error", ex.getMessage());
             
             Category category = businessController.getCategoryFromID(categoryID);
-            request.setAttribute("category", category);
+            request.setAttribute("pimObject", category);
         }
         return nextJsp;
     }

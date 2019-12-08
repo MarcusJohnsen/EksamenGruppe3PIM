@@ -50,7 +50,7 @@ ${frontController.setup()}
                             <c:forEach items='${topTenBundles}' var="topTenBundle">
                                 <tr>
                                     <td><%=count1++%></td>
-                                    <td><c:out value="${topTenBundle.getBundleName()}"/></td>
+                                    <td><c:out value="${topTenBundle.getObjectTitle()}"/></td>
                                     <td><c:out value="${topTenBundle.getBundleProducts().size()}"/></td>
                                 </c:forEach>
                             </tr>
@@ -72,7 +72,7 @@ ${frontController.setup()}
                             <c:forEach items='${topTenCategories}' var="topTenCategory">
                                 <tr>
                                     <td><%=count2++%></td>
-                                    <td><c:out value="${topTenCategory.getName()}"/></td>
+                                    <td><c:out value="${topTenCategory.getObjectTitle()}"/></td>
                                     <td><c:out value="${topTenCategory.getCategoryProducts().size()}"/></td>
                                 </c:forEach>
                             </tr>
@@ -95,7 +95,7 @@ ${frontController.setup()}
                             <c:forEach items='${topTenDistributors}' var="topTenDistributor">
                                 <tr>
                                     <td><%=count3++%></td>
-                                    <td><c:out value="${topTenDistributor.getDistributorName()}"/></td>
+                                    <td><c:out value="${topTenDistributor.getObjectTitle()}"/></td>
                                     <td><c:out value="${topTenDistributor.getDistributorProducts().size()}"/></td>
                                 </c:forEach>
                             </tr>

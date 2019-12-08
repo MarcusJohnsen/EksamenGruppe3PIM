@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package presentation.commands;
+package presentation.commands.bulkEditPIMObject;
 
 import businessLogic.Attribute;
 import businessLogic.BusinessController;
@@ -38,7 +38,7 @@ public class BulkEditCommand extends Command {
             HashMap<Integer, String> newAttributeValues = new HashMap();
 
             for (Attribute categoryAttribute : category.getCategoryAttributes()) {
-                int attributeValue = categoryAttribute.getAttributeID();
+                int attributeValue = categoryAttribute.getObjectID();
                 String newAttributeValue = request.getParameter("AttributeID" + attributeValue);
                 if (!newAttributeValue.equals("")) {
                     if (newAttributeValue.equals("DELETE") || newAttributeValue.equals("'DELETE'")) {

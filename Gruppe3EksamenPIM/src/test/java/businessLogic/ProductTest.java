@@ -23,19 +23,19 @@ public class ProductTest {
     @Test
     public void testProductConstructor() {
         //act
-        int productId = 2;
+        int productID = 2;
         String productName = "spiderman";
         String productDescription = "the hero spiderman";
         String picturePath = "testimage.png";
         TreeSet<Distributor> productDistributors = new TreeSet();
         TreeSet<Category> productCategories = new TreeSet();
 
-        Product result = new Product(productId, productName, productDescription, picturePath, productDistributors, productCategories);
+        Product result = new Product(productID, productName, productDescription, picturePath, productDistributors, productCategories);
 
-        assertTrue(productName.equals(result.getName()));
-        assertTrue(productDescription.equals(result.getDescription()));
+        assertTrue(productName.equals(result.objectTitle));
+        assertTrue(productDescription.equals(result.objectDescription));
         assertTrue(picturePath.equals(result.getPicturePath()));
-        assertEquals(productId, result.getProductID());
+        assertEquals(productID, result.objectID);
         assertEquals(productDistributors, result.getProductDistributors());
         assertEquals(productCategories, result.getProductCategories());
     }

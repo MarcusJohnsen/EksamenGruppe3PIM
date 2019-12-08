@@ -60,7 +60,7 @@ public class CategoryMapper {
                     } else {
                         SQL += ", ";
                     }
-                    SQL += "(" + id + ", '" + attribute.getAttributeID() + "')";
+                    SQL += "(" + id + ", '" + attribute.getObjectID() + "')";
                 }
                 database.getConnection().prepareStatement(SQL).executeUpdate();
             }
@@ -105,7 +105,7 @@ public class CategoryMapper {
                 }
                 int attributeID = rs.getInt("Attribute_ID");
                 for (Attribute attribute : attributeList) {
-                    if (attribute.getAttributeID() == attributeID) {
+                    if (attribute.getObjectID() == attributeID) {
                         categoryAttributesMap.get(categoryID).add(attribute);
                     }
                 }
@@ -190,9 +190,9 @@ public class CategoryMapper {
             //Update category in category table
             String SQL = "UPDATE Categories SET Category_Name = ?, Category_Description = ? WHERE Category_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setString(1, category.getName());
-            ps.setString(2, category.getDescription());
-            ps.setInt(3, category.getCategoryID());
+            ps.setString(1, category.getObjectTitle());
+            ps.setString(2, category.getObjectDescription());
+            ps.setInt(3, category.getObjectID());
             int result = ps.executeUpdate();
             return result;
 
@@ -220,7 +220,7 @@ public class CategoryMapper {
 
         try {
             database.setAutoCommit(false);
-            int categoryID = category.getCategoryID();
+            int categoryID = category.getObjectID();
             String SQL = "DELETE FROM Category_Attributes WHERE category_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
             ps.setInt(1, categoryID);
@@ -235,7 +235,7 @@ public class CategoryMapper {
                     } else {
                         SQL += ", ";
                     }
-                    SQL += "(" + categoryID + ", '" + attribute.getAttributeID() + "')";
+                    SQL += "(" + categoryID + ", '" + attribute.getObjectID() + "')";
                 }
                 rowsAffected += database.getConnection().prepareStatement(SQL).executeUpdate();
             }
@@ -243,7 +243,7 @@ public class CategoryMapper {
             Logger.getLogger(CategoryMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();
             database.setAutoCommit(true);
-            throw new IllegalArgumentException("Can't change the attributes tied to categoryID " + category.getCategoryID());
+            throw new IllegalArgumentException("Can't change the attributes tied to categoryID " + category.getObjectID());
         }
 
         database.setAutoCommit(true);

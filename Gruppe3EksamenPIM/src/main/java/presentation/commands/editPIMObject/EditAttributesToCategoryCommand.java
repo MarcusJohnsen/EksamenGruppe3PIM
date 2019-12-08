@@ -1,4 +1,4 @@
-package presentation.commands;
+package presentation.commands.editPIMObject;
 
 import businessLogic.BusinessController;
 import businessLogic.Category;
@@ -19,16 +19,19 @@ public class EditAttributesToCategoryCommand extends Command {
         String nextJsp = "editCategory";
         ArrayList<String> attributeChoices;
         
+        String pimObjectType = request.getParameter("PIMObjectType");
+        request.setAttribute("PIMObjectType", pimObjectType);
+        
         if(request.getParameterValues("attributeChoices") != null){
             attributeChoices = new ArrayList(Arrays.asList(request.getParameterValues("attributeChoices")));
         } else {
             attributeChoices = new ArrayList();
         }
-        Category category = businessController.getCategoryFromID(Integer.parseInt(request.getParameter("categoryID")));
+        Category category = businessController.getCategoryFromID(Integer.parseInt(request.getParameter("pimObjectID")));
         
         businessController.editAttributesToCategory(category, attributeChoices);
         
-        request.setAttribute("category", category);
+        request.setAttribute("pimObject", category);
         
         return nextJsp;
     }

@@ -1,4 +1,4 @@
-package presentation.commands;
+package presentation.commands.addPIMObject;
 
 import businessLogic.BusinessController;
 import businessLogic.Category;
@@ -33,7 +33,7 @@ public class AddProductCommand extends Command {
 
         // get parameters for choosen categories
         ArrayList<String> categoryChoices;
-        if(request.getParameterValues("categoryChoices") != null){
+        if (request.getParameterValues("categoryChoices") != null) {
             categoryChoices = new ArrayList(Arrays.asList(request.getParameterValues("categoryChoices")));
         } else {
             categoryChoices = new ArrayList();
@@ -49,7 +49,7 @@ public class AddProductCommand extends Command {
                 throw new IllegalArgumentException("Need at least 1 distributor");
             }
             Product newProduct = businessController.createNewProduct(productName, productDescription, distributorChoices, categoryChoices, parts);
-            request.setAttribute("product", newProduct);
+            request.setAttribute("pimObject", newProduct);
         } catch (IllegalArgumentException ex) {
             TreeSet<Category> categoryList = businessController.getCategoryList();
             request.setAttribute("categoryList", categoryList);

@@ -4,6 +4,7 @@
     Author     : Andreas
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Attribute"%>
 <%@page import="java.util.ArrayList"%>
@@ -42,17 +43,17 @@
                             <th></th>
                         </tr>
                     </thead>
-                        <%
-                            TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
-                            for (Attribute attribute : attributeList) {
-                                int AttributeID = attribute.getAttributeID();
-                                String AttributeName = attribute.getAttributeName();
-                        %>  
-                        <tr>
-                            <td align="center" width="5%"> <%=AttributeID%> </td>
-                            <td align="center" width="20%"> <%=AttributeName%> </td>
-                            <td align="center" width="1%"><input type="checkbox" name=attributeChoice value="<%=AttributeID%>"></td>
-                        </tr>
+                    <%
+                        TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
+                        for (Attribute attribute : attributeList) {
+                            int AttributeID = attribute.getObjectID();
+                            String AttributeName = attribute.getObjectTitle();
+                    %>  
+                    <tr>
+                        <td align="center" width="5%"> <%=AttributeID%> </td>
+                        <td align="center" width="20%"> <%=AttributeName%> </td>
+                        <td align="center" width="1%"><input type="checkbox" name=attributeChoice value="<%=AttributeID%>"></td>
+                    </tr>
                     <%}%>
                 </table>
                 <%

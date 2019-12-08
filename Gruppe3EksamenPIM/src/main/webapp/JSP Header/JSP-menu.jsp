@@ -29,7 +29,8 @@
         <div class="dropdown-container">
             <form action="FrontController" id="viewProd">
                 <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="viewAllProducts" />
+                <input type="hidden" name="goToJsp" value="viewPIMObjectList" />
+                <input type="hidden" name="PIMObjectType" value="Product"/>
                 <a href="#" onclick="document.getElementById('viewProd').submit()">Product List</a>
             </form>
             <form action="FrontController" id="searchProd">
@@ -49,7 +50,8 @@
         <div class="dropdown-container">
             <form action="FrontController" id="viewCat">
                 <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="viewAllCategories" />
+                <input type="hidden" name="goToJsp" value="viewPIMObjectList" />
+                <input type="hidden" name="PIMObjectType" value="Category"/>
                 <a href="#" onclick="document.getElementById('viewCat').submit()">Category List</a>
             </form>
             <form action="FrontController" id="searchCat">
@@ -69,7 +71,8 @@
         <div class="dropdown-container">
             <form action="FrontController" id="viewAtt">
                 <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="viewAllAttributes" />
+                <input type="hidden" name="goToJsp" value="viewPIMObjectList" />
+                <input type="hidden" name="PIMObjectType" value="Attribute"/>
                 <a href="#" onclick="document.getElementById('viewAtt').submit()">Attribute List</a>
             </form>
             <form action="FrontController" id="newAtt">
@@ -84,7 +87,8 @@
         <div class="dropdown-container">
             <form action="FrontController" id="viewDist">
                 <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="viewAllDistributors" />
+                <input type="hidden" name="goToJsp" value="viewPIMObjectList" />
+                <input type="hidden" name="PIMObjectType" value="Distributor"/>
                 <a href="#" onclick="document.getElementById('viewDist').submit()">Distributor List</a>
             </form>
             <form action="FrontController" id="searchDist">
@@ -104,7 +108,8 @@
         <div class="dropdown-container">
             <form action="FrontController" id="viewBundle">
                 <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="viewAllBundles" />
+                <input type="hidden" name="goToJsp" value="viewPIMObjectList" />
+                <input type="hidden" name="PIMObjectType" value="Bundle"/>
                 <a href="#" onclick="document.getElementById('viewBundle').submit()">Bundle List</a>
             </form>
             <form action="FrontController" id="searchBundle">

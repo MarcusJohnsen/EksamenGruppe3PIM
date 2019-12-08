@@ -75,7 +75,7 @@ public class BusinessController {
         String picturePath = storageFacade.uploadPicture(parts);
         if (picturePath != null) {
             newProduct.setPicturePath(picturePath);
-            storageFacade.updatePicturePath(newProduct.getProductID(), picturePath);
+            storageFacade.updatePicturePath(newProduct.objectID, picturePath);
         }
         return newProduct;
     }
@@ -185,7 +185,7 @@ public class BusinessController {
     public void editAttributesToCategory(Category category, ArrayList<String> attributeChoices) {
         TreeSet<Attribute> attributeList = Attribute.getMatchingAttributesOnStringIDs(attributeChoices);
         category.setCategoryAttributes(attributeList);
-        TreeSet<Product> productsUpdated = Product.updateCategoryAttributes(category.getCategoryID());
+        TreeSet<Product> productsUpdated = Product.updateCategoryAttributes(category.getObjectID());
         storageFacade.updateProductAttributeSelections(productsUpdated);
         storageFacade.editAttributeToCategory(category);
     }

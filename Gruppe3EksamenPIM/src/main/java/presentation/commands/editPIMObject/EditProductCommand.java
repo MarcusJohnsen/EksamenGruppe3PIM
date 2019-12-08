@@ -1,4 +1,4 @@
-package presentation.commands;
+package presentation.commands.editPIMObject;
 
 import businessLogic.Attribute;
 import businessLogic.BusinessController;
@@ -20,16 +20,19 @@ public class EditProductCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
-        String nextJsp = "viewAllProducts";
+        String nextJsp = "viewPIMObjectList";
 
         int productID = Integer.parseInt(request.getParameter("productID"));
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
+        
+        String pimObjectType = request.getParameter("PIMObjectType");
+        request.setAttribute("PIMObjectType", pimObjectType);
 
         HashMap<Integer, String> productAttributeValues = new HashMap();
         Product product = businessController.getProductFromID(productID);
         for (Attribute productAttribute : product.getProductAttributes()) {
-            int attributeValue = productAttribute.getAttributeID();
+            int attributeValue = productAttribute.getObjectID();
             productAttributeValues.put(attributeValue, request.getParameter("AttributeID" + attributeValue));
         }
         
@@ -41,13 +44,13 @@ public class EditProductCommand extends Command {
                 throw new IllegalArgumentException("Need at least 1 distributor");
             }
             businessController.editProduct(productID, productName, productDescription, distributorChoices, productAttributeValues);
-            request.setAttribute("productList", businessController.getProductList());
+            request.setAttribute("PIMObjectList", businessController.getProductList());
         } catch (IllegalArgumentException ex) {
             nextJsp = "editProduct";
             TreeSet<Distributor> distributorList = businessController.getDistributorList();
             request.setAttribute("distributorList", distributorList);
             request.setAttribute("error", ex.getMessage());
-            request.setAttribute("product", product);
+            request.setAttribute("pimObject", product);
         }
         return nextJsp;
     }

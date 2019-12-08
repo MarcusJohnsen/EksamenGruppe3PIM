@@ -12,20 +12,15 @@ import persistence.Json.Exclude;
  *
  * @author Marcus
  */
-public class Distributor implements Comparable<Distributor> {
+public class Distributor extends PIMObject {
 
-    private int distributorID;
-    private String distributorName;
-    private String distributorDescription;
     @Exclude
     private TreeSet<Product> distributorProducts;
 
     private static TreeSet<Distributor> distributorList = new TreeSet();
 
-    public Distributor(int distributorID, String distributorName, String distributorDescription) {
-        this.distributorID = distributorID;
-        this.distributorName = distributorName;
-        this.distributorDescription = distributorDescription;
+    public Distributor(int distributorID, String distributorTitle, String distributorDescription) {
+        super(distributorID, distributorTitle, distributorDescription);
         this.distributorProducts = new TreeSet();
     }
 
@@ -51,15 +46,15 @@ public class Distributor implements Comparable<Distributor> {
         return distributorList.remove(findDistributorOnID(distributorID));
     }
 
-    public void editDistributor(String name, String description) {
-        this.distributorName = name;
-        this.distributorDescription = description;
+    public void editDistributor(String distributorTitle, String distributorDescription) {
+        this.objectTitle = distributorTitle;
+        this.objectDescription = distributorDescription;
     }
 
     public static TreeSet<Distributor> getMatchingDistributorsOnIDs(ArrayList<String> distributorChoices) {
         TreeSet<Distributor> result = new TreeSet();
         for (Distributor distributor : distributorList) {
-            if (distributorChoices.contains(Integer.toString(distributor.getDistributorID()))) {
+            if (distributorChoices.contains(Integer.toString(distributor.objectID))) {
                 result.add(distributor);
             }
         }
@@ -68,7 +63,7 @@ public class Distributor implements Comparable<Distributor> {
 
     public static Distributor findDistributorOnID(int distributorID) {
         for (Distributor distributor : distributorList) {
-            if (distributor.distributorID == distributorID) {
+            if (distributor.objectID == distributorID) {
                 return distributor;
             }
         }
@@ -114,32 +109,11 @@ public class Distributor implements Comparable<Distributor> {
         return distributorList;
     }
 
-    public int getDistributorID() {
-        return distributorID;
-    }
-
-    public String getDistributorName() {
-        return distributorName;
-    }
-
-    public String getDistributorDescription() {
-        return distributorDescription;
-    }
-
     public static int getTotalDistributorCount() {
         return distributorList.size();
     }
 
     public TreeSet<Product> getDistributorProducts() {
         return distributorProducts;
-    }
-
-    @Override
-    public int compareTo(Distributor otherDistributor) {
-
-        int thisID = this.distributorID;
-        int otherID = otherDistributor.distributorID;
-        return thisID - otherID;
-
     }
 }

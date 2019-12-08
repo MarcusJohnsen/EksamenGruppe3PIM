@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package presentation.commands;
+package presentation.commands.editPIMObject;
 
 import businessLogic.BusinessController;
 import businessLogic.Product;
@@ -24,16 +24,19 @@ public class EditCategoriesToProductCommand extends Command{
         String nextJsp = "editProduct";
         ArrayList<String> categoryChoices;
         
+        String pimObjectType = request.getParameter("PIMObjectType");
+        request.setAttribute("PIMObjectType", pimObjectType);
+        
         if(request.getParameterValues("categoryChoices") != null){
             categoryChoices = new ArrayList(Arrays.asList(request.getParameterValues("categoryChoices")));
         } else {
             categoryChoices = new ArrayList();
         }
         
-        Product product = businessController.getProductFromID(Integer.parseInt(request.getParameter("productID")));
+        Product product = businessController.getProductFromID(Integer.parseInt(request.getParameter("pimObjectID")));
         businessController.editCategoriesToProduct(product, categoryChoices);
         
-        request.setAttribute("product", product);
+        request.setAttribute("pimObject", product);
         return nextJsp;
     }
 }

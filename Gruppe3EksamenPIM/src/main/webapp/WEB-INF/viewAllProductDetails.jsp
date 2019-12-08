@@ -4,6 +4,7 @@
     Author     : Marcus
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Bundle"%>
 <%@page import="businessLogic.Distributor"%>
@@ -22,107 +23,102 @@
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
         <div class="main">
-        <%
-            Product product = (Product) request.getAttribute("product");
-            int productID = product.getProductID();
-            String productName = product.getName();
-            String productDescription = product.getDescription();
-            String picturePath = product.getPicturePath();
-        %>
-        <h1 align="center">Product information for product number:  <%=productID%></h1>
-        <p align="center">
-            Product Name: 
-            <br>
-            <%=productName%>
-        </p>
-        <p align="center">
-            Product Description:
-            <br>
-            <%=productDescription%>
-        </p>
-        <p align="center">
-            Product picture: 
-            <br>
-            <img src="<%=picturePath%>" style="max-width: 350px; width: 100%; max-height: 500px; height: auto;"/>
-
-        </p>
-
-        <table align="center" border="1" width = "50%" style="float: top">
-            <thead>
-                <tr>
-                    <th align="left">Category Name</th>
-                    <th align="center">Category Description</th>
-                </tr>
-            </thead>
-
-            <p align="center"> This product is part of the following categories: </p>
             <%
-                TreeSet<Category> categoryList = product.getProductCategories();
-                for (Category category : categoryList) {
-                    String categoryName = category.getName();
-                    String categoryDescription = category.getDescription();
+                Product product = (Product) request.getAttribute("pimObject");
+                int productID = product.getObjectID();
+                String productName = product.getObjectTitle();
+                String productDescription = product.getObjectDescription();
+                String picturePath = product.getPicturePath();
             %>
-            <tr>
-                <td align="left" width="20%"> <%=categoryName%> </td>
-                <td align="center" width="30%"> <%=categoryDescription%> </td>
-            </tr>
-            <%}%>
-        </table>
+            <h1 align="center">Product information for product number:  <%=productID%></h1>
+            <p align="center">
+                Product Name: 
+                <br>
+                <%=productName%>
+            </p>
+            <p align="center">
+                Product Description:
+                <br>
+                <%=productDescription%>
+            </p>
+            <p align="center">
+                Product picture: 
+                <br>
+                <img src="<%=picturePath%>" style="max-width: 350px; width: 100%; max-height: 500px; height: auto;"/>
 
-        <table align="center" border="1" width = "50%" style="float: top">
-            <thead>
+            </p>
+
+            <table align="center" border="1" width = "50%" style="float: top">
+                <thead>
+                    <tr>
+                        <th align="left">Category Name</th>
+                        <th align="center">Category Description</th>
+                    </tr>
+                </thead>
+
+                <p align="center"> This product is part of the following categories: </p>
+                <%
+                    TreeSet<Category> categoryList = product.getProductCategories();
+                    for (Category category : categoryList) {
+                        String categoryName = category.getObjectTitle();
+                        String categoryDescription = category.getObjectDescription();
+                %>
                 <tr>
-                    <th align="left">Attribute Name</th>
-                    <th align="center">Attribute Value</th>
+                    <td align="left" width="20%"> <%=categoryName%> </td>
+                    <td align="center" width="30%"> <%=categoryDescription%> </td>
                 </tr>
-            </thead>
-            <p align="center"> This product has the following attributes: </p>
-            <%
-                TreeSet<Attribute> attributeList = product.getProductAttributes();
-                for (Attribute attribute : attributeList) {
-                    String attributeName = attribute.getAttributeName();
-                    String attributeValue = attribute.getAttributeValueForID(productID);
-            %>
-            <tr>
-                <td align="left" width="20%"> <%=attributeName%> </td>
-                <td align="center" width="30%"> <%=attributeValue%> </td>
-            </tr>
-            <%}%>
-        </table>
+                <%}%>
+            </table>
 
-        <table align="center" border="1" width = "50%" style="float: top">
-            <thead>
+            <table align="center" border="1" width = "50%" style="float: top">
+                <thead>
+                    <tr>
+                        <th align="left">Attribute Name</th>
+                        <th align="center">Attribute Value</th>
+                    </tr>
+                </thead>
+                <p align="center"> This product has the following attributes: </p>
+                <%
+                    TreeSet<Attribute> attributeList = product.getProductAttributes();
+                    for (Attribute attribute : attributeList) {
+                        String attributeName = attribute.getObjectTitle();
+                        String attributeValue = attribute.getAttributeValueForID(productID);
+                %>
                 <tr>
-                    <th align="left">Distributor Name</th>
-                    <th align="center">Distributor Description</th>
+                    <td align="left" width="20%"> <%=attributeName%> </td>
+                    <td align="center" width="30%"> <%=attributeValue%> </td>
                 </tr>
-            </thead>
-            <p align="center"> This product has the following distributors: </p>
-            <%
-                TreeSet<Distributor> distributorList = product.getProductDistributors();
-                for (Distributor distributor : distributorList) {
-                    String distributorName = distributor.getDistributorName();
-                    String distributorDescription = distributor.getDistributorDescription();
-            %>
-            <tr>
-                <td align="left" width="20%"> <%=distributorName%> </td>
-                <td align="center" width="30%"> <%=distributorDescription%> </td>
-            </tr>
-            <%}%>
-        </table>
+                <%}%>
+            </table>
 
-        <%
-            String error = (String) request.getAttribute("error");
-            if (error != null) {
-        %>
-        <h2 align="center" style="color: red"><%=error%></h2>
-        <%}%>
-        <br>
-        <form action="FrontController" method="POST">
-            <input type="hidden" name="command" value="goToJsp" />
-            <input type="hidden" name="goToJsp" value="viewAllProducts" />
-            <p align="center"><input type="submit" value="Go Back" /></p>
-        </form>
+            <table align="center" border="1" width = "50%" style="float: top">
+                <thead>
+                    <tr>
+                        <th align="left">Distributor Name</th>
+                        <th align="center">Distributor Description</th>
+                    </tr>
+                </thead>
+                <p align="center"> This product has the following distributors: </p>
+                <%
+                    TreeSet<Distributor> distributorList = product.getProductDistributors();
+                    for (Distributor distributor : distributorList) {
+                        String distributorName = distributor.getObjectTitle();
+                        String distributorDescription = distributor.getObjectDescription();
+                %>
+                <tr>
+                    <td align="left" width="20%"> <%=distributorName%> </td>
+                    <td align="center" width="30%"> <%=distributorDescription%> </td>
+                </tr>
+                <%}%>
+            </table>
+
+            <%
+                String error = (String) request.getAttribute("error");
+                if (error != null) {
+            %>
+            <h2 align="center" style="color: red"><%=error%></h2>
+            <%}%>
+            <br>
         </div>
     </body>
 </html>

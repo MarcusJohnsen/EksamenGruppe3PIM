@@ -135,9 +135,9 @@ public class CategoryMapperTest {
 
         //assert
         int expResultID = 4;
-        assertEquals(expResultID, result.getCategoryID());
-        assertTrue(categoryName.equals(result.getName()));
-        assertTrue(categoryDescription.equals(result.getDescription()));
+        assertEquals(expResultID, result.getObjectID());
+        assertTrue(categoryName.equals(result.getObjectTitle()));
+        assertTrue(categoryDescription.equals(result.getObjectDescription()));
         assertTrue(attributeList.equals(result.getCategoryAttributes()));
     }
 
@@ -185,9 +185,9 @@ public class CategoryMapperTest {
 
         //assert
         int expResultID = 4;
-        assertEquals(expResultID, result.getCategoryID());
-        assertTrue(categoryName.equals(result.getName()));
-        assertTrue(categoryDescription.equals(result.getDescription()));
+        assertEquals(expResultID, result.getObjectID());
+        assertTrue(categoryName.equals(result.getObjectTitle()));
+        assertTrue(categoryDescription.equals(result.getObjectDescription()));
         assertTrue(attributeList.equals(result.getCategoryAttributes()));
     }
 
@@ -324,7 +324,7 @@ public class CategoryMapperTest {
 
         //assert
         for (Category resultCategory : result) {
-            if (resultCategory.getCategoryID() == categoryID) {
+            if (resultCategory.getObjectID() == categoryID) {
                 assertTrue(category.getCategoryAttributes().containsAll(resultCategory.getCategoryAttributes()));
                 assertTrue(resultCategory.getCategoryAttributes().containsAll(category.getCategoryAttributes()));
                 break;

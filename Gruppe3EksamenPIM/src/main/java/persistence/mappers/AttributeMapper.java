@@ -127,8 +127,8 @@ public class AttributeMapper {
         try {
             String SQL = "UPDATE Attributes SET Attribute_Name = ? WHERE Attribute_ID = ?";
             PreparedStatement ps = database.getConnection().prepareStatement(SQL);
-            ps.setString(1, attribute.getAttributeName());
-            ps.setInt(2, attribute.getAttributeID());
+            ps.setString(1, attribute.getObjectTitle());
+            ps.setInt(2, attribute.getObjectID());
             int result = ps.executeUpdate();
             return result;
         } catch (SQLException ex) {
@@ -142,11 +142,11 @@ public class AttributeMapper {
 
         try {
             database.setAutoCommit(false);
-            int productID = product.getProductID();
+            int productID = product.getObjectID();
             String sqlDeleteProductAttributes = "DELETE FROM Product_Attributes WHERE Product_ID = ?";
-            PreparedStatement ps = database.getConnection().prepareStatement(sqlDeleteProductAttributes);
-            ps.setInt(1, productID);
-            rowsAffected += ps.executeUpdate();
+            PreparedStatement psDeleteProductAttributes = database.getConnection().prepareStatement(sqlDeleteProductAttributes);
+            psDeleteProductAttributes.setInt(1, productID);
+            rowsAffected += psDeleteProductAttributes.executeUpdate();
 
             if (!product.getProductAttributes().isEmpty()) {
                 String sqlInsertProductAttributes = "INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES ";
@@ -154,20 +154,28 @@ public class AttributeMapper {
                 for (Attribute productAttribute : product.getProductAttributes()) {
                     if (firstline) {
                         firstline = false;
+                        sqlInsertProductAttributes += "(?,?,?)";
                     } else {
-                        sqlInsertProductAttributes += ", ";
+                        sqlInsertProductAttributes += ", (?,?,?)";
                     }
+                }
+                PreparedStatement psInsertProductAttributes = database.getConnection().prepareStatement(sqlInsertProductAttributes);
+                int count = 1;
+                for (Attribute productAttribute : product.getProductAttributes()) {
                     String attributeValue = productAttribute.getAttributeValueForID(productID);
                     if (attributeValue == null) {
                         attributeValue = "";
                     }
-                    sqlInsertProductAttributes += "(" + productID + ", " + productAttribute.getAttributeID() + ", '" + attributeValue + "')";
-
+                    psInsertProductAttributes.setInt(count++, productID);
+                    psInsertProductAttributes.setInt(count++, productAttribute.getObjectID());
+                    psInsertProductAttributes.setString(count++, attributeValue);
                 }
-                rowsAffected += database.getConnection().prepareStatement(sqlInsertProductAttributes).executeUpdate();
+                rowsAffected += psInsertProductAttributes.executeUpdate();
             }
 
             database.getConnection().commit();
+            database.setAutoCommit(true);
+            return rowsAffected;
 
         } catch (SQLException ex) {
             Logger.getLogger(AttributeMapper.class.getName()).log(Level.SEVERE, null, ex);
@@ -175,9 +183,6 @@ public class AttributeMapper {
             database.setAutoCommit(true);
             throw new IllegalArgumentException("Can't update the new product-attribute connections in the database");
         }
-
-        database.setAutoCommit(true);
-        return rowsAffected;
     }
 
     public int updateProductAttributeValues(Product product) {
@@ -185,13 +190,13 @@ public class AttributeMapper {
 
         try {
             database.setAutoCommit(false);
-            int productID = product.getProductID();
+            int productID = product.getObjectID();
             for (Attribute productAttribute : product.getProductAttributes()) {
                 String SQL = "UPDATE Product_Attributes SET Attribute_Info = ? WHERE Product_ID = ? AND Attribute_ID = ?";
                 PreparedStatement ps = database.getConnection().prepareStatement(SQL);
                 ps.setString(1, productAttribute.getAttributeValueForID(productID));
                 ps.setInt(2, productID);
-                ps.setInt(3, productAttribute.getAttributeID());
+                ps.setInt(3, productAttribute.getObjectID());
                 rowsAffacted += ps.executeUpdate();
             }
             database.getConnection().commit();
@@ -209,7 +214,7 @@ public class AttributeMapper {
 
     /**
      * Method to update values for multiple product Attributes tied to a specific category. Used for bulk edit function.
-     * 
+     *
      * @param productIDs List of productIDs that match products that should have their attributes affected in the bulk edit
      * @param newAttributeValues Each attribute changed with the new value. Key is the attributeID for each new String value.
      * @param categoryID ID matching category these attributes should be changed on, in case of multiple categories using the same attributes
@@ -219,8 +224,8 @@ public class AttributeMapper {
         try {
             int rowsAffected = 0;
             database.setAutoCommit(false);
-            
-            if(productIDs.isEmpty()){
+
+            if (productIDs.isEmpty()) {
                 throw new IllegalArgumentException("No products selected to be updated");
             }
 
@@ -229,7 +234,7 @@ public class AttributeMapper {
             String sqlProductIDCondition = "";
             boolean firstLine = true;
             for (Integer productID : productIDs) {
-                if(firstLine){
+                if (firstLine) {
                     firstLine = false;
                     sqlProductIDCondition += "( Product_Attributes.Product_ID = " + productID;
                 } else {
@@ -238,14 +243,14 @@ public class AttributeMapper {
             }
             sqlProductIDCondition += " )";
             String sqlFinal = sqlUpdateCoreStatement + sqlProductIDCondition;
-            
+
             for (Integer attributeID : newAttributeValues.keySet()) {
                 PreparedStatement ps = database.getConnection().prepareStatement(sqlFinal);
                 ps.setString(1, newAttributeValues.get(attributeID));
                 ps.setInt(2, attributeID);
                 rowsAffected += ps.executeUpdate();
             }
-            
+
             database.getConnection().commit();
             database.setAutoCommit(true);
 
