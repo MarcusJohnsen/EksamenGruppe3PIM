@@ -7,6 +7,7 @@ package presentation.commands.bulkEditPIMObject;
 
 import businessLogic.BusinessController;
 import businessLogic.Category;
+import businessLogic.PIMObject;
 import businessLogic.Product;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +23,8 @@ public class BulkSelectCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "bulkEdit";
-        int categoryID = Integer.parseInt(request.getParameter("categoryID"));
-        Category category = businessController.getCategoryFromID(categoryID);
+        int pimObjectChoice = Integer.parseInt(request.getParameter("categoryID"));
+        Category category = businessController.getCategoryFromID(pimObjectChoice);
 
         try {
             String[] productChoices = request.getParameterValues("productChoice");
@@ -32,9 +33,11 @@ public class BulkSelectCommand extends Command {
             }
             request.getSession().setAttribute("productChoices", productChoices);
         } catch (IllegalArgumentException ex) {
+
             request.setAttribute("error", ex.getMessage());
-            TreeSet<Product> productList = businessController.findProductsOnCategoryID(categoryID);
-            request.setAttribute("productList", productList);
+            PIMObject pimObject = businessController.getCategoryFromID(pimObjectChoice);
+            request.setAttribute("pimObject", pimObject);
+
             nextJsp = "bulkSelect";
         }
 

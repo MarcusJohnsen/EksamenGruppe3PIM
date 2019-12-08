@@ -66,11 +66,6 @@
                 <input type="hidden" name="command" value="bulkEdit" />
                 <p align="center"><input type="submit" value="Update All Attributes" /></p>
             </form>
-            <form action="FrontController" method="POST">
-                <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="index" />
-                <p align="center"><input type="submit" value="Go Back" /></p>
-            </form>
         </div>
     </body>
 </html>

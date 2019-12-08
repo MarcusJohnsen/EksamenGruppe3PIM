@@ -88,17 +88,17 @@
                     <%}%>
                 </table>
 
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
+
                 <p align="center">
                     Save the changes:
                     <br>
                     <input type="hidden" name="command" value="editBundle" />
                     <input type="submit" value="Update"/></p>
-            </form>
-            <form action="FrontController" method="POST">
-                <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="viewAllBundles" />
-                <p align="center"><input type="submit" value="Go Back" /></p>
-            </form>    
+            </form>  
         </div>    
     </body>
 </html>

@@ -13,7 +13,8 @@ public class SearchSelectionCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessFacade) {
         String nextJsp = "advancedSearch";
 
-        String objectChoice = request.getParameter("BusinessObjectType");
+        String PIMObjectType = request.getParameter("PIMObjectType");
+        request.setAttribute("PIMObjectType", PIMObjectType);
 
         ArrayList<String> filterOptions = new ArrayList();
         String filterListKey = "filterList";
@@ -22,26 +23,23 @@ public class SearchSelectionCommand extends Command {
         String distributor = "Distributor";
         String bundle = "Bundle";
 
-        switch (objectChoice) {
+        switch (PIMObjectType) {
             case "Product":
                 filterOptions = new ArrayList(Arrays.asList(new String[]{category, distributor, bundle}));
-                request.setAttribute("objectChoice", product);
                 break;
             case "Category":
                 filterOptions = new ArrayList(Arrays.asList(new String[]{product}));
-                request.setAttribute("objectChoice", category);
                 break;
             case "Distributor":
                 filterOptions = new ArrayList(Arrays.asList(new String[]{product}));
-                request.setAttribute("objectChoice", distributor);
                 break;
             case "Bundle":
                 filterOptions = new ArrayList(Arrays.asList(new String[]{product}));
-                request.setAttribute("objectChoice", bundle);
                 break;
             default:
-                throw new IllegalArgumentException("Cannot search on object type specificed: " + objectChoice);
+                throw new IllegalArgumentException("Cannot search on object type specificed: " + PIMObjectType);
         }
+
         request.setAttribute(filterListKey, filterOptions);
         return nextJsp;
     }

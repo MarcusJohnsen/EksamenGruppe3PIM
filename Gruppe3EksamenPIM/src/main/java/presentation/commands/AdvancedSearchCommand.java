@@ -10,32 +10,21 @@ public class AdvancedSearchCommand extends Command {
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessFacade) {
-        String nextJsp = null;
+        String nextJsp = "viewPIMObjectList";
         
-        // sorry det ikke virker endnu Michael, jeg fejrer min fødselsdag, og kan ikke finde ud af programmering alligevel xD
+        String pimObjectType = request.getParameter("PIMObjectType");
+        request.setAttribute("PIMObjectType", pimObjectType);
         
-        String searchResult = request.getParameter("searchComplete");
-        String objectType = request.getParameter("objectChoice");
+        String searchResult = request.getParameter("searchKey");
         
         String bundleFilter = request.getParameter("BundleChoice");
         String categoryFilter = request.getParameter("CategoryChoice");
         String distributorFilter = request.getParameter("DistributorChoice");
         String productFilter = request.getParameter("ProductChoice");
 
-        TreeSet<Object> searchedObjectsList = businessFacade.advancedSearch(searchResult, objectType,bundleFilter, categoryFilter, distributorFilter, productFilter);
+        TreeSet<Object> searchedObjectsList = businessFacade.advancedSearch(searchResult, pimObjectType, bundleFilter, categoryFilter, distributorFilter, productFilter);
+        request.setAttribute("PIMObjectList", searchedObjectsList);
         
-        switch (objectType) {
-            case "Product":
-                break;
-            case "Category":
-                break;
-            case "Distributor":
-                break;
-            case "Bundle":
-                break;
-            default:
-                throw new IllegalArgumentException("Cannot search on object type specificed: " + objectType);
-        }
         return nextJsp;
     }
 }

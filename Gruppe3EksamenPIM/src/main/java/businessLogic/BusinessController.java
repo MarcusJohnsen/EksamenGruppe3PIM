@@ -22,9 +22,11 @@ public class BusinessController {
 
     private final String noImageFileName = "https://res.cloudinary.com/dousnil0k/image/upload/v1575366570/no-img_vlrttr.png";
     private final StorageFacade storageFacade;
+    private final SearchEngine searchEngine;
 
     public BusinessController(SystemMode systemMode) {
-        storageFacade = new StorageFacade(systemMode);
+        this.storageFacade = new StorageFacade(systemMode);
+        this.searchEngine = new SearchEngine();
     }
 
     public void setupListsFromDB() {
@@ -38,6 +40,7 @@ public class BusinessController {
         Category.setupCategoryListFromDB(categoryList);
         Product.setupProductListFromDB(productList);
         Bundle.setupBundleListFromDB(bundleList);
+        searchEngine.setupSearchEngine(productList, categoryList, distributorList, bundleList);
     }
 
     public Category createNewCategory(String categoryName, String categoryDescription, ArrayList<String> attributeIdStrings) throws IllegalArgumentException {
@@ -251,14 +254,10 @@ public class BusinessController {
     }
 
     public TreeSet<Product> searchProduct(String searchString) {
-        SearchEngine searchEngine = new SearchEngine();
-        TreeSet<Product> fullList = Product.getProductList();
-        searchEngine.setProductList(fullList);
         return searchEngine.simpleProductSearch(searchString);
     }
     
     public TreeSet<Object> advancedSearch(String searchString, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
-        SearchEngine searchEngine = new SearchEngine();
         HashMap<String, String> filterValues = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
         return searchEngine.advancedSearch(searchString, searchOnObject, filterValues);
     }

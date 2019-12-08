@@ -19,6 +19,9 @@ public class SelectCategoriesForProductCommand extends Command {
 
         String nextJsp = "editCategoriesForProduct";
         int productID = Integer.parseInt(request.getParameter("productID"));
+        
+        String pimObjectType = request.getParameter("PIMObjectType");
+        request.setAttribute("PIMObjectType", pimObjectType);
 
         Product product = businessController.getProductFromID(productID);
         TreeSet<Category> categoryList = businessController.getCategoryList();

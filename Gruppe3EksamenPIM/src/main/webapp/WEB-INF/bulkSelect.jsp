@@ -65,7 +65,7 @@
                     </thead>
 
                     <%
-                        TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("PIMObjectList");
+                        TreeSet<Product> productList = category.getCategoryProducts();
                         for (Product product : productList) {
                             int ProductID = product.getObjectID();
                             String ProductName = product.getObjectTitle();
@@ -83,11 +83,6 @@
                 <input type="hidden" name="command" value="bulkSelect" />
                 <input type="hidden" name="categoryID" value="<%=categoryID%>" />
                 <p align="center"><input type="submit" value="Select" /></p>
-            </form>
-            <form action="FrontController" method="POST">
-                <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="index" />
-                <p align="center"><input type="submit" value="Go Back" /></p>
             </form>
         </div>    
 

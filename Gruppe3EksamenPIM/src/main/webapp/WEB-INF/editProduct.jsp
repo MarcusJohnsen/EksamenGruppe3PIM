@@ -76,12 +76,10 @@
                     <%}%>
                 </table>
 
-                <%
-                    String error = (String) request.getAttribute("error");
-                    if (error != null) {
-                %>
-                <h2 align="center" style="color: red"><%=error%></h2>
-                <%}%>
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
                 <br>
                 <!--<p align="center">
                     Select Picture:

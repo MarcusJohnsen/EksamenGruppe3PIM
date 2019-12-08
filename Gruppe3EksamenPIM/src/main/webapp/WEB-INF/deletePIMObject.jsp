@@ -25,7 +25,7 @@
                 <h3><c:out value="${pimObjectType}"/> ID: <i><c:out value="${pimObject.getObjectID()}"/></i></h3><br>
                 <h3><c:out value="${pimObjectType}"/> Name: <i><c:out value="${pimObject.getObjectTitle()}"/></i></h3>
                 <form action="FrontController" method="POST">
-                    <input type="hidden" name="command" value="deleteDistributor" />
+                    <input type="hidden" name="command" value="deletePIMObject" />
                     <input type="hidden" name="PIMObjectID" value="<c:out value="${pimObject.getObjectID()}"/>" />
                     <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
                     <input type="submit" value="DELETE" style="background-color: red"/>

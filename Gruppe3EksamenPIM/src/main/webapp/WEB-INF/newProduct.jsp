@@ -123,23 +123,7 @@
                     <input type="submit" value="Save Product" />
                 </p>
             </form>
-            <form action="FrontController" method="POST">
-                <input type="hidden" name="command" value="goToJsp" />
-                <input type="hidden" name="goToJsp" value="index" />
-                <p align="center"><input type="submit" value="Go Back" /></p>
-            </form>
+
         </div>     
-        <!--<script>
-            function newField() {
-                var x = document.createElement("INPUT");
-                var br = document.createElement('br');
-                var br2 = document.createElement('br');
-                x.setAttribute("type", "text");
-                x.setAttribute("name", "Product Distributors");
-                document.getElementById("myDIV").appendChild(x);
-                document.getElementById("myDIV").appendChild(br);
-                document.getElementById("myDIV").appendChild(br2);
-            }
-        </script>-->
     </body>
 </html>

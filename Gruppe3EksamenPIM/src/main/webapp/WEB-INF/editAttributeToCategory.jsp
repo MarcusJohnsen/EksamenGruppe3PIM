@@ -55,6 +55,12 @@
                     </tr>
                     <%}%>
                 </table>
+
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
+
                 <br>
                 <input type="hidden" name="pimObjectID" value="<%=categoryID%>" />
                 <input type="hidden" name="command" value="editAttributesToCategory" />

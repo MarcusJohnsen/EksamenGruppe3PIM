@@ -49,11 +49,10 @@ public class SelectPIMObjectCommand extends Command {
                 nextJsp = "viewAllProductDetails";
                 break;
             case "Bulk Edit":
-                setPIMObjectListForBulkEdit(request, pimObjectChoice, businessController);
                 nextJsp = "bulkSelect";
                 break;
             default:
-                throw new IllegalArgumentException("Sub-command for Select PIM Object is not recognised");
+                throw new IllegalArgumentException("Sub-command for Select PIM Object: " + commandType + " is not recognised");
         }
         return nextJsp;
     }
@@ -78,7 +77,7 @@ public class SelectPIMObjectCommand extends Command {
                 nextJsp = "editProduct";
                 break;
             default:
-                throw new IllegalArgumentException("PIM object type is not recognised");
+                throw new IllegalArgumentException("PIM object type: " + pimObjectType + " is not recognised");
         }
         return nextJsp;
     }
@@ -102,7 +101,7 @@ public class SelectPIMObjectCommand extends Command {
                 pimObject = businessController.getProductFromID(pimObjectChoice);
                 break;
             default:
-                throw new IllegalArgumentException("PIM object type is not recognised");
+                throw new IllegalArgumentException("PIM object type: " + pimObjectType + " is not recognised");
         }
         request.setAttribute("pimObject", pimObject);
     }
@@ -126,14 +125,13 @@ public class SelectPIMObjectCommand extends Command {
                 pimObjectList = new TreeSet(businessController.getProductList());
                 break;
             default:
-                throw new IllegalArgumentException("PIM object type is not recognised");
+                throw new IllegalArgumentException("PIM object type: " + pimObjectType + " is not recognised");
         }
         request.setAttribute("PIMObjectList", pimObjectList);
     }
 
     private void setPIMObjectListForBulkEdit(HttpServletRequest request, int pimObjectChoice, BusinessController businessController) {
-        TreeSet<PIMObject> pimObjectList;
-        pimObjectList = new TreeSet(businessController.findProductsOnCategoryID(pimObjectChoice));
+        TreeSet<PIMObject> pimObjectList = new TreeSet(businessController.findProductsOnCategoryID(pimObjectChoice));
         request.setAttribute("PIMObjectList", pimObjectList);
     }
     

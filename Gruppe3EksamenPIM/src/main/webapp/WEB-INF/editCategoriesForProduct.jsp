@@ -60,6 +60,12 @@
                     <%}%>
                 </table>
                 <br>
+
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
+
                 <input type="hidden" name="pimObjectID" value="<%=productID%>" />
                 <input type="hidden" name="command" value="editCategoriesToProduct" />
                 <p align="center"><input type="submit" value="Submit Changes" /></p>

@@ -35,7 +35,7 @@
             </form>
             <form action="FrontController" id="searchProd">
                 <input type="hidden" name="command" value="searchSelection" />
-                <input type="hidden" name="BusinessObjectType" value="Product" />
+                <input type="hidden" name="PIMObjectType" value="Product"/>
                 <a href="#" onclick="document.getElementById('searchProd').submit()">Search Product</a>
             </form>
             <form action="FrontController" id="newProd">
@@ -56,7 +56,7 @@
             </form>
             <form action="FrontController" id="searchCat">
                 <input type="hidden" name="command" value="searchSelection" />
-                <input type="hidden" name="BusinessObjectType" value="Category" />
+                <input type="hidden" name="PIMObjectType" value="Category"/>
                 <a href="#" onclick="document.getElementById('searchCat').submit()">Search Category</a>
             </form>
             <form action="FrontController" id="newCat">
@@ -93,7 +93,7 @@
             </form>
             <form action="FrontController" id="searchDist">
                 <input type="hidden" name="command" value="searchSelection" />
-                <input type="hidden" name="BusinessObjectType" value="Distributor" />
+                <input type="hidden" name="PIMObjectType" value="Distributor"/>
                 <a href="#" onclick="document.getElementById('searchDist').submit()">Search Distributor</a>
             </form>
             <form action="FrontController" id="newDist">
@@ -114,7 +114,7 @@
             </form>
             <form action="FrontController" id="searchBundle">
                 <input type="hidden" name="command" value="searchSelection" />
-                <input type="hidden" name="BusinessObjectType" value="Bundle" />
+                <input type="hidden" name="PIMObjectType" value="Bundle"/>
                 <a href="#" onclick="document.getElementById('searchBundle').submit()">Search Bundle</a>
             </form>
             <form action="FrontController" id="newBundle">

@@ -20,6 +20,9 @@ public class SelectAttributesForCategoryCommand extends Command {
         String nextJsp = "editAttributeToCategory";
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         
+        String pimObjectType = request.getParameter("PIMObjectType");
+        request.setAttribute("PIMObjectType", pimObjectType);
+        
         Category category = businessController.getCategoryFromID(categoryID);
         TreeSet<Attribute> attributeList = businessController.getAttributeList();
         
