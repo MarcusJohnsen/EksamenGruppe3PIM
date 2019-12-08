@@ -26,10 +26,6 @@ public class PictureMapper {
 
     public String uploadProductPicture(List<Part> requestParts) {
 
-        int countLoop = 0;
-        int countInLoop = 0;
-        String fileDir = "";
-
         try {
             //Make a folder for the picture to be stored while working with upload, if it's not already made.
             File uploadFolder = new File(database.getWorkingDirectory() + File.separator + UPLOAD_DIRECTORY);
@@ -40,36 +36,24 @@ public class PictureMapper {
             String pictureURL = null;
 
             for (Part part : requestParts) {
-                countLoop++;
-                countInLoop = 0;
                 //Check each part to see if it is a part that could contain a file
                 if (part != null && part.getSize() > 0) {
-                    countInLoop++;
                     String fileName = part.getSubmittedFileName();
                     String fileContentType = part.getContentType();
 
-                    countInLoop++;
                     if (isFileTypeAllowed(fileContentType)) {
 
                         //Make a local file of the picture
                         String filePlacement = database.getWorkingDirectory() + File.separator + UPLOAD_DIRECTORY + File.separator + fileName;
-                        fileDir = filePlacement;
-                        countInLoop++;
                         part.write(filePlacement);
-                        countInLoop++;
                         File file = new File(filePlacement);
-                        countInLoop++;
 
                         //Upload the picture, and get the URL for the picture back
                         Cloudinary cloud = database.getCloudinaryConnection();
-                        countInLoop++;
                         Map uploadResult = cloud.uploader().upload(file, ObjectUtils.emptyMap());
-                        countInLoop++;
                         pictureURL = (String) uploadResult.get("url");
-                        countInLoop++;
 
                         file.delete();
-                        countInLoop++;
                         break;
                     }
                 }
@@ -80,9 +64,7 @@ public class PictureMapper {
         } catch (IOException ex) {
             String allowedFileContentTypes = constructAllowedFileContentTypesString();
             throw new IllegalArgumentException("Picturefile could not be copied into the system. "
-                    + "Please make sure the file is of any of the following types: "
-                    + allowedFileContentTypes + "   :   " + countLoop + "," + countInLoop + "   :   " + database.getWorkingDirectory()
-                    + "  :  " + fileDir + "  :  " + ex.getMessage());
+                    + "Please make sure the file is of any of the following types: " + allowedFileContentTypes);
         }
 
     }

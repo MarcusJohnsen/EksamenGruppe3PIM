@@ -38,14 +38,14 @@ public class StorageFacade {
 
     public StorageFacade(SystemMode systemMode) {
         this.sqlDatabase = new SQLDatabase(systemMode);
-        this.cloudinaryDatabase = new CloudinaryDatabase(systemMode);
+        this.cloudinaryDatabase = new CloudinaryDatabase();
+        this.jsonHandler = new JsonHandler();
         this.categoryMapper = new CategoryMapper(sqlDatabase);
         this.productMapper = new ProductMapper(sqlDatabase);
         this.attributeMapper = new AttributeMapper(sqlDatabase);
         this.distributorMapper = new DistributorMapper(sqlDatabase);
         this.bundleMapper = new BundleMapper(sqlDatabase);
         this.pictureMapper = new PictureMapper(cloudinaryDatabase);
-        this.jsonHandler = new JsonHandler();
     }
 
     public SQLDatabase getSqlDatabase() {
@@ -191,12 +191,12 @@ public class StorageFacade {
     public int bulkEditOnCategoryID(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
         return attributeMapper.bulkEditOnProductIDs(productIDs, newAttributeValues);
     }
-    
-    public String uploadPicture(List<Part> requestParts){
+
+    public String uploadPicture(List<Part> requestParts) {
         return pictureMapper.uploadProductPicture(requestParts);
     }
-    
-    public File getJsonFile(TreeSet<Product> productList){
+
+    public File getJsonFile(TreeSet<Product> productList) {
         return jsonHandler.createJsonFileFromProductList(productList);
     }
 }

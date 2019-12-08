@@ -3,6 +3,7 @@ package persistence.Json;
 import businessLogic.Product;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import factory.SystemMode;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -15,14 +16,18 @@ import java.util.logging.Logger;
 
 public class JsonHandler {
 
-    Gson gson;
-    File file;
-    String filePath;
+    private static final Gson gson = new GsonBuilder().setExclusionStrategies(new AnnotationExclusionStrategy()).create();
+    private static final String WORKING_DIRECTORY = System.getProperty("catalina.base");
+    private static final String FILE_FOLDER = File.separator + "json";
+    private String filePath;
 
     public JsonHandler() {
-        this.gson = new GsonBuilder().setExclusionStrategies(new AnnotationExclusionStrategy()).create();
-        this.file = new File("productOutput.json");
-        this.filePath = file.getAbsolutePath();
+
+        File uploadFolder = new File(WORKING_DIRECTORY + FILE_FOLDER);
+        if (!uploadFolder.exists()) {
+            uploadFolder.mkdir();
+        }
+        this.filePath = WORKING_DIRECTORY + FILE_FOLDER + File.separator;
     }
 
     public String makeProductJson(TreeSet<Product> productList) {
@@ -39,7 +44,7 @@ public class JsonHandler {
     public File createJsonFileFromProductList(TreeSet<Product> productList) {
 
         try {
-            file = new File("productOutput.json");
+            File file = new File(filePath + "productOutput.json");
             FileWriter fw;
             fw = new FileWriter(file, false);
             BufferedWriter bufWriter = new BufferedWriter(fw);
@@ -54,9 +59,4 @@ public class JsonHandler {
             throw new IllegalArgumentException("Could not produce the json file");
         }
     }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
 }

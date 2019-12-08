@@ -8,7 +8,6 @@ package persistence;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import factory.SystemMode;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -20,21 +19,11 @@ import java.util.Properties;
 public class CloudinaryDatabase {
 
     private static final String PROPERTIESFILEPATH = "/cloudinary.properties";
-//    private static final String DEVELOPMENT_WORKING_DIRECTORY = System.getProperty("user.dir");
-//    private static final String SERVER_WORKING_DIRECTORY = System.getProperty("user.dir");
-    private String workingDirectory;
+    private static final String workingDirectory = System.getProperty("catalina.base");
     private Cloudinary cloudinary;
-    private SystemMode systemMode;
 
-    public CloudinaryDatabase(SystemMode systemMode) {
-        this.systemMode = systemMode;
+    public CloudinaryDatabase() {
         createCloudinary(PROPERTIESFILEPATH);
-        File curDirectory = new File("");
-        if (systemMode == SystemMode.PRODUCTION) {
-            this.workingDirectory = curDirectory.getAbsolutePath();
-        } else if (systemMode == SystemMode.DEVELOPMENT) {
-            this.workingDirectory = curDirectory.getAbsolutePath();
-        }
     }
 
     public Cloudinary getCloudinaryConnection() {
@@ -63,5 +52,4 @@ public class CloudinaryDatabase {
     public String getWorkingDirectory() {
         return workingDirectory;
     }
-
 }
