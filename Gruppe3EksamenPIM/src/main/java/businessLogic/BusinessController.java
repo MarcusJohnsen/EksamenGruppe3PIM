@@ -256,13 +256,11 @@ public class BusinessController {
         searchEngine.setProductList(fullList);
         return searchEngine.simpleProductSearch(searchString);
     }
-
-    public TreeSet<Object> advancedSearch(String searchString) {
+    
+    public TreeSet<Object> advancedSearch(String searchString, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
         SearchEngine searchEngine = new SearchEngine();
-        TreeSet<Product> fullList = Product.getProductList();
-        searchEngine.setProductList(fullList);
-        HashMap<String, String> filterValues = new HashMap();
-        return searchEngine.advancedSearch(searchString, searchString, filterValues);
+        HashMap<String, String> filterValues = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
+        return searchEngine.advancedSearch(searchString, searchOnObject, filterValues);
     }
 
     public File getJsonFileAllProducts() {
