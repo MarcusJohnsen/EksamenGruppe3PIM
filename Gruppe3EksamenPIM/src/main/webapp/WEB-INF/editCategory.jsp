@@ -56,11 +56,6 @@
                     <input type="hidden" name="command" value="editCategory" />
                     <input type="submit" value="Update"/></p>
             </form>
-            <form action="DownloadJson" method="GET" target="_blank">
-                <input type="hidden" name="JsonType" value="categoryJson" />
-                <input type="hidden" name="PIMObjectID" value="<%=CategoryID%>" />
-                <p align="center"><input type="submit" style="width: 200px; height: 50px" name="btn_submit" value="Json for Category"></p>
-            </form>
         </div>    
     </body>
 </html>

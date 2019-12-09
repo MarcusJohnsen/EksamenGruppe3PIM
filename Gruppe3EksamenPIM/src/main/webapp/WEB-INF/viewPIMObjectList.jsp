@@ -20,43 +20,53 @@
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <div class="main">
             <h1 align="center"><c:out value="${pimObjectType}"/> list</h1>
-            <form action="FrontController">
-                <table align="center" border = "1" width = "75%" style="float: top" bgcolor="fffef2">
-                    <thead>
-                        <tr bgcolor = "#FF4B4B">
-                            <th align="center">ID</th>
-                            <th align="center">Title</th>
-                                <c:if test = "${pimObjectType != 'Attribute'}">
-                                <th align="center">Description</th>
-                                </c:if>
+
+            <table align="center" border = "1" width = "75%" style="float: top" bgcolor="fffef2">
+                <thead>
+                    <tr bgcolor = "#FF4B4B">
+                        <th align="center">ID</th>
+                        <th align="center">Title</th>
+                            <c:if test = "${pimObjectType != 'Attribute'}">
+                            <th align="center">Description</th>
+                            </c:if>
+                            <c:if test = "${pimObjectType == 'Product'}"><th></th></c:if>
+                        <c:if test = "${pimObjectType == 'Category'}"><th></th><th></th></c:if>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <c:forEach items='${requestScope["PIMObjectList"]}' var="pimobject">
-                            <tr>
-                                <td align="center" width="5%"> <c:out value="${pimobject.getObjectID()}"/> </td>
-                                <td align="center" width="20%"> <c:out value="${pimobject.getObjectTitle()}"/> </td>
-                                <c:if test = "${pimObjectType != 'Attribute'}">
-                                    <td align="center" width="30%"> <c:out value="${pimobject.getObjectDescription()}"/> </td>
-                                </c:if>
-                                <td align="center" width="1%"><input type="radio" name=PIMObjectChoice value="<c:out value="${pimobject.getObjectID()}"/>"></td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-                <input type="hidden" name="command" value="selectPIMObject" />
-                <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
-                <c:if test = "${pimObjectType == 'Product'}">
-                    <p align="center"><input type="submit" name="submitButton" value="Select"/></p>
-                    </c:if>
+                    <c:forEach items='${requestScope["PIMObjectList"]}' var="pimobject">
+                    <form action="FrontController">
+                        <input type="hidden" name="command" value="selectPIMObject" />
+                        <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
+                        <tr>
+                            <td align="center" width="5%"> <c:out value="${pimobject.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${pimobject.getObjectTitle()}"/> </td>
+                            <c:if test = "${pimObjectType != 'Attribute'}">
+                                <td align="center" width="30%"> <c:out value="${pimobject.getObjectDescription()}"/> </td>
+                            </c:if>
+                        <input type="hidden" name=PIMObjectChoice value="<c:out value="${pimobject.getObjectID()}"/>">
+                        <c:if test = "${pimObjectType == 'Product'}"><td align="center" width="1%"><input type="submit" name="submitButton" value="Select"/></td></c:if>
+                        <c:if test = "${pimObjectType == 'Category'}"><td align="center" width="1%"><input type="submit" name="submitButton" value="Bulk Edit"/></td></c:if>
+                            <td align="center" width="1%"><input type="submit" name="submitButton" value="Edit"/></td>
+                            <td align="center" width="1%"><input type="submit" name="submitButton" value="Delete"/></td>
+                        </form>
                     <c:if test = "${pimObjectType == 'Category'}">
-                    <p align="center"><input type="submit" name="submitButton" value="Bulk Edit"/></p>
+                        <td align="center" width="1%">
+                            <form action="DownloadJson" method="GET" target="_blank">
+                                <input type="hidden" name="JsonType" value="categoryJson" />
+                                <input type="hidden" name="PIMObjectID" value="<c:out value="${pimobject.getObjectID()}"/>" />
+                                <p align="center"><input type="submit" value="Json"></p>
+                            </form>
+                        </td>
                     </c:if>
-                <p align="center"><input type="submit" name="submitButton" value="Edit"/></p>
-                <p align="center"><input type="submit" name="submitButton" value="Delete"/></p>
-            </form>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+
             <c:set var="error" value='${requestScope["error"]}'/>
             <c:if test="${not empty error}">
                 <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
