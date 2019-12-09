@@ -13,7 +13,7 @@ table {
     background-color:#ededed;
     border-collapse: collapse;
 }
-tr:nth-child(odd){
+tr, td:nth-child(odd){
     background-color:#ffffff
 }
 th{

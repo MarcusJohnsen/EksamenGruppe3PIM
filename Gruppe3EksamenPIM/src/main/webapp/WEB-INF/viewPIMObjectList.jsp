@@ -35,13 +35,11 @@
                             <th></th>
                         </tr>
                     </thead>
-
-                    <tbody>
                     <c:forEach items='${requestScope["PIMObjectList"]}' var="pimobject">
                     <form action="FrontController">
                         <input type="hidden" name="command" value="selectPIMObject" />
                         <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
-                        <tr>
+                    <tr>
                             <td align="center" width="5%"> <c:out value="${pimobject.getObjectID()}"/> </td>
                             <td align="center" width="20%"> <c:out value="${pimobject.getObjectTitle()}"/> </td>
                             <c:if test = "${pimObjectType != 'Attribute'}">
@@ -64,7 +62,6 @@
                     </c:if>
                     </tr>
                 </c:forEach>
-                </tbody>
             </table>
 
             <c:set var="error" value='${requestScope["error"]}'/>
