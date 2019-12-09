@@ -32,16 +32,17 @@ public class DownloadJson extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         //Setup if needed
         FrontController.setup();
-        
+
         //Modify the response
         response.setContentType("application/octet-stream");
-        
-        //Get file
+
+        //TODO: Find out if it should be a full file or a category file, and get file
+//        String fileType = request.getParameter("fileType");
         File file = FrontController.getBusinessController().getJsonFileAllProducts();
-        
+
         //Send file to browser
         OutputStream out = response.getOutputStream();
         FileInputStream in = new FileInputStream(file);
