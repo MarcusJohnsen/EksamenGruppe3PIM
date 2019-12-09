@@ -112,6 +112,7 @@ ${frontController.setup()}
             <br>
             <br>
             <form action="DownloadJson" method="GET" target="_blank">
+                <input type="hidden" name="JsonType" value="fullJson" />
                 <p align="center"><input type="submit" style="width: 200px; height: 50px" name="btn_submit" value="Download Json for products"></p>
             </form>
         </div>

@@ -40,8 +40,19 @@ public class DownloadJson extends HttpServlet {
         response.setContentType("application/octet-stream");
 
         //TODO: Find out if it should be a full file or a category file, and get file
-//        String fileType = request.getParameter("fileType");
-        File file = FrontController.getBusinessController().getJsonFileAllProducts();
+        String fileType = request.getParameter("JsonType");
+        File file;
+        switch (fileType) {
+            case "fullJson":
+                file = FrontController.getBusinessController().getJsonFileAllProducts();
+                break;
+            case "categoryJson":
+                int categoryID = Integer.parseInt(request.getParameter("PIMObjectID"));
+                file = FrontController.getBusinessController().getJsonFileCategoryProducts(categoryID);
+                break;
+            default:
+                throw new IllegalArgumentException("FileType: " + fileType + "not recognised");
+        }
 
         //Send file to browser
         OutputStream out = response.getOutputStream();

@@ -266,5 +266,11 @@ public class BusinessController {
         TreeSet<Product> productList = Product.getProductList();
         return storageFacade.getJsonFile(productList);
     }
+    
+    public File getJsonFileCategoryProducts(int categoryID) {
+        Category category = Category.findCategoryOnID(categoryID);
+        TreeSet<Product> productList = category.getCategoryProducts();
+        return storageFacade.getJsonFile(productList);
+    }
 
 }
