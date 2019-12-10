@@ -122,29 +122,6 @@ public class CategoryMapperTest {
 
     }
 
-    public CategoryMapperTest() {
-    }
-
-    /**
-     * Test of addNewCategory method, of class CategoryMapper.
-     */
-    @Test
-    public void testAddNewCategory() {
-        //act
-        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
-
-        //assert
-        int expResultID = 4;
-        assertEquals(expResultID, result.getObjectID());
-        assertTrue(categoryName.equals(result.getObjectTitle()));
-        assertTrue(categoryDescription.equals(result.getObjectDescription()));
-        assertTrue(attributeList.equals(result.getCategoryAttributes()));
-    }
-
-    /**
-     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
-     * Name is unique, so Category Mapper should throw IllegalArgumentException if dublicate name is attempted to be uploaded to DB
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAddNewCategoryDublicateName() {
         //arrange
@@ -169,33 +146,6 @@ public class CategoryMapperTest {
         categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
-    /**
-     * Test of addNewCategory method, of class CategoryMapper.<br>
-     * Name field in DB is made to be not null, uniqie varchar(255).
-     */
-    @Test
-    public void testAddNewCategoryNameLengthAtLimit() {
-        //arrange
-        categoryName = "";
-        for (int i = 0; i < 255; i++) {
-            categoryName += "n";
-        }
-        //act
-        Category result = categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
-
-        //assert
-        int expResultID = 4;
-        assertEquals(expResultID, result.getObjectID());
-        assertTrue(categoryName.equals(result.getObjectTitle()));
-        assertTrue(categoryDescription.equals(result.getObjectDescription()));
-        assertTrue(attributeList.equals(result.getCategoryAttributes()));
-    }
-
-    /**
-     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
-     * Name field in DB is made to be not null, uniqie varchar(255).<br>
-     * Names exceeding the 255 varchar limit should cause an exception to be thrown
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAddNewCategoryNameLengthExceedLimit() {
         //arrange
@@ -208,11 +158,6 @@ public class CategoryMapperTest {
         categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
-    /**
-     * Negative Test of addNewCategory method, of class CategoryMapper.<br>
-     * Description field in DB is made to be not null, varchar(2550).<br>
-     * Descriptions with null value should throw an exception.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAddNewCategoryNullDesciption() {
         //arrange
@@ -222,23 +167,6 @@ public class CategoryMapperTest {
         categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
-    /**
-     * Test of getCategories method, of class CategoryMapper.
-     */
-    @Test
-    public void testGetCategories() {
-        //act
-        TreeSet<Category> result = categoryMapper.getCategories(attributeList);
-
-        //assert
-        assertEquals(numberOfCategoriesInDB, result.size());
-    }
-
-    /**
-     * Negative Test of getCategories method, of class CategoryMapper.<br>
-     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
-     * We will try to simulate this change by removing the Category_Attributes table before running the test.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeGetCategoriesNoCategoriesTableInDB() {
         //arrange
@@ -252,40 +180,6 @@ public class CategoryMapperTest {
 
     }
 
-    /**
-     * Test of deleteCategory method, of class CategoryMapper.
-     */
-    @Test
-    public void testDeleteCategory() {
-        //act
-        int result = categoryMapper.deleteCategory(categoryID);
-
-        //assert
-        int expResult = 6;
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Negative Test of deleteCategory method, of class CategoryMapper.<br>
-     * If given an ID that does not match an CategoryID in the DB, it will affect 0 rows, and should therefore return 0.
-     */
-    @Test
-    public void testNegativeDeleteCategoryNoMatchingID() {
-        categoryID = 0;
-
-        //act
-        int result = categoryMapper.deleteCategory(categoryID);
-
-        //assert
-        int expResult = 0;
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Negative Test of deleteCategory method, of class CategoryMapper.<br>
-     * The only way this method should be able to fail is if there is a structural change in the DB.<br>
-     * We will try to simulate this change by removing the Category_Attributes table before running the test.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeDeleteCategoryNoCategoriesTableInDB() {
         try {
@@ -295,41 +189,6 @@ public class CategoryMapperTest {
         }
         //act
         int result = categoryMapper.deleteCategory(categoryID);
-    }
-
-    @Test
-    public void testEditCategory() {
-        //arrange
-        TreeSet<Attribute> categoryAttributes = new TreeSet();
-        Category category = new Category(categoryID, categoryName, categoryDescription, categoryAttributes);
-
-        //act
-        int result = categoryMapper.editCategory(category);
-
-        //assert
-        int expresult = 1;
-        assertEquals(expresult, result);
-    }
-
-    @Test
-    public void testEditAttributesToCategory() {
-        //arrange
-        attributeList.add(new Attribute(4, "olk", new HashMap<Integer, String>()));
-        attributeList.add(new Attribute(3, "ejh", new HashMap<Integer, String>()));
-        Category category = new Category(categoryID, categoryName, categoryDescription, attributeList);
-
-        //act
-        categoryMapper.editAttributeToCategories(category);
-        TreeSet<Category> result = categoryMapper.getCategories(attributeList);
-
-        //assert
-        for (Category resultCategory : result) {
-            if (resultCategory.getObjectID() == categoryID) {
-                assertTrue(category.getCategoryAttributes().containsAll(resultCategory.getCategoryAttributes()));
-                assertTrue(resultCategory.getCategoryAttributes().containsAll(category.getCategoryAttributes()));
-                break;
-            }
-        }
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -343,9 +202,6 @@ public class CategoryMapperTest {
         categoryMapper.editAttributeToCategories(category);
     }
 
-    /**
-     * Trying to update a category with a null value and expecting a crash due to it.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void negativeTestEditCategory() {
         categoryDescription = null;

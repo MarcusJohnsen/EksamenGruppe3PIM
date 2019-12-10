@@ -124,6 +124,13 @@ public class AttributeTest {
         
     }
     
-    
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeBulkEditProducts(){
+        
+        ArrayList<Integer> productIDs = new ArrayList(); 
+        HashMap<Integer,String> newAttributeValues = new HashMap();
+        
+        Attribute.bulkEditProducts(productIDs, newAttributeValues);
+    }
     
 }

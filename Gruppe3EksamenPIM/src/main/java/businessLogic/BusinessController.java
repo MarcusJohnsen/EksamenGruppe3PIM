@@ -165,6 +165,10 @@ public class BusinessController {
     public TreeSet<Attribute> getAttributeList() {
         return Attribute.getAttributeList();
     }
+    
+    public Product findProductOnID(int productID){
+        return Product.findProductOnID(productID);
+    }
 
     public Attribute getAttributeFromID(int attributeID) {
         return Attribute.findAttributeOnID(attributeID);
@@ -235,12 +239,6 @@ public class BusinessController {
         return Product.findProductsOnCategoryID(categoryID);
     }
 
-    /**
-     * !! WORKING PROGRESS !!
-     *
-     * @author Michael
-     * @return
-     */
     public HashMap<String, Object> getSystemStatistics() {
         HashMap<String, Object> statistics = new HashMap();
         statistics.put("productCount", Product.getTotalProductCount());

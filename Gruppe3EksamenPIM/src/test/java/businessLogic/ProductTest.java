@@ -372,4 +372,66 @@ public class ProductTest {
 
     }
 
+    @Test
+    public void testSetPicturePath() {
+        Product product = new Product(0, "Title", "Description", "oldPicture", new TreeSet(), new TreeSet());
+        String newPicture = "newPicture";
+
+        product.setPicturePath(newPicture);
+
+        assertEquals(newPicture, product.getPicturePath());
+    }
+
+    @Test
+    public void testFindProductsOnIDs() {
+        Product product1 = new Product(1, "Title", "Description", "oldPicture", new TreeSet(), new TreeSet());
+        Product.addToProductList(product1);
+        Product product2 = new Product(2, "Title", "Description", "oldPicture", new TreeSet(), new TreeSet());
+        Product.addToProductList(product2);
+        Product product3 = new Product(3, "Title", "Description", "oldPicture", new TreeSet(), new TreeSet());
+        Product.addToProductList(product3);
+
+        int productIDn1 = 1;
+        int productIDn2 = 3;
+        int productIDNotInList = 8;
+        ArrayList<Integer> productIDs = new ArrayList(Arrays.asList(new Integer[]{productIDn1, productIDn2, productIDNotInList}));
+
+        TreeSet<Product> result = Product.findProductsOnIDs(productIDs);
+
+        int expectedResultSize = 2;
+        assertEquals(expectedResultSize, result.size());
+        assertTrue(result.contains(product1));
+        assertFalse(result.contains(product2));
+        assertTrue(result.contains(product3));
+    }
+
+    @Test
+    public void testFindProductsOnBundleID() {
+        int bundleID = 1;
+        
+        Product product1 = new Product(1, "Title", "Description", "oldPicture", null, null);
+        Product.addToProductList(product1);
+        Product product2 = new Product(2, "Title", "Description", "oldPicture", null, null);
+        Product.addToProductList(product2);
+        Product product3 = new Product(3, "Title", "Description", "oldPicture", null, null);
+        Product.addToProductList(product3);
+
+        HashMap<Product, Integer> bundleProducts = new HashMap();
+        bundleProducts.put(product2, 1);
+        bundleProducts.put(product3, 3);
+        HashMap<Product, Integer> otherBundleProducts = new HashMap();
+        otherBundleProducts.put(product1, 1);
+        
+        Bundle bundle1 = new Bundle(bundleID, "Title", "Description", bundleProducts);
+        Bundle bundle2 = new Bundle(bundleID+1, "Title", "Description", otherBundleProducts);
+
+        TreeSet<Product> result = Product.findProductsOnBundleID(bundleID);
+        int expectedResultSize = 2;
+        assertEquals(expectedResultSize, result.size());
+        assertFalse(result.contains(product1));
+        assertTrue(result.contains(product2));
+        assertTrue(result.contains(product3));
+
+    }
+
 }

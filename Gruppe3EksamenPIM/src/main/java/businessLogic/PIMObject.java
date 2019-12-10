@@ -32,14 +32,6 @@ public abstract class PIMObject implements Comparable<PIMObject>{
     public String getObjectDescription() {
         return objectDescription;
     }
-
-    public void setObjectTitle(String objectTitle) {
-        this.objectTitle = objectTitle;
-    }
-
-    public void setObjectDescription(String objectDescription) {
-        this.objectDescription = objectDescription;
-    }
     
     @Override
     public int compareTo(PIMObject otherBundle) {

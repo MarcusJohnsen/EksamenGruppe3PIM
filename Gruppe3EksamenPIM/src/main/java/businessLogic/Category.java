@@ -170,12 +170,6 @@ public class Category extends PIMObject {
         return categoryProducts;
     }
 
-    /**
-     * !! WORKING PROGRESS !!
-     *
-     * @author Michael
-     * @return
-     */
     public static List<Category> topTenCategories() {
         List<Category> categoryProductCounts = new ArrayList(categoryList);
 

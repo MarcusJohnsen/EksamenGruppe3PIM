@@ -83,9 +83,8 @@ public class SQLDatabase {
         try {
             if (conn.isClosed()) {
                 createConnection(PROPERTIESFILEPATH, DRIVER);
-            } else {
-                conn.setAutoCommit(autoCommitSetting);
             }
+            conn.setAutoCommit(autoCommitSetting);
 
         } catch (SQLException | NullPointerException ex) {
             Logger.getLogger(SQLDatabase.class.getName()).log(Level.SEVERE, null, ex);

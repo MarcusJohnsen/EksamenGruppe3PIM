@@ -1,8 +1,7 @@
 
 package businessLogic;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -103,10 +102,12 @@ public class DistributorTest {
     }
     
     @Test
-    public void testTopTenDistributors(){
+    public void testNegativeFindDistributorOnID(){
+        int distributorIDNotInUse = 1000;
         
+        Distributor distributor = Distributor.findDistributorOnID(distributorIDNotInUse);
         
-        
+        assertNull(distributor);
     }
     
     

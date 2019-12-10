@@ -31,13 +31,7 @@ public class JsonHandler {
     }
 
     public String makeProductJson(TreeSet<Product> productList) {
-        String result = "[\n";
-        List<Product> list = new ArrayList();
-        for (Product product : productList) {
-            result += gson.toJson(product) + "\n";
-        }
-        result += "]";
-
+        String result = gson.toJson(productList);
         return result;
     }
 

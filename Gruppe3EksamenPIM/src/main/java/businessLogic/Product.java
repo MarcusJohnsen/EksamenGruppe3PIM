@@ -247,9 +247,11 @@ public class Product extends PIMObject {
     public static TreeSet<Product> findProductsOnIDs(ArrayList<Integer> productIDs) {
         TreeSet<Product> result = new TreeSet();
         for (Integer productID : productIDs) {
-            result.add(findProductOnID(productID));
+            Product product = findProductOnID(productID);
+            if (product != null) {
+                result.add(product);
+            }
         }
-        result.removeAll(Arrays.asList(new Product[]{null}));
         return result;
     }
 
@@ -303,10 +305,6 @@ public class Product extends PIMObject {
     public void editProductCategories(TreeSet<Category> productCategories) {
         this.productCategories = productCategories;
         createAttributesFromCategories();
-    }
-
-    public void editProductDistributors(TreeSet<Distributor> productDistributors) {
-        this.productDistributors = productDistributors;
     }
 
     public String getPicturePath() {
