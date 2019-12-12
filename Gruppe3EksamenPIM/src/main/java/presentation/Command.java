@@ -1,5 +1,7 @@
 package presentation;
 
+import presentation.commands.editPIMObject.SelectCategoriesForProductCommand;
+import presentation.commands.editPIMObject.SelectAttributesForCategoryCommand;
 import presentation.commands.bulkEditPIMObject.BulkSelectCommand;
 import presentation.commands.bulkEditPIMObject.BulkEditCommand;
 import presentation.commands.editPIMObject.EditCategoriesToProductCommand;

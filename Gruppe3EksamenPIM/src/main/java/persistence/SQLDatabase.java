@@ -35,7 +35,7 @@ public class SQLDatabase {
         return conn;
     }
 
-    void createConnection(String propertiesFilePath, String driver) throws IllegalArgumentException {
+    protected void createConnection(String propertiesFilePath, String driver) {
         try {
             InputStream input = SQLDatabase.class.getResourceAsStream(propertiesFilePath);
             Properties pros = new Properties();

@@ -164,7 +164,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchProductNoFilters() {
         String searchString = "o";
-        String searchType = SearchEngine.getPRODUCT_TYPE();
+        String searchType = SearchEngine.getTYPE_PRODUCT();
         filterValues.putAll(SearchEngine.makeFilterMap("    ", " ", "", null));
 
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -179,7 +179,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchProductWithBundleFilters() {
         String searchString = "o";
-        String searchType = SearchEngine.getPRODUCT_TYPE();
+        String searchType = SearchEngine.getTYPE_PRODUCT();
         filterValues.putAll(SearchEngine.makeFilterMap("3", null, null, null));
 
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -194,7 +194,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchProductWithCategoryFilters() {
         String searchString = "o";
-        String searchType = SearchEngine.getPRODUCT_TYPE();
+        String searchType = SearchEngine.getTYPE_PRODUCT();
         filterValues.putAll(SearchEngine.makeFilterMap(null, "1", null, null));
 
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -209,7 +209,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchProductWithDistributorFilters() {
         String searchString = "o";
-        String searchType = SearchEngine.getPRODUCT_TYPE();
+        String searchType = SearchEngine.getTYPE_PRODUCT();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, "2", null));
 
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -224,7 +224,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchDistributorNoFilters() {
         String searchString = "d";
-        String searchType = SearchEngine.getDISTRIBUTOR_TYPE();
+        String searchType = SearchEngine.getTYPE_DISTRIBUTOR();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
         
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -237,7 +237,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchDistributorWithProductFilter() {
         String searchString = "d";
-        String searchType = SearchEngine.getDISTRIBUTOR_TYPE();
+        String searchType = SearchEngine.getTYPE_DISTRIBUTOR();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "IrOnMaN"));
         
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -250,7 +250,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchCategoryNoFilters() {
         String searchString = "H";
-        String searchType = SearchEngine.getCATEGORY_TYPE();
+        String searchType = SearchEngine.getTYPE_CATEGORY();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
         
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -264,7 +264,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchCategoryWithProductFilter() {
         String searchString = "H";
-        String searchType = SearchEngine.getCATEGORY_TYPE();
+        String searchType = SearchEngine.getTYPE_CATEGORY();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "o"));
         
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -278,7 +278,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchBundleNoFilters() {
         String searchString = "M";
-        String searchType = SearchEngine.getBUNDLE_TYPE();
+        String searchType = SearchEngine.getTYPE_BUNDLE();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
         
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -292,7 +292,7 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchBundleWithProductFilter() {
         String searchString = "M";
-        String searchType = SearchEngine.getBUNDLE_TYPE();
+        String searchType = SearchEngine.getTYPE_BUNDLE();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "JOkER"));
         
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -306,7 +306,7 @@ public class SearchEngineTest {
     @Test(expected=IllegalArgumentException.class)
     public void testNegativeAdvancedSearchWrongType(){
         String searchString = "";
-        String searchType = SearchEngine.getBUNDLE_TYPE() + "e";
+        String searchType = SearchEngine.getTYPE_BUNDLE() + "e";
         filterValues.putAll(SearchEngine.makeFilterMap(null, "   ", "hello", ""));
         
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
@@ -321,10 +321,10 @@ public class SearchEngineTest {
 
         HashMap<String, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
 
-        assertEquals(bundleFilter, result.get(SearchEngine.getBUNDLE_FILTER_KEY()));
-        assertEquals(categoryFilter, result.get(SearchEngine.getCATEGORY_FILTER_KEY()));
-        assertEquals(distributorFilter, result.get(SearchEngine.getDISTRIBUTOR_FILTER_KEY()));
-        assertEquals(productFilter, result.get(SearchEngine.getPRODUCT_FILTER_KEY()));
+        assertEquals(bundleFilter, result.get(SearchEngine.getFILTER_KEY_BUNDLE()));
+        assertEquals(categoryFilter, result.get(SearchEngine.getFILTER_KEY_CATEGORY()));
+        assertEquals(distributorFilter, result.get(SearchEngine.getFILTER_KEY_DISTRIBUTOR()));
+        assertEquals(productFilter, result.get(SearchEngine.getFILTER_KEY_PRODUCT()));
     }
 
     @Test
@@ -336,10 +336,10 @@ public class SearchEngineTest {
 
         HashMap<String, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
 
-        assertEquals(bundleFilter, result.get(SearchEngine.getBUNDLE_FILTER_KEY()));
-        assertEquals(categoryFilter, result.get(SearchEngine.getCATEGORY_FILTER_KEY()));
-        assertEquals(distributorFilter, result.get(SearchEngine.getDISTRIBUTOR_FILTER_KEY()));
-        assertEquals(productFilter, result.get(SearchEngine.getPRODUCT_FILTER_KEY()));
+        assertEquals(bundleFilter, result.get(SearchEngine.getFILTER_KEY_BUNDLE()));
+        assertEquals(categoryFilter, result.get(SearchEngine.getFILTER_KEY_CATEGORY()));
+        assertEquals(distributorFilter, result.get(SearchEngine.getFILTER_KEY_DISTRIBUTOR()));
+        assertEquals(productFilter, result.get(SearchEngine.getFILTER_KEY_PRODUCT()));
     }
     
 }

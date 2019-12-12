@@ -69,7 +69,8 @@ public class BusinessController {
         storageFacade.editCategory(category);
     }
 
-    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings, ArrayList<String> productCategoryIDStrings, List<Part> parts) {
+    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings, 
+            ArrayList<String> productCategoryIDStrings, List<Part> parts) {
         validateProductInput(productName, productDescription);
         TreeSet<Category> productCategories = Category.getMatchingCategoriesOnIDs(productCategoryIDStrings);
         TreeSet<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDStrings);
@@ -88,7 +89,8 @@ public class BusinessController {
         return Product.deleteProductOnID(productID);
     }
 
-    public void editProduct(int productID, String productName, String productDescription, ArrayList<String> productDistributorIDs, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
+    public void editProduct(int productID, String productName, String productDescription, 
+            ArrayList<String> productDistributorIDs, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
         validateProductInput(productName, productDescription);
         TreeSet<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDs);
         Product product = findProductOnID(productID);
@@ -164,10 +166,6 @@ public class BusinessController {
 
     public TreeSet<Attribute> getAttributeList() {
         return Attribute.getAttributeList();
-    }
-    
-    public Product findProductOnID(int productID){
-        return Product.findProductOnID(productID);
     }
 
     public Attribute getAttributeFromID(int attributeID) {
@@ -256,8 +254,7 @@ public class BusinessController {
     }
     
     public TreeSet<Object> advancedSearch(String searchString, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
-        HashMap<String, String> filterValues = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
-        return searchEngine.advancedSearch(searchString, searchOnObject, filterValues);
+        return searchEngine.advancedSearch(searchString, searchOnObject, SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter));
     }
 
     public File getJsonFileAllProducts() {

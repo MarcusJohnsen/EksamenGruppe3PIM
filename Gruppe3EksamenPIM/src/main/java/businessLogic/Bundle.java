@@ -92,16 +92,6 @@ public class Bundle extends PIMObject {
         return true;
     }
 
-    public static TreeSet<Bundle> getMatchingBundlesOnIDs(ArrayList<String> bundleChoices) {
-        TreeSet<Bundle> result = new TreeSet();
-        for (Bundle bundle : bundleList) {
-            if (bundleChoices.contains(Integer.toString(bundle.objectID))) {
-                result.add(bundle);
-            }
-        }
-        return result;
-    }
-
     public static List<Bundle> topTenBundles() {
         List<Bundle> bundleProductCounts = new ArrayList(bundleList);
 
@@ -127,14 +117,6 @@ public class Bundle extends PIMObject {
 
         List<Bundle> result = bundleProductCounts.subList(0, subListEnd);
         return result;
-    }
-
-    public void addProductToBundle(Product product, int amount) {
-        this.bundleProducts.put(product, amount);
-    }
-
-    public void setBundleProducts(HashMap<Product, Integer> bundleProducts) {
-        this.bundleProducts = bundleProducts;
     }
 
     public static TreeSet<Bundle> getBundleList() {

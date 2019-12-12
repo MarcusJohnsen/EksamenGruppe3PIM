@@ -50,7 +50,7 @@ public class Product extends PIMObject {
         addProductRelationToCategoriesAndDistributors();
     }
 
-    public void addProductRelationToCategoriesAndDistributors() {
+    private void addProductRelationToCategoriesAndDistributors() {
 
         for (Distributor distributor : productDistributors) {
             distributor.addProductToDistributor(this);

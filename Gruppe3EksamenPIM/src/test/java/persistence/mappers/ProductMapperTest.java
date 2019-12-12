@@ -30,7 +30,6 @@ public class ProductMapperTest {
     private static Connection testConnection;
 
     //setting up common variables so I won't have to write them for every single test
-    private final int numberOfProductsInDB = 3;
     private final int productID = 1;
     private String productName = "Cykel";
     private String productDescription = "This is a new product";

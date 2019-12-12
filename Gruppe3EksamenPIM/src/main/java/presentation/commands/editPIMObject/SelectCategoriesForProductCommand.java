@@ -1,4 +1,4 @@
-package presentation.commands;
+package presentation.commands.editPIMObject;
 
 import businessLogic.BusinessController;
 import businessLogic.Category;

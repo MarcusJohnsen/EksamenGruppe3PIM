@@ -116,7 +116,7 @@ ${frontController.setup()}
                 <p align="center"><input type="submit" style="width: 200px; height: 50px" name="btn_submit" value="Download Json for products"></p>
             </form>
         </div>
-    </body>
+    </body> 
     <script>
         new Chart(document.getElementById("category-chart"), {
         type: 'bar',

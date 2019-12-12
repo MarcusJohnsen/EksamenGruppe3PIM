@@ -129,11 +129,6 @@ public class SelectPIMObjectCommand extends Command {
         }
         request.setAttribute("PIMObjectList", pimObjectList);
     }
-
-    private void setPIMObjectListForBulkEdit(HttpServletRequest request, int pimObjectChoice, BusinessController businessController) {
-        TreeSet<PIMObject> pimObjectList = new TreeSet(businessController.findProductsOnCategoryID(pimObjectChoice));
-        request.setAttribute("PIMObjectList", pimObjectList);
-    }
     
     private void setPIMObjectListForBundleEdit(HttpServletRequest request, BusinessController businessController){
         TreeSet<PIMObject> pimObjectList;

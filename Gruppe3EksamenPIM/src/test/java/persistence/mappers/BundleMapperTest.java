@@ -1,31 +1,33 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package persistence.mappers;
 
-import businessLogic.Distributor;
+import businessLogic.Bundle;
+import businessLogic.Product;
 import factory.SystemMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeSet;
+import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import persistence.SQLDatabase;
 
 /**
  *
- * @author Marcus
+ * @author Michael N. Korsgaard
  */
-public class DistributorMapperTest {
+public class BundleMapperTest {
 
     private final static SQLDatabase database = new SQLDatabase(SystemMode.TEST);
-    private final DistributorMapper distributorMapper = new DistributorMapper(database);
+    private final BundleMapper bundleMapper = new BundleMapper(database);
     private static Connection testConnection;
-
-    //setting up common variables so I won't have to write them for every single test
-    private String distributorName = "Arla";
-    private String distributorDescription = "First new description";
 
     @BeforeClass
     public static void oneTimeSetup() {
@@ -89,16 +91,16 @@ public class DistributorMapperTest {
             testConnection = database.getConnection();
             // reset test database
             try (Statement stmt = testConnection.createStatement()) {
-                stmt.addBatch("drop table if exists Product_Distributor");
-                stmt.addBatch("drop table if exists Distributor");
+                stmt.addBatch("drop table if exists Product_Bundles");
+                stmt.addBatch("drop table if exists Bundles");
 
-                stmt.addBatch("create table Distributor like Distributor_Test");
-                stmt.addBatch("insert into Distributor select * from Distributor_Test");
+                stmt.addBatch("create table Bundles like Bundles_Test");
+                stmt.addBatch("insert into Bundles select * from Bundles_Test");
 
-                stmt.addBatch("create table Product_Distributor like Product_Distributor_Test");
-                stmt.addBatch("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
-                stmt.addBatch("ALTER TABLE Product_Distributor ADD FOREIGN KEY(Distributor_ID) REFERENCES Distributor(Distributor_ID)");
-                stmt.addBatch("insert into Product_Distributor select * from Product_Distributor_Test");
+                stmt.addBatch("create table Product_Bundles like Product_Bundles_Test");
+                stmt.addBatch("ALTER TABLE Product_Bundles ADD FOREIGN KEY(Bundle_ID) REFERENCES Bundles(Bundle_ID)");
+                stmt.addBatch("ALTER TABLE Product_Bundles ADD FOREIGN KEY(Product_ID) REFERENCES Product(Product_ID)");
+                stmt.addBatch("insert into Product_Bundles select * from Product_Bundles_Test");
                 stmt.executeBatch();
                 stmt.close();
             }
@@ -116,51 +118,58 @@ public class DistributorMapperTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void negativeTestGetDistributors() {
-        try {
-            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
-            database.getConnection().createStatement().execute("drop table if exists Distributor");
-        } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Distributor");
-        }
-        distributorMapper.getDistributors();
+    public void testNegativeAddNewBundle() {
+        String bundleTitle = "Bundle title 1";
+        String bundleDescription = "This is a description";
+        HashMap<Product, Integer> productListForBundle = new HashMap();
+
+        //Placing a product in the productListForBundle that has an ID not matching anything in the database
+        Product product = new Product(500, "title", "description", "picturePath", new TreeSet(), new TreeSet());
+        int productAmount = 5;
+        productListForBundle.put(product, productAmount);
+
+        bundleMapper.addNewBundle(bundleTitle, bundleDescription, productListForBundle);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testNegativeEditDistributor() {
+    public void testNegativeGetBundle() {
         try {
-            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
-            database.getConnection().createStatement().execute("drop table if exists Distributor");
+            database.getConnection().createStatement().execute("drop table if exists Product_Bundles");
+            database.getConnection().createStatement().execute("drop table if exists Bundles");
         } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Distributor");
+            fail("Could not make the structural change to the DB-table Bundles");
         }
 
-        Distributor distributor = new Distributor(1, "Distributor Name, NEW FOR TEST", "Distributor description, NEW FOR TEST");
-        distributorMapper.editDistributor(distributor);
+        //
+        TreeSet<Product> productList = new TreeSet();
+        bundleMapper.getBundle(productList);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testNegativeAddNewDistributor() {
+    public void testNegativeDeleteBundle() {
         try {
-            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
-            database.getConnection().createStatement().execute("drop table if exists Distributor");
+            database.getConnection().createStatement().execute("drop table if exists Product_Bundles");
+            database.getConnection().createStatement().execute("drop table if exists Bundles");
         } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Distributor");
+            fail("Could not make the structural change to the DB-table Bundles");
         }
+        int bundleID = 1;
 
-        distributorMapper.addNewDistributor(distributorName, distributorDescription);
+        bundleMapper.deleteBundle(bundleID);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testNegativeDeleteDistributor() {
+    public void testNegativeEditBundle() {
         try {
-            database.getConnection().createStatement().execute("drop table if exists Product_Distributor");
-            database.getConnection().createStatement().execute("drop table if exists Distributor");
+            database.getConnection().createStatement().execute("drop table if exists Product_Bundles");
+            database.getConnection().createStatement().execute("drop table if exists Bundles");
         } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Distributor");
+            fail("Could not make the structural change to the DB-table Bundles");
         }
 
-        int distributorID = 1;
-        distributorMapper.deleteDistributor(distributorID);
+        Bundle bundle = new Bundle(1, "Title", "Description", null);
+
+        bundleMapper.editBundle(bundle);
     }
+
 }

@@ -60,7 +60,7 @@ public class EditBundleCommand extends Command {
             request.setAttribute("error", ex.getMessage());
 
             TreeSet<Product> productList = businessController.getProductList();
-            request.setAttribute("productList", productList);
+            request.setAttribute("PIMObjectList", productList);
 
             Bundle bundle = businessController.getBundleFromID(bundleID);
             request.setAttribute("pimObject", bundle);

@@ -422,7 +422,7 @@ public class BusinessControllerTest {
         int categoryAmount = 2;
         int categoryIDn1 = 1;
         int categoryIDn2 = 3;
-        Product product = businessController.findProductOnID(productID);
+        Product product = businessController.getProductFromID(productID);
         ArrayList<String> categoryChoices = new ArrayList(Arrays.asList(new String[]{Integer.toString(categoryIDn1), Integer.toString(categoryIDn2)}));
 
         //act
@@ -503,8 +503,8 @@ public class BusinessControllerTest {
 
         //assert
         int expectedBundleID = databaseBundleAmount + 1;
-        Product product1 = businessController.findProductOnID(productIDn1);
-        Product product2 = businessController.findProductOnID(productIDn2);
+        Product product1 = businessController.getProductFromID(productIDn1);
+        Product product2 = businessController.getProductFromID(productIDn2);
         Set<Product> expectedProductSet = new TreeSet(Arrays.asList(new Product[]{product1, product2}));
         assertEquals(expectedBundleID, localBundleResult.getObjectID());
         assertEquals(expectedBundleID, databaseBundleResult.getObjectID());
@@ -573,8 +573,8 @@ public class BusinessControllerTest {
         }
 
         //assert
-        Product product1 = businessController.findProductOnID(productIDn1);
-        Product product2 = businessController.findProductOnID(productIDn2);
+        Product product1 = businessController.getProductFromID(productIDn1);
+        Product product2 = businessController.getProductFromID(productIDn2);
         Set<Product> expectedProductSet = new TreeSet(Arrays.asList(new Product[]{product1, product2}));
         assertEquals(bundleTitle, localBundleResult.getObjectTitle());
         assertEquals(bundleTitle, databaseBundleResult.getObjectTitle());
@@ -652,7 +652,7 @@ public class BusinessControllerTest {
     public void testAdvancedSearch() {
         //arrange
         String searchString = "a";
-        String searchOnObject = SearchEngine.getPRODUCT_TYPE();
+        String searchOnObject = SearchEngine.getTYPE_PRODUCT();
         String bundleFilter = null;
         String categoryFilter = "";
         String distributorFilter = null;

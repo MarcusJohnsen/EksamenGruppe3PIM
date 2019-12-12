@@ -9,14 +9,14 @@ import java.util.TreeSet;
  */
 public class SearchEngine {
 
-    private static final String BUNDLE_FILTER_KEY = "bundleFilter";
-    private static final String CATEGORY_FILTER_KEY = "categoryFilter";
-    private static final String DISTRIBUTOR_FILTER_KEY = "distributorFilter";
-    private static final String PRODUCT_FILTER_KEY = "productFilter";
-    private static final String BUNDLE_TYPE = "Bundle";
-    private static final String CATEGORY_TYPE = "Category";
-    private static final String DISTRIBUTOR_TYPE = "Distributor";
-    private static final String PRODUCT_TYPE = "Product";
+    private static final String FILTER_KEY_BUNDLE = "bundleFilter";
+    private static final String FILTER_KEY_CATEGORY = "categoryFilter";
+    private static final String FILTER_KEY_DISTRIBUTOR = "distributorFilter";
+    private static final String FILTER_KEY_PRODUCT = "productFilter";
+    private static final String TYPE_BUNDLE = "Bundle";
+    private static final String TYPE_CATEGORY = "Category";
+    private static final String TYPE_DISTRIBUTOR = "Distributor";
+    private static final String TYPE_PRODUCT = "Product";
 
     private TreeSet<Product> productList;
     private TreeSet<Category> categoryList;
@@ -112,16 +112,16 @@ public class SearchEngine {
         TreeSet<Object> result = new TreeSet();
 
         switch (searchOnObject) {
-            case PRODUCT_TYPE:
+            case TYPE_PRODUCT:
                 result = advancedProductSearch(searchKey, filterValues);
                 break;
-            case CATEGORY_TYPE:
+            case TYPE_CATEGORY:
                 result = advancedCategorySearch(searchKey, filterValues);
                 break;
-            case DISTRIBUTOR_TYPE:
+            case TYPE_DISTRIBUTOR:
                 result = advancedDistributorSearch(searchKey, filterValues);
                 break;
-            case BUNDLE_TYPE:
+            case TYPE_BUNDLE:
                 result = advancedBundleSearch(searchKey, filterValues);
                 break;
             default:
@@ -132,9 +132,9 @@ public class SearchEngine {
     }
 
     private TreeSet<Object> advancedProductSearch(String searchKey, HashMap<String, String> filterValues) {
-        String categoryFilter = checkedFilter(filterValues, CATEGORY_FILTER_KEY);
-        String distributorFilter = checkedFilter(filterValues, DISTRIBUTOR_FILTER_KEY);
-        String bundleFilter = checkedFilter(filterValues, BUNDLE_FILTER_KEY);
+        String categoryFilter = checkedFilter(filterValues, FILTER_KEY_CATEGORY);
+        String distributorFilter = checkedFilter(filterValues, FILTER_KEY_DISTRIBUTOR);
+        String bundleFilter = checkedFilter(filterValues, FILTER_KEY_BUNDLE);
 
         // Find all categories matching searchKey
         boolean singleResultFromList = false;
@@ -170,7 +170,7 @@ public class SearchEngine {
     }
 
     private TreeSet<Object> advancedCategorySearch(String searchKey, HashMap<String, String> filterValues) {
-        String productFilter = checkedFilter(filterValues, PRODUCT_FILTER_KEY);
+        String productFilter = checkedFilter(filterValues, FILTER_KEY_PRODUCT);
 
         // Find all categories matching searchKey
         boolean singleResultFromList = false;
@@ -192,7 +192,7 @@ public class SearchEngine {
     }
 
     private TreeSet<Object> advancedDistributorSearch(String searchKey, HashMap<String, String> filterValues) {
-        String productFilter = checkedFilter(filterValues, PRODUCT_FILTER_KEY);
+        String productFilter = checkedFilter(filterValues, FILTER_KEY_PRODUCT);
 
         // Find all distributors matching searchKey
         boolean singleResultFromList = false;
@@ -214,7 +214,7 @@ public class SearchEngine {
     }
 
     private TreeSet<Object> advancedBundleSearch(String searchKey, HashMap<String, String> filterValues) {
-        String productFilter = checkedFilter(filterValues, PRODUCT_FILTER_KEY);
+        String productFilter = checkedFilter(filterValues, FILTER_KEY_PRODUCT);
 
         // Find all distributors matching searchKey
         boolean singleResultFromList = false;
@@ -248,18 +248,18 @@ public class SearchEngine {
     /**
      * Makes a map with filter values for 4 strings in order: <br>
      * bundle, category, distributor & product.
-     * @param bundleFilter stored in Map under static variable BUNDLE_FILTER_KEY
-     * @param categoryFilter stored in Map under static variable CATEGORY_FILTER_KEY
-     * @param distributorFilter stored in Map under static variable DISTRIBUTOR_FILTER_KEY
-     * @param productFilter stored in Map under static variable PRODUCT_FILTER_KEY
+     * @param bundleFilter stored in Map under static variable FILTER_KEY_BUNDLE
+     * @param categoryFilter stored in Map under static variable FILTER_KEY_CATEGORY
+     * @param distributorFilter stored in Map under static variable FILTER_KEY_DISTRIBUTOR
+     * @param productFilter stored in Map under static variable FILTER_KEY_PRODUCT
      * @return HashMap with String keys and values, usable for the searchEngine filters
      */
     public static HashMap<String, String> makeFilterMap(String bundleFilter, String categoryFilter, String distributorFilter, String productFilter){
         HashMap<String, String> filterMap = new HashMap();
-        filterMap.put(BUNDLE_FILTER_KEY, bundleFilter);
-        filterMap.put(CATEGORY_FILTER_KEY, categoryFilter);
-        filterMap.put(DISTRIBUTOR_FILTER_KEY, distributorFilter);
-        filterMap.put(PRODUCT_FILTER_KEY, productFilter);
+        filterMap.put(FILTER_KEY_BUNDLE, bundleFilter);
+        filterMap.put(FILTER_KEY_CATEGORY, categoryFilter);
+        filterMap.put(FILTER_KEY_DISTRIBUTOR, distributorFilter);
+        filterMap.put(FILTER_KEY_PRODUCT, productFilter);
         return filterMap;
     }
 
@@ -279,36 +279,36 @@ public class SearchEngine {
         this.bundleList = bundleList;
     }
 
-    public static String getBUNDLE_FILTER_KEY() {
-        return BUNDLE_FILTER_KEY;
+    public static String getFILTER_KEY_BUNDLE() {
+        return FILTER_KEY_BUNDLE;
     }
 
-    public static String getCATEGORY_FILTER_KEY() {
-        return CATEGORY_FILTER_KEY;
+    public static String getFILTER_KEY_CATEGORY() {
+        return FILTER_KEY_CATEGORY;
     }
 
-    public static String getDISTRIBUTOR_FILTER_KEY() {
-        return DISTRIBUTOR_FILTER_KEY;
+    public static String getFILTER_KEY_DISTRIBUTOR() {
+        return FILTER_KEY_DISTRIBUTOR;
     }
 
-    public static String getPRODUCT_FILTER_KEY() {
-        return PRODUCT_FILTER_KEY;
+    public static String getFILTER_KEY_PRODUCT() {
+        return FILTER_KEY_PRODUCT;
     }
 
-    public static String getBUNDLE_TYPE() {
-        return BUNDLE_TYPE;
+    public static String getTYPE_BUNDLE() {
+        return TYPE_BUNDLE;
     }
 
-    public static String getCATEGORY_TYPE() {
-        return CATEGORY_TYPE;
+    public static String getTYPE_CATEGORY() {
+        return TYPE_CATEGORY;
     }
 
-    public static String getDISTRIBUTOR_TYPE() {
-        return DISTRIBUTOR_TYPE;
+    public static String getTYPE_DISTRIBUTOR() {
+        return TYPE_DISTRIBUTOR;
     }
 
-    public static String getPRODUCT_TYPE() {
-        return PRODUCT_TYPE;
+    public static String getTYPE_PRODUCT() {
+        return TYPE_PRODUCT;
     }
 
 }

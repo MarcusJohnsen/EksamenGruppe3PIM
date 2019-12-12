@@ -7,7 +7,6 @@ package persistence;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import factory.SystemMode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;

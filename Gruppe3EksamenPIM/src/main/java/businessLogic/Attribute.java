@@ -80,7 +80,7 @@ public class Attribute extends PIMObject{
         return attributeList.add(attribute);
     }
 
-    void editAttribute(String attributeTitle) {
+    public void editAttribute(String attributeTitle) {
         this.objectTitle = attributeTitle;
     }
 
@@ -113,10 +113,6 @@ public class Attribute extends PIMObject{
         return result;
     }
 
-    /**
-     *
-     * @return The attributeList
-     */
     public static TreeSet<Attribute> getAttributeList() {
         return attributeList;
     }
@@ -137,11 +133,6 @@ public class Attribute extends PIMObject{
         this.attributeValues.remove(productID);
     }
 
-    /**
-     *
-     * @param productID
-     * @return the corresponding value of (HashMap) productID-key.
-     */
     public String getAttributeValueForID(int productID) {
         return attributeValues.get(productID);
     }
