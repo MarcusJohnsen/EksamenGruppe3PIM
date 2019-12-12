@@ -33,6 +33,7 @@
                             <th align="center">Category ID</th>
                             <th align="center">Category Name</th>
                             <th align="center">Category Description</th>
+                            <th></th>
                         </tr>
                     </thead>
 
