@@ -1,6 +1,5 @@
 package persistence.mappers;
 
-import businessLogic.Attribute;
 import businessLogic.Category;
 import businessLogic.Distributor;
 import businessLogic.Product;
@@ -8,11 +7,8 @@ import factory.SystemMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -141,16 +137,11 @@ public class ProductMapperTest {
                 stmt.addBatch("ALTER TABLE Product_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
                 stmt.addBatch("insert into Product_Attributes select * from Product_Attributes_Test");
 
-                stmt.addBatch("create table Category_Attributes like Category_Attributes_Test");
-                stmt.addBatch("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Category_ID) REFERENCES Categories(Category_ID)");
-                stmt.addBatch("ALTER TABLE Category_Attributes ADD FOREIGN KEY(Attribute_ID) REFERENCES Attributes(Attribute_ID)");
-                stmt.addBatch("insert into Category_Attributes select * from Category_Attributes_Test");
                 stmt.executeBatch();
                 stmt.close();
             }
             categoryList.clear();
         } catch (SQLException ex) {
-
             testConnection = null;
             System.out.println("Could not open connection to database: " + ex.getMessage());
         }
@@ -217,7 +208,6 @@ public class ProductMapperTest {
 
         //act
         int result = productMapper.updatePicturePath(productID, picturePath);
-
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -235,13 +225,8 @@ public class ProductMapperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeEditProduct() {
         //arrange
-        Product product = new Product(productID, productName, productDescription, productPicturePath, productDistributors, categoryList);
-
-        try {
-            database.getConnection().createStatement().execute("alter table Product drop Product_Name");
-        } catch (SQLException ex) {
-            fail("Could not make the structural change to the DB-table Product");
-        }
+        //by inserting an illegal value as productID we make the product creation fail.
+        Product product = new Product(0, productName, productDescription, productPicturePath, productDistributors, categoryList);
 
         //act
         productMapper.editProduct(product);
@@ -256,9 +241,8 @@ public class ProductMapperTest {
             database.getConnection().createStatement().execute("drop table if exists Product_Categories");
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Product");
-        }
+        } 
 
         productMapper.editProductCategories(product);
-
     }
 }

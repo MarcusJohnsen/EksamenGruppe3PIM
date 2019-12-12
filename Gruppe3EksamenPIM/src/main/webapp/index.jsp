@@ -121,7 +121,7 @@ ${frontController.setup()}
         new Chart(document.getElementById("category-chart"), {
         type: 'bar',
                 data: {
-                labels: [<c:forEach items='${topTenCategories}' var="topTenCategory">"<c:out value="${topTenCategory.getObjectTitle()}"/>",</c:forEach>],
+                labels: [<c:forEach items='${topTenCategories}' var="topTenCategory">"Top <c:out value="${topTenCategories.indexOf(topTenCategory)+1}"/>",</c:forEach>],
                         datasets: [
                         {
                         label: "Amount of products in category",
@@ -147,7 +147,7 @@ ${frontController.setup()}
         new Chart(document.getElementById("distributor-chart"), {
         type: 'bar',
                 data: {
-                labels: [<c:forEach items='${topTenDistributors}' var="topTenDistributor">"<c:out value="${topTenDistributor.getObjectTitle()}"/>",</c:forEach>],
+                labels: [<c:forEach items='${topTenDistributors}' var="topTenDistributor">"Top <c:out value="${topTenDistributors.indexOf(topTenDistributor)+1}"/>",</c:forEach>],
                         datasets: [
                         {
                         label: "Amount of products in distributor",
@@ -173,7 +173,7 @@ ${frontController.setup()}
         new Chart(document.getElementById("bundle-chart"), {
         type: 'bar',
                 data: {
-                labels: [<c:forEach items='${topTenBundles}' var="topTenBundle">"<c:out value="${topTenBundle.getObjectTitle()}"/>",</c:forEach>],
+                labels: [<c:forEach items='${topTenBundles}' var="topTenBundle">"Top <c:out value="${topTenBundles.indexOf(topTenBundle)+1}"/>",</c:forEach>],
                         datasets: [
                         {
                         label: "Amount of products in bundle",

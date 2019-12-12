@@ -16,7 +16,7 @@ INSERT INTO Categories (Category_ID, Category_Name, Category_Description) VALUES
     (11, 'Flora', 'These products are related to plant life.'),
     (12, 'Fauna', 'These products are related to animal life.'),
     (13, 'Pets', 'These products are more specifically targetted towards common pets and products they would need.'),
-    (14, 'Clothes & accessories', 'These products are anything that is worn as clothes and accessories or used for maintenance.'),
+    (14, 'Clothes and accessories', 'These products are anything that is worn as clothes and accessories or used for maintenance.'),
     (15, 'Shoes', 'These products are any type of shoes or products used for shoe maintenance.');
     
 INSERT INTO Product (Product_ID, Product_Name, Product_Description, picturePath) VALUES 
