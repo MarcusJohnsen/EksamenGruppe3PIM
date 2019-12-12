@@ -125,7 +125,7 @@ ${frontController.setup()}
                         datasets: [
                         {
                         label: "Amount of products in category",
-                                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#1429e3", "#9e14e3", "#e31471" , "#14e3e0", "#25e314"],
                                 data: [<c:forEach items='${topTenCategories}' var="topTenCategory"><c:out value="${topTenCategory.getCategoryProducts().size()}"/>,</c:forEach>]
                         }
                         ]
@@ -151,7 +151,7 @@ ${frontController.setup()}
                         datasets: [
                         {
                         label: "Amount of products in distributor",
-                                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#1429e3", "#9e14e3", "#e31471" , "#14e3e0", "#25e314"],
                                 data: [<c:forEach items='${topTenDistributors}' var="topTenDistributor"><c:out value="${topTenDistributor.getDistributorProducts().size()}"/>,</c:forEach>]
                         }
                         ]
@@ -177,7 +177,7 @@ ${frontController.setup()}
                         datasets: [
                         {
                         label: "Amount of products in bundle",
-                                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850", "#1429e3", "#9e14e3", "#e31471" , "#14e3e0", "#25e314"],
                                 data: [<c:forEach items='${topTenBundles}' var="topTenBundle"><c:out value="${topTenBundle.getBundleProducts().size()}"/>,</c:forEach>]
                         }
                         ]

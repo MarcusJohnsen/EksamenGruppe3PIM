@@ -1,89 +1,6 @@
-DROP DATABASE IF EXISTS PIM_Database;
-    CREATE DATABASE PIM_Database;
-    USE PIM_Database;
-    
-    CREATE TABLE Categories(
-	Category_ID int unique not null auto_increment,
-	Category_Name varchar(255) unique not null,
-	Category_Description TEXT not null,
-	primary key(Category_ID)
-	);
-    
-	CREATE TABLE Attributes(
-    Attribute_ID int unique auto_increment not null,
-	Attribute_Name TEXT not null,
-	primary key(Attribute_ID)
-	);
-    
-    CREATE TABLE Distributor(
-    Distributor_ID int unique not null auto_increment,
-    Distributor_Name TEXT not null,
-    Distributor_Description TEXT not null,
-    primary key(Distributor_ID)
-    );
-    
-    CREATE TABLE Bundles(
-    Bundle_ID int unique not null auto_increment,
-	Bundle_Name TEXT not null,
-    Bundle_Description TEXT not null,
-    primary key(Bundle_ID)
-    );
-    
-	CREATE TABLE Product(
-    Product_ID int unique not null auto_increment,
-	Product_Name TEXT not null,
-    Product_Description TEXT not null,
-    picturePath TEXT,
-    primary key(Product_ID)
-    );
-    
-    CREATE TABLE Category_Attributes(
-    Category_ID int not null,
-    Attribute_ID int not null,
-    foreign key(Category_ID) references Categories(Category_ID),
-    foreign key(Attribute_ID) references Attributes(Attribute_ID),
-    primary key(Category_ID, Attribute_ID)
-    );
-    
-    CREATE TABLE Product_Categories(
-    Product_ID int not null,
-    Category_ID int not null,
-    foreign key(Product_ID) references Product(Product_ID),
-    foreign key(Category_ID) references Categories(Category_ID),
-    primary key(Product_ID, Category_ID)
-    );
-    
-    CREATE TABLE Product_Attributes(
-    Product_ID int not null,
-    Attribute_ID int not null,
-    Attribute_Info TEXT,
-    foreign key(Product_ID) references Product(Product_ID),
-    foreign key(Attribute_ID) references Attributes(Attribute_ID),
-    primary key(Product_ID, Attribute_ID)
-    );
-    
-	CREATE TABLE Product_Distributor(
-    Product_ID int not null,
-    Distributor_ID int not null,
-    foreign key(Product_ID) references Product(Product_ID),
-    foreign key(Distributor_ID) references Distributor(Distributor_ID),
-    primary key(Product_ID, Distributor_ID)
-    );
-    
-    CREATE TABLE Product_Bundles(
-    Product_ID int not null,
-    Bundle_ID int not null,
-    Product_amount int not null,
-    foreign key(Product_ID) references Product(Product_ID),
-    foreign key(Bundle_ID) references Bundles(Bundle_ID),
-    primary key(Product_ID, Bundle_ID)
-    );
-    
-    /*
-    This insert code beneath is to help with developement, by creating objects that can be worked with during development, 
-    and can be commented out when system goes live
-    
-    INSERT INTO Categories (Category_ID, Category_Name, Category_Description) VALUES 
+USE PIM_Database;
+
+INSERT INTO Categories (Category_ID, Category_Name, Category_Description) VALUES 
     (1, 'Furniture','These products can be used as furniture, and is meant to be inside, and not subject to direct weather.'),
     (2, 'Electronics','These products run on electricity, and will not function without a charger.'),
     (3, 'Consumables','These products are meant to be consumed.'),
@@ -100,7 +17,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     (14, 'Clothes & accessories', 'These products are anything that is worn as clothes and accessories or used for maintenance.'),
     (15, 'Shoes', 'These products are any type of shoes or products used for shoe maintenance.');
     
-	INSERT INTO Product (Product_ID, Product_Name, Product_Description, picturePath) VALUES 
+INSERT INTO Product (Product_ID, Product_Name, Product_Description, picturePath) VALUES 
     (1, 'ROHAN Bookshelf', 'This bookshelf is called ROHAN, and loos great in most rooms.', 'https://res.cloudinary.com/dousnil0k/image/upload/v1575366570/ROHAN.png_cjfwko.jpg'),
     (2, 'Sony KD85ZG9', 'TV that delivers eye-popping visuals that actually match creative intent.', 'https://res.cloudinary.com/dousnil0k/image/upload/v1575366571/Sony_o2ni5c.png'),
     (3, 'RAMSELE', 'A lamp from Ikea with an interresting new design', 'https://res.cloudinary.com/dousnil0k/image/upload/v1575366570/lamp.png_bqr8wq.jpg'),
@@ -142,12 +59,12 @@ DROP DATABASE IF EXISTS PIM_Database;
     (39, '2MM ROPE YELLOW gold chain', 'Worn by Migos', 'https://res.cloudinary.com/dousnil0k/image/upload/v1575366570/Gold_Chain_ff5vil.png'),
     (40, 'This product is nada', 'Showcases a product with no image', 'https://res.cloudinary.com/dousnil0k/image/upload/v1575366570/no-img_vlrttr.png.png');
 
-	INSERT INTO Attributes (Attribute_ID, Attribute_Name) VALUES
+INSERT INTO Attributes (Attribute_ID, Attribute_Name) VALUES
     (1, 'Length'), (2, 'Width/Depth'), (3, 'Height'), (4, 'Weight'), (5, 'Color'),
     (6, 'Material'), (7, 'Cable length'), (8, 'Power usage'), (9, 'Size'), (10, 'Calories'),
     (11, 'Ingredients'), (12, 'Lifetime');
     
-    INSERT INTO Distributor (Distributor_ID, Distributor_Name, Distributor_Description) VALUES 
+INSERT INTO Distributor (Distributor_ID, Distributor_Name, Distributor_Description) VALUES 
     (1, 'Ikea', 'The Swedish retailer and manufacturer of furniture.'),
     (2, 'Sony', 'Japanese tech-company with a wide variety of electronic products.'),
     (3, 'The Coca-Cola Company', 'The manufacturers of the legendary Coca-Cola product.'),
@@ -168,7 +85,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     (18, 'Icebox Diamonds and Watches', 'The jewelry store all the rappers go to in Atlanta.'),
     (19, 'Tesco', 'British grocery retailer.');
     
-	INSERT INTO Bundles(Bundle_ID, Bundle_Name, Bundle_Description) VALUES
+INSERT INTO Bundles(Bundle_ID, Bundle_Name, Bundle_Description) VALUES
     (1, 'The Home Package', 'This package includes everything a new home needs'),
     (2, 'The Home Package+', 'This package includes everything a new home would ever need'),
     (3, 'The Good Drinks Bundle', 'This is a bundle of awesome drinks!'),
@@ -186,7 +103,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     (15, 'The Writers Bundle', 'What every aspiring author needs!'),
     (16, 'The Board Game Bundle', 'Have fun for hours with these games!');
     
-    INSERT INTO Category_Attributes(Category_ID, Attribute_ID) VALUES
+INSERT INTO Category_Attributes(Category_ID, Attribute_ID) VALUES
     (1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), 
     (2, 1), (2, 2), (2, 3), (2, 4), (2, 7), (2, 8), 
     (3, 3), (3, 4), (3, 9), (3, 10), (3, 11), (4, 12),
@@ -202,14 +119,14 @@ DROP DATABASE IF EXISTS PIM_Database;
     (14, 1), (14, 5), (14, 6), (14, 9),
     (15, 5), (15, 6), (15, 9);
     
-    INSERT INTO Product_Categories(Product_ID, Category_ID) VALUES
+INSERT INTO Product_Categories(Product_ID, Category_ID) VALUES
     (1, 1), (2, 1), (2, 2), (3, 2), (4, 3), (5, 3), (6, 8), (7, 8), (8, 8),
     (9, 9), (9, 14), (10, 9), (10, 14), (11, 9), (12, 9), (13, 3), (14, 7), (15, 5), 
     (16, 2), (17, 15), (18, 6), (19, 3), (20, 2), (21, 6), (22, 6), (23, 5), (24, 5),
     (25, 3), (26, 3), (27, 10), (28, 10), (29, 14), (30, 7), (30, 6), (31, 6),
     (32, 3), (33, 3), (34, 3), (35, 3), (36, 3), (37, 3), (38, 14), (39, 14), (40, 4);
     
-    INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES
+INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES
     (1, 1, '60 cm.'), (1, 2, '40 cm.'), (1, 3, '180 cm.'), (1, 4, '15 kg.'), (1, 5, 'Brown'), (1, 6, 'Mahogany'),
     (2, 1, '1913 mm.'), (2, 2, '432 mm.'), (2, 3, '1226 mm.'), (2, 4, '20 kg.'), (2, 7, '2 meter'), (2, 8, '900 W'),
     (3, 1, '25 cm'), (3, 2, '25 cm'), (3, 3, '25 cm'), (3, 4, '2 kg.'), (3, 7, '5 meter'), (3, 8, '20 W'),
@@ -251,7 +168,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     (39, 1, '2mm'), (39, 5, 'gold'), (39, 6, 'gold'),
     (40, 12, 'forever');
     
-	INSERT INTO Product_Distributor(Product_ID, Distributor_ID) VALUES
+INSERT INTO Product_Distributor(Product_ID, Distributor_ID) VALUES
     (1, 1), (2, 2), (3, 1), (4, 1), (4, 3), (5, 1), (5, 3), (6, 4), 
     (6, 12), (7, 12), (8, 12), (9, 10), (9, 11), (9, 12), (12, 11),
     (13, 6), (14, 16), (15, 8), (16, 4), (17, 11), (18, 6), (19, 5), 
@@ -260,7 +177,7 @@ DROP DATABASE IF EXISTS PIM_Database;
     (31, 7), (32, 19), (33, 19), (34, 19), (35, 19), (36, 19), (37, 19),
     (38, 18), (39, 18), (40, 17);
     
-    INSERT INTO Product_Bundles(Product_ID, Bundle_ID, Product_amount) VALUES
+INSERT INTO Product_Bundles(Product_ID, Bundle_ID, Product_amount) VALUES
     (1, 1, 1), (1, 2, 2), (2, 2, 1), (3, 1, 1), (3, 2, 1), (4, 3, 1), (5, 3, 1),
     (6, 7, 1), (6, 9, 1), (7, 7, 1), (7, 9, 1), (8, 9, 1), (8, 7, 1), (9, 8, 1),
     (9, 9, 1), (10, 8, 1), (10, 9, 1), (13, 4, 1), (13, 6, 1), (14, 5, 1), (15, 9, 1),
@@ -269,4 +186,4 @@ DROP DATABASE IF EXISTS PIM_Database;
     (23, 14, 1), (24, 14, 1), (25, 12, 40), (26, 10, 3), (26, 12, 5), (27, 15, 1),
     (28, 15, 1), (29, 13, 2), (30, 5, 1), (30, 9, 1), (31, 16, 10), (32, 12, 13),
     (33, 11, 4), (34, 3, 32), (34, 10, 8), (35, 3, 33), (35, 10, 9), (36, 11, 5),
-    (37, 10, 1), (38, 9, 1), (38, 13, 1), (39, 9, 1), (39, 13, 1);  */
+    (37, 10, 1), (38, 9, 1), (38, 13, 1), (39, 9, 1), (39, 13, 1);
