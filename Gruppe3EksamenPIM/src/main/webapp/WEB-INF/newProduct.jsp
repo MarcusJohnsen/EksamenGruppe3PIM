@@ -13,6 +13,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <c:set var="distributorList" value='${requestScope["distributorList"]}'/>
+        <c:set var="categoryList" value='${requestScope["categoryList"]}'/>
         <title>PIM System</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
@@ -20,9 +22,14 @@
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <div class="main">
             <h1 align="center">Create New Product</h1>
-            <!-- enctype="multipart/form-data" -->
             <form action="FrontController" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="command" value="addProduct" />
+
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
+
                 <p align="center">
                     Product Name:
                     <br>
@@ -40,26 +47,11 @@
                     <input type = "file" name = "file" size = "50" accept=".jpg, .png"/>
                 </p>
 
-                <!--<p align="center">
-                    Product Distributors: <img onclick="newField()" src="decorations/addPage.png" width="20" height="25" alt="addIcon"/>
-                    <br>
-                    <input type="text" name="Product Distributors" value=""/>
-                </p>-->
-
                 <div id="myDIV" align="center"> 
                 </div>
 
-                <%
-                    String error = (String) request.getAttribute("error");
-                    if (error != null) {
-                %>
-                <h2 align="center" style="color: red"><%=error%></h2>
-                <%}%>
-
                 <p align="center">
                     Add Product to Distributor(s):</p>
-
-
 
                 <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                     <thead>
@@ -71,18 +63,13 @@
                         </tr>
                     </thead>
 
-                    <%
-                        TreeSet<Distributor> distributorList = (TreeSet<Distributor>) request.getAttribute("distributorList");
-                        for (Distributor distributor : distributorList) {
-                            int distributorID = distributor.getObjectID();
-                            String distributorName = distributor.getObjectTitle();
-                    %>  
-                    <tr>
-                        <td align="center" width="5%"> <%=distributorID%> </td>
-                        <td align="center" width="20%"> <%=distributorName%> </td>
-                        <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
-                    </tr>
-                    <%}%>
+                    <c:forEach items='${distributorList}' var="distributor">
+                        <tr>
+                            <td align="center" width="5%"> <c:out value="${distributor.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${distributor.getObjectTitle()}"/> </td>
+                            <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<c:out value="${distributor.getObjectID()}"/>"></td>
+                        </tr>
+                    </c:forEach>
 
 
 
@@ -100,20 +87,14 @@
                         </tr>
                     </thead>
 
-                    <%
-                        TreeSet<Category> categoryList = (TreeSet<Category>) request.getAttribute("categoryList");
-                        for (Category category : categoryList) {
-                            int CategoryID = category.getObjectID();
-                            String CategoryName = category.getObjectTitle();
-                            String CategoryDescription = category.getObjectDescription();
-                    %>  
-                    <tr>
-                        <td align="center" width="5%"> <%=CategoryID%> </td>
-                        <td align="center" width="20%"> <%=CategoryName%> </td>
-                        <td align="center" width="30%"> <%=CategoryDescription%> </td>
-                        <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<%=CategoryID%>"></td>
-                    </tr>
-                    <%}%>
+                    <c:forEach items='${categoryList}' var="category">
+                        <tr>
+                            <td align="center" width="5%"> <c:out value="${category.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${category.getObjectTitle()}"/> </td>
+                            <td align="center" width="30%"> <c:out value="${category.getObjectDescription()}"/> </td>
+                            <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<c:out value="${category.getObjectID()}"/>"></td>
+                        </tr>
+                    </c:forEach>
                 </table>
 
                 <br>

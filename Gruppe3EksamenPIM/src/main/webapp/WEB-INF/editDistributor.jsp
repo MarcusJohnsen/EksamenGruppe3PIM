@@ -12,32 +12,27 @@
 <html>
     <head>
         <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
+        <c:set var="distributor" value='${requestScope["pimObject"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Distributors</title>
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
-        <%
-            Distributor distributor = (Distributor) request.getAttribute("pimObject");
-            int DistributorID = distributor.getObjectID();
-            String DistributorName = distributor.getObjectTitle();
-            String DistributorDescription = distributor.getObjectDescription();
-        %>
         <div class="main">
             <h1 align="center">Edit Distributor Info</h1>
             <form action="FrontController" method="POST">
                 <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
-                <input type="hidden" name="distributorID" value="<%=DistributorID%>"/>
+                <input type="hidden" name="distributorID" value="<c:out value="${distributor.getObjectID()}"/>"/>
                 <p align="center">
                     Distributor Name:
                     <br>
-                    <input type="text" name="Distributor Name" value="<%=DistributorName%>" required="required"/>
+                    <input type="text" name="Distributor Name" value="<c:out value="${distributor.getObjectTitle()}"/>" required="required"/>
                 </p>
 
                 <p align="center">
                     Distributor Description:
                     <br>
-                    <textarea name="Distributor Description" rows="8" cols="40" required="required"><%=DistributorDescription%></textarea>
+                    <textarea name="Distributor Description" rows="8" cols="40" required="required"><c:out value="${distributor.getObjectDescription()}"/></textarea>
                 </p>
 
                 <c:set var="error" value='${requestScope["error"]}'/>

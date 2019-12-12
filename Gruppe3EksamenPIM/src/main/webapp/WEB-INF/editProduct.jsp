@@ -15,6 +15,8 @@
 <html>
     <head>
         <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
+        <c:set var="product" value='${requestScope["pimObject"]}'/>
+        <c:set var="pimObjectList" value='${requestScope["PIMObjectList"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Product</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
@@ -23,32 +25,28 @@
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
         <%
             Product product = (Product) request.getAttribute("pimObject");
-            String ProductName = product.getObjectTitle();
-            String ProductDescription = product.getObjectDescription();
-            String picturePath = product.getPicturePath();
-            int productID = product.getObjectID();
         %>
         <div class="main">
-            <h1 align="center">Edit Product Information for product number <%=productID%></h1>
+            <h1 align="center">Edit Product Information for product nr: <c:out value="${product.getObjectID()}"/></h1>
             <form action="FrontController" method="POST">
                 <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
                 <input type="hidden" name="command" value="selectCategoriesForProduct" />
-                <input type="hidden" name="productID" value="<%=productID%>" />
+                <input type="hidden" name="productID" value="<c:out value="${product.getObjectID()}"/>" />
                 <p align="center"><input type="submit" value="Add Categories to Product" /></p>
             </form>
             <form action="FrontController" method="POST">
                 <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
-                <input type="hidden" name="productID" value="<%=productID%>" />
+                <input type="hidden" name="productID" value="<c:out value="${product.getObjectID()}"/>" />
                 <p align="center">
                     Product Name:
                     <br>
-                    <input type="text" name="Product Name" value="<%=ProductName%>" required="required"/>
+                    <input type="text" name="Product Name" value="<c:out value="${product.getObjectTitle()}"/>" required="required"/>
                 </p>
 
                 <p align="center">
                     Product Description:
                     <br>
-                    <textarea name="Product Description" rows="8" cols="40" required="required"><%=ProductDescription%> </textarea>
+                    <textarea name="Product Description" rows="8" cols="40" required="required"><c:out value="${product.getObjectDescription()}"/> </textarea>
                 </p>
 
                 <div id="myDIV" align="center"> 
@@ -62,18 +60,12 @@
                         </tr>
                     </thead>
                     <br>
-                    <%
-                        TreeSet<Attribute> attributeList = product.getProductAttributes();
-                        for (Attribute attribute : attributeList) {
-                            int attributeID = attribute.getObjectID();
-                            String value = attribute.getAttributeValueForID(productID);
-                            String attributeTitle = attribute.getObjectTitle();
-                    %>
-                    <tr>
-                        <td align="left" width="20%"> <%=attributeTitle%> </td>
-                        <td align="center" width="30%"> <input type="text" style="width: 96%; text-align: center" name="AttributeID<%=attributeID%>" value="<%=value%>"/> </td>
-                    </tr>
-                    <%}%>
+                    <c:forEach items='${product.getProductAttributes()}' var="attribute">
+                        <tr>
+                            <td align="left" width="20%"> <c:out value="${attribute.getObjectTitle()}"/> </td>
+                            <td align="center" width="30%"> <input type="text" style="width: 96%; text-align: center" name="AttributeID<c:out value="${attribute.getObjectID()}"/>" value="<c:out value="${attribute.getAttributeValueForID(product.getObjectID())}"/>"/> </td>
+                        </tr>
+                    </c:forEach>
                 </table>
 
                 <c:set var="error" value='${requestScope["error"]}'/>
@@ -81,10 +73,6 @@
                     <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
                 </c:if>
                 <br>
-                <!--<p align="center">
-                    Select Picture:
-                    <input type = "file" name = "file" size = "50" value="<%=picturePath%>"/>
-                </p>-->
 
                 <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                     <thead>
@@ -94,23 +82,20 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <%
-                        TreeSet<Distributor> distributorList = product.getProductDistributors();
-                        for (Distributor distributor : distributorList) {
-                            int distributorID = distributor.getObjectID();
-                            String distributorName = distributor.getObjectTitle();
-                            boolean alreadySelectedDistributor = product.getProductDistributors().contains(distributor);
-                    %>  
-                    <tr>
-                        <td align="center" width="5%"> <%=distributorID%> </td>
-                        <td align="center" width="20%"> <%=distributorName%> </td>
-                        <%if (alreadySelectedDistributor) {%>
-                        <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>" checked></td>
-                            <%} else {%>
-                        <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<%=distributorID%>"></td>
-                            <%}%>
-                    </tr>
-                    <%}%>
+                    <c:forEach items='${pimObjectList}' var="distributor">
+                        <tr>
+                            <td align="center" width="5%"> <c:out value="${distributor.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${distributor.getObjectTitle()}"/> </td>
+                            <c:choose>
+                                <c:when test="${product.getProductDistributors().contains(distributor)}">
+                                    <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<c:out value="${distributor.getObjectID()}"/>" checked></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <td align="center" width="1%"><input type="checkbox" name=distributorChoices value="<c:out value="${distributor.getObjectID()}"/>"></td>
+                                    </c:otherwise>
+                                </c:choose>
+                        </tr>
+                    </c:forEach>
                 </table>
 
                 <br>

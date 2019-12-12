@@ -19,7 +19,7 @@
             <h1 align="center"><c:out value="${PIMObjectType}"/> Search</h1>
             <br>
 
-            <form action="FrontController">
+            <form action="FrontController" method="POST">
                 <input type="hidden" name="PIMObjectType" value="<c:out value="${PIMObjectType}"/>"/>
                 <input type="hidden" name="command" value="advancedSearch" />
                 <p align="center"><input type="text" name="searchKey" value="" placeholder="Search for: "/> <input type="submit" value="Search"/></p>

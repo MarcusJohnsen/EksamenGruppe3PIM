@@ -13,23 +13,19 @@
 <html>
     <head>
         <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
+        <c:set var="product" value='${requestScope["product"]}'/>
+        <c:set var="CategoryList" value='${requestScope["categoryList"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
-        <%
-            Product product = (Product) request.getAttribute("product");
-            TreeSet<Category> categoryList = (TreeSet<Category>) request.getAttribute("categoryList");
-            int productID = product.getObjectID();
-
-        %>
         <div class="main">
             <h1 align="center">Edit Categories for product</h1>
-            <h3 align="center"><%=product.getObjectTitle()%>, product ID: <%=productID%></h3>
+            <h3 align="center"><c:out value="${product.getObjectTitle()}"/>, product ID: <c:out value="${product.getObjectID()}"/></h3>
             <br>
-            <form action="FrontController">
+            <form action="FrontController" method="POST">
                 <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
                 <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                     <thead>
@@ -40,24 +36,21 @@
                         </tr>
                     </thead>
 
-                    <%
-                        for (Category category : categoryList) {
-                            int CategoryID = category.getObjectID();
-                            String CategoryName = category.getObjectTitle();
-                            String CategoryDescription = category.getObjectDescription();
-                            boolean alreadyOnProduct = product.getProductCategories().contains(category);
-                    %>  
-                    <tr>
-                        <td align="center" width="5%"> <%=CategoryID%> </td>
-                        <td align="center" width="20%"> <%=CategoryName%> </td>
-                        <td align="center" width="30%"> <%=CategoryDescription%> </td>
-                        <%if (alreadyOnProduct) {%>
-                        <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<%=CategoryID%>" checked></td>
-                            <%} else {%>
-                        <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<%=CategoryID%>"></td>
-                            <%}%>
-                    </tr>
-                    <%}%>
+                    <c:forEach items='${CategoryList}' var="category">
+                        <tr>
+                            <td align="center" width="5%"> <c:out value="${category.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${category.getObjectTitle()}"/> </td>
+                            <td align="center" width="30%"> <c:out value="${category.getObjectDescription()}"/> </td>
+                            <c:choose>
+                                <c:when test="${product.getProductCategories().contains(category)}">
+                                    <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<c:out value="${category.getObjectID()}"/>" checked></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <td align="center" width="1%"><input type="checkbox" name=categoryChoices value="<c:out value="${category.getObjectID()}"/>"></td>
+                                    </c:otherwise>
+                                </c:choose>
+                        </tr>
+                    </c:forEach>
                 </table>
                 <br>
 
@@ -66,7 +59,7 @@
                     <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
                 </c:if>
 
-                <input type="hidden" name="pimObjectID" value="<%=productID%>" />
+                <input type="hidden" name="pimObjectID" value="<c:out value="${product.getObjectID()}"/>" />
                 <input type="hidden" name="command" value="editCategoriesToProduct" />
                 <p align="center"><input type="submit" value="Submit Changes" /></p>
             </form>

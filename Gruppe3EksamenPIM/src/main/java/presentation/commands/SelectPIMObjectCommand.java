@@ -74,6 +74,7 @@ public class SelectPIMObjectCommand extends Command {
                 nextJsp = "editDistributor";
                 break;
             case ("Product"):
+                setPIMObjectListForProductEdit(request, businessController);
                 nextJsp = "editProduct";
                 break;
             default:
@@ -133,6 +134,12 @@ public class SelectPIMObjectCommand extends Command {
     private void setPIMObjectListForBundleEdit(HttpServletRequest request, BusinessController businessController){
         TreeSet<PIMObject> pimObjectList;
         pimObjectList = new TreeSet(businessController.getProductList());
+        request.setAttribute("PIMObjectList", pimObjectList);
+    }
+    
+    private void setPIMObjectListForProductEdit(HttpServletRequest request, BusinessController businessController){
+        TreeSet<PIMObject> pimObjectList;
+        pimObjectList = new TreeSet(businessController.getDistributorList());
         request.setAttribute("PIMObjectList", pimObjectList);
     }
 }

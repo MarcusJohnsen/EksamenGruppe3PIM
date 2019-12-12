@@ -16,6 +16,7 @@ Back<%--
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <c:set var="product" value='${requestScope["pimObject"]}'/>
         <title>View all products</title>
         <link href="css/StyleTable.css" rel="stylesheet">
     </head>
@@ -30,21 +31,21 @@ Back<%--
                 String productDescription = product.getObjectDescription();
                 String picturePath = product.getPicturePath();
             %>
-            <h1 align="center">Product information for product number:  <%=productID%></h1>
+            <h1 align="center">Product information for product number:  <c:out value="${product.getObjectID()}"/></h1>
             <p align="center">
                 Product Name: 
                 <br>
-                <%=productName%>
+                <c:out value="${product.getObjectTitle()}"/>
             </p>
             <p align="center">
                 Product Description:
                 <br>
-                <%=productDescription%>
+                <c:out value="${product.getObjectDescription()}"/>
             </p>
             <p align="center">
                 Product picture: 
                 <br>
-                <img src="<%=picturePath%>" style="max-width: 350px; width: 100%; max-height: 500px; height: auto;"/>
+                <img src="<c:out value="${product.getPicturePath()}"/>" style="max-width: 350px; width: 100%; max-height: 500px; height: auto;"/>
 
             </p>
 
@@ -57,17 +58,12 @@ Back<%--
                 </thead>
 
                 <p align="center"> This product is part of the following categories: </p>
-                <%
-                    TreeSet<Category> categoryList = product.getProductCategories();
-                    for (Category category : categoryList) {
-                        String categoryName = category.getObjectTitle();
-                        String categoryDescription = category.getObjectDescription();
-                %>
+                <c:forEach items="${product.getProductCategories()}" var="category">
                 <tr>
-                    <td align="left" width="20%"> <%=categoryName%> </td>
-                    <td align="center" width="30%"> <%=categoryDescription%> </td>
+                    <td align="left" width="20%"> <c:out value="${category.getObjectTitle()}"/> </td>
+                    <td align="center" width="30%"> <c:out value="${category.getObjectDescription()}"/> </td>
                 </tr>
-                <%}%>
+                </c:forEach>
             </table>
 
             <table align="center" border="1" width = "50%" style="float: top">
@@ -78,17 +74,12 @@ Back<%--
                     </tr>
                 </thead>
                 <p align="center"> This product has the following attributes: </p>
-                <%
-                    TreeSet<Attribute> attributeList = product.getProductAttributes();
-                    for (Attribute attribute : attributeList) {
-                        String attributeName = attribute.getObjectTitle();
-                        String attributeValue = attribute.getAttributeValueForID(productID);
-                %>
+                <c:forEach items="${product.getProductAttributes()}" var="attribute">
                 <tr>
-                    <td align="left" width="20%"> <%=attributeName%> </td>
-                    <td align="center" width="30%"> <%=attributeValue%> </td>
+                    <td align="left" width="20%"> <c:out value="${attribute.getObjectTitle()}"/> </td>
+                    <td align="center" width="30%"> <c:out value="${attribute.getAttributeValueForID(product.getObjectID())}"/> </td>
                 </tr>
-                <%}%>
+                </c:forEach>
             </table>
 
             <table align="center" border="1" width = "50%" style="float: top">
@@ -99,25 +90,18 @@ Back<%--
                     </tr>
                 </thead>
                 <p align="center"> This product has the following distributors: </p>
-                <%
-                    TreeSet<Distributor> distributorList = product.getProductDistributors();
-                    for (Distributor distributor : distributorList) {
-                        String distributorName = distributor.getObjectTitle();
-                        String distributorDescription = distributor.getObjectDescription();
-                %>
+                <c:forEach items="${product.getProductDistributors()}" var="distributor">
                 <tr>
-                    <td align="left" width="20%"> <%=distributorName%> </td>
-                    <td align="center" width="30%"> <%=distributorDescription%> </td>
+                    <td align="left" width="20%"> <c:out value="${distributor.getObjectTitle()}"/> </td>
+                    <td align="center" width="30%"> <c:out value="${distributor.getObjectDescription()}"/> </td>
                 </tr>
-                <%}%>
+                </c:forEach>
             </table>
 
-            <%
-                String error = (String) request.getAttribute("error");
-                if (error != null) {
-            %>
-            <h2 align="center" style="color: red"><%=error%></h2>
-            <%}%>
+            <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
             <br>
         </div>
     </body>

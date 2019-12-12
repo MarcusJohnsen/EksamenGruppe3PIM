@@ -13,6 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <c:set var="attributeList" value='${requestScope["attributeList"]}'/>
         <title>New Category</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
@@ -21,7 +22,7 @@
         <div class="main">
             <h1 align="center">Create New Category</h1>
             <br>
-            <form action="FrontController">
+            <form action="FrontController" method="POST">
                 <p align="center">
                     Category Name:
                     <br>
@@ -43,25 +44,19 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <%
-                        TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
-                        for (Attribute attribute : attributeList) {
-                            int AttributeID = attribute.getObjectID();
-                            String AttributeName = attribute.getObjectTitle();
-                    %>  
-                    <tr>
-                        <td align="center" width="5%"> <%=AttributeID%> </td>
-                        <td align="center" width="20%"> <%=AttributeName%> </td>
-                        <td align="center" width="1%"><input type="checkbox" name=attributeChoice value="<%=AttributeID%>"></td>
-                    </tr>
-                    <%}%>
+                    <c:forEach items='${attributeList}' var="attribute">
+                        <tr>
+                            <td align="center" width="5%"> <c:out value="${attribute.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${attribute.getObjectTitle()}"/> </td>
+                            <td align="center" width="1%"><input type="checkbox" name=attributeChoice value="<c:out value="${attribute.getObjectID()}"/>"></td>
+                        </tr>
+                    </c:forEach>
                 </table>
-                <%
-                    String error = (String) request.getAttribute("error");
-                    if (error != null) {
-                %>
-                <h2  align="center" style="color: red"><%=error%></h2>
-                <%}%>
+
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
                 <p align="center">
                     <input type="submit" value="Save" />
                 </p>

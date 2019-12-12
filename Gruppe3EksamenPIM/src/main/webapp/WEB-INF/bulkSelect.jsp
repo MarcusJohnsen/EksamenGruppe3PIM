@@ -13,6 +13,7 @@
 <html>
     <head>
         <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
+        <c:set var="category" value='${requestScope["pimObject"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Select</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
@@ -30,26 +31,22 @@
             }
         </style>
     </head>
-    <%
-        Category category = (Category) request.getAttribute("pimObject");
-        String categoryName = category.getObjectTitle();
-        int categoryID = category.getObjectID();
-    %>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
 
         <div class="main">
-            <h1 align="center">Bulk edit for "<%=categoryName%> ID:<%=categoryID%>"</h1>
+            <h1 align="center">
+                Bulk edit for category: <br> 
+                <c:out value="${category.getObjectTitle()}"/>, ID <c:out value="${category.getObjectID()}"/>
+            </h1>
 
-            <%
-                String error = (String) request.getAttribute("error");
-                if (error != null) {
-            %>
-            <h2  align="center" style="color: red"><%=error%></h2>
-            <%}%>
+            <c:set var="error" value='${requestScope["error"]}'/>
+            <c:if test="${not empty error}">
+                <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+            </c:if>
 
 
-            <form action="FrontController">
+            <form action="FrontController" method="POST">
                 <table align="center" border = "1" width = "60%" style="float: top" bgcolor="fffef2">
                     <thead>
                         <tr bgcolor = "#FF4B4B">
@@ -64,24 +61,19 @@
                         </tr>
                     </thead>
 
-                    <%
-                        TreeSet<Product> productList = category.getCategoryProducts();
-                        for (Product product : productList) {
-                            int ProductID = product.getObjectID();
-                            String ProductName = product.getObjectTitle();
-                            String ProductDescription = product.getObjectDescription();
-                    %>  
-                    <tr>
-                        <td align="center" width="3%"> <%=ProductID%> </td>
-                        <td align="center" width="20%"> <%=ProductName%> </td>
-                        <td align="center" width="30%"> <%=ProductDescription%> </td>
-                        <td align="center" width="1%"><input type="checkbox" name=productChoice value="<%=ProductID%>" checked></td>
-                    </tr>
-                    <%}%>
+
+                    <c:forEach items='${category.getCategoryProducts()}' var="product">
+                        <tr>
+                            <td align="center" width="3%"> <c:out value="${product.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${product.getObjectTitle()}"/> </td>
+                            <td align="center" width="30%"> <c:out value="${product.getObjectDescription()}"/> </td>
+                            <td align="center" width="1%"><input type="checkbox" name=productChoice value="<c:out value="${product.getObjectID()}"/>" checked></td>
+                        </tr>
+                    </c:forEach>
                 </table>
                 <br>
                 <input type="hidden" name="command" value="bulkSelect" />
-                <input type="hidden" name="categoryID" value="<%=categoryID%>" />
+                <input type="hidden" name="categoryID" value="<c:out value="${category.getObjectID()}"/>" />
                 <p align="center"><input type="submit" value="Select" /></p>
             </form>
         </div>    

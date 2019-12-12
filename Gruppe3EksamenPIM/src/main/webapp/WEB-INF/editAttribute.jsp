@@ -11,25 +11,21 @@
 <html>
     <head>
         <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
+        <c:set var="attribute" value='${requestScope["pimObject"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit attribute</title>
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
-        <%
-            Attribute attribute = (Attribute) request.getAttribute("pimObject");
-            int AttributeID = attribute.getObjectID();
-            String AttributeName = attribute.getObjectTitle();
-        %>
         <div class="main">
             <h1 align="center">Edit Attribute Info</h1>
-            <form action="FrontController">
+            <form action="FrontController" method="POST">
                 <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
-                <input type="hidden" name="attributeID" value="<%=AttributeID%>"/>
+                <input type="hidden" name="attributeID" value="<c:out value="${attribute.getObjectID()}"/>"/>
                 <p align="center">
                     Attribute Name:
                     <br>
-                    <input type="text" name="Attribute Name" value="<%=AttributeName%>" required="required"/>
+                    <input type="text" name="Attribute Name" value="<c:out value="${attribute.getObjectTitle()}"/>" required="required"/>
                 </p>
 
                 <c:set var="error" value='${requestScope["error"]}'/>

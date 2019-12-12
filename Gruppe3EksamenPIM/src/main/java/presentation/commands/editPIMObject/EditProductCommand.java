@@ -48,7 +48,7 @@ public class EditProductCommand extends Command {
         } catch (IllegalArgumentException ex) {
             nextJsp = "editProduct";
             TreeSet<Distributor> distributorList = businessController.getDistributorList();
-            request.setAttribute("distributorList", distributorList);
+            request.setAttribute("PIMObjectList", distributorList);
             request.setAttribute("error", ex.getMessage());
             request.setAttribute("pimObject", product);
         }

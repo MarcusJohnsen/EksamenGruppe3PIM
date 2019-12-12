@@ -12,28 +12,22 @@
 <html>
     <head>
         <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
+        <c:set var="category" value='${requestScope["category"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Bulk Edit</title>
         <link href="css/StyleTable.css" rel="stylesheet">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
-        <%
-            Category category = (Category) request.getAttribute("category");
-            String categoryName = category.getObjectTitle();
-            int categoryID = category.getObjectID();
-        %>
         <div class="main">
-            <h1 align="center">Bulk edit for category "<%=categoryName%>"</h1>
+            <h1 align="center">Bulk edit for category <c:out value="${category.getObjectTitle()}"/></h1>
             <br>
-            <form action="FrontController">
+            <form action="FrontController" method="POST">
 
-                <%
-                    String error = (String) request.getAttribute("error");
-                    if (error != null) {
-                %>
-                <h2 align="center" style="color: red"><%=error%></h2>
-                <%}%>
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
 
                 <p align="center"><i>
                         If an attribute value should be removed for all selected products, write the word 'DELETE' in the field. <br>
@@ -47,22 +41,15 @@
                             <th align="center">Attribute Value</th>
                         </tr>
                     </thead>
-                    <%
-
-                        TreeSet<Attribute> attributeList = (TreeSet<Attribute>) category.getCategoryAttributes();
-                        for (Attribute attribute : attributeList) {
-                            int attributeID = attribute.getObjectID();
-                            String value = attribute.getAttributeValueForID(attributeID);
-                            String attributeTitle = attribute.getObjectTitle();
-                    %>
-                    <tr>
-                        <td align="left" width="20%"> <%=attributeTitle%> </td>
-                        <td align="center" width="30%"> <input type="text" style="width: 96%; text-align: center" name="AttributeID<%=attributeID%>" value="" align="center" placeholder="attribute value..."/> </td>
-                    </tr>
-                    <%}%>
+                    <c:forEach items='${category.getCategoryAttributes()}' var="attribute">
+                        <tr>
+                            <td align="left" width="20%"> <c:out value="${attribute.getObjectTitle()}"/> </td>
+                            <td align="center" width="30%"> <input type="text" style="width: 96%; text-align: center" name="AttributeID<c:out value="${attribute.getObjectID()}"/>" value="" align="center" placeholder="attribute value..."/> </td>
+                        </tr>
+                    </c:forEach>
                 </table>
                 <br>
-                <input type="hidden" name="categoryID" value="<%=categoryID%>" />
+                <input type="hidden" name="categoryID" value="<c:out value="${category.getObjectID()}"/>" />
                 <input type="hidden" name="command" value="bulkEdit" />
                 <p align="center"><input type="submit" value="Update All Attributes" /></p>
             </form>

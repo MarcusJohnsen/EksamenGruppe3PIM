@@ -17,7 +17,7 @@
         <div class="main">
             <h1 align="center">New Attribute</h1>
             <br>
-            <form action="FrontController">
+            <form action="FrontController" method="POST">
                 <p align="center">
                     Attribute name:
                     <br>

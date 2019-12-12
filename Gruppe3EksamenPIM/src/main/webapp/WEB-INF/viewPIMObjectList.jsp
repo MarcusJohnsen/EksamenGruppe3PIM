@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <c:forEach items='${requestScope["PIMObjectList"]}' var="pimobject">
-                    <form action="FrontController">
+                    <form action="FrontController" method="POST">
                         <input type="hidden" name="command" value="selectPIMObject" />
                         <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
                     <tr>

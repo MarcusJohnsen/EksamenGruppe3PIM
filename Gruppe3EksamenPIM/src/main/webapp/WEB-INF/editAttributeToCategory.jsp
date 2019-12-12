@@ -13,21 +13,18 @@
 <html>
     <head>
         <c:set var="pimObjectType" value='${requestScope["PIMObjectType"]}'/>
+        <c:set var="category" value='${requestScope["category"]}'/>
+        <c:set var="attributeList" value='${requestScope["attributeList"]}'/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Connect attributes</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <jsp:include page="/JSP Header/JSP-menu.jsp"/>
-        <%
-            Category category = (Category) request.getAttribute("category");
-            TreeSet<Attribute> attributeList = (TreeSet<Attribute>) request.getAttribute("attributeList");
-            int categoryID = category.getObjectID();
-        %>
         <div class="main">
             <h1 align="center">Add attribute to category</h1>
-            <h3 align="center"><%=category.getObjectTitle()%>, product ID: <%=categoryID%></h3>
-            <form action="FrontController">
+            <h3 align="center"><c:out value="${category.getObjectTitle()}"/>, product ID: <c:out value="${category.getObjectID()}"/></h3>
+            <form action="FrontController" method="POST">
                 <input type="hidden" name="PIMObjectType" value="<c:out value="${pimObjectType}"/>"/>
                 <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
                     <thead>
@@ -38,22 +35,21 @@
                         </tr>
                     </thead>
 
-                    <%
-                        for (Attribute attribute : attributeList) {
-                            int AttributeID = attribute.getObjectID();
-                            String AttributeName = attribute.getObjectTitle();
-                            boolean alreadyOnCategory = category.getCategoryAttributes().contains(attribute);
-                    %>  
-                    <tr>
-                        <td align="center" width="5%"> <%=AttributeID%> </td>
-                        <td align="center" width="20%"> <%=AttributeName%> </td>
-                        <%if (alreadyOnCategory) {%>
-                        <td align="center" width="1%"><input type="checkbox" name=attributeChoices value="<%=AttributeID%>" checked></td>
-                            <%} else {%>
-                        <td align="center" width="1%"><input type="checkbox" name=attributeChoices value="<%=AttributeID%>"></td>
-                            <%}%>
-                    </tr>
-                    <%}%>
+
+                    <c:forEach items='${attributeList}' var="attribute">
+                        <tr>
+                            <td align="center" width="5%"> <c:out value="${attribute.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${attribute.getObjectTitle()}"/> </td>
+                            <c:choose>
+                                <c:when test="${category.getCategoryAttributes().contains(attribute)}">
+                                    <td align="center" width="1%"><input type="checkbox" name=attributeChoices value="<c:out value="${attribute.getObjectID()}"/>" checked></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                    <td align="center" width="1%"><input type="checkbox" name=attributeChoices value="<c:out value="${attribute.getObjectID()}"/>"></td>
+                                    </c:otherwise>
+                                </c:choose>
+                        </tr>
+                    </c:forEach>
                 </table>
 
                 <c:set var="error" value='${requestScope["error"]}'/>
@@ -62,7 +58,7 @@
                 </c:if>
 
                 <br>
-                <input type="hidden" name="pimObjectID" value="<%=categoryID%>" />
+                <input type="hidden" name="pimObjectID" value="<c:out value="${category.getObjectID()}"/>" />
                 <input type="hidden" name="command" value="editAttributesToCategory" />
                 <p align="center"><input type="submit" value="Submit Changes" /></p>
             </form>

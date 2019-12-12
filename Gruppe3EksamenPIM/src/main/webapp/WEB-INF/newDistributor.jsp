@@ -17,7 +17,7 @@
         <div class="main">
             <h1 align="center">Create New Distributor</h1>
             <br>
-            <form action="FrontController">
+            <form action="FrontController" method="POST">
                 <input type="hidden" name="command" value="addDistributor" />
                 <p align="center">
                     Distributor Name:
@@ -30,12 +30,10 @@
                     <br>
                     <textarea name="Distributor Description" rows="8" cols="40" required="required" ></textarea>
                 </p>
-                <%
-                    String error = (String) request.getAttribute("error");
-                    if (error != null) {
-                %>
-                <h2  align="center" style="color: red"><%=error%></h2>
-                <%}%>
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
                 <p align="center">
                     <input type="submit" value="Save" />
                 </p>

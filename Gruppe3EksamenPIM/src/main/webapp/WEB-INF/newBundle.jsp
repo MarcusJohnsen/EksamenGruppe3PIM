@@ -13,6 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <c:set var="productList" value='${requestScope["productList"]}'/>
         <title>Create Bundle</title>
         <link href="css/StyleTable.css" rel="stylesheet" type="text/css">
     </head>
@@ -34,15 +35,13 @@
                 </p>
 
                 <input type="hidden" name="command" value="addBundle" />
-                <%
-                    String error = (String) request.getAttribute("error");
-                    if (error != null) {
-                %>
-                <h2  align="center" style="color: red"><%=error%></h2>
-                <%}%>
+                <c:set var="error" value='${requestScope["error"]}'/>
+                <c:if test="${not empty error}">
+                    <h2 style="color: red" align="center"><c:out value="${error}"/></h2>
+                </c:if>
 
                 <table align="center" border = "1" width = "50%" style="float: top" bgcolor="fffef2">
-                    <thead>
+                    <thead> 
                         <tr bgcolor = "#FF4B4B">
                             <th align="center">ID</th>
                             <th align="center">Name</th>
@@ -52,21 +51,15 @@
                         </tr>
                     </thead>
 
-                    <%
-                        TreeSet<Product> productList = (TreeSet<Product>) request.getAttribute("productList");
-                        for (Product product : productList) {
-                            int ProductID = product.getObjectID();
-                            String ProductName = product.getObjectTitle();
-                            String ProductDescription = product.getObjectDescription();
-                    %>  
-                    <tr>
-                        <td align="center" width="3%"> <%=ProductID%> </td>
-                        <td align="center" width="20%"> <%=ProductName%> </td>
-                        <td align="center" width="30%"> <%=ProductDescription%> </td>
-                        <td align="center" width="1%"><input type="checkbox" name="productChoice" value="<%=ProductID%>"></td>
-                        <td align="center" width="3%"><input type="text" name="ProductIDAmount<%=ProductID%>" value="1" size="1" style="text-align: center;"/></td>
-                    </tr>
-                    <%}%>
+                    <c:forEach items='${productList}' var="product">
+                        <tr>
+                            <td align="center" width="3%"> <c:out value="${product.getObjectID()}"/> </td>
+                            <td align="center" width="20%"> <c:out value="${product.getObjectTitle()}"/> </td>
+                            <td align="center" width="30%"> <c:out value="${product.getObjectDescription()}"/> </td>
+                            <td align="center" width="1%"><input type="checkbox" name="productChoice" value="<c:out value="${product.getObjectID()}"/>"></td>
+                            <td align="center" width="3%"><input type="text" name="ProductIDAmount<c:out value="${product.getObjectID()}"/>" value="1" size="1" style="text-align: center;"/></td>
+                        </tr>
+                    </c:forEach>
                 </table>
 
                 <p align="center">
