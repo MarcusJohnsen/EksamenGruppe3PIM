@@ -9,6 +9,7 @@ Før programmet kan køres:
 
 Det er nødvendigt at indsætte en fil (db.properties) under stien src/main/resources/db.properties.
 
+-----------------------------------------------------------------------------
 
 Filen har brug for oplysninger til en virkende server med følgende kritirier:
 
@@ -25,6 +26,7 @@ SQL script PIM_Database_Script skal køre på DatabaseName, og PIM_Test_Database
 
 SQL script PIM_Presentation_Script indeholder Mock objekter til fremvisning af program med PIM Objekter.
 
+-----------------------------------------------------------------------------
 
 Det er nødvendigt at indsætte en fil (cloudinary.properties) under stien src/main/resources/cloudinary.properties.
 
