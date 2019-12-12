@@ -1,5 +1,7 @@
 USE PIM_Database;
 
+/* this script is inserting a lot of objects into the database for the purpose of presentation */
+
 INSERT INTO Categories (Category_ID, Category_Name, Category_Description) VALUES 
     (1, 'Furniture','These products can be used as furniture, and is meant to be inside, and not subject to direct weather.'),
     (2, 'Electronics','These products run on electricity, and will not function without a charger.'),
