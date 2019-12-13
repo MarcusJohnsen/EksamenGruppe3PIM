@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation.commands.editPIMObject;
 
 import businessLogic.Bundle;
@@ -47,7 +42,7 @@ public class EditBundleCommand extends Command {
                         productChoices.put(productID, Integer.parseInt(request.getParameter("ProductIDAmount" + productID)));
                     }
                 } catch (NumberFormatException ex) {
-                    throw new IllegalArgumentException("Please write only numbers for each product choosen");
+                    throw new IllegalArgumentException("Please write only numbers for each product chosen");
                 }
             } else {
                 productChoices = null;
