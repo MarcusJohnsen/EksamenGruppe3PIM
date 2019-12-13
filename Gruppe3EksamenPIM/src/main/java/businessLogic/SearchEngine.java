@@ -109,7 +109,7 @@ public class SearchEngine {
 
     public TreeSet<Object> advancedSearch(String searchKey, String searchOnObject, HashMap<String, String> filterValues) {
         searchKey = searchKey.toLowerCase();
-        TreeSet<Object> result = new TreeSet();
+        TreeSet<Object> result;
 
         switch (searchOnObject) {
             case TYPE_PRODUCT:
@@ -139,31 +139,34 @@ public class SearchEngine {
         // Find all categories matching searchKey
         boolean singleResultFromList = false;
         TreeSet<Product> fullSearchResult = new TreeSet(productSearch(searchKey, productList, singleResultFromList));
-        TreeSet<Object> result = new TreeSet(fullSearchResult);
+        TreeSet<Object> result = new TreeSet();
 
         // Searching with the filters to see if any products need to be filtered from result. If any of the filters are empty, that filter can be ignored.
         singleResultFromList = true;
         for (Product product : fullSearchResult) {
-            boolean objectRemoved = false;
-            if (categoryFilter.length() > 0 && !objectRemoved) {
+            boolean objectAllowed = true;
+            if (categoryFilter.length() > 0 && objectAllowed) {
                 TreeSet<Category> productCategoryList = product.getProductCategories();
                 if (categorySearch(categoryFilter, productCategoryList, singleResultFromList).isEmpty()) {
-                    objectRemoved = result.remove(product);
+                    objectAllowed = false;
                 }
             }
 
-            if (distributorFilter.length() > 0 && !objectRemoved) {
+            if (distributorFilter.length() > 0 && objectAllowed) {
                 TreeSet<Distributor> productDistributorList = product.getProductDistributors();
                 if (distributorSearch(distributorFilter, productDistributorList, singleResultFromList).isEmpty()) {
-                    objectRemoved = result.remove(product);
+                    objectAllowed = false;
                 }
             }
 
-            if (bundleFilter.length() > 0 && !objectRemoved) {
+            if (bundleFilter.length() > 0 && objectAllowed) {
                 TreeSet<Bundle> productBundleList = product.getProductBundle();
                 if (bundleSearch(bundleFilter, productBundleList, singleResultFromList).isEmpty()) {
-                    objectRemoved = result.remove(product);
+                    objectAllowed = false;
                 }
+            }
+            if (objectAllowed) {
+                result.add(product);
             }
         }
         return result;
@@ -175,17 +178,20 @@ public class SearchEngine {
         // Find all categories matching searchKey
         boolean singleResultFromList = false;
         TreeSet<Category> fullSearchResult = new TreeSet(categorySearch(searchKey, categoryList, singleResultFromList));
-        TreeSet<Object> result = new TreeSet(fullSearchResult);
+        TreeSet<Object> result = new TreeSet();
 
         // Searching with the filters to see if any categories need to be filtered from result. If any of the filters are empty, that filter can be ignored.
         singleResultFromList = true;
         for (Category category : fullSearchResult) {
-            boolean objectRemoved = false;
-            if (productFilter.length() > 0 && !objectRemoved) {
+            boolean objectAllowed = true;
+            if (productFilter.length() > 0 && objectAllowed) {
                 TreeSet<Product> categoryProductList = category.getCategoryProducts();
                 if (productSearch(productFilter, categoryProductList, singleResultFromList).isEmpty()) {
-                    objectRemoved = result.remove(category);
+                    objectAllowed = false;
                 }
+            }
+            if (objectAllowed) {
+                result.add(category);
             }
         }
         return result;
@@ -197,17 +203,20 @@ public class SearchEngine {
         // Find all distributors matching searchKey
         boolean singleResultFromList = false;
         TreeSet<Distributor> fullSearchResult = new TreeSet(distributorSearch(searchKey, distributorList, singleResultFromList));
-        TreeSet<Object> result = new TreeSet(fullSearchResult);
+        TreeSet<Object> result = new TreeSet();
 
         // Searching with the filters to see if any categories need to be filtered from result. If any of the filters are empty, that filter can be ignored.
         singleResultFromList = true;
         for (Distributor distributor : fullSearchResult) {
-            boolean objectRemoved = false;
-            if (productFilter.length() > 0 && !objectRemoved) {
+            boolean objectAllowed = true;
+            if (productFilter.length() > 0 && objectAllowed) {
                 TreeSet<Product> distributorProductList = distributor.getDistributorProducts();
                 if (productSearch(productFilter, distributorProductList, singleResultFromList).isEmpty()) {
-                    objectRemoved = result.remove(distributor);
+                    objectAllowed = false;
                 }
+            }
+            if (objectAllowed) {
+                result.add(distributor);
             }
         }
         return result;
@@ -219,17 +228,20 @@ public class SearchEngine {
         // Find all distributors matching searchKey
         boolean singleResultFromList = false;
         TreeSet<Bundle> fullSearchResult = new TreeSet(bundleSearch(searchKey, bundleList, singleResultFromList));
-        TreeSet<Object> result = new TreeSet(fullSearchResult);
+        TreeSet<Object> result = new TreeSet();
 
         // Searching with the filters to see if any categories need to be filtered from result. If any of the filters are empty, that filter can be ignored.
         singleResultFromList = true;
         for (Bundle bundle : fullSearchResult) {
-            boolean objectRemoved = false;
-            if (productFilter.length() > 0 && !objectRemoved) {
+            boolean objectAllowed = true;
+            if (productFilter.length() > 0 && objectAllowed) {
                 TreeSet<Product> bundleProductList = new TreeSet(bundle.getBundleProducts().keySet());
                 if (productSearch(productFilter, bundleProductList, singleResultFromList).isEmpty()) {
-                    objectRemoved = result.remove(bundle);
+                    objectAllowed = false;
                 }
+            }
+            if (objectAllowed) {
+                result.add(bundle);
             }
         }
         return result;
@@ -244,17 +256,18 @@ public class SearchEngine {
         }
         return filter.toLowerCase();
     }
-    
+
     /**
      * Makes a map with filter values for 4 strings in order: <br>
      * bundle, category, distributor & product.
+     *
      * @param bundleFilter stored in Map under static variable FILTER_KEY_BUNDLE
      * @param categoryFilter stored in Map under static variable FILTER_KEY_CATEGORY
      * @param distributorFilter stored in Map under static variable FILTER_KEY_DISTRIBUTOR
      * @param productFilter stored in Map under static variable FILTER_KEY_PRODUCT
      * @return HashMap with String keys and values, usable for the searchEngine filters
      */
-    public static HashMap<String, String> makeFilterMap(String bundleFilter, String categoryFilter, String distributorFilter, String productFilter){
+    public static HashMap<String, String> makeFilterMap(String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
         HashMap<String, String> filterMap = new HashMap();
         filterMap.put(FILTER_KEY_BUNDLE, bundleFilter);
         filterMap.put(FILTER_KEY_CATEGORY, categoryFilter);
