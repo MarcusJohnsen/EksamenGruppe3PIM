@@ -36,3 +36,6 @@ api_key=
 
 api_secret=
 
+-----------------------------------------------------------------------------
+
+Hvis programmet skal kunne køre på et linux system, er det nødvendigt at lave 2 mapper. Pictures og Json, i mappen for tomcat, catalina.base. Disse mapper bør være i samme mappe som mappen webapps.
