@@ -27,7 +27,7 @@ public class AddProductCommand extends Command {
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
 
-        // get parameters for choosen categories
+        // get parameters for chosen categories
         ArrayList<String> categoryChoices;
         if (request.getParameterValues("categoryChoices") != null) {
             categoryChoices = new ArrayList(Arrays.asList(request.getParameterValues("categoryChoices")));
@@ -37,7 +37,7 @@ public class AddProductCommand extends Command {
 
         try {
             List<Part> parts = (List<Part>) request.getParts();
-            // get parameters for choosen distributors, and throw error if th+ere is none
+            // get parameters for chosen distributors, and throw error if there is none
             ArrayList<String> distributorChoices;
             if (request.getParameterValues("distributorChoices") != null) {
                 distributorChoices = new ArrayList(Arrays.asList(request.getParameterValues("distributorChoices")));

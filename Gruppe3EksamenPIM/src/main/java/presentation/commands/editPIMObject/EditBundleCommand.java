@@ -38,7 +38,7 @@ public class EditBundleCommand extends Command {
                         productChoices.put(productID, Integer.parseInt(request.getParameter("ProductIDAmount" + productID)));
                     }
                 } catch (NumberFormatException ex) {
-                    throw new IllegalArgumentException("Please write only numbers for each product choosen");
+                    throw new IllegalArgumentException("Please write only numbers for each product chosen");
                 }
             } else {
                 productChoices = null;
