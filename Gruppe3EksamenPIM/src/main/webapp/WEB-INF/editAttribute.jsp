@@ -1,9 +1,3 @@
-<%-- 
-    Document   : editAttribute
-    Created on : 27-Nov-2019, 08:53:16
-    Author     : Marcus
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="businessLogic.Attribute"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

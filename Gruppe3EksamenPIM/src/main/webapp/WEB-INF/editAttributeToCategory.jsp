@@ -1,9 +1,3 @@
-<%-- 
-    Document   : addAttributeToCategory
-    Created on : 19-11-2019, 12:23:44
-    Author     : Marcus
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Category"%>

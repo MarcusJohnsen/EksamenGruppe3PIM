@@ -1,9 +1,3 @@
-<%-- 
-    Document   : newDistributor
-    Created on : 25-Nov-2019, 12:22:28
-    Author     : Ashayla
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

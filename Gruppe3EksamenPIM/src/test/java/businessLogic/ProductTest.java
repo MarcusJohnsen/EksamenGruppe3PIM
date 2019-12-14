@@ -191,43 +191,6 @@ public class ProductTest {
 
     }
 
-    /* @Test(expected = IllegalArgumentException.class)
-    public void testNegativeValidateProductInputNoDistributorInput() {
-        
-        String productName = "joker";
-        String productDescription = "the hero joker";
-        ArrayList<Distributor>[] productDistributors = new ArrayList();
-        distributors.add(null);
-        
-        boolean result = Product.validateProductInput(productName, productDescription, distributors);
-        
-        assertTrue(result);
-        
-    } */
- /* @Test
-    public void testValidateProductInputEmptyDistributorsButNotTotalEmpty() {
-        //arrange
-        String productName = "Batman";
-        String productDescription = "This is the 'best' superhero ever";
-        ArrayList<Distributor>[] productDistributors = new ArrayList(Arrays.asList(new String[]{"", "batman", null}));
-
-        //act
-        Product.validateProductInput(productName, productDescription);
-
-        //assert
-        int expSize = 1;
-        assertEquals(expSize, productDistributors.size());
-    } */
- /* @Test(expected = IllegalArgumentException.class)
-    public void testValidateProductInputEmptyDistributorsEmptyValues() {
-        //arrange
-        String productName = "Batman";
-        String productDescription = "This is the 'best' superhero ever";
-        ArrayList<Distributor> productDistributors = new ArrayList(Arrays.asList(new String[]{"", "", null}));
-
-        //act
-        Product.validateProductInput(productName, productDescription);
-    } */
     @Test
     public void testFindProductOnProductID() {
 
@@ -431,7 +394,5 @@ public class ProductTest {
         assertFalse(result.contains(product1));
         assertTrue(result.contains(product2));
         assertTrue(result.contains(product3));
-
     }
-
 }

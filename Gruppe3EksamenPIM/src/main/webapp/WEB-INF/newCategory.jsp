@@ -1,9 +1,3 @@
-<%-- 
-    Document   : newCategory
-    Created on : 13-11-2019, 11:47:28
-    Author     : Andreas
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Attribute"%>

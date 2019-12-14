@@ -1,9 +1,3 @@
-Back<%-- 
-    Document   : viewAllProductDetails
-    Created on : 27-Nov-2019, 10:35:38
-    Author     : Marcus
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Bundle"%>

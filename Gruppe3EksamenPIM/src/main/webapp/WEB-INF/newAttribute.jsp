@@ -1,9 +1,3 @@
-<%-- 
-    Document   : newAttribute
-    Created on : 18-11-2019, 13:14:28
-    Author     : Andreas
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
