@@ -1,8 +1,3 @@
-<%-- 
-    Document   : bulkSelect
-    Created on : 28-11-2019, 12:40:28
-    Author     : Andreas
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Product"%>

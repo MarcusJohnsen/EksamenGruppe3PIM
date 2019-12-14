@@ -1,9 +1,3 @@
-<%-- 
-    Document   : viewAllDistributors
-    Created on : 25-Nov-2019, 12:22:42
-    Author     : Marcus
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Distributor"%>

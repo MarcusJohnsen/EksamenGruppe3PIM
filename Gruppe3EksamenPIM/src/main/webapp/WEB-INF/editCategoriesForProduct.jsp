@@ -1,9 +1,3 @@
-<%-- 
-    Document   : SelectCategoriesForProduct
-    Created on : 19-11-2019, 10:22:09
-    Author     : Michael N. Korsgaard
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Category"%>

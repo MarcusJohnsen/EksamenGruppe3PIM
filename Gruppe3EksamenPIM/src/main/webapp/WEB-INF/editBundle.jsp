@@ -1,9 +1,3 @@
-<%-- 
-    Document   : editBundle
-    Created on : 27-11-2019, 08:45:29
-    Author     : Andreas
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.TreeSet"%>
 <%@page import="businessLogic.Product"%>

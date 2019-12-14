@@ -1,9 +1,3 @@
-<%-- 
-    Document   : editDistributor
-    Created on : 25-Nov-2019, 13:24:05
-    Author     : Marcus
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="businessLogic.Distributor"%>
 <%@page import="java.util.ArrayList"%>

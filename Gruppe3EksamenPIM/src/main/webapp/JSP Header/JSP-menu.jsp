@@ -1,9 +1,3 @@
-<%-- 
-    Document   : JSP-menu
-    Created on : 04-12-2019, 10:54:40
-    Author     : Andreas
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>

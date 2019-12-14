@@ -1,9 +1,3 @@
-<%-- 
-    Document   : deleteDistributor
-    Created on : 25-Nov-2019, 13:27:09
-    Author     : Marcus
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="businessLogic.Distributor"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

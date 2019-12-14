@@ -141,11 +141,13 @@ public class BusinessControllerTest {
 
         //act
         Product result = businessController.createNewProduct(productName, productDescription, productDistributorStrings, productCategoryStrings, requestParts);
-
+        int expProductID = databaseProductAmount+1;
+        
         //assert
         assertTrue(productName.equals(result.objectTitle));
         assertTrue(productDescription.equals(result.objectDescription));
         assertTrue(businessController.getProductList().contains(result));
+        assertEquals(result.getObjectID(), expProductID);
     }
 
     @Test

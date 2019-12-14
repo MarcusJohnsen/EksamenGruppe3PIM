@@ -1,9 +1,3 @@
-<%-- 
-    Document   : editCategory
-    Created on : 19-11-2019, 10:20:47
-    Author     : Andreas
---%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="businessLogic.Category"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
