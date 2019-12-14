@@ -189,7 +189,7 @@ public class SearchEngineTest {
     public void testAdvancedSearchProductWithCategoryFilters() {
         String searchString = "o";
         String searchType = SearchEngine.getTYPE_PRODUCT();
-        filterValues.putAll(SearchEngine.makeFilterMap(null, "1", null, null));
+        filterValues.putAll(SearchEngine.makeFilterMap("", "1", null, "     "));
 
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
 

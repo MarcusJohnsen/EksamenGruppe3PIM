@@ -14,16 +14,6 @@ public class Product extends PIMObject {
 
     private static TreeSet<Product> productList = new TreeSet();
 
-    /**
-     * Constructor
-     *
-     * @param productID int unique, not null auto_increment
-     * @param productTitle String, not null
-     * @param productDescription String, not null
-     * @param picturePath String
-     * @param productDistributors TreeSet of distributor-Objects
-     * @param productCategories TreeSet of category Objects
-     */
     public Product(int productID, String productTitle, String productDescription, String picturePath, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
         super(productID, productTitle, productDescription);
         this.picturePath = picturePath;
@@ -45,6 +35,9 @@ public class Product extends PIMObject {
         addProductRelationToCategoriesAndDistributors();
     }
 
+    /**
+     * Establishes a double link between the product and each category & distributor relation.
+     */
     private void addProductRelationToCategoriesAndDistributors() {
 
         for (Distributor distributor : productDistributors) {
@@ -56,22 +49,12 @@ public class Product extends PIMObject {
         }
     }
 
-    /**
-     * Traverses through the productList in order to find certain category object, which is deleted once it is found.
-     *
-     * @param category category-Object stored in a TreeSet
-     */
     public static void deleteCategoryFromProducts(Category category) {
         for (Product product : productList) {
             product.productCategories.remove(category);
         }
     }
 
-    /**
-     * Traverses through the productList in order to find certain distributor object, which is deleted once it is found
-     *
-     * @param distributor distributor-object stored in a TreeSet
-     */
     public static void deleteDistributorFromProducts(Distributor distributor) {
         for (Product product : productList) {
             product.productDistributors.remove(distributor);
@@ -110,11 +93,11 @@ public class Product extends PIMObject {
     }
 
     /**
-     * Takes a HashMap of productChoices with key integer and
+     * Takes a HashMap with integer keys for product IDs, and replaces the keys with the products the keys matches.
      *
-     * @param productChoices
+     * @param productChoices HashMap with productIDs as int keys, with values as int amounts of each product.
      *
-     * @return
+     * @return HashMap with keys for product IDs replaced with the products.
      */
     public static HashMap<Product, Integer> getMatchingProductsOnIDsWithProductAmountConnected(HashMap<Integer, Integer> productChoices) {
         HashMap<Product, Integer> result = new HashMap();
@@ -128,22 +111,12 @@ public class Product extends PIMObject {
         return result;
     }
 
-    /**
-     *
-     * @param products Traverses the products-List and calls the createAttributesFromCategories() method in order to add the productAttributes to the product object.
-     *
-     */
     public static void createAttributesFromCategories(TreeSet<Product> products) {
         for (Product product : products) {
             product.createAttributesFromCategories();
         }
     }
 
-    /**
-     *
-     * @param categoryID The returned product object from the called method findProductsOnCategoryID(categoryID) is used to call the method createAttributesFromCategories() in order to add/update the productAttributes to the product object.
-     * @return the updated product object.
-     */
     public static TreeSet<Product> updateCategoryAttributes(int categoryID) {
         TreeSet<Product> result = findProductsOnCategoryID(categoryID);
         for (Product productsNeedingUpdatedAttribute : result) {
@@ -153,9 +126,12 @@ public class Product extends PIMObject {
     }
 
     /**
+     * Get a TreeSet of Products that have a relation to a category with the matching ID.
      *
-     * @param categoryID Traverses the productList with given categoryID parameter. If the parameter categoryId matches the categoryId for the product, the product is added to the result-List.
-     * @return The result-List
+     * //TODO: Move to SearchEngine.
+     *
+     * @param categoryID ID for category relation for products.
+     * @return TreeSet of Products, empty if no products with relations to the category with ID was found.
      */
     public static TreeSet<Product> findProductsOnCategoryID(int categoryID) {
         TreeSet<Product> result = new TreeSet();
@@ -176,6 +152,14 @@ public class Product extends PIMObject {
         }
     }
 
+    /**
+     * Get a TreeSet of Products that have a relation to a bundle with the matching ID.
+     *
+     * //TODO: Move to SearchEngine.
+     *
+     * @param categoryID ID for bundle relation for products.
+     * @return TreeSet of Products, empty if no products with relations to the bundle with ID was found.
+     */
     public static TreeSet<Product> findProductsOnBundleID(int bundleID) {
         TreeSet<Product> result = new TreeSet();
         for (Product product : productList) {
@@ -189,24 +173,19 @@ public class Product extends PIMObject {
         return result;
     }
 
-    /**
-     * @param productListFromDB Gets the list of product objects from the DataBase and stores them in a list.
-     */
     public static void setupProductListFromDB(TreeSet<Product> productListFromDB) {
         productList = productListFromDB;
     }
 
-    /**
-     * @param product product object is added to the productList.
-     */
     public static void addToProductList(Product product) {
         productList.add(product);
     }
 
     /**
+     * Delete a product with a given ID, after removing all product relations to other PIM objects.
      *
-     * @param productID Is used to call the method findProductOnID(productID). The returned product object is then deleted.
-     * @return The new productList.
+     * @param productID ID for product to be deleted
+     * @return boolean true if product was removed from static productList.
      */
     public static boolean deleteProductOnID(int productID) {
         Product product = findProductOnID(productID);
@@ -226,9 +205,10 @@ public class Product extends PIMObject {
     }
 
     /**
+     * Traversing through the productList and using the productID param to find product object.
      *
-     * @param productID Traversing through the productList and using the productID param to find product object.
-     * @return The found product object.
+     * @param productID ID for desired product.
+     * @return The found product object, or null if not found
      */
     public static Product findProductOnID(int productID) {
         for (Product product : productList) {
@@ -239,6 +219,12 @@ public class Product extends PIMObject {
         return null;
     }
 
+    /**
+     * Traversing through the productList and using the productID param to find product object.
+     *
+     * @param productID IDs for desired products
+     * @return TreeSet for products found with matching IDs, or empty if none were found.
+     */
     public static TreeSet<Product> findProductsOnIDs(ArrayList<Integer> productIDs) {
         TreeSet<Product> result = new TreeSet();
         for (Integer productID : productIDs) {
@@ -250,21 +236,12 @@ public class Product extends PIMObject {
         return result;
     }
 
-    /**
-     *
-     * @param productTitle Is edited.
-     * @param productDescription Is edited.
-     */
     public void editProduct(String productTitle, String productDescription, TreeSet<Distributor> productDistributors) {
         this.objectTitle = productTitle;
         this.objectDescription = productDescription;
         this.productDistributors = productDistributors;
     }
 
-    /**
-     * @param productAttributeValues Mangler
-     *
-     */
     public void updateProductValues(HashMap<Integer, String> productAttributeValues) {
         for (Attribute productAttribute : this.productAttributes) {
             int attributeID = productAttribute.objectID;
@@ -294,9 +271,6 @@ public class Product extends PIMObject {
         return true;
     }
 
-    /**
-     * @param productCategories Calls the createAttributesFromCategories() method in order to edit the productCategories.
-     */
     public void editProductCategories(TreeSet<Category> productCategories) {
         this.productCategories = productCategories;
         createAttributesFromCategories();

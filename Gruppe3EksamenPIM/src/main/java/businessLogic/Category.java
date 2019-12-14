@@ -26,25 +26,20 @@ public class Category extends PIMObject {
         this.categoryProducts = new TreeSet();
     }
 
-    /**
-     *
-     * @param CategoryListFromDB Gets the list of Category-objects from the DataBase and stores them in an TreeSet.
-     */
     public static void setupCategoryListFromDB(TreeSet<Category> CategoryListFromDB) {
         categoryList = CategoryListFromDB;
     }
 
-    /**
-     *
-     * @param newCategory Adds a new category-object to the categoryList.
-     */
     public static void addToCategoryList(Category newCategory) {
         categoryList.add(newCategory);
     }
 
     /**
+     * Find category with matching ID to search parameter.
      *
-     * @param categoryID Traverses through the categoryList in search of a specific category based on its ID
+     * //TODO: move to SearchEngine.
+     *
+     * @param categoryID ID for desired category.
      * @return The category object if it is found. If not found, a null value is returned.
      */
     public static Category findCategoryOnID(int categoryID) {
@@ -56,6 +51,14 @@ public class Category extends PIMObject {
         return null;
     }
 
+    /**
+     * Find all attributes from relations to a set of categories.
+     *
+     * //TODO: move to SearchEngine.
+     *
+     * @param categoryList TreeSet of categories.
+     * @return TreeSet of Attributes
+     */
     public static TreeSet<Attribute> getCategoryAttributesFromList(TreeSet<Category> categoryList) {
         TreeSet<Attribute> result = new TreeSet();
         for (Category category : categoryList) {
@@ -74,32 +77,23 @@ public class Category extends PIMObject {
         return category.categoryAttributes;
     }
 
-    /**
-     *
-     * @param categoryID ¨categoryId is used to find the matching category Object and delete it from the categoryList.
-     * @return Boolean true if it is deleted.
-     */
     public static boolean deleteCategory(int categoryID) {
         return categoryList.remove(findCategoryOnID(categoryID));
     }
 
-    /**
-     *
-     * @param categoryTitle
-     * @param categoryDescription Edits the variables (name and description) by giving them new values.
-     */
     public void editCategory(String categoryTitle, String categoryDescription) {
         this.objectTitle = categoryTitle;
         this.objectDescription = categoryDescription;
     }
 
     /**
+     * Check if user input is valid for businessLogic parameters for the category.
      *
-     * @param categoryTitle Validating the categoryInput. The categoryName must not be empty or already existing.
-     * @param categoryDescription The categoryDescription must not be empty.
-     * @param categoryID The categoryID must not be null or already existing.
-     * @return Boolean true if name, description and ID fullfills the above-mentioned prerequisites.
-     * @throws IllegalArgumentException if Boolean is not true.
+     * @param categoryTitle User input for category title.
+     * @param categoryDescription User input for category description.
+     * @param categoryID ID if the validation is for edit on exising category, or null if validation is for new category.
+     * @return boolean true if user input is valid.
+     * @throws IllegalArgumentException if user input is not valid, with message explaining what businesslogic was violated.
      */
     public static boolean validateCategoryInput(String categoryTitle, String categoryDescription, Integer categoryID) throws IllegalArgumentException {
         if (categoryTitle.isEmpty()) {
@@ -124,9 +118,12 @@ public class Category extends PIMObject {
     }
 
     /**
-     *
-     * @param categoryChoices Traverses the categoryList in search of matching categoryID's. If matching occur, the category object is added to the result-List.
-     * @return The result-List
+     * Get TreeSet of Categories for all that have IDs matching an ID in the parameter list.
+     * 
+     * //TODO: move to SearchEngine.
+     * 
+     * @param categoryChoices String list of IDs
+     * @return TreeSet with all categories with matching IDs to search.
      */
     public static TreeSet<Category> getMatchingCategoriesOnIDs(ArrayList<String> categoryChoices) {
         TreeSet<Category> result = new TreeSet();
@@ -166,6 +163,11 @@ public class Category extends PIMObject {
         return categoryProducts;
     }
 
+    /**
+     * Get a sorted list of up to ten categories, based and sorted on amount of category relations to products.
+     * 
+     * @return sorted top ten categories list.
+     */
     public static List<Category> topTenCategories() {
         List<Category> categoryProductCounts = new ArrayList(categoryList);
 

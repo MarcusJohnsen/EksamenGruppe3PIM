@@ -19,6 +19,14 @@ public class Distributor extends PIMObject {
         this.distributorProducts = new TreeSet();
     }
 
+    /**
+     * Check if user input is valid for businessLogic parameters for the distributor.
+     *
+     * @param distributorName User input for distributor title.
+     * @param distributorDescription User input for distributor description.
+     * @return boolean true if user input is valid.
+     * @throws IllegalArgumentException if user input is not valid, with message explaining what businesslogic was violated.
+     */
     public static boolean validateDistributorInput(String distributorName, String distributorDescription) throws IllegalArgumentException {
         if (distributorName.isEmpty()) {
             throw new IllegalArgumentException("please fill out Distributor name field");
@@ -29,23 +37,14 @@ public class Distributor extends PIMObject {
         return true;
     }
 
-    public static void setupDistributorListFromDB(TreeSet<Distributor> distributorListFromDB) {
-        distributorList = distributorListFromDB;
-    }
-
-    public static void addToDistributorList(Distributor newDistributor) {
-        distributorList.add(newDistributor);
-    }
-
-    public static boolean deleteDistributor(int distributorID) {
-        return distributorList.remove(findDistributorOnID(distributorID));
-    }
-
-    public void editDistributor(String distributorTitle, String distributorDescription) {
-        this.objectTitle = distributorTitle;
-        this.objectDescription = distributorDescription;
-    }
-
+    /**
+     * Get TreeSet of Distributors for all that have IDs matching an ID in the parameter list.
+     *
+     * //TODO: move to SearchEngine.
+     *
+     * @param distributorChoices String list of IDs
+     * @return TreeSet with all distributors with matching IDs to search.
+     */
     public static TreeSet<Distributor> getMatchingDistributorsOnIDs(ArrayList<String> distributorChoices) {
         TreeSet<Distributor> result = new TreeSet();
         for (Distributor distributor : distributorList) {
@@ -56,6 +55,14 @@ public class Distributor extends PIMObject {
         return result;
     }
 
+    /**
+     * Find distributor with matching ID to search parameter.
+     *
+     * //TODO: move to SearchEngine.
+     *
+     * @param distributorID ID for desired distributor.
+     * @return The distributor object if it is found. If not found, a null value is returned.
+     */
     public static Distributor findDistributorOnID(int distributorID) {
         for (Distributor distributor : distributorList) {
             if (distributor.objectID == distributorID) {
@@ -65,6 +72,12 @@ public class Distributor extends PIMObject {
         return null;
     }
 
+    /**
+     *
+     * Get a sorted list of up to ten distributors, based and sorted on amount of category relations to products.
+     *
+     * @return sorted top ten distributors list.
+     */
     public static List<Distributor> topTenDistributors() {
         List<Distributor> distributorProductCounts = new ArrayList(distributorList);
 
@@ -110,5 +123,22 @@ public class Distributor extends PIMObject {
 
     public TreeSet<Product> getDistributorProducts() {
         return distributorProducts;
+    }
+
+    public static void setupDistributorListFromDB(TreeSet<Distributor> distributorListFromDB) {
+        distributorList = distributorListFromDB;
+    }
+
+    public static void addToDistributorList(Distributor newDistributor) {
+        distributorList.add(newDistributor);
+    }
+
+    public static boolean deleteDistributor(int distributorID) {
+        return distributorList.remove(findDistributorOnID(distributorID));
+    }
+
+    public void editDistributor(String distributorTitle, String distributorDescription) {
+        this.objectTitle = distributorTitle;
+        this.objectDescription = distributorDescription;
     }
 }

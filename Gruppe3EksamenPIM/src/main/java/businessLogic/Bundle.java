@@ -25,6 +25,9 @@ public class Bundle extends PIMObject {
         addBundleRelationToProducts();
     }
 
+    /**
+     * Establishes a double link between the bundle and each product relation.
+     */
     public void addBundleRelationToProducts() {
         for (Product product : bundleProducts.keySet()) {
             product.addBundleToProduct(this);
@@ -43,6 +46,14 @@ public class Bundle extends PIMObject {
         bundleList.add(newBundle);
     }
 
+    /**
+     * Get bundle with matching ID to the given search parameter.
+     *
+     * //TODO: move method to SearchEngine
+     *
+     * @param objectID ID of desired Bundle
+     * @return Bundle with matching ID, or null
+     */
     public static Bundle findBundleOnID(int objectID) {
         for (Bundle bundle : bundleList) {
             if (bundle.objectID == objectID) {
@@ -52,6 +63,12 @@ public class Bundle extends PIMObject {
         return null;
     }
 
+    /**
+     * Delete the bundle from the static bundlelist, after removing all relations to bundle-products.
+     *
+     * @param objectID ID for Bundle to be deleted
+     * @return boolean true if the bundle was removed from the static bundlelist.
+     */
     public static boolean deleteBundle(int objectID) {
         Bundle bundle = findBundleOnID(objectID);
         for (Product product : bundle.bundleProducts.keySet()) {
@@ -66,6 +83,15 @@ public class Bundle extends PIMObject {
         this.bundleProducts = productListForBundle;
     }
 
+    /**
+     * Check if user input is valid for businessLogic parameters for the bundle.
+     *
+     * @param bundleName user input for bundle title
+     * @param bundleDescription user input for bundle description.
+     * @param bundleID ID if the validation is for edit on exising bundle, or null if validation is for new bundle.
+     * @return boolean true if user input is valid.
+     * @throws IllegalArgumentException if user input is not valid, with message explaining what businesslogic was violated.
+     */
     public static boolean validateBundleInput(String bundleName, String bundleDescription, Integer bundleID) throws IllegalArgumentException {
         if (bundleName.isEmpty()) {
             throw new IllegalArgumentException("please fill out bundle-name field");
@@ -88,6 +114,11 @@ public class Bundle extends PIMObject {
         return true;
     }
 
+    /**
+     * Get a sorted list of up to ten bundles, based and sorted on amount of bundle relations to products.
+     *
+     * @return sorted top ten bundles list.
+     */
     public static List<Bundle> topTenBundles() {
         List<Bundle> bundleProductCounts = new ArrayList(bundleList);
 

@@ -15,17 +15,16 @@ public class Attribute extends PIMObject {
         this.attributeValues = attributeValues;
     }
 
-    /**
-     *
-     * @param AttributeListFromDB Gets the list of Attribute-objects from the DataBase and stores them in a TreeSet.
-     */
     public static void setupAttributeListFromDB(TreeSet<Attribute> AttributeListFromDB) {
         attributeList = AttributeListFromDB;
     }
 
     /**
+     * Searches thought the static attributeList from the Attribute class, searching for an attribute with a ID matching the search parameter.
      *
-     * @param attributeID Traverses through the attributelist in search of a specific attribute based on its ID
+     * //TODO: Move this method into SearchEngine class.
+     *
+     * @param attributeID an int searchKey used to find an attribute with a matching ID.
      * @return The attribute if it is found. If not found, a null value is returned.
      */
     public static Attribute findAttributeOnID(int attributeID) {
@@ -37,6 +36,13 @@ public class Attribute extends PIMObject {
         return null;
     }
 
+    /**
+     * Edit multiple attribute values on multiple different products.
+     *
+     * @param productIDs List of IDs for products that should have their corresponding attribute values changed.
+     * @param newAttributeValues a hashMap with ints matching attribute IDs as keys to their new String values.
+     * @throws IllegalArgumentException, if newAttributeValues is empty.
+     */
     public static void bulkEditProducts(ArrayList<Integer> productIDs, HashMap<Integer, String> newAttributeValues) {
         if (newAttributeValues.isEmpty()) {
             throw new IllegalArgumentException("Nothing to edit");
@@ -50,10 +56,11 @@ public class Attribute extends PIMObject {
     }
 
     /**
+     * Check if user input is valid for businessLogic parameters for the attributeTitle.
      *
-     * @param attributeTitle Validates the attributeName. The given title must not be empty or already existing.
-     * @return Boolean true if given title is not empty/already existing
-     * @throw Exception if boolean is not true.
+     * @param attributeTitle user input for attribute title.
+     * @return Boolean true if given title is not empty/already existing.
+     * @throw Exception if user input is not valid, with message explaining what businesslogic was violated.
      */
     public static boolean validateNewAttributeTitle(String attributeTitle) {
         if (attributeTitle.isEmpty()) {
@@ -67,11 +74,6 @@ public class Attribute extends PIMObject {
         return true;
     }
 
-    /**
-     *
-     * @param attribute Adds a new attribute-object to the attributeList.
-     * @return Boolean true if attribute is added to the list.
-     */
     public static boolean addToAttributeList(Attribute attribute) {
         return attributeList.add(attribute);
     }
@@ -85,9 +87,12 @@ public class Attribute extends PIMObject {
     }
 
     /**
+     * get TreeSet of attributes for all attributes with ID matching one of the search-Strings in attributeChoices
      *
-     * @param attributeChoices Traverses the attributeList in search of matching attributeID's. If matching occur, the attribute object is added to the result-List.
-     * @return The result-List.
+     * //TODO: Move this method into SearchEngine class.
+     *
+     * @param attributeChoices String list of attributeIDs
+     * @return TreeSet with all attributes with matching IDs to search.
      */
     public static TreeSet<Attribute> getMatchingAttributesOnStringIDs(ArrayList<String> attributeChoices) {
         TreeSet<Attribute> result = new TreeSet();
@@ -99,6 +104,14 @@ public class Attribute extends PIMObject {
         return result;
     }
 
+    /**
+     * get TreeSet of attributes for all attributes with ID matching one of the search-ints in attributeChoices
+     *
+     * //TODO: Move this method into SearchEngine class.
+     *
+     * @param attributeChoices int set of attributeIDs
+     * @return TreeSet with all attributes with matching IDs to search.
+     */
     public static TreeSet<Attribute> getMatchingAttributesOnIDs(Set<Integer> attributeChoices) {
         TreeSet<Attribute> result = new TreeSet();
         for (Attribute attribute : attributeList) {
@@ -114,10 +127,11 @@ public class Attribute extends PIMObject {
     }
 
     /**
+     * Insert a value for a product to the corresponding attribute
      *
-     * @param value
-     * @param productID Inserts new value into HashMap. Takes two parameters and uses them as a key/value pair.
-     * @return boolean true if the new inserted value is not null.
+     * @param value String value for product
+     * @param productID id for the product the value should be held at.
+     * @return boolean true if the attribute had a previous value for the product.
      */
     public boolean insertValueIntoAttribute(String value, int productID) {
         String previousValue = this.attributeValues.put(productID, value);
