@@ -3,10 +3,6 @@ package businessLogic;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-/**
- *
- * @author Andreas & Marcus
- */
 public class SearchEngine {
 
     private static final String FILTER_KEY_BUNDLE = "bundleFilter";

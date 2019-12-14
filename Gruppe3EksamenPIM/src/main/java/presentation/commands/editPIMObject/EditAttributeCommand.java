@@ -11,7 +11,7 @@ public class EditAttributeCommand extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "viewPIMObjectList";
-        
+
         String pimObjectType = request.getParameter("PIMObjectType");
         request.setAttribute("PIMObjectType", pimObjectType);
 

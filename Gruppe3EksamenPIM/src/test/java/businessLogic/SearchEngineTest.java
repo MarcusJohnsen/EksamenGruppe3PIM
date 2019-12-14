@@ -1,7 +1,5 @@
 package businessLogic;
 
-import java.io.File;
-import persistence.Json.JsonHandler;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -10,10 +8,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- * @author Andreas
- */
 public class SearchEngineTest {
 
     private static final SearchEngine search = new SearchEngine();
@@ -226,89 +220,89 @@ public class SearchEngineTest {
         String searchString = "d";
         String searchType = SearchEngine.getTYPE_DISTRIBUTOR();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
-        
+
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
-        
+
         assertFalse(result.contains(distributor1));
         assertTrue(result.contains(distributor2));
         assertTrue(result.contains(distributor3));
     }
-    
+
     @Test
     public void testAdvancedSearchDistributorWithProductFilter() {
         String searchString = "d";
         String searchType = SearchEngine.getTYPE_DISTRIBUTOR();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "IrOnMaN"));
-        
+
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
-        
+
         assertFalse(result.contains(distributor1));
         assertFalse(result.contains(distributor2));
         assertTrue(result.contains(distributor3));
     }
-    
+
     @Test
     public void testAdvancedSearchCategoryNoFilters() {
         String searchString = "H";
         String searchType = SearchEngine.getTYPE_CATEGORY();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
-        
+
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
-        
+
         assertTrue(result.contains(category1));
         assertFalse(result.contains(category2));
         assertTrue(result.contains(category3));
         assertTrue(result.contains(category4));
     }
-    
+
     @Test
     public void testAdvancedSearchCategoryWithProductFilter() {
         String searchString = "H";
         String searchType = SearchEngine.getTYPE_CATEGORY();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "o"));
-        
+
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
-        
+
         assertTrue(result.contains(category1));
         assertFalse(result.contains(category2));
         assertTrue(result.contains(category3));
         assertFalse(result.contains(category4));
     }
-    
+
     @Test
     public void testAdvancedSearchBundleNoFilters() {
         String searchString = "M";
         String searchType = SearchEngine.getTYPE_BUNDLE();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
-        
+
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
-        
+
         assertTrue(result.contains(bundle1));
         assertTrue(result.contains(bundle2));
         assertFalse(result.contains(bundle3));
 
     }
-    
+
     @Test
     public void testAdvancedSearchBundleWithProductFilter() {
         String searchString = "M";
         String searchType = SearchEngine.getTYPE_BUNDLE();
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "JOkER"));
-        
+
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
-        
+
         assertTrue(result.contains(bundle1));
         assertFalse(result.contains(bundle2));
         assertFalse(result.contains(bundle3));
 
     }
-    
-    @Test(expected=IllegalArgumentException.class)
-    public void testNegativeAdvancedSearchWrongType(){
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeAdvancedSearchWrongType() {
         String searchString = "";
         String searchType = SearchEngine.getTYPE_BUNDLE() + "e";
         filterValues.putAll(SearchEngine.makeFilterMap(null, "   ", "hello", ""));
-        
+
         TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
     }
 
@@ -341,5 +335,5 @@ public class SearchEngineTest {
         assertEquals(distributorFilter, result.get(SearchEngine.getFILTER_KEY_DISTRIBUTOR()));
         assertEquals(productFilter, result.get(SearchEngine.getFILTER_KEY_PRODUCT()));
     }
-    
+
 }

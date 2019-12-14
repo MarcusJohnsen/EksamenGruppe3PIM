@@ -6,12 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
-/**
- * 
- * @author Marcus
- */
 public class EditDistributorCommand extends Command {
-    
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "viewPIMObjectList";
@@ -19,7 +15,7 @@ public class EditDistributorCommand extends Command {
         int distributorID = Integer.parseInt(request.getParameter("distributorID"));
         String distributorName = request.getParameter("Distributor Name");
         String distributorDescription = request.getParameter("Distributor Description");
-        
+
         String pimObjectType = request.getParameter("PIMObjectType");
         request.setAttribute("PIMObjectType", pimObjectType);
 
@@ -28,7 +24,7 @@ public class EditDistributorCommand extends Command {
         } catch (IllegalArgumentException ex) {
             nextJsp = "editDistributor";
             request.setAttribute("error", ex.getMessage());
-            
+
             Distributor distributor = businessController.getDistributorFromID(distributorID);
             request.setAttribute("pimObject", distributor);
         }

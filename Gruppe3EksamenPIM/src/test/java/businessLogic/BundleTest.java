@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package businessLogic;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class BundleTest {
 
     @Test
@@ -30,7 +21,7 @@ public class BundleTest {
 
         Bundle.validateBundleInput(bundleName, bundleDescription, bundleID);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeValidateBundleInput_EmptyBundleDescription() {
         String bundleName = "Name";
@@ -39,36 +30,36 @@ public class BundleTest {
 
         Bundle.validateBundleInput(bundleName, bundleDescription, bundleID);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeValidateBundleInput_DublicateName_NullBundleID() {
         Bundle bundle = new Bundle(1, "Name", "Description", null);
         Bundle.addToBundleList(bundle);
-        
+
         String bundleName = "Name";
         String bundleDescription = "OtherDescription";
         Integer bundleID = null;
 
         Bundle.validateBundleInput(bundleName, bundleDescription, bundleID);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeValidateBundleInput_DublicateName_NotMatchingBundleID() {
         Bundle bundle = new Bundle(1, "Name", "Description", null);
         Bundle.addToBundleList(bundle);
-        
+
         String bundleName = "Name";
         String bundleDescription = "OtherDescription";
         Integer bundleID = 2;
 
         Bundle.validateBundleInput(bundleName, bundleDescription, bundleID);
     }
-    
+
     @Test
     public void testValidateBundleInput_DublicateName_MatchingBundleID() {
         Bundle bundle = new Bundle(1, "Name", "Description", null);
         Bundle.addToBundleList(bundle);
-        
+
         String bundleName = "Name";
         String bundleDescription = "OtherDescription";
         Integer bundleID = 1;

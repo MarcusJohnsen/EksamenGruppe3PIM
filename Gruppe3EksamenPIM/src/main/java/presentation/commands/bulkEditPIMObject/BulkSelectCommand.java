@@ -1,23 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation.commands.bulkEditPIMObject;
 
 import businessLogic.BusinessController;
 import businessLogic.Category;
 import businessLogic.PIMObject;
-import businessLogic.Product;
-import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
-/**
- *
- * @author Andreas
- */
 public class BulkSelectCommand extends Command {
 
     @Override

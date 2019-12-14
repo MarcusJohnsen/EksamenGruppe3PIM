@@ -13,9 +13,9 @@ ${frontController.setup()}
 <c:set var="categoryCount" value="${statistics['categoryCount']}"/>
 <c:set var="distributorCount" value="${statistics['distributorCount']}"/>
 <c:set var="bundleCount" value="${statistics['bundleCount']}"/>
-<c:set var="topTenCategories" value="${statistics['topTenCategories']}"/> <!-- These are Lists that should be sorted with largest / nr. 1 first -->
-<c:set var="topTenDistributors" value="${statistics['topTenDistributors']}"/>
-<c:set var="topTenBundles" value="${statistics['topTenBundles']}"/>
+<c:set var="topTenCategories" value="${statistics['topTenCategories']}"/> <!-- These are Lists that are sorted with largest / nr. 1 first -->
+<c:set var="topTenDistributors" value="${statistics['topTenDistributors']}"/> <!-- These are Lists that are sorted with largest / nr. 1 first -->
+<c:set var="topTenBundles" value="${statistics['topTenBundles']}"/> <!-- These are Lists that are sorted with largest / nr. 1 first -->
 
 <html>
     <head>

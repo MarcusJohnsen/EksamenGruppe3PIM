@@ -1,31 +1,15 @@
 package presentation;
 
-import presentation.commands.editPIMObject.SelectCategoriesForProductCommand;
-import presentation.commands.editPIMObject.SelectAttributesForCategoryCommand;
-import presentation.commands.bulkEditPIMObject.BulkSelectCommand;
-import presentation.commands.bulkEditPIMObject.BulkEditCommand;
-import presentation.commands.editPIMObject.EditCategoriesToProductCommand;
-import presentation.commands.editPIMObject.EditDistributorCommand;
-import presentation.commands.editPIMObject.EditAttributesToCategoryCommand;
-import presentation.commands.editPIMObject.EditCategoryCommand;
-import presentation.commands.editPIMObject.EditProductCommand;
-import presentation.commands.editPIMObject.EditAttributeCommand;
-import presentation.commands.editPIMObject.EditBundleCommand;
-import presentation.commands.addPIMObject.AddAttributeCommand;
-import presentation.commands.addPIMObject.AddBundleCommand;
-import presentation.commands.addPIMObject.AddCategoryCommand;
-import presentation.commands.addPIMObject.AddProductCommand;
-import presentation.commands.addPIMObject.AddDistributorCommand;
+import presentation.commands.bulkEditPIMObject.*;
+import presentation.commands.editPIMObject.*;
+import presentation.commands.addPIMObject.*;
+import presentation.commands.*;
+
 import businessLogic.BusinessController;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import presentation.commands.*;
 
-/**
- *
- * @author cahit
- */
 public abstract class Command {
 
     private static HashMap<String, Command> commands;

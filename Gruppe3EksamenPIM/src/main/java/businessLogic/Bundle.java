@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.TreeSet;
 import persistence.Json.Exclude;
 
-/**
- *
- * @author Andreas
- */
 public class Bundle extends PIMObject {
 
     @Exclude

@@ -12,10 +12,6 @@ import persistence.SQLDatabase;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-/**
- *
- * @author Andreas
- */
 public class BundleMapper {
 
     private SQLDatabase database;

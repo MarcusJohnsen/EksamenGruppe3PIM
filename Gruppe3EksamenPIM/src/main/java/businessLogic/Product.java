@@ -1,14 +1,9 @@
 package businessLogic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class Product extends PIMObject {
 
     private String picturePath;

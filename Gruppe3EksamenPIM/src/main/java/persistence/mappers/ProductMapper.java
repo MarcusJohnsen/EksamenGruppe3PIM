@@ -14,10 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.SQLDatabase;
 
-/**
- *
- * @author Marcus
- */
 public class ProductMapper {
 
     private SQLDatabase database;
@@ -26,7 +22,6 @@ public class ProductMapper {
         this.database = database;
     }
 
-    
     public TreeSet<Product> getProducts(TreeSet<Category> categoryList, TreeSet<Distributor> distributorList) {
         try {
             TreeSet<Product> productList = new TreeSet();
@@ -109,7 +104,7 @@ public class ProductMapper {
                 sqlInsertProductDistributors += "(" + productID + ", '" + distributor.getObjectID() + "')";
             }
             database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
-            
+
             if (!productCategories.isEmpty()) {
                 String sqlInsertProductCategories = "INSERT INTO Product_Categories (Product_ID, Category_ID) VALUES ";
                 firstline = true;
@@ -123,9 +118,9 @@ public class ProductMapper {
                 }
                 database.getConnection().prepareStatement(sqlInsertProductCategories).executeUpdate();
             }
-            
+
             TreeSet<Attribute> productAttributes = Category.getCategoryAttributesFromList(productCategories);
-            
+
             if (!productAttributes.isEmpty()) {
                 String sqlInsertProductAttributes = "INSERT INTO Product_Attributes(Product_ID, Attribute_ID, Attribute_Info) VALUES ";
                 firstline = true;
@@ -144,7 +139,7 @@ public class ProductMapper {
                 }
                 database.getConnection().prepareStatement(sqlInsertProductAttributes).executeUpdate();
             }
-            
+
             database.getConnection().commit();
             database.setAutoCommit(true);
 
@@ -225,7 +220,7 @@ public class ProductMapper {
     public int editProduct(Product product) {
         try {
             int rowsAffected = 0;
-            
+
             database.setAutoCommit(false);
             //Update product in product table
             String sqlUpdateProduct = "UPDATE Product SET Product_Name = ?, Product_Description = ? WHERE product_ID = ?";
@@ -234,29 +229,29 @@ public class ProductMapper {
             psUpdateProduct.setString(2, product.getObjectDescription());
             psUpdateProduct.setInt(3, product.getObjectID());
             rowsAffected += psUpdateProduct.executeUpdate();
-            
+
             //Delete old product distributor connections
             String sqlDeleteProductDistributors = "DELETE FROM Product_Distributor WHERE Product_ID = ?";
             PreparedStatement psDeleteProductDistributors = database.getConnection().prepareStatement(sqlDeleteProductDistributors);
             psDeleteProductDistributors.setInt(1, product.getObjectID());
             rowsAffected += psDeleteProductDistributors.executeUpdate();
-            
+
             //Create new product distributor connections
             String sqlInsertProductDistributors = "INSERT INTO Product_Distributor (Product_ID, Distributor_ID) VALUES ";
-                boolean firstline = true;
-                for (Distributor distributor : product.getProductDistributors()) {
-                    if (firstline) {
-                        firstline = false;
-                    } else {
-                        sqlInsertProductDistributors += ", ";
-                    }
-                    sqlInsertProductDistributors += "(" + product.getObjectID() + ", '" + distributor.getObjectID() + "')";
+            boolean firstline = true;
+            for (Distributor distributor : product.getProductDistributors()) {
+                if (firstline) {
+                    firstline = false;
+                } else {
+                    sqlInsertProductDistributors += ", ";
                 }
-                rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
-            
+                sqlInsertProductDistributors += "(" + product.getObjectID() + ", '" + distributor.getObjectID() + "')";
+            }
+            rowsAffected += database.getConnection().prepareStatement(sqlInsertProductDistributors).executeUpdate();
+
             database.getConnection().commit();
             database.setAutoCommit(true);
-            
+
             return rowsAffected;
         } catch (SQLException ex) {
             Logger.getLogger(ProductMapper.class.getName()).log(Level.SEVERE, null, ex);

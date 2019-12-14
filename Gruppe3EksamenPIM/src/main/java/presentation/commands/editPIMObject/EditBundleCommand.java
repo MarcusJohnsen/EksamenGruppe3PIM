@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
-/**
- *
- * @author Andreas
- */
 public class EditBundleCommand extends Command {
 
     @Override
@@ -23,7 +19,7 @@ public class EditBundleCommand extends Command {
         int bundleID = Integer.parseInt(request.getParameter("bundleID"));
         String bundleName = request.getParameter("Bundle Name");
         String bundleDescription = request.getParameter("Bundle Description");
-        
+
         String pimObjectType = request.getParameter("PIMObjectType");
         request.setAttribute("PIMObjectType", pimObjectType);
 

@@ -1,4 +1,3 @@
-
 package persistence.Json;
 
 import com.google.gson.ExclusionStrategy;

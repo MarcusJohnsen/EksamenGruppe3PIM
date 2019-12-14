@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 @WebServlet(name = "FrontController", urlPatterns = {"/FrontController"})
 @MultipartConfig(fileSizeThreshold = 500000, // this equals around 0,5 MB
         maxFileSize = 1048576L, // this equals 1 MB
@@ -36,7 +32,7 @@ public class FrontController extends HttpServlet {
     public static BusinessController getBusinessController() {
         return businessController;
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
@@ -49,18 +45,18 @@ public class FrontController extends HttpServlet {
             throws ServletException, IOException {
 
 //        try {
-            setup();
-            
-            Command cmd = Command.from(request);
-            if(Command.doCommandNeedParts(cmd)){
-                request.setAttribute("partList", request.getParts());
-            }
-            String view = cmd.execute(request, response, businessController);
-            if (view.equals("index")) {
-                request.getRequestDispatcher(view + ".jsp").forward(request, response);
-            } else {
-                request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
-            }
+        setup();
+
+        Command cmd = Command.from(request);
+        if (Command.doCommandNeedParts(cmd)) {
+            request.setAttribute("partList", request.getParts());
+        }
+        String view = cmd.execute(request, response, businessController);
+        if (view.equals("index")) {
+            request.getRequestDispatcher(view + ".jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/WEB-INF/" + view + ".jsp").forward(request, response);
+        }
 //        } catch (Exception ex) {
 //            request.setAttribute("error", ex.getMessage());
 //            request.getRequestDispatcher("/WEB-INF/errorpage.jsp").forward(request, response);

@@ -12,10 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class EditProductCommand extends Command {
 
     @Override
@@ -25,7 +21,7 @@ public class EditProductCommand extends Command {
         int productID = Integer.parseInt(request.getParameter("productID"));
         String productName = request.getParameter("Product Name");
         String productDescription = request.getParameter("Product Description");
-        
+
         String pimObjectType = request.getParameter("PIMObjectType");
         request.setAttribute("PIMObjectType", pimObjectType);
 
@@ -35,7 +31,7 @@ public class EditProductCommand extends Command {
             int attributeValue = productAttribute.getObjectID();
             productAttributeValues.put(attributeValue, request.getParameter("AttributeID" + attributeValue));
         }
-        
+
         try {
             ArrayList<String> distributorChoices;
             if (request.getParameterValues("distributorChoices") != null) {

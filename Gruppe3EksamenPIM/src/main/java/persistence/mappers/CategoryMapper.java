@@ -12,10 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.SQLDatabase;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class CategoryMapper {
 
     private SQLDatabase database;
@@ -25,18 +21,15 @@ public class CategoryMapper {
     }
 
     /**
-     * Creates new category object and stores it in the database. Get's the
-     * CategoryID from the database, and returns the Category object with the
-     * new ID
+     * Creates new category object and stores it in the database. Get's the CategoryID from the database, and returns the Category object with the new ID
      *
      * @param categoryName String with max length of 255 characters
      * @param categoryDescription String with max length of 2550 characters
      *
      * @return the category object with an ID given from the database.
-     * @throws IllegalArgumentException stating that category object could not
-     * be inserted, due to a sql error with the database.
+     * @throws IllegalArgumentException stating that category object could not be inserted, due to a sql error with the database.
      */
-   public Category addNewCategory(String categoryName, String categoryDescription, TreeSet<Attribute> attributeList) {
+    public Category addNewCategory(String categoryName, String categoryDescription, TreeSet<Attribute> attributeList) {
         try {
             database.setAutoCommit(false);
             String SQL = "INSERT INTO Categories (Category_Name, Category_Description) VALUES (?, ?)";
@@ -44,8 +37,6 @@ public class CategoryMapper {
             ps.setString(1, categoryName);
             ps.setString(2, categoryDescription);
             ps.executeUpdate();
-            
-            
 
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
@@ -66,7 +57,7 @@ public class CategoryMapper {
             }
             database.getConnection().commit();
             database.setAutoCommit(true);
-            
+
             Category category = new Category(id, categoryName, categoryDescription, attributeList);
             return category;
 
@@ -75,22 +66,18 @@ public class CategoryMapper {
             database.rollBack();
             database.setAutoCommit(true);
             throw new IllegalArgumentException("Category cannot be inserted in the database");
-           
+
         }
     }
 
-  
-   /**
-    * Gets the attributeList in order to traverse it, and find the cross-values
-    * for attributeID and categoryID from the database. Returns a list of category 
-    * objects
-    * 
-    * @param attributeList ???
-    * 
-    * @return a list of category objects.
-    * @throws IllegalArgumentException stating that the category list can't be 
-    * returned due to a sql error with the database.
-    */
+    /**
+     * Gets the attributeList in order to traverse it, and find the cross-values for attributeID and categoryID from the database. Returns a list of category objects
+     *
+     * @param attributeList ???
+     *
+     * @return a list of category objects.
+     * @throws IllegalArgumentException stating that the category list can't be returned due to a sql error with the database.
+     */
     public TreeSet<Category> getCategories(TreeSet<Attribute> attributeList) {
         try {
             TreeSet<Category> categoryList = new TreeSet();
@@ -130,18 +117,14 @@ public class CategoryMapper {
         }
     }
 
-    
     /**
-     * Deletes category object with given ID from the database, starting with foreign keys
-     * and ending with primary key.
-     * Returns the total amount of rows affected in the database.
-     * 
+     * Deletes category object with given ID from the database, starting with foreign keys and ending with primary key. Returns the total amount of rows affected in the database.
+     *
      * @param categoryID int unique, not null auto_increment.
-     * 
+     *
      * @return the integer value of executed updates in the database.
-     * @throws IllegalArgumentException stating that selected rows cant be deleted
-     * due to a sql error in the database.
-     * 
+     * @throws IllegalArgumentException stating that selected rows cant be deleted due to a sql error in the database.
+     *
      */
     public int deleteCategory(int categoryID) {
         int rowsAffected = 0;
@@ -175,15 +158,13 @@ public class CategoryMapper {
         return rowsAffected;
     }
 
-    
     /**
      * Updating the database (categories table) with the given category values.
-     * 
+     *
      * @param category object which is used in order to update the database
-     * 
+     *
      * @return the integer value of affected updated-rows in the database.
-     * @throws IllegalArgumentException stating that requested category-update cant be made
-     * due to a sql error in the database.
+     * @throws IllegalArgumentException stating that requested category-update cant be made due to a sql error in the database.
      */
     public int editCategory(Category category) {
         try {
@@ -202,18 +183,13 @@ public class CategoryMapper {
         }
     }
 
-    
-    
     /**
-     * Updating the database (category_attributes table) with the given category values.
-     * Uses categoryID variable to find and delete requested row(s) in order to fill the updated values
-     * into the database.
-     * 
+     * Updating the database (category_attributes table) with the given category values. Uses categoryID variable to find and delete requested row(s) in order to fill the updated values into the database.
+     *
      * @param category object which is used in order to update the database
-     * 
+     *
      * @return the integer number of executed updates.
-     * @throws IllegalArgumentException stating that requested update not possible due to 
-     * error in the database 
+     * @throws IllegalArgumentException stating that requested update not possible due to error in the database
      */
     public int editAttributeToCategories(Category category) {
         int rowsAffected = 0;

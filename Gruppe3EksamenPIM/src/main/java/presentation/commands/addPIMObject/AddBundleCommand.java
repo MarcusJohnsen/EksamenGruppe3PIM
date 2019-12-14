@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation.commands.addPIMObject;
 
 import businessLogic.BusinessController;
@@ -14,10 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
-/**
- *
- * @author Andreas
- */
 public class AddBundleCommand extends Command {
 
     @Override

@@ -5,11 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
-public class Attribute extends PIMObject{
+public class Attribute extends PIMObject {
 
     private HashMap<Integer, String> attributeValues;
     private static TreeSet<Attribute> attributeList = new TreeSet();
@@ -128,8 +124,8 @@ public class Attribute extends PIMObject{
         boolean hadPreviousValue = previousValue != null;
         return hadPreviousValue;
     }
-    
-    public void removeValueFromAttribute(int productID){
+
+    public void removeValueFromAttribute(int productID) {
         this.attributeValues.remove(productID);
     }
 

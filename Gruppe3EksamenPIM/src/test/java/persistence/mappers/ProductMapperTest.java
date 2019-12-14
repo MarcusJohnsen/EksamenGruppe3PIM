@@ -15,10 +15,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import persistence.SQLDatabase;
 
-/**
- *
- * @author Marcus
- */
 public class ProductMapperTest {
 
     private final static SQLDatabase database = new SQLDatabase(SystemMode.TEST);
@@ -241,7 +237,7 @@ public class ProductMapperTest {
             database.getConnection().createStatement().execute("drop table if exists Product_Categories");
         } catch (SQLException ex) {
             fail("Could not make the structural change to the DB-table Product");
-        } 
+        }
 
         productMapper.editProductCategories(product);
     }
