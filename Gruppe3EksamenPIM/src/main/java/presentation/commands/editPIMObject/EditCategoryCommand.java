@@ -6,11 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
-/**
- *
- * @author Andreas
- */
 public class EditCategoryCommand extends Command {
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response, BusinessController businessController) {
         String nextJsp = "viewPIMObjectList";
@@ -18,7 +15,7 @@ public class EditCategoryCommand extends Command {
         int categoryID = Integer.parseInt(request.getParameter("categoryID"));
         String categoryName = request.getParameter("Category Name");
         String categoryDescription = request.getParameter("Category Description");
-        
+
         String pimObjectType = request.getParameter("PIMObjectType");
         request.setAttribute("PIMObjectType", pimObjectType);
 
@@ -27,7 +24,7 @@ public class EditCategoryCommand extends Command {
         } catch (IllegalArgumentException ex) {
             nextJsp = "editCategory";
             request.setAttribute("error", ex.getMessage());
-            
+
             Category category = businessController.getCategoryFromID(categoryID);
             request.setAttribute("pimObject", category);
         }

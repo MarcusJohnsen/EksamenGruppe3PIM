@@ -7,12 +7,7 @@ import java.util.TreeSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import persistence.mappers.ProductMapper;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class ProductTest {
 
     @Before
@@ -408,7 +403,7 @@ public class ProductTest {
     @Test
     public void testFindProductsOnBundleID() {
         int bundleID = 1;
-        
+
         Product product1 = new Product(1, "Title", "Description", "oldPicture", null, null);
         Product.addToProductList(product1);
         Product product2 = new Product(2, "Title", "Description", "oldPicture", null, null);
@@ -421,9 +416,9 @@ public class ProductTest {
         bundleProducts.put(product3, 3);
         HashMap<Product, Integer> otherBundleProducts = new HashMap();
         otherBundleProducts.put(product1, 1);
-        
+
         Bundle bundle1 = new Bundle(bundleID, "Title", "Description", bundleProducts);
-        Bundle bundle2 = new Bundle(bundleID+1, "Title", "Description", otherBundleProducts);
+        Bundle bundle2 = new Bundle(bundleID + 1, "Title", "Description", otherBundleProducts);
 
         TreeSet<Product> result = Product.findProductsOnBundleID(bundleID);
         int expectedResultSize = 2;

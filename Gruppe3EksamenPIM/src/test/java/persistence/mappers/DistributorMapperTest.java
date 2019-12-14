@@ -5,18 +5,12 @@ import factory.SystemMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.TreeSet;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import persistence.SQLDatabase;
 
-/**
- *
- * @author Marcus
- */
 public class DistributorMapperTest {
 
     private final static SQLDatabase database = new SQLDatabase(SystemMode.TEST);

@@ -13,10 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.SQLDatabase;
 
-/**
- *
- * @author Andreas
- */
 public class AttributeMapper {
 
     private SQLDatabase database;

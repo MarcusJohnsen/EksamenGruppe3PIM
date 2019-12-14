@@ -10,9 +10,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
- @author Gruppe 3
- */
 public class SQLDatabase {
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";

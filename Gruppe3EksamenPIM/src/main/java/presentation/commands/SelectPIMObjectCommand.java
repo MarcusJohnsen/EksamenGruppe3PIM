@@ -1,7 +1,6 @@
 package presentation.commands;
 
 import businessLogic.BusinessController;
-import businessLogic.Distributor;
 import businessLogic.PIMObject;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,7 @@ public class SelectPIMObjectCommand extends Command {
         String nextJsp;
         String commandType = request.getParameter("submitButton");
         String pimObjectChoiceString = request.getParameter("PIMObjectChoice");
-        
+
         String pimObjectType = request.getParameter("PIMObjectType");
         request.setAttribute("PIMObjectType", pimObjectType);
 
@@ -130,14 +129,14 @@ public class SelectPIMObjectCommand extends Command {
         }
         request.setAttribute("PIMObjectList", pimObjectList);
     }
-    
-    private void setPIMObjectListForBundleEdit(HttpServletRequest request, BusinessController businessController){
+
+    private void setPIMObjectListForBundleEdit(HttpServletRequest request, BusinessController businessController) {
         TreeSet<PIMObject> pimObjectList;
         pimObjectList = new TreeSet(businessController.getProductList());
         request.setAttribute("PIMObjectList", pimObjectList);
     }
-    
-    private void setPIMObjectListForProductEdit(HttpServletRequest request, BusinessController businessController){
+
+    private void setPIMObjectListForProductEdit(HttpServletRequest request, BusinessController businessController) {
         TreeSet<PIMObject> pimObjectList;
         pimObjectList = new TreeSet(businessController.getDistributorList());
         request.setAttribute("PIMObjectList", pimObjectList);

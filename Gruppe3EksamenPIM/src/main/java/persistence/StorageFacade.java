@@ -20,10 +20,6 @@ import persistence.mappers.DistributorMapper;
 import persistence.mappers.PictureMapper;
 import persistence.mappers.ProductMapper;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class StorageFacade {
 
     private SQLDatabase sqlDatabase;
@@ -56,30 +52,14 @@ public class StorageFacade {
         return productMapper.getProducts(categoryList, distributorList);
     }
 
-    /**
-     *
-     * @param categoryName
-     * @param categoryDescription Adds new category object and stores it in the Database.
-     * @return new category object
-     *
-     */
     public Category addNewCategory(String categoryName, String categoryDescription, TreeSet<Attribute> attributeList) {
         return categoryMapper.addNewCategory(categoryName, categoryDescription, attributeList);
     }
 
-    /**
-     *
-     * @param attributeList
-     * @return attributeList
-     */
     public TreeSet<Category> getCategories(TreeSet<Attribute> attributeList) {
         return categoryMapper.getCategories(attributeList);
     }
 
-    /**
-     *
-     * @return attribute objects
-     */
     public TreeSet<Attribute> getAttributes() {
         return attributeMapper.getAttributes();
     }
@@ -88,28 +68,14 @@ public class StorageFacade {
         return distributorMapper.getDistributors();
     }
 
-    /**
-     *
-     * @param categoryID is used to find and delete the category object
-     */
     public void deleteCategory(int categoryID) {
         categoryMapper.deleteCategory(categoryID);
     }
 
-    /**
-     * @param category edits the category object.
-     */
     public void editCategory(Category category) {
         categoryMapper.editCategory(category);
     }
 
-    /**
-     *
-     * @param productName
-     * @param productDescription
-     * @param noImageFileName
-     * @return
-     */
     public Product addNewProduct(String productName, String productDescription, String noImageFileName, TreeSet<Distributor> productDistributors, TreeSet<Category> productCategories) {
         return productMapper.addNewProduct(productName, productDescription, noImageFileName, productDistributors, productCategories);
     }

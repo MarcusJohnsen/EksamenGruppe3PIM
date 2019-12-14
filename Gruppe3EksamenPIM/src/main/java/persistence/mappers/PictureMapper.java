@@ -9,10 +9,6 @@ import java.util.Map;
 import javax.servlet.http.Part;
 import persistence.CloudinaryDatabase;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class PictureMapper {
 
     private static final String UPLOAD_DIRECTORY = "pictures";

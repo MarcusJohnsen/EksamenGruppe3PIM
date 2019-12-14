@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.TreeSet;
 import persistence.Json.Exclude;
 
-/**
- *
- * @author Marcus
- */
 public class Distributor extends PIMObject {
 
     @Exclude

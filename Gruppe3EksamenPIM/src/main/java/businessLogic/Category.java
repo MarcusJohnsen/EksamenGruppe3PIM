@@ -7,12 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
 
-/**
- *
- * @author Marcus
- */
 public class Category extends PIMObject {
-    
+
     private static TreeSet<Category> categoryList = new TreeSet();
 
     @Exclude

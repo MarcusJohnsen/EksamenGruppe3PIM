@@ -17,10 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import presentation.Command;
 
-/**
- *
- * @author cahit
- */
 public class AddProductCommand extends Command {
 
     @Override
@@ -48,12 +44,10 @@ public class AddProductCommand extends Command {
             } else {
                 throw new IllegalArgumentException("Need at least 1 distributor");
             }
-            
-            
+
             Product newProduct = businessController.createNewProduct(productName, productDescription, distributorChoices, categoryChoices, parts);
             request.setAttribute("pimObject", newProduct);
-            
-            
+
         } catch (IllegalArgumentException ex) {
             TreeSet<Category> categoryList = businessController.getCategoryList();
             request.setAttribute("categoryList", categoryList);

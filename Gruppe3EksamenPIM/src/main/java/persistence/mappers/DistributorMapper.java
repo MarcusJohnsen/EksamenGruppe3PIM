@@ -10,18 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import persistence.SQLDatabase;
 
-/**
- * 
- * @author Marcus
- */
 public class DistributorMapper {
-    
+
     private SQLDatabase database;
 
     public DistributorMapper(SQLDatabase database) {
         this.database = database;
     }
-    
+
     public Distributor addNewDistributor(String distributorName, String distributorDescription) {
         try {
             String SQL = "INSERT INTO Distributor (Distributor_Name, Distributor_Description) VALUES (?, ?)";
@@ -34,7 +30,7 @@ public class DistributorMapper {
             rs.next();
             int id = rs.getInt(1);
 
-            Distributor distributor = new Distributor (id, distributorName, distributorDescription);
+            Distributor distributor = new Distributor(id, distributorName, distributorDescription);
             return distributor;
 
         } catch (SQLException ex) {
@@ -42,7 +38,7 @@ public class DistributorMapper {
             throw new IllegalArgumentException("Distributor cannot be inserted in the database");
         }
     }
-    
+
     public TreeSet<Distributor> getDistributors() {
         try {
             TreeSet<Distributor> distributorList = new TreeSet();
@@ -52,8 +48,8 @@ public class DistributorMapper {
                 int distributor_ID = rs.getInt("Distributor_ID");
                 String distributor_Name = rs.getString("Distributor_Name");
                 String distributor_Description = rs.getString("Distributor_Description");
-                
-                Distributor distributor = new Distributor (distributor_ID, distributor_Name, distributor_Description);
+
+                Distributor distributor = new Distributor(distributor_ID, distributor_Name, distributor_Description);
                 distributorList.add(distributor);
             }
             return distributorList;
@@ -78,8 +74,8 @@ public class DistributorMapper {
             PreparedStatement psDeleteDistributor = database.getConnection().prepareStatement(sqlDeleteDistributor);
             psDeleteDistributor.setInt(1, distributorID);
             rowsAffected += psDeleteDistributor.executeUpdate();
-            
-        database.getConnection().commit();
+
+            database.getConnection().commit();
         } catch (SQLException ex) {
             Logger.getLogger(DistributorMapper.class.getName()).log(Level.SEVERE, null, ex);
             database.rollBack();
@@ -99,7 +95,7 @@ public class DistributorMapper {
             ps.setInt(3, distributor.getObjectID());
             int result = ps.executeUpdate();
             return result;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(DistributorMapper.class.getName()).log(Level.SEVERE, null, ex);
             throw new IllegalArgumentException("Can't update selected distributor from DB");

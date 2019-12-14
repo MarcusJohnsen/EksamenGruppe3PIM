@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import com.cloudinary.Cloudinary;
@@ -11,10 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class CloudinaryDatabase {
 
     private static final String PROPERTIESFILEPATH = "/cloudinary.properties";
@@ -38,12 +29,12 @@ public class CloudinaryDatabase {
 
             Properties pros = new Properties();
             pros.load(input);
-            
+
             String cloud_name = pros.getProperty("cloud_name");
             String api_key = pros.getProperty("api_key");
             String api_secret = pros.getProperty("api_secret");
-            
-            if(cloud_name == null || api_key == null || api_secret == null){
+
+            if (cloud_name == null || api_key == null || api_secret == null) {
                 throw new IOException();
             }
 
@@ -63,8 +54,5 @@ public class CloudinaryDatabase {
     protected void setCloudinary(Cloudinary cloudinary) {
         this.cloudinary = cloudinary;
     }
-    
-    
-    
-    
+
 }

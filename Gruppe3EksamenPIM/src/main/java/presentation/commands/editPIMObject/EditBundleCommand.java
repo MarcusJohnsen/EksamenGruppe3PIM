@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation.commands.editPIMObject;
 
 import businessLogic.Bundle;
@@ -15,10 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import presentation.Command;
 
-/**
- *
- * @author Andreas
- */
 public class EditBundleCommand extends Command {
 
     @Override
@@ -28,7 +19,7 @@ public class EditBundleCommand extends Command {
         int bundleID = Integer.parseInt(request.getParameter("bundleID"));
         String bundleName = request.getParameter("Bundle Name");
         String bundleDescription = request.getParameter("Bundle Description");
-        
+
         String pimObjectType = request.getParameter("PIMObjectType");
         request.setAttribute("PIMObjectType", pimObjectType);
 

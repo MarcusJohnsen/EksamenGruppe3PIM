@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence.mappers;
 
 import businessLogic.Bundle;
@@ -19,10 +14,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import persistence.SQLDatabase;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class BundleMapperTest {
 
     private final static SQLDatabase database = new SQLDatabase(SystemMode.TEST);

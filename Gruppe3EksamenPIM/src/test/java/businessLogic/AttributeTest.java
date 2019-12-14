@@ -8,18 +8,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * 
- * @author Marcus
- */
-
 public class AttributeTest {
 
     @Before
     public void setup() {
         Attribute.getAttributeList().clear();
     }
-    
+
     @Test
     public void testCreateAttribute() {
         //arrange
@@ -27,17 +22,17 @@ public class AttributeTest {
         String attributeTitle = "weight";
         HashMap<Integer, String> attributeValues = new HashMap<>();
         attributeValues.put(1, "attribute number 1");
-        
+
         //act
         Attribute attribute = new Attribute(attributeID, attributeTitle, attributeValues);
         Attribute.addToAttributeList(attribute);
-        
+
         //assert
         assertEquals(attributeID, attribute.objectID);
         assertTrue(attributeTitle.equals(attribute.objectTitle));
         assertTrue(attributeValues.equals(attribute.getAttributeValues()));
     }
-    
+
     @Test
     public void testFindAttributeOnID() {
         //arrange
@@ -49,18 +44,18 @@ public class AttributeTest {
         String attributeTitle2 = "height";
         HashMap<Integer, String> attributeValues2 = new HashMap<>();
         attributeValues2.put(2, "attribute number 2");
-        
+
         //act
         Attribute attribute1 = new Attribute(attributeID1, attributeTitle1, attributeValues1);
         Attribute.addToAttributeList(attribute1);
         Attribute attribute2 = new Attribute(attributeID2, attributeTitle2, attributeValues2);
         Attribute.addToAttributeList(attribute2);
-        
+
         //assert
         assertTrue(Attribute.findAttributeOnID(5).objectTitle.equals("weight"));
         assertTrue(Attribute.findAttributeOnID(6).objectTitle.equals("height"));
     }
-    
+
     @Test
     public void negativeTestFindAttributeOnIDNull() {
         //arrange
@@ -68,39 +63,39 @@ public class AttributeTest {
         String attributeTitle = "weight";
         HashMap<Integer, String> attributeValues = new HashMap<>();
         attributeValues.put(1, "attribute number 1");
-        
-        Attribute attribute = new Attribute (attributeID, attributeTitle, attributeValues);
+
+        Attribute attribute = new Attribute(attributeID, attributeTitle, attributeValues);
         Attribute.addToAttributeList(attribute);
-        
+
         //act
         Attribute result = Attribute.findAttributeOnID(10);
-        
+
         assertNull(result);
     }
-    
-    @Test (expected = IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void negativValidationAttributeTitle() {
         //arrange
         String attributeTitle = "";
-        
+
         //act
         Attribute.validateNewAttributeTitle(attributeTitle);
     }
-    
-    @Test   (expected = IllegalArgumentException.class)
+
+    @Test(expected = IllegalArgumentException.class)
     public void testValidateAttributeTitle() {
         //arrange
         int attributeID = 1;
         String attributeTitle = "weight";
         HashMap<Integer, String> attributeValues = new HashMap<>();
         attributeValues.put(1, "attribute number 1");
-        Attribute attribute = new Attribute (attributeID, attributeTitle, attributeValues);
+        Attribute attribute = new Attribute(attributeID, attributeTitle, attributeValues);
         Attribute.addToAttributeList(attribute);
-        
+
         //act
         Attribute.validateNewAttributeTitle(attributeTitle);
     }
-    
+
     @Test
     public void testGetMatchingAttributesOnIDs() {
         //arrange
@@ -114,23 +109,23 @@ public class AttributeTest {
         Attribute.addToAttributeList(attribute2);
         Attribute.addToAttributeList(attribute3);
         ArrayList<String> searchAttributeIDs = new ArrayList(Arrays.asList(new String[]{Integer.toString(attributeID1), Integer.toString(attributeID2)}));
-        
+
         //act
         TreeSet<Attribute> result = Attribute.getMatchingAttributesOnStringIDs(searchAttributeIDs);
-        
+
         assertTrue(result.contains(attribute1));
         assertTrue(result.contains(attribute2));
         assertFalse(result.contains(attribute3));
-        
+
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
-    public void testNegativeBulkEditProducts(){
-        
-        ArrayList<Integer> productIDs = new ArrayList(); 
-        HashMap<Integer,String> newAttributeValues = new HashMap();
-        
+    public void testNegativeBulkEditProducts() {
+
+        ArrayList<Integer> productIDs = new ArrayList();
+        HashMap<Integer, String> newAttributeValues = new HashMap();
+
         Attribute.bulkEditProducts(productIDs, newAttributeValues);
     }
-    
+
 }

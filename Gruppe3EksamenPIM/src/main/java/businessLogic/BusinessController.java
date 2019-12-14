@@ -14,10 +14,6 @@ import java.util.TreeSet;
 import javax.servlet.http.Part;
 import persistence.StorageFacade;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class BusinessController {
 
     private final String noImageFileName = "https://res.cloudinary.com/dousnil0k/image/upload/v1575366570/no-img_vlrttr.png";
@@ -69,7 +65,7 @@ public class BusinessController {
         storageFacade.editCategory(category);
     }
 
-    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings, 
+    public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings,
             ArrayList<String> productCategoryIDStrings, List<Part> parts) {
         validateProductInput(productName, productDescription);
         TreeSet<Category> productCategories = Category.getMatchingCategoriesOnIDs(productCategoryIDStrings);
@@ -89,7 +85,7 @@ public class BusinessController {
         return Product.deleteProductOnID(productID);
     }
 
-    public void editProduct(int productID, String productName, String productDescription, 
+    public void editProduct(int productID, String productName, String productDescription,
             ArrayList<String> productDistributorIDs, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
         validateProductInput(productName, productDescription);
         TreeSet<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDs);
@@ -252,7 +248,7 @@ public class BusinessController {
     public TreeSet<Product> searchProduct(String searchString) {
         return searchEngine.simpleProductSearch(searchString);
     }
-    
+
     public TreeSet<Object> advancedSearch(String searchString, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
         return searchEngine.advancedSearch(searchString, searchOnObject, SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter));
     }
@@ -261,7 +257,7 @@ public class BusinessController {
         TreeSet<Product> productList = Product.getProductList();
         return storageFacade.getJsonFile(productList);
     }
-    
+
     public File getJsonFileCategoryProducts(int categoryID) {
         Category category = Category.findCategoryOnID(categoryID);
         TreeSet<Product> productList = category.getCategoryProducts();

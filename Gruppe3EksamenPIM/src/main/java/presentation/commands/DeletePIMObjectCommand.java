@@ -1,7 +1,6 @@
 package presentation.commands;
 
 import businessLogic.BusinessController;
-import businessLogic.Distributor;
 import businessLogic.PIMObject;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;

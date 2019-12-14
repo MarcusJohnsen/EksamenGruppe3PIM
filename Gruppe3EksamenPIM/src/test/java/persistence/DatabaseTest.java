@@ -4,15 +4,9 @@ import com.cloudinary.Cloudinary;
 import factory.SystemMode;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class DatabaseTest {
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -138,32 +132,32 @@ public class DatabaseTest {
         //act
         database.rollBack();
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
-    public void testNegativeCreateCloudinaryEmptyFile(){
+    public void testNegativeCreateCloudinaryEmptyFile() {
         //arrange
         CloudinaryDatabase database = new CloudinaryDatabase();
-        
+
         //act
         database.createCloudinary(BAD_PROPERTIESPATH_EMPTY_FILE);
     }
-    
+
     @Test
-    public void testGetCloudinartConnection(){
+    public void testGetCloudinartConnection() {
         CloudinaryDatabase database = new CloudinaryDatabase();
-        
+
         Cloudinary conn = database.getCloudinaryConnection();
-        
+
         assertNotNull(conn);
     }
-    
+
     @Test
-    public void testGetCloudinartConnectionSetNull(){
+    public void testGetCloudinartConnectionSetNull() {
         CloudinaryDatabase database = new CloudinaryDatabase();
         database.setCloudinary(null);
-        
+
         Cloudinary conn = database.getCloudinaryConnection();
-        
+
         assertNotNull(conn);
     }
 

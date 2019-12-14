@@ -14,10 +14,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import persistence.SQLDatabase;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class CategoryMapperTest {
 
     private static Connection testConnection;

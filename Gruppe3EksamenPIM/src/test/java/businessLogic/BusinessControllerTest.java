@@ -15,10 +15,6 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Michael N. Korsgaard
- */
 public class BusinessControllerTest {
 
     private static Connection testConnection;
