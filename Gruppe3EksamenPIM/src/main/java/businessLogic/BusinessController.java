@@ -249,7 +249,7 @@ public class BusinessController {
         return searchEngine.simpleProductSearch(searchString);
     }
 
-    public TreeSet<Object> advancedSearch(String searchString, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
+    public TreeSet<PIMObject> advancedSearch(String searchString, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
         return searchEngine.advancedSearch(searchString, searchOnObject, SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter));
     }
 

@@ -650,17 +650,17 @@ public class BusinessControllerTest {
     public void testAdvancedSearch() {
         //arrange
         String searchString = "a";
-        String searchOnObject = SearchEngine.getTYPE_PRODUCT();
+        String searchOnObject = "Product";
         String bundleFilter = null;
         String categoryFilter = "";
         String distributorFilter = null;
         String productFilter = null;
 
         //act
-        TreeSet<Object> result = businessController.advancedSearch(searchString, searchOnObject, bundleFilter, categoryFilter, distributorFilter, productFilter);
+        TreeSet<PIMObject> result = businessController.advancedSearch(searchString, searchOnObject, bundleFilter, categoryFilter, distributorFilter, productFilter);
 
         //assert
-        for (Object object : result) {
+        for (PIMObject object : result) {
             Product product = (Product) object;
             assertTrue(product.getObjectTitle().contains(searchString));
         }

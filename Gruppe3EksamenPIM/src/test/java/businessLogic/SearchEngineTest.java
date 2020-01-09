@@ -1,5 +1,6 @@
 package businessLogic;
 
+import factory.PIMObejctType;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -15,7 +16,7 @@ public class SearchEngineTest {
     private static final TreeSet<Category> categoryList = new TreeSet();
     private static final TreeSet<Distributor> distributorList = new TreeSet();
     private static final TreeSet<Bundle> bundleList = new TreeSet();
-    private static final HashMap<String, String> filterValues = new HashMap();
+    private static final HashMap<PIMObejctType, String> filterValues = new HashMap();
     private static Distributor distributor1, distributor2, distributor3;
     private static Category category1, category2, category3, category4;
     private static Product product1, product2, product3, product4, product5;
@@ -158,10 +159,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchProductNoFilters() {
         String searchString = "o";
-        String searchType = SearchEngine.getTYPE_PRODUCT();
+        String searchType = "Product";
         filterValues.putAll(SearchEngine.makeFilterMap("    ", " ", "", null));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertTrue(result.contains(product1));
         assertTrue(result.contains(product2));
@@ -173,10 +174,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchProductWithBundleFilters() {
         String searchString = "o";
-        String searchType = SearchEngine.getTYPE_PRODUCT();
+        String searchType = "Product";
         filterValues.putAll(SearchEngine.makeFilterMap("3", null, null, null));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertFalse(result.contains(product1));
         assertTrue(result.contains(product2));
@@ -188,10 +189,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchProductWithCategoryFilters() {
         String searchString = "o";
-        String searchType = SearchEngine.getTYPE_PRODUCT();
+        String searchType = "Product";
         filterValues.putAll(SearchEngine.makeFilterMap("", "1", null, "     "));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertTrue(result.contains(product1));
         assertTrue(result.contains(product2));
@@ -203,10 +204,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchProductWithDistributorFilters() {
         String searchString = "o";
-        String searchType = SearchEngine.getTYPE_PRODUCT();
+        String searchType = "Product";
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, "2", null));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertFalse(result.contains(product1));
         assertFalse(result.contains(product2));
@@ -218,10 +219,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchDistributorNoFilters() {
         String searchString = "d";
-        String searchType = SearchEngine.getTYPE_DISTRIBUTOR();
+        String searchType = "Distributor";
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertFalse(result.contains(distributor1));
         assertTrue(result.contains(distributor2));
@@ -231,10 +232,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchDistributorWithProductFilter() {
         String searchString = "d";
-        String searchType = SearchEngine.getTYPE_DISTRIBUTOR();
+        String searchType = "Distributor";
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "IrOnMaN"));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertFalse(result.contains(distributor1));
         assertFalse(result.contains(distributor2));
@@ -244,10 +245,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchCategoryNoFilters() {
         String searchString = "H";
-        String searchType = SearchEngine.getTYPE_CATEGORY();
+        String searchType = "Category";
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertTrue(result.contains(category1));
         assertFalse(result.contains(category2));
@@ -258,10 +259,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchCategoryWithProductFilter() {
         String searchString = "H";
-        String searchType = SearchEngine.getTYPE_CATEGORY();
+        String searchType = "Category";
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "o"));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertTrue(result.contains(category1));
         assertFalse(result.contains(category2));
@@ -272,10 +273,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchBundleNoFilters() {
         String searchString = "M";
-        String searchType = SearchEngine.getTYPE_BUNDLE();
+        String searchType = "Bundle";
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, null));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertTrue(result.contains(bundle1));
         assertTrue(result.contains(bundle2));
@@ -286,10 +287,10 @@ public class SearchEngineTest {
     @Test
     public void testAdvancedSearchBundleWithProductFilter() {
         String searchString = "M";
-        String searchType = SearchEngine.getTYPE_BUNDLE();
+        String searchType = "Bundle";
         filterValues.putAll(SearchEngine.makeFilterMap(null, null, null, "JOkER"));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
 
         assertTrue(result.contains(bundle1));
         assertFalse(result.contains(bundle2));
@@ -300,10 +301,10 @@ public class SearchEngineTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeAdvancedSearchWrongType() {
         String searchString = "";
-        String searchType = SearchEngine.getTYPE_BUNDLE() + "e";
+        String searchType = "Bundle" + "e";
         filterValues.putAll(SearchEngine.makeFilterMap(null, "   ", "hello", ""));
 
-        TreeSet<Object> result = search.advancedSearch(searchString, searchType, filterValues);
+        TreeSet<PIMObject> result = search.advancedSearch(searchString, searchType, filterValues);
     }
 
     @Test
@@ -313,12 +314,12 @@ public class SearchEngineTest {
         String distributorFilter = "d as death";
         String productFilter = "p as person";
 
-        HashMap<String, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
+        HashMap<PIMObejctType, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
 
-        assertEquals(bundleFilter, result.get(SearchEngine.getFILTER_KEY_BUNDLE()));
-        assertEquals(categoryFilter, result.get(SearchEngine.getFILTER_KEY_CATEGORY()));
-        assertEquals(distributorFilter, result.get(SearchEngine.getFILTER_KEY_DISTRIBUTOR()));
-        assertEquals(productFilter, result.get(SearchEngine.getFILTER_KEY_PRODUCT()));
+        assertEquals(bundleFilter, result.get(PIMObejctType.BUNDLE));
+        assertEquals(categoryFilter, result.get(PIMObejctType.CATEGORY));
+        assertEquals(distributorFilter, result.get(PIMObejctType.DISTRIBUTOR));
+        assertEquals(productFilter, result.get(PIMObejctType.PRODUCT));
     }
 
     @Test
@@ -328,12 +329,12 @@ public class SearchEngineTest {
         String distributorFilter = null;
         String productFilter = null;
 
-        HashMap<String, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
+        HashMap<PIMObejctType, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
 
-        assertEquals(bundleFilter, result.get(SearchEngine.getFILTER_KEY_BUNDLE()));
-        assertEquals(categoryFilter, result.get(SearchEngine.getFILTER_KEY_CATEGORY()));
-        assertEquals(distributorFilter, result.get(SearchEngine.getFILTER_KEY_DISTRIBUTOR()));
-        assertEquals(productFilter, result.get(SearchEngine.getFILTER_KEY_PRODUCT()));
+        assertEquals(bundleFilter, result.get(PIMObejctType.BUNDLE));
+        assertEquals(categoryFilter, result.get(PIMObejctType.CATEGORY));
+        assertEquals(distributorFilter, result.get(PIMObejctType.DISTRIBUTOR));
+        assertEquals(productFilter, result.get(PIMObejctType.PRODUCT));
     }
 
 }

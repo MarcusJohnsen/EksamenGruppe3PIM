@@ -1,6 +1,7 @@
 package presentation.commands;
 
 import businessLogic.BusinessController;
+import businessLogic.PIMObject;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +23,7 @@ public class AdvancedSearchCommand extends Command {
         String distributorFilter = request.getParameter("DistributorChoice");
         String productFilter = request.getParameter("ProductChoice");
 
-        TreeSet<Object> searchedObjectsList = businessFacade.advancedSearch(searchResult, pimObjectType, bundleFilter, categoryFilter, distributorFilter, productFilter);
+        TreeSet<PIMObject> searchedObjectsList = businessFacade.advancedSearch(searchResult, pimObjectType, bundleFilter, categoryFilter, distributorFilter, productFilter);
         request.setAttribute("PIMObjectList", searchedObjectsList);
 
         return nextJsp;
