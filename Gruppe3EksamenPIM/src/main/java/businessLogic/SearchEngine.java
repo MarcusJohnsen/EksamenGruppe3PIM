@@ -122,8 +122,9 @@ public class SearchEngine {
         return result;
     }
 
-    public TreeSet<PIMObject> advancedSearch(String searchKey, String searchOnObject, HashMap<PIMObejctType, String> filterValues) {
+    public TreeSet<PIMObject> advancedSearch(String searchKey, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
         searchKey = searchKey.toLowerCase();
+        HashMap<PIMObejctType, String> filterValues = makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
 ////        TreeSet<Object> result;
         TreeSet<PIMObject> result;
 
@@ -251,8 +252,8 @@ public class SearchEngine {
 
         // Find all distributors matching searchKey
         boolean singleResultFromList = false;
-//        TreeSet<Distributor> fullSearchResult = new TreeSet(distributorSearch(searchKey, distributorList, singleResultFromList));
-//        TreeSet<Object> result = new TreeSet();
+////        TreeSet<Distributor> fullSearchResult = new TreeSet(distributorSearch(searchKey, distributorList, singleResultFromList));
+////        TreeSet<Object> result = new TreeSet();
         TreeSet<Distributor> fullSearchResult = new TreeSet(pimObjectSearch(searchKey, new TreeSet(distributorList), singleResultFromList));
         TreeSet<PIMObject> result = new TreeSet();
 

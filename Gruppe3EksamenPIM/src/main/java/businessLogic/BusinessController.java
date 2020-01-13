@@ -250,7 +250,7 @@ public class BusinessController {
     }
 
     public TreeSet<PIMObject> advancedSearch(String searchString, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
-        return searchEngine.advancedSearch(searchString, searchOnObject, SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter));
+        return searchEngine.advancedSearch(searchString, searchOnObject, bundleFilter, categoryFilter, distributorFilter, productFilter);
     }
 
     public File getJsonFileAllProducts() {
