@@ -1,6 +1,7 @@
 package businessLogic;
 
 import factory.SystemMode;
+import factory.UserInputException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -131,7 +132,7 @@ public class BusinessControllerTest {
     }
 
     @Test
-    public void testCreateNewProduct() {
+    public void testCreateNewProduct() throws UserInputException {
         //arrange
         String productName = "Newest Product";
         String productDescription = "This is new newest product for testing";
@@ -167,7 +168,7 @@ public class BusinessControllerTest {
     }
 
     @Test
-    public void testEditProduct() {
+    public void testEditProduct() throws UserInputException {
         //arrange
         int productID = 1;
         int distributorID1 = 1;

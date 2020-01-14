@@ -1,5 +1,6 @@
 package businessLogic;
 
+import factory.UserInputException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -160,8 +161,8 @@ public class ProductTest {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testNegativeValidateProductInputNoNameInput() {
+    @Test(expected = UserInputException.class)
+    public void testNegativeValidateProductInputNoNameInput() throws UserInputException {
 
         String productName = "";
         String productDescription = "the hero joker";
@@ -173,8 +174,8 @@ public class ProductTest {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testNegativeValidateProductInputNoProductDescriptionInput() {
+    @Test(expected = UserInputException.class)
+    public void testNegativeValidateProductInputNoProductDescriptionInput() throws UserInputException {
 
         String productName = "joker";
         String productDescription = "";
