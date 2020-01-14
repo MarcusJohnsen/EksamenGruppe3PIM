@@ -6,6 +6,7 @@ import static businessLogic.Product.*;
 import static businessLogic.Bundle.*;
 import static businessLogic.Distributor.*;
 import factory.SystemMode;
+import factory.UserInputException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +67,7 @@ public class BusinessController {
     }
 
     public Product createNewProduct(String productName, String productDescription, ArrayList<String> productDistributorIDStrings,
-            ArrayList<String> productCategoryIDStrings, List<Part> parts) {
+            ArrayList<String> productCategoryIDStrings, List<Part> parts) throws UserInputException{
         validateProductInput(productName, productDescription);
         TreeSet<Category> productCategories = Category.getMatchingCategoriesOnIDs(productCategoryIDStrings);
         TreeSet<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDStrings);
@@ -86,7 +87,7 @@ public class BusinessController {
     }
 
     public void editProduct(int productID, String productName, String productDescription,
-            ArrayList<String> productDistributorIDs, HashMap<Integer, String> productAttributeValues) throws IllegalArgumentException {
+            ArrayList<String> productDistributorIDs, HashMap<Integer, String> productAttributeValues) throws UserInputException {
         validateProductInput(productName, productDescription);
         TreeSet<Distributor> productDistributors = Distributor.getMatchingDistributorsOnIDs(productDistributorIDs);
         Product product = findProductOnID(productID);

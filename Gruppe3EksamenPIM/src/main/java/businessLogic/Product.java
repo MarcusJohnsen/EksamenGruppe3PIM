@@ -1,5 +1,6 @@
 package businessLogic;
 
+import factory.UserInputException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -258,15 +259,15 @@ public class Product extends PIMObject {
      * @return Boolean true if name and description don't have empty field-values.
      * @throws IllegalArgumentException if returned boolean is false.
      */
-    public static boolean validateProductInput(String productName, String productDescription) throws IllegalArgumentException {
+    public static boolean validateProductInput(String productName, String productDescription) throws UserInputException {
         //Remove all empty fields from distributors
         //productDistributors.removeAll(Arrays.asList("", null));
 
         if (productName.isEmpty()) {
-            throw new IllegalArgumentException("please fill out product-name field");
+            throw new UserInputException("please fill out product-name field");
         }
         if (productDescription.isEmpty()) {
-            throw new IllegalArgumentException("please fill out product-description field");
+            throw new UserInputException("please fill out product-description field");
         }
         return true;
     }

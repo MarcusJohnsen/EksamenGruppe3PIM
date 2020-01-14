@@ -4,6 +4,7 @@ import businessLogic.BusinessController;
 import businessLogic.Category;
 import businessLogic.Distributor;
 import businessLogic.Product;
+import factory.UserInputException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class AddProductCommand extends Command {
             Product newProduct = businessController.createNewProduct(productName, productDescription, distributorChoices, categoryChoices, parts);
             request.setAttribute("pimObject", newProduct);
 
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | UserInputException ex) {
             TreeSet<Category> categoryList = businessController.getCategoryList();
             request.setAttribute("categoryList", categoryList);
             nextJsp = "newProduct";

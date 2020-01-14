@@ -4,6 +4,7 @@ import businessLogic.Attribute;
 import businessLogic.BusinessController;
 import businessLogic.Distributor;
 import businessLogic.Product;
+import factory.UserInputException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class EditProductCommand extends Command {
             }
             businessController.editProduct(productID, productName, productDescription, distributorChoices, productAttributeValues);
             request.setAttribute("PIMObjectList", businessController.getProductList());
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | UserInputException ex) {
             nextJsp = "editProduct";
             TreeSet<Distributor> distributorList = businessController.getDistributorList();
             request.setAttribute("PIMObjectList", distributorList);
