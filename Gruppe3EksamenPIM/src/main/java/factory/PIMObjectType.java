@@ -1,6 +1,6 @@
 package factory;
 
-public enum PIMObejctType {
+public enum PIMObjectType {
 
     ATTRIBUTE {
         @Override
@@ -39,18 +39,18 @@ public enum PIMObejctType {
     private final static String distributor = "Distributor";
     private final static String product = "Product";
 
-    public static PIMObejctType getPIMObjectType(String pimObjectString) {
+    public static PIMObjectType getPIMObjectType(String pimObjectString) {
         switch (pimObjectString) {
             case attribute:
-                return PIMObejctType.ATTRIBUTE;
+                return PIMObjectType.ATTRIBUTE;
             case bundle:
-                return PIMObejctType.BUNDLE;
+                return PIMObjectType.BUNDLE;
             case category:
-                return PIMObejctType.CATEGORY;
+                return PIMObjectType.CATEGORY;
             case distributor:
-                return PIMObejctType.DISTRIBUTOR;
+                return PIMObjectType.DISTRIBUTOR;
             case product:
-                return PIMObejctType.PRODUCT;
+                return PIMObjectType.PRODUCT;
             default:
                 throw new IllegalArgumentException("'" + pimObjectString + "' does not match any known PIM object type.");
         }

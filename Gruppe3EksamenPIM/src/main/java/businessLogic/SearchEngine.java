@@ -2,18 +2,18 @@ package businessLogic;
 
 import java.util.HashMap;
 import java.util.TreeSet;
-import factory.PIMObejctType;
+import factory.PIMObjectType;
 
 public class SearchEngine {
 
-//    private static final String FILTER_KEY_BUNDLE = "bundleFilter";
-//    private static final String FILTER_KEY_CATEGORY = "categoryFilter";
-//    private static final String FILTER_KEY_DISTRIBUTOR = "distributorFilter";
-//    private static final String FILTER_KEY_PRODUCT = "productFilter";
-//    private static final String TYPE_BUNDLE = "Bundle";
-//    private static final String TYPE_CATEGORY = "Category";
-//    private static final String TYPE_DISTRIBUTOR = "Distributor";
-//    private static final String TYPE_PRODUCT = "Product";
+////    private static final String FILTER_KEY_BUNDLE = "bundleFilter";
+////    private static final String FILTER_KEY_CATEGORY = "categoryFilter";
+////    private static final String FILTER_KEY_DISTRIBUTOR = "distributorFilter";
+////    private static final String FILTER_KEY_PRODUCT = "productFilter";
+////    private static final String TYPE_BUNDLE = "Bundle";
+////    private static final String TYPE_CATEGORY = "Category";
+////    private static final String TYPE_DISTRIBUTOR = "Distributor";
+////    private static final String TYPE_PRODUCT = "Product";
     private TreeSet<Product> productList;
     private TreeSet<Category> categoryList;
     private TreeSet<Distributor> distributorList;
@@ -100,9 +100,9 @@ public class SearchEngine {
         TreeSet<PIMObject> result = new TreeSet();
 
         for (PIMObject pimObject : pimObjectList) {
-            String productName = pimObject.objectTitle.toLowerCase();
-            String productID = Integer.toString(pimObject.objectID);
-            if (productName.contains(searchString) || productID.contains(searchString)) {
+            String objectName = pimObject.objectTitle.toLowerCase();
+            String objectID = Integer.toString(pimObject.objectID);
+            if (objectName.contains(searchString) || objectID.contains(searchString)) {
                 result.add(pimObject);
                 if (singleResultFromList) {
                     break;
@@ -124,11 +124,11 @@ public class SearchEngine {
 
     public TreeSet<PIMObject> advancedSearch(String searchKey, String searchOnObject, String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
         searchKey = searchKey.toLowerCase();
-        HashMap<PIMObejctType, String> filterValues = makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
+        HashMap<PIMObjectType, String> filterValues = makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
 ////        TreeSet<Object> result;
         TreeSet<PIMObject> result;
 
-        PIMObejctType pimObjectType = PIMObejctType.getPIMObjectType(searchOnObject);
+        PIMObjectType pimObjectType = PIMObjectType.getPIMObjectType(searchOnObject);
         switch (pimObjectType) {
             case PRODUCT:
                 result = advancedProductSearch(searchKey, filterValues);
@@ -149,10 +149,10 @@ public class SearchEngine {
         return result;
     }
 
-    private TreeSet<PIMObject> advancedProductSearch(String searchKey, HashMap<PIMObejctType, String> filterValues) {
-        String categoryFilter = checkedFilter(filterValues, PIMObejctType.CATEGORY);
-        String distributorFilter = checkedFilter(filterValues, PIMObejctType.DISTRIBUTOR);
-        String bundleFilter = checkedFilter(filterValues, PIMObejctType.BUNDLE);
+    private TreeSet<PIMObject> advancedProductSearch(String searchKey, HashMap<PIMObjectType, String> filterValues) {
+        String categoryFilter = checkedFilter(filterValues, PIMObjectType.CATEGORY);
+        String distributorFilter = checkedFilter(filterValues, PIMObjectType.DISTRIBUTOR);
+        String bundleFilter = checkedFilter(filterValues, PIMObjectType.BUNDLE);
 
         // Find all categories matching searchKey
         boolean singleResultFromList = false;
@@ -213,17 +213,17 @@ public class SearchEngine {
                 return false;
             }
         }
-        
+
         return true;
     }
 
-    private TreeSet<PIMObject> advancedCategorySearch(String searchKey, HashMap<PIMObejctType, String> filterValues) {
-        String productFilter = checkedFilter(filterValues, PIMObejctType.PRODUCT);
+    private TreeSet<PIMObject> advancedCategorySearch(String searchKey, HashMap<PIMObjectType, String> filterValues) {
+        String productFilter = checkedFilter(filterValues, PIMObjectType.PRODUCT);
 
         // Find all categories matching searchKey
         boolean singleResultFromList = false;
-//        TreeSet<Category> fullSearchResult = new TreeSet(categorySearch(searchKey, categoryList, singleResultFromList));
-//        TreeSet<Object> result = new TreeSet();
+////        TreeSet<Category> fullSearchResult = new TreeSet(categorySearch(searchKey, categoryList, singleResultFromList));
+////        TreeSet<Object> result = new TreeSet();
         TreeSet<Category> fullSearchResult = new TreeSet(pimObjectSearch(searchKey, new TreeSet(categoryList), singleResultFromList));
         TreeSet<PIMObject> result = new TreeSet();
 
@@ -247,8 +247,8 @@ public class SearchEngine {
         return result;
     }
 
-    private TreeSet<PIMObject> advancedDistributorSearch(String searchKey, HashMap<PIMObejctType, String> filterValues) {
-        String productFilter = checkedFilter(filterValues, PIMObejctType.PRODUCT);
+    private TreeSet<PIMObject> advancedDistributorSearch(String searchKey, HashMap<PIMObjectType, String> filterValues) {
+        String productFilter = checkedFilter(filterValues, PIMObjectType.PRODUCT);
 
         // Find all distributors matching searchKey
         boolean singleResultFromList = false;
@@ -277,13 +277,13 @@ public class SearchEngine {
         return result;
     }
 
-    private TreeSet<PIMObject> advancedBundleSearch(String searchKey, HashMap<PIMObejctType, String> filterValues) {
-        String productFilter = checkedFilter(filterValues, PIMObejctType.PRODUCT);
+    private TreeSet<PIMObject> advancedBundleSearch(String searchKey, HashMap<PIMObjectType, String> filterValues) {
+        String productFilter = checkedFilter(filterValues, PIMObjectType.PRODUCT);
 
         // Find all distributors matching searchKey
         boolean singleResultFromList = false;
-//        TreeSet<Bundle> fullSearchResult = new TreeSet(bundleSearch(searchKey, bundleList, singleResultFromList));
-//        TreeSet<Object> result = new TreeSet();
+////        TreeSet<Bundle> fullSearchResult = new TreeSet(bundleSearch(searchKey, bundleList, singleResultFromList));
+////        TreeSet<Object> result = new TreeSet();
         TreeSet<Bundle> fullSearchResult = new TreeSet(pimObjectSearch(searchKey, new TreeSet(bundleList), singleResultFromList));
         TreeSet<PIMObject> result = new TreeSet();
 
@@ -307,7 +307,7 @@ public class SearchEngine {
         return result;
     }
 
-    private String checkedFilter(HashMap<PIMObejctType, String> filterValues, PIMObejctType filterKey) {
+    private String checkedFilter(HashMap<PIMObjectType, String> filterValues, PIMObjectType filterKey) {
         String filter = filterValues.get(filterKey);
         if (filter == null) {
             filter = "";
@@ -327,12 +327,12 @@ public class SearchEngine {
      * @param productFilter stored in Map under static variable FILTER_KEY_PRODUCT
      * @return HashMap with String keys and values, usable for the searchEngine filters
      */
-    public static HashMap<PIMObejctType, String> makeFilterMap(String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
-        HashMap<PIMObejctType, String> filterMap = new HashMap();
-        filterMap.put(PIMObejctType.BUNDLE, bundleFilter);
-        filterMap.put(PIMObejctType.CATEGORY, categoryFilter);
-        filterMap.put(PIMObejctType.DISTRIBUTOR, distributorFilter);
-        filterMap.put(PIMObejctType.PRODUCT, productFilter);
+    public static HashMap<PIMObjectType, String> makeFilterMap(String bundleFilter, String categoryFilter, String distributorFilter, String productFilter) {
+        HashMap<PIMObjectType, String> filterMap = new HashMap();
+        filterMap.put(PIMObjectType.BUNDLE, bundleFilter);
+        filterMap.put(PIMObjectType.CATEGORY, categoryFilter);
+        filterMap.put(PIMObjectType.DISTRIBUTOR, distributorFilter);
+        filterMap.put(PIMObjectType.PRODUCT, productFilter);
         return filterMap;
     }
 
@@ -352,35 +352,66 @@ public class SearchEngine {
         this.bundleList = bundleList;
     }
 
-//    public static String getFILTER_KEY_BUNDLE() {
-//        return FILTER_KEY_BUNDLE;
-//    }
-//
-//    public static String getFILTER_KEY_CATEGORY() {
-//        return FILTER_KEY_CATEGORY;
-//    }
-//
-//    public static String getFILTER_KEY_DISTRIBUTOR() {
-//        return FILTER_KEY_DISTRIBUTOR;
-//    }
-//
-//    public static String getFILTER_KEY_PRODUCT() {
-//        return FILTER_KEY_PRODUCT;
-//    }
-//
-//    public static String getTYPE_BUNDLE() {
-//        return TYPE_BUNDLE;
-//    }
-//
-//    public static String getTYPE_CATEGORY() {
-//        return TYPE_CATEGORY;
-//    }
-//
-//    public static String getTYPE_DISTRIBUTOR() {
-//        return TYPE_DISTRIBUTOR;
-//    }
-//
-//    public static String getTYPE_PRODUCT() {
-//        return TYPE_PRODUCT;
-//    }
+////    public static String getFILTER_KEY_BUNDLE() {
+////        return FILTER_KEY_BUNDLE;
+////    }
+////
+////    public static String getFILTER_KEY_CATEGORY() {
+////        return FILTER_KEY_CATEGORY;
+////    }
+////
+////    public static String getFILTER_KEY_DISTRIBUTOR() {
+////        return FILTER_KEY_DISTRIBUTOR;
+////    }
+////
+////    public static String getFILTER_KEY_PRODUCT() {
+////        return FILTER_KEY_PRODUCT;
+////    }
+////
+////    public static String getTYPE_BUNDLE() {
+////        return TYPE_BUNDLE;
+////    }
+////
+////    public static String getTYPE_CATEGORY() {
+////        return TYPE_CATEGORY;
+////    }
+////
+////    public static String getTYPE_DISTRIBUTOR() {
+////        return TYPE_DISTRIBUTOR;
+////    }
+////
+////    public static String getTYPE_PRODUCT() {
+////        return TYPE_PRODUCT;
+////    }
+    public PIMObject findPIMObjectsOnID(int searchID, PIMObjectType searchObject) {
+        TreeSet<PIMObject> searchObjects = new TreeSet();
+
+        switch (searchObject) {
+//            case ATTRIBUTE:
+//                searchObjects.addAll(attributeList);
+//                break;
+            case BUNDLE:
+                searchObjects.addAll(bundleList);
+                break;
+            case CATEGORY:
+                searchObjects.addAll(categoryList);
+                break;
+            case DISTRIBUTOR:
+                searchObjects.addAll(distributorList);
+                break;
+            case PRODUCT:
+                searchObjects.addAll(productList);
+                break;
+        }
+
+        for (PIMObject pimObject : searchObjects) {
+            int objectID = pimObject.objectID;
+            if (objectID == searchID) {
+                return pimObject;
+            }
+        }
+
+        return null;
+    }
+
 }

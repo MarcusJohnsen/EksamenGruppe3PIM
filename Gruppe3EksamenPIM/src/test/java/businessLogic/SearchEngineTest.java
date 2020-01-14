@@ -1,6 +1,6 @@
 package businessLogic;
 
-import factory.PIMObejctType;
+import factory.PIMObjectType;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -16,7 +16,7 @@ public class SearchEngineTest {
     private static final TreeSet<Category> categoryList = new TreeSet();
     private static final TreeSet<Distributor> distributorList = new TreeSet();
     private static final TreeSet<Bundle> bundleList = new TreeSet();
-    private static final HashMap<PIMObejctType, String> filterValues = new HashMap();
+    private static final HashMap<PIMObjectType, String> filterValues = new HashMap();
     private static Distributor distributor1, distributor2, distributor3;
     private static Category category1, category2, category3, category4;
     private static Product product1, product2, product3, product4, product5;
@@ -349,12 +349,12 @@ public class SearchEngineTest {
         String distributorFilter = "d as death";
         String productFilter = "p as person";
 
-        HashMap<PIMObejctType, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
+        HashMap<PIMObjectType, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
 
-        assertEquals(bundleFilter, result.get(PIMObejctType.BUNDLE));
-        assertEquals(categoryFilter, result.get(PIMObejctType.CATEGORY));
-        assertEquals(distributorFilter, result.get(PIMObejctType.DISTRIBUTOR));
-        assertEquals(productFilter, result.get(PIMObejctType.PRODUCT));
+        assertEquals(bundleFilter, result.get(PIMObjectType.BUNDLE));
+        assertEquals(categoryFilter, result.get(PIMObjectType.CATEGORY));
+        assertEquals(distributorFilter, result.get(PIMObjectType.DISTRIBUTOR));
+        assertEquals(productFilter, result.get(PIMObjectType.PRODUCT));
     }
 
     @Test
@@ -364,12 +364,12 @@ public class SearchEngineTest {
         String distributorFilter = null;
         String productFilter = null;
 
-        HashMap<PIMObejctType, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
+        HashMap<PIMObjectType, String> result = SearchEngine.makeFilterMap(bundleFilter, categoryFilter, distributorFilter, productFilter);
 
-        assertEquals(bundleFilter, result.get(PIMObejctType.BUNDLE));
-        assertEquals(categoryFilter, result.get(PIMObejctType.CATEGORY));
-        assertEquals(distributorFilter, result.get(PIMObejctType.DISTRIBUTOR));
-        assertEquals(productFilter, result.get(PIMObejctType.PRODUCT));
+        assertEquals(bundleFilter, result.get(PIMObjectType.BUNDLE));
+        assertEquals(categoryFilter, result.get(PIMObjectType.CATEGORY));
+        assertEquals(distributorFilter, result.get(PIMObjectType.DISTRIBUTOR));
+        assertEquals(productFilter, result.get(PIMObjectType.PRODUCT));
     }
 
 }
